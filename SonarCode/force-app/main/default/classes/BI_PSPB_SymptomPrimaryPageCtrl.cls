@@ -1,0 +1,268 @@
+/**
+Apex Class Name   	BI_PSPB_Symptomtrackerprimarypage
+Created Date         06.12.2023
+@description        This class is used for inserting and updating symptom records such as allergy intolerance
+				     and also deletin records in symptom records.
+                      When a class is declared with "without sharing," it allows the code in that class to access and manipulate records even if the user 
+	                  running the code does not have the necessary permissions based on the organization's sharing settings or record-level security.	 
+       
+@author             Karthikeyan.P
+Modification Log
+Ver   Date         Author                               Modification
+59   08-04-2024   Karthikeyan.P.                     Initial Version
+*/
+
+public without sharing class BI_PSPB_SymptomPrimaryPageCtrl {
+
+  /**
+		
+		@description     Method to retrieve symptom record data based on symptomTrackerId
+                      USER_MODE cannot be implemented here, as it is querying health cloud object.
+		@param           symptomTrackerId  The ID of the user for whom the symptoms are to be displayed.
+		@return			 Returns all symptom tracking records for the current user.this values return pass to biPspbSymptomPrimarypage
+		*/
+  @AuraEnabled(cacheable=true)
+  public static List<BI_PSP_Symptom_Tracker__c> getSymptomRecordData(
+    String symptomTrackerId
+  ) {
+    List<BI_PSP_Symptom_Tracker__c> primaryPageSymptom = new List<BI_PSP_Symptom_Tracker__c>();
+    try {
+      if (String.isBlank(symptomTrackerId)) {
+        return null;
+      } else {
+        primaryPageSymptom = [
+          SELECT
+            Id,
+            BI_PSP_EditEntrydates__c,
+            BI_PSP_Patient__c,
+            BI_PSP_Recent_Activities__c,
+            BI_PSP_Are_you_currently_experiencing__c,
+            BI_PSP_Care_Program_Enrollee__c
+          FROM BI_PSP_Symptom_Tracker__c
+          WHERE Id = :symptomTrackerId
+          LIMIT 1
+        ]; //USER_MODE cannot be implemented here, as it is querying health cloud object.
+      }
+      if (primaryPageSymptom.isEmpty()) {
+      
+       BI_PSP_LogMessagesUtility.logError(
+          BI_PSP_SymptomTrackerContantCtrl.symptomErrorMsg,
+          BI_PSP_SymptomTrackerCtrl.class.toString(),true
+        );
+      } else {
+        return primaryPageSymptom;
+      }
+    } catch (Exception ex) {
+       BI_PSP_LogMessagesUtility.logError(
+          BI_PSP_SymptomTrackerContantCtrl.errorMsg,
+          BI_PSP_SymptomTrackerCtrl.class.toString(),true
+        );
+
+    }
+      return null;
+  }
+
+  /**
+		
+		@description     Method to retrieve allergy intolerance data based on symptomTrackerId
+		@param           symptomTrackerId  The ID of the user who currently logged in.
+		@return          Returns all allergy intolerance records.this values return pass to biPspbItchiness,biPspbFatiguesymptom
+		                  biPspbMood,biPspbTemperaturesymtom,biPspbPainsymptom,biPspbRednesssymptom,biPspbPustulessymptom
+		*/
+  @AuraEnabled(cacheable=true)
+  public static List<AllergyIntolerance> getAllergyIntoleranceData(
+    String symptomTrackerId
+  ) {
+    List<AllergyIntolerance> primaryAllergyIntolerance = new List<AllergyIntolerance>();
+    try {
+      if (String.isBlank(symptomTrackerId)) {
+        return null;
+      } else {
+        primaryAllergyIntolerance = [
+          SELECT
+            Id,
+            BI_PSP_Bodyparts__c,
+            BI_PSP_Mood__c,
+            BI_PSP_Intensity__c,
+            BI_PSP_Temperature__c,
+            BI_PSP_Symptoms__r.HealthCloudGA__CarePlanTemplate__r.Name
+          FROM AllergyIntolerance
+          WHERE BI_PSP_Symptom_Name__c = :symptomTrackerId
+        ]; //USER_MODE cannot be implemented here, as it is querying health cloud object.
+      }
+
+      if (primaryAllergyIntolerance.isEmpty()) {
+            BI_PSP_LogMessagesUtility.logError(
+          BI_PSP_SymptomTrackerContantCtrl.alleryRecord,
+          BI_PSP_SymptomTrackerCtrl.class.toString(),true
+        );
+
+      }
+      return primaryAllergyIntolerance;
+    } catch (Exception ex) {
+      BI_PSP_LogMessagesUtility.logError(
+          BI_PSP_SymptomTrackerContantCtrl.errorMsg,
+          BI_PSP_SymptomTrackerCtrl.class.toString(),true
+        );
+
+    }
+       return null;
+  }
+  /** 
+		@description     Method to retrieve base64 image based on symptomTrackerId
+                        USER_MODE cannot be implemented here, as it is querying health cloud object.
+		@param           symptomTrackerId Id of the user to view image
+		@return          Image base64 is being returned in this method this values return pass to biPspbSymptomPrimarypage
+		*/
+  @AuraEnabled(cacheable=true)
+  public static List<String> getBase64Image(Id symptomTrackerId) {
+    List<String> base64URLs = new List<String>();
+
+    try {
+      if (String.isBlank(symptomTrackerId)) {
+        return null;
+      } else {
+        List<ContentDocumentLink> documentLinks = [
+          SELECT ContentDocumentId
+          FROM ContentDocumentLink
+          WHERE
+            LinkedEntityId = :symptomTrackerId
+            AND ContentDocument.FileType IN ('jpg', 'png')
+        ];
+
+        if (!documentLinks.isEmpty()) {
+          Set<Id> contentDocumentIds = new Set<Id>();
+          for (ContentDocumentLink docLink : documentLinks) {
+            contentDocumentIds.add(docLink.ContentDocumentId);
+          }
+
+          List<ContentVersion> contentVersions = [
+            SELECT VersionData, FileType
+            FROM ContentVersion
+            WHERE
+              ContentDocumentId IN :contentDocumentIds
+              AND FileType IN ('jpg', 'png')
+            ORDER BY CreatedDate DESC
+          ];
+
+          for (ContentVersion content : contentVersions) {
+            String base64URL =
+              'data:image/' +
+              content.FileType +
+              ';base64,' +
+              EncodingUtil.base64Encode(content.VersionData);
+            base64URLs.add(base64URL);
+          }
+        } else {
+            BI_PSP_LogMessagesUtility.logError(
+          BI_PSP_SymptomTrackerContantCtrl.symptomErrormsg,
+          BI_PSP_SymptomTrackerCtrl.class.toString(),true
+        );
+        }
+      }
+    } catch (Exception ex) {
+       BI_PSP_LogMessagesUtility.logError(
+          BI_PSP_SymptomTrackerContantCtrl.applicationPhotoMsg,
+          BI_PSP_SymptomTrackerCtrl.class.toString(),true
+        );
+      // throw new AuraHandledException(applicationPhotoMsg);
+    }
+
+    return base64URLs;
+  }
+
+  /**
+		@description     Method to delete symptom tracker records based on symptomTrackerId
+                        USER_MODE cannot be implemented here, as it is querying health cloud object.
+		@param           symptomTrackerId Id of the user who deletes the record 
+	
+		*/
+  @AuraEnabled
+  public static void deleteSymptomTrackerRecords(Id symptomTrackerId) {
+    try {
+      // Query for BI_PSP_Symptom_Tracker__c records related to the given symptomTrackerId
+      List<BI_PSP_Symptom_Tracker__c> symptomTrackersToUpdate = [
+        SELECT Id, BI_PSP_Symptom_Staus__c
+        FROM BI_PSP_Symptom_Tracker__c
+        WHERE Id = :symptomTrackerId
+      ];
+
+      if (!symptomTrackersToUpdate.isEmpty()) {
+        // Changes the status to "Inactive" for each record
+        for (BI_PSP_Symptom_Tracker__c tracker : symptomTrackersToUpdate) {
+          tracker.BI_PSP_Symptom_Staus__c = BI_PSP_SymptomTrackerContantCtrl.symptomTrackerInactive;
+        }
+
+      
+          
+          
+    BI_PSPB_HandleUtitlites.deleteHandleErrors(symptomTrackersToUpdate,BI_PSP_SymptomTrackerCtrl.class.toString());
+  
+      } else {
+ 
+             BI_PSP_LogMessagesUtility.logError(
+          BI_PSP_SymptomTrackerContantCtrl.stausChange,
+          BI_PSP_SymptomTrackerCtrl.class.toString(),true
+        );
+            
+            
+      }
+    }  catch (System.DmlException ex) {
+          BI_PSP_LogMessagesUtility.catchSystemException(
+        BI_PSP_SymptomTrackerContantCtrl.applicationPhotoMsg,
+        BI_PSP_SymptomTrackerCtrl.class.toString(),
+        ex
+      );
+    }
+  }
+  /**
+	
+		@description     Method to retrieve all latest record for the careprogram enrollee
+                        USER_MODE cannot be implemented here, as it is querying health cloud object.
+		@param           careProgramEnrolleeId Id of the care program enrollee
+		@return          returns the recently updated records.this values return pass to biPspbSymptomPrimarypage
+		*/
+  @AuraEnabled(cacheable=true)
+  public static List<String> getLatestSymptomRecord(Id careProgramEnrolleeId) {
+    List<String> result = new List<String>();
+
+    try {
+      if (String.isBlank(careProgramEnrolleeId)) {
+         BI_PSP_LogMessagesUtility.logError(
+          BI_PSP_SymptomTrackerContantCtrl.symptomErrormsg,
+          BI_PSP_SymptomTrackerCtrl.class.toString(),true
+        );
+      } else {
+        // Query for the latest record based on the entry date
+        List<BI_PSP_Symptom_Tracker__c> latestRecords = [
+          SELECT Id, BI_PSP_EditEntrydates__c, BI_PSP_Care_Program_Enrollee__c
+          FROM BI_PSP_Symptom_Tracker__c
+          WHERE
+            BI_PSP_Care_Program_Enrollee__c = :careProgramEnrolleeId
+            AND BI_PSP_Symptom_Staus__c != :BI_PSP_SymptomTrackerContantCtrl.symptomTrackerInactive
+          ORDER BY BI_PSP_EditEntrydates__c DESC
+          LIMIT 1
+        ]; //USER_MODE cannot be implemented here, as it is querying health cloud object.
+
+        if (!latestRecords.isEmpty()) {
+          // Access the fields of the latest record
+          BI_PSP_Symptom_Tracker__c latestRecord = latestRecords[0];
+          String recordId = latestRecord.Id;
+          Datetime entryDate = latestRecord.BI_PSP_EditEntrydates__c;
+          result.add(recordId);
+          result.add(String.valueOf(entryDate));
+        } else {
+          result.add(BI_PSP_SymptomTrackerContantCtrl.errorMsg);
+        }
+      }
+    } catch (Exception ex) {
+      BI_PSP_LogMessagesUtility.logError(
+          BI_PSP_SymptomTrackerContantCtrl.latestRecord,
+          BI_PSP_SymptomTrackerCtrl.class.toString(),true
+        );
+  
+    }
+
+    return result; //result null check is handled in the LWC
+  }
+}

@@ -1,0 +1,198 @@
+<!--This Lightning web component facilitates setting up reminders and treatment schedules, allowing users to save and manage their healthcare appointments efficiently-->
+<template>
+	<div>
+	<template if:true={showDiv}>
+	<div class="toast">
+				<p class="para"><img class="img4" src={rightimg}> &nbsp; &nbsp;&nbsp; {reminderSetup}</p>
+		<div class="notify">
+		<button class="buttonclass btncls" onclick={handleclose}>
+				<p class="closingbtn">X</p> 
+		</button>
+		</div>
+	</div>
+	</template>
+	<div class="avatar-picklist-container">
+		<div class="avatar-container">
+		<img
+			src={selectedAvatarSrc}
+			class="slds-m-right_large">
+		</div>
+	<div class="wholediv">
+	<div if:true={variable} class="navigationcontent" >
+		<pre class="contentbox"><div  if:true={showBeforeSaveContent}><figcaption>Set reminders!<br><br>Use this page to record your treatment<br>date and notify us on your preferred<br>advance notification time.<br><br>Set it and leave it to us!</figcaption></div></pre>
+		<pre class="contentbox "><div if:false={showAfterSaveContent}><figcaption class="savedata">Its done!<br>Your treatment and reminder is set.<br>Look out for the reminders!<br></figcaption></div></pre>
+		 <pre class="contentbox1" ><div if:true={showBeforeSaveContent}><figcaption>Set reminders!<br>Use this page to record your...</figcaption></div></pre><span if:true={defaultClass} class="close" onclick={Xbtn} >X</span>
+		<pre class="contentbox1" ><div if:false={showAfterSaveContent}><figcaption>Its done! <br><br>Your treatment and reminder...</figcaption></div></pre><span if:true={cls} class="closing">X</span>
+	</div>
+	<div class="navigationcontentmobile"  if:true={checkdata}>
+		<p class="remind">Set reminders! 
+		Use this page to record your treatment
+date and notify us on your preferred
+advance notification time.
+
+Set it and leave it to us!
+		</p>
+		<span if:true={clss} class="close1" onclick={Xbtn} >X</span>
+	</div>
+	<div class="navigationcontentmobile"  if:true={checkingdata}>
+		<p class="words">Its done!
+			Your treatment and reminder is set.			
+			Look out for the reminders!
+		</p>
+		<span if:true={clss} class="close1" >X</span>
+	</div>
+	<div if:true={closeDot}>
+		<p onclick={mobileclick}  class="navigationcontentdot">...</p>
+	</div>
+	<div if:true={closingdot}>
+		<p onclick={mobileclick1}  class="navigationcontentdot1">...</p>
+	</div>
+	</div>
+	</div> 
+	<div class="show">
+	</div>
+	<div>
+			<hr class="line1">
+	</div>
+	<div class="main">
+<div class="head">
+	<h1 class="slds-text-heading_large heading slds-m-vertical_small customheading">Reminders</h1>
+		<div>
+		</div><br>
+			<p class="pclass">Setup Treatment & Prescription Reminder</p>
+			<div class="timeline">
+			<div class="head">
+		<div class="date-container box" if:true={formattedReminderDates.length}>
+			<p class="tl">Timeline </p>		
+			<div class="container1">
+				<template for:each={formattedReminderDates} for:item="reminder" for:index="index">
+					<div key={reminder.id} class="container">
+					<div class="row">
+						<span class="circle">					   
+						<button class="circlebutton"><div class="formdate"><p class="clssbtn">{reminder.formattedDate}</p><div><sup >{reminder.head}</sup></div></div></button>
+						</span> 
+					<span class={reminder.month}> 						
+					</span>  
+					</div>						   
+						<div class="row1">
+							<span class={reminder.formattedDatemonth}></span>
+						</div>
+					</div>
+				</template>
+			</div>
+			
+		</div>		  
+			</div>
+	<div>
+			<label data-field="DOB" class="cls3">Date Of Treatment</label>
+			<div>
+			<input
+			placeholder="MM/DD/YYYY"
+				type="date"
+				class="inputbox"
+				data-field="DOB"
+				value={selectedDate}
+				onchange={handleDateChange}
+				min={minDate}
+				onkeydown={handleKeyDown} 
+				oninput={handleInput}
+				id="datefield">
+				
+			</div>
+		<span class="spanerror" if:true={dobErrorMessage}>
+			<img class="warn" src={warning}>
+			<p class="dotr"> Date of treatment field is required</p>
+		</span>
+	</div>
+		<p class="date-content">You will receive a reminder of your treatment on the 
+			scheduled day.</p>		
+		<p class="pclass2 check">How often do you want to receive your Prescription Reminders?</p><br>
+<div class="flexclass">
+	<div>
+		<input type="checkbox" class="days14" onchange={handle14} value="14" checked={checkedFourteen} disabled={disableFourteen}></input>
+	</div>
+	<div>
+		<label class="labelclr1" for="14days">14 days before the treatment</label>
+	</div>
+</div>
+<div class="flexclass1">
+	<div><input type="checkbox" class="days10" onchange={handle10} value="10" checked={checkedTen} disabled={disableTen}></input></div>
+	<div><label class="labelclr2" for="10days">10 days before the treatment</label></div>
+</div>
+<div class="flexclass2">
+	<div><input type="checkbox" class="days7" onchange={handle7} value="7" checked={checkedSeven} disabled={disableSeven}></input></div>
+	<div><label class="labelclr3" for="7days">7 days before the treatment</label></div>
+</div>
+<div if:true={showMessage} class="new">
+	<img class="warn" src={warning}> <p class="require">This field is required</p>
+</div><br>
+<p class="pclass2 check">How often do you want to receive your Treatment Reminders? </p>
+<div class="flexclass3">
+	<div><input type="checkbox" class="days3" onchange={handle3} value="3" checked={checkedThree}></input></div>
+	<div><label class="labelclr4" for="3days">3 days before the treatment</label></div>
+</div>
+<div class="flexclass4">
+	<div><input type="checkbox" class="days1" onchange={handle1} value="1" checked={checkedOne}></input></div>
+	<div><label class="labelclr5" for="1days">1 day before the treatment</label></div>
+</div>
+			</div>     
+		<div if:true={showMessageTwo} class="slds-m-top_medium">
+			<img class="warn" src={warning}> <p class="require">This field is required</p>
+		</div>
+</div>
+		<div class="buttonclass">
+	<template if:true={onclick}>
+			<p>hello world!</p>
+	</template>
+	<div class="div"> 
+		<div>
+			<button  class="btn" onclick={handleSuccess}>Save</button>
+		</div>			  		
+	<div>
+		<button if:true={showAddToCalendarBtn} class="slds-button slds-button_brand" onclick={handleAddCalendarButtonClick}>
+		Add to Calendar
+		</button>
+	</div>
+	</div>
+			<div class="disclaimer">
+			<img src={boxedIcon} class="box-icon">
+			<div>
+			<h4 class="disclaimer-head">Disclaimer</h4>
+			<div class="disclaimer-content">
+			<p ></p>Prescription reminders are only intended as a supportive service for tracking refills. This is not a substitute for medical consultation
+			and must be used only in conjunction with the wishes of the patients HCP. Always consult with your
+			physician or other qualified healthcare provider for any information, treatment continuation or before starting a new
+			treatment.
+			</div>
+			</div>
+			</div>
+	<template if:true={isPartVisible}>
+		<div class="slds-modal slds-fade-in-open open">
+			<div class="slds-modal__container">	  
+			<div class="closeclass">						
+			</div>			
+				<div class="slds-modal__content slds-p-around_medium contain cat">				
+					<h2 class="slds-text-heading_medium cal">Calendar selection</h2>
+					<div class="closebtn"> 
+						<button class="clsbtn" type="button" onclick={closeModal}>&#x2715;</button> 
+					</div>
+					<br><br><br><br>
+					<div class="imgclass">
+						<div><a href={googleCalendarUrls}>
+							<img class="img1" src={googleCalIcon} alt="Google Calendar"></a>
+						</div>
+							<div>
+								<a href={outlookCalendarUrls}><img class="img3" src={outlookCalIcon} alt="Outlook Calendar"></a>
+							</div> 
+					</div> 
+				</div>						
+			</div>  
+		</div>
+	</template>
+	<!-- Modal backdrop -->
+	<div class="slds-backdrop" if:true={isPartVisible}>
+	</div>
+		</div>
+		</div>		
+	</div>
+</template>

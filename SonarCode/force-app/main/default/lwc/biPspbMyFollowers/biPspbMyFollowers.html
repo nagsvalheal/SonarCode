@@ -1,0 +1,267 @@
+<!-- This component is used to display all followers Who are following the logedUser and the user can follow and unfollow others. -->
+<!-- Strings are hard coded in this HTML file to comply with the mobile responsiveness-->
+<template>
+  <div>
+    <!-- To display ToastMessage for Following the User  -->
+    <template if:true={showToastMessage}>
+      <button class="toastmsgclose" title="Close" onclick={closeToastMessage}>
+        X
+      </button>
+      <div class="toastmsg">
+        <img src={tickIcon} class="imgsize" />
+        &nbsp;&nbsp;&nbsp;&nbsp;
+        <p if:true={showToastForFollowing} class="flwtoastmsg">You started following {selectedUser}.</p>
+        <p if:true={showToastForUnfollow} class="flwtoastmsg">You unfollowed {selectedUser} successfully.</p>
+      </div>
+    </template>
+  </div>
+  <div class="total">
+    <!-- leftSide Avatar content -->
+    <div class="backgroundtop">
+      <img src={loggedUserAvatar} class="avatarno" />
+      <div class="avatarcontentno">
+        <div>
+          <p class="avatarcontentdis">
+            This is the patient community forum! Create posts, react and
+            comment, connect with others and build a supportive community in
+            your health journey.
+          </p>
+        </div>
+      </div>
+      <!-- This line is only for mobile responsiveness -->
+      <hr class="forMblresponse" />
+    </div>
+    <!-- Toast Message for Mobile responsivenss for follow -->
+    <template if:true={showToastForFollowing}>
+      <button
+        class="toastmsgclose1formbl"
+        title="Close"
+        onclick={closeToastMessage}
+      >
+        X
+      </button>
+      <div class="toastmsgforMbl1">
+        <img src={tickIcon} class="tickimage" />
+        <div class="classflex">
+          <div>
+            <p class="para1">You started following {selectedUser}.</p>
+          </div>
+          <div></div>
+        </div>
+      </div>
+    </template>
+    <!-- Toast Message for Mobile responsivenss for Unfollow -->
+    <template if:true={showToastForUnfollow}>
+      <button class="toastmsgcloseformbl" title="Close" onclick={closeToastMessage}>
+        X
+      </button>
+      <div class="toastmsgforMbl">
+        <img src={tickIcon} class="tickimage" />
+        <div class="classflex">
+          <p class="para">You unfollowed {selectedUser} successfully.</p>
+        </div>
+      </div>
+    </template>
+    <!-- right side content -->
+    <div class="rightSide">
+      <p class="title" data-scroll-target>My Followers ({numberOfFollowers})</p>
+      <!-- Total followers count -->
+      <!-- display this content if there are Followers list for the logged user -->
+      <template if:true={followersCount}>
+        <!-- User Avatar,Username and Follow/Following button -->
+        <template for:each={userNames} for:item="username">
+          <div class="divclass" key={username.Id}>
+            <div class="avatarAndName">
+              <img
+                src={username.avatarOfTheAccount}
+                class="profileavatar"
+                onclick={handleFollowButtonClick}
+                data-id={username}
+                data-avatar={username.avatarOfTheAccount}
+                data-username={username.BI_PSP_CareProgramEnrolleeFollow__r.BI_PSP_CommunityUsername__c}
+                data-accid={username.BI_PSP_CareProgramEnrolleeFollow__r.Id}
+                data-following={username.followOrUnfollowButton}
+                data-it-button="MyFollowers: Profile Avatar"
+              />
+              <p
+                class="name"
+                onclick={handleFollowButtonClick}
+                data-avatar={username.avatarOfTheAccount}
+                data-id={username}
+                data-username={username.BI_PSP_CareProgramEnrolleeFollow__r.BI_PSP_CommunityUsername__c}
+                data-accid={username.BI_PSP_CareProgramEnrolleeFollow__r.Id}
+                data-following={username.followOrUnfollowButton}
+                data-it-button="MyFollowers: Profile Username"
+              >
+                {username.BI_PSP_CareProgramEnrolleeFollow__r.BI_PSP_CommunityUsername__c}
+              </p>
+            </div>
+            <button
+              class={username.followOrUnfollowButton}
+              onclick={handleFollowUserButton}
+              data-avatar={username.avatarOfTheAccount}
+              data-id={username}
+              data-username={username.BI_PSP_CareProgramEnrolleeFollow__r.BI_PSP_CommunityUsername__c}
+              data-accid={username.BI_PSP_CareProgramEnrolleeFollow__r.Id}
+              data-following={username.followOrUnfollowButton}
+              data-it-button="MyFollowers: Follow/Unfollow "
+            >
+              {username.followOrUnfollowButton}
+            </button>
+          </div>
+        </template>
+      </template>
+      <!-- If there are no followers list display this content -->
+      <template if:false={followersCount}>
+        <div class="widthformbl">
+          <img src={allpostImg} class="postimage" />
+          <p class="text">
+            No followers yet! Create engaging posts with the community. The more
+            you share, the more likely people are to find you and connect.
+          </p>
+          <br />
+        </div>
+      </template>
+      <!-- Display the profile popup when user click the follow button  -->
+      <template if:true={follow}>
+        <template if:true={followPopup}>
+          <div class="back">
+            <div class="popup-container">
+              <p class="profile">Profile</p>
+              <button
+                onclick={closePopup}
+                class="times"
+                data-it-button="MyFollowers: Close Follow Popup"
+              >
+                X
+              </button>
+              <div class="picname">
+                <img src={avatarFollow} class="popavatar" />
+                <p class="username">{selectedUser}</p>
+              </div>
+              <button
+                class="popupbutton"
+                onclick={handleFollowPopupButtonClick}
+                data-it-button="MyFollowers:  Follow "
+              >
+                Follow
+              </button>
+            </div>
+          </div>
+        </template>
+      </template>
+      <!-- Follow confirmation popup -->
+      <template if:true={followPopupConfirmation}>
+        <div class="back">
+          <div class="popup1-container">
+            <button
+              onclick={closePopup}
+              class="times3"
+              data-it-button="MyFollowers: Close Follow Popup "
+            >
+              X
+            </button>
+            <p class="popuptitle">Follow User?<br /></p>
+            <p class="popupcontent">
+              Are you sure you want to follow {selectedUser}?<br /><br />
+            </p>
+            <p class="contentonly">
+              You'll now receive notifications whenever this user creates a
+              <br />new post. You can always change your notification
+              preferences in your profile settings.
+            </p>
+            <button
+              class="followno"
+              onclick={closePopup}
+              data-it-button="MyFollowers: Follow - No "
+            >
+              No
+            </button>
+            <button
+              class="followyes"
+              onclick={handleFollowConfirmation}
+              data-it-button="MyFollowers: Follow - Yes "
+            >
+              Yes
+            </button>
+          </div>
+        </div>
+      </template>
+      <!-- Display the profile popup when user click the Following button  -->
+      <template if:true={following}>
+        <template if:true={followingPopup}>
+          <div class="back">
+            <div class="popup-container">
+              <p class="profile">Profile</p>
+              <button
+                onclick={closePopup}
+                class="times"
+                data-it-button="MyFollowers: Close Follow"
+              >
+                X
+              </button>
+              <div class="picname">
+                <img
+                  src={avatarFollow}
+                  class="popavatar"
+                  data-it-button="MyFollowers: Profile Avatar"
+                />
+                <p class="username">{selectedUser}</p>
+              </div>
+              <button
+                class="popupbuttonFollowing"
+                onclick={handleFollowingPopupButtonClick}
+                data-it-button="MyFollowers: Following"
+              >
+                Following
+              </button>
+            </div>
+          </div>
+        </template>
+      </template>
+      <!-- Unfollowing confirmation popup -->
+      <template if:true={followingPopupConfirmation}>
+        <div class="back">
+          <div class="popup2-container">
+            <button
+              onclick={closePopup}
+              data-it-button="MyFollowers: Close Popup"
+              class="times2"
+            >
+              X
+            </button>
+            <p class="popuptitle second">Unfollow User?<br /></p>
+            <p class="popupcontent">
+              Are you sure you want to unfollow {selectedUser}?<br /><br />
+            </p>
+            <p class="contentonly">
+              You'll no longer receive notifications whenever this user creates
+              a new post.
+            </p>
+            <button
+              class="followno1"
+              onclick={closePopup}
+              data-it-button="MyFollowers: Unfollow No "
+            >
+              No
+            </button>
+            <button
+              class="followyes1"
+              onclick={handleUnFollowConfirmation}
+              data-it-button="MyFollowers: Unfollow Yes "
+            >
+              Yes
+            </button>
+          </div>
+        </div>
+      </template>
+      <!-- Loading spinner -->
+      <div if:true={isLoading}>
+        <lightning-spinner
+          alternative-text="Loading"
+          class="spinner-container"
+        ></lightning-spinner>
+      </div>
+    </div>
+  </div>
+</template>
