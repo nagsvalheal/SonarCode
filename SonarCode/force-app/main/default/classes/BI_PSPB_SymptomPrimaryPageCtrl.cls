@@ -61,7 +61,7 @@ public without sharing class BI_PSPB_SymptomPrimaryPageCtrl {
         BI_PSP_LogMessagesUtility.logError(
           BI_PSP_SymptomTrackerConstantCtrl.symptomErrorMsg,
           BI_PSP_SymptomTrackerCtrl.class.toString(),
-          true
+          true, BI_PSP_SymptomTrackerConstantCtrl.LOG_SEVERITY_ERROR
         );
       } else {
         return primaryPageSymptom;
@@ -70,7 +70,7 @@ public without sharing class BI_PSPB_SymptomPrimaryPageCtrl {
       BI_PSP_LogMessagesUtility.logError(
         BI_PSP_SymptomTrackerConstantCtrl.error,
         BI_PSP_SymptomTrackerCtrl.class.toString(),
-        true
+        true, BI_PSP_SymptomTrackerConstantCtrl.LOG_SEVERITY_ERROR
       );
     }
     return null;
@@ -134,7 +134,7 @@ public without sharing class BI_PSPB_SymptomPrimaryPageCtrl {
         BI_PSP_LogMessagesUtility.logError(
           BI_PSP_SymptomTrackerConstantCtrl.alleryRecord,
           BI_PSP_SymptomTrackerCtrl.class.toString(),
-          true
+          true, BI_PSP_SymptomTrackerConstantCtrl.LOG_SEVERITY_ERROR
         );
       }
       return primaryAllergyIntolerance;
@@ -142,7 +142,7 @@ public without sharing class BI_PSPB_SymptomPrimaryPageCtrl {
       BI_PSP_LogMessagesUtility.logError(
         BI_PSP_SymptomTrackerConstantCtrl.error,
         BI_PSP_SymptomTrackerCtrl.class.toString(),
-        true
+        true, BI_PSP_SymptomTrackerConstantCtrl.LOG_SEVERITY_ERROR
       );
     }
     return null;
@@ -153,7 +153,7 @@ public without sharing class BI_PSPB_SymptomPrimaryPageCtrl {
 		@param           symptomTrackerId Id of the user to view image
 		@return          Image base64 is being returned in this method this values return pass to biPspbSymptomPrimarypage
 		*/
-  @AuraEnabled(cacheable=true)
+    @AuraEnabled(cacheable=true)
   public static List<String> getBase64Image(Id symptomTrackerId) {
     List<String> base64URLs = new List<String>();
 
@@ -168,14 +168,13 @@ public without sharing class BI_PSPB_SymptomPrimaryPageCtrl {
             LinkedEntityId = :symptomTrackerId
             AND ContentDocument.FileType IN ('jpg', 'png')
         ]; */
-          String queryString =
-        'SELECT ContentDocumentId FROM ContentDocumentLink WHERE LinkedEntityId = \'' +
-        symptomTrackerId +
-        '\' AND ContentDocument.FileType IN (\'jpg\', \'png\')';
+String queryString = 'SELECT ContentDocumentId ' +
+                     'FROM ContentDocumentLink ' +
+                     'WHERE LinkedEntityId = \'' + symptomTrackerId + '\' ' +
+                     'AND ContentDocument.FileType IN (\'jpg\', \'png\')';
 
-      List<ContentDocumentLink> documentLinks = BI_PSP_CommonQueryUtility.executeWholeQueryInString(
-        queryString
-      );
+List<ContentDocumentLink> documentLinks = Database.query(queryString);
+
 
         if (!documentLinks.isEmpty()) {
           Set<Id> contentDocumentIds = new Set<Id>();
@@ -194,7 +193,7 @@ public without sharing class BI_PSPB_SymptomPrimaryPageCtrl {
               String queryStringVersion =
         'SELECT VersionData, FileType FROM ContentVersion WHERE ContentDocumentId IN : \'' +
         contentDocumentIds +
-        '\' AND FileType IN (\'jpg\', \'png\')';
+        '\' AND FileType IN (\'jpg\', \'png\')  ORDER BY CreatedDate DESC ';
 
       List<ContentVersion> contentVersions = BI_PSP_CommonQueryUtility.executeWholeQueryInString(
         queryStringVersion
@@ -212,7 +211,7 @@ public without sharing class BI_PSPB_SymptomPrimaryPageCtrl {
           BI_PSP_LogMessagesUtility.logError(
             BI_PSP_SymptomTrackerConstantCtrl.symptomErrormsg,
             BI_PSP_SymptomTrackerCtrl.class.toString(),
-            true
+            true, BI_PSP_SymptomTrackerConstantCtrl.LOG_SEVERITY_ERROR
           );
         }
       
@@ -220,7 +219,7 @@ public without sharing class BI_PSPB_SymptomPrimaryPageCtrl {
       BI_PSP_LogMessagesUtility.logError(
         BI_PSP_SymptomTrackerConstantCtrl.applicationPhotoMsg,
         BI_PSP_SymptomTrackerCtrl.class.toString(),
-        true
+        true, BI_PSP_SymptomTrackerConstantCtrl.LOG_SEVERITY_ERROR
       );
       // throw new AuraHandledException(applicationPhotoMsg);
     }
@@ -257,15 +256,16 @@ public without sharing class BI_PSPB_SymptomPrimaryPageCtrl {
           tracker.BI_PSP_Symptom_Staus__c = BI_PSP_SymptomTrackerConstantCtrl.symptomTrackerInactive;
         }
 
-        BI_PSPB_HandleUtitlites.deleteHandleErrors(
+        BI_PSPB_HandleUtitlites.updateAndHandleErrors(
           symptomTrackersToUpdate,
-          BI_PSP_SymptomTrackerCtrl.class.toString()
+          BI_PSP_SymptomTrackerCtrl.class.toString(),
+           false
         );
       } else {
         BI_PSP_LogMessagesUtility.logError(
           BI_PSP_SymptomTrackerConstantCtrl.stausChange,
           BI_PSP_SymptomTrackerCtrl.class.toString(),
-          true
+          true, BI_PSP_SymptomTrackerConstantCtrl.LOG_SEVERITY_ERROR
         );
       }
     } catch (System.DmlException ex) {
@@ -292,7 +292,7 @@ public without sharing class BI_PSPB_SymptomPrimaryPageCtrl {
         BI_PSP_LogMessagesUtility.logError(
           BI_PSP_SymptomTrackerConstantCtrl.symptomErrormsg,
           BI_PSP_SymptomTrackerCtrl.class.toString(),
-          true
+          true, BI_PSP_SymptomTrackerConstantCtrl.LOG_SEVERITY_ERROR
         );
       } else {
         // Query for the latest record based on the entry date
@@ -337,7 +337,7 @@ public without sharing class BI_PSPB_SymptomPrimaryPageCtrl {
       BI_PSP_LogMessagesUtility.logError(
         BI_PSP_SymptomTrackerConstantCtrl.latestRecord,
         BI_PSP_SymptomTrackerCtrl.class.toString(),
-        true
+        true, BI_PSP_SymptomTrackerConstantCtrl.LOG_SEVERITY_ERROR
       );
     }
 

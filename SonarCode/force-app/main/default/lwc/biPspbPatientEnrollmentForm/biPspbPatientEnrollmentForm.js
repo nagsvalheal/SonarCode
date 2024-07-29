@@ -9,10 +9,10 @@ import { getObjectInfo } from "lightning/uiObjectInfoApi";
 import { NavigationMixin } from "lightning/navigation";
 
 // Importing Apex classes to interact with Salesforce backend for data retrieval.
-import HCP_ACCESSCODE from "@salesforce/apex/BI_PSPB_UpdatepatientCtrl.hcpAccessCode";
+import HCP_ACCESSCODE from "@salesforce/apex/BI_PSPB_PrepopulateRecCtrl.hcpAccessCode";
 import UPDATE_LEAD_PATIENT_RECORD from "@salesforce/apex/BI_PSPB_CreateLeadCtrl.insertLead";
-import HCP_CREATE from "@salesforce/apex/BI_PSPB_UpdatepatientCtrl.hcpCreate";
-import ENROLLEE_CAREGIVER_ID from "@salesforce/apex/BI_PSPB_UpdatepatientCtrl.getEnrolleeCaregiverId";
+import HCP_CREATE from "@salesforce/apex/BI_PSPB_PrepopulateRecCtrl.hcpCreate";
+import ENROLLEE_CAREGIVER_ID from "@salesforce/apex/BI_PSPB_PrepopulateRecCtrl.getEnrolleeCaregiverId";
 import VALUES_GET_FROM_TABLE from "@salesforce/apex/BI_PSPB_ReferringPractitionerCtrl.getPractitionerList";
 import LEAD_GENDER_OPTIONS from "@salesforce/apex/BI_PSPB_CreateLeadCtrl.getCommunicationOptions";
 import EXISTING_ACCOUNTS from "@salesforce/apex/BI_PSPB_LeadCreationCtrl.getExistingAccounts";

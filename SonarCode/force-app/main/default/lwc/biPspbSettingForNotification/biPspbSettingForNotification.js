@@ -3,33 +3,17 @@
 import { LightningElement,wire } from 'lwc';
 import { loadStyle } from 'lightning/platformResourceLoader';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
-// To import Static Resources
-import NEW_CONTENT_IMG from '@salesforce/resourceUrl/BI_PSP_NewContent';
-import CHALLENGE_IMG from '@salesforce/resourceUrl/BI_PSP_Challenges';
-import QUESTIONNAIRE_IMG from '@salesforce/resourceUrl/BI_PSP_Questionnaires';
-import TREATMENT_IMG from '@salesforce/resourceUrl/BI_PSPB_TreatmentImage';
-import COMMUNITY_IMG from '@salesforce/resourceUrl/BI_PSP_Community';
-import SYMPTOMS_IMG from '@salesforce/resourceUrl/BI_PSP_SymptomTracker';
-import CHECK_BOX_ICON from '@salesforce/resourceUrl/BI_PSPB_CheckBoxIcon';
+
 // To import Apex Classes
-import GET_USER_ACCOUNT_ID from '@salesforce/apex/BI_PSP_CurrentUser.getEnrolleeRecords';
+import GET_USER_ACCOUNT_ID from '@salesforce/apex/BI_PSP_CurrentUser.returnTheAccounts';
 import UPDATE_NOTIFY from '@salesforce/apex/BI_PSP_UpdateNotificationCtrl.updateFieldInObject';
 import UPDATE_RECENT_NOTIFY from '@salesforce/apex/BI_PSP_UpdateNotificationCtrl.retrieveNotifications';
+
+
 // To import current user ID
 import ID from '@salesforce/user/Id';
-// To import Custom Labels
-import TREATMENT from "@salesforce/label/c.BI_PSPB_TreatmentRxRemainders";
-import SYMPTOM from "@salesforce/label/c.BI_PSP_SymptomTrackerValue";
-import NEW_CONTENT from "@salesforce/label/c.BI_PSP_NotificationNewContent";
-import CHALLENGES from "@salesforce/label/c.BI_PSP_ChallengesName";
-import COMMUNITY from "@salesforce/label/c.BI_PSPB_Community";
-import QUESTIONNAIRES from "@salesforce/label/c.BI_PSP_NotificationQuestionnaires";
-import PHONE from "@salesforce/label/c.BI_PSP_NotificationPhone";
-import EMAIL from "@salesforce/label/c.BI_PSP_NotificationEmail";
-import SMS from "@salesforce/label/c.BI_PSP_SmsLabel";
-import INSITE from "@salesforce/label/c.BI_PSP_NotificationInsiteNotification";
-import ERROR_MESSAGE from '@salesforce/label/c.BI_PSP_ConsoleError';
-import ERROR_VARIANT from '@salesforce/label/c.BI_PSP_ErrorVariantToast';
+
+import {resources} from 'c/biPspbResourceProfileManager';
 
 export default class BiPspbSettingForNotification extends LightningElement {
 	//Proper naming conventions with camel case for all the variable will be followed in the future releases
@@ -65,22 +49,22 @@ isCheckboxtreatmentPhone = false;
 accountName;
 	// Variable Declaration
 	userId = ID;
-	communityUrl = COMMUNITY_IMG;
-	newContentUrl = NEW_CONTENT_IMG;
-	symptomsUrl = SYMPTOMS_IMG;
-	challengeUrl = CHALLENGE_IMG;
-	questionnaireUrl = QUESTIONNAIRE_IMG;
-	treatmentUrl = TREATMENT_IMG;
+	communityUrl = resources.COMMUNITY_IMG;
+	newContentUrl = resources.NEW_CONTENT_IMG;
+	symptomsUrl = resources.SYMPTOMS_IMG;
+	challengeUrl = resources.CHALLENGE_IMG;
+	questionnaireUrl = resources.QUESTIONNAIRE_IMG;
+	treatmentUrl = resources.TREATMENT_IMG;
 	// To fetch the Account IDs
 	connectedCallback() {
-	loadStyle(this, CHECK_BOX_ICON);
+	loadStyle(this, resources.CHECK_BOX_ICON);
 	}
-	@wire(GET_USER_ACCOUNT_ID)
+	@wire(GET_USER_ACCOUNT_ID, { userId: '$userId' })
 	wiredAccId({ data, error }) {
 		try {
 			// Null data is checked and AuraHandledException is thrown from the Apex
 			if (data) {
-				this.accountName = data[0].id;
+				this.accountName = data;
 				this.treatmentFunction(this.accountName);
 				this.challengeFunction(this.accountName);
 				this.symptomFunction(this.accountName);
@@ -89,16 +73,16 @@ accountName;
 				this.communityFunction(this.accountName);
 			}
 			else if (error) {
-				this.showToast(ERROR_MESSAGE, error.body.message, ERROR_VARIANT);//Catching Potential error 1
+				this.showToast(resources.ERRORMESSAGE, error.body.message, resources.ERRORVARIANT);//Catching Potential error 1
 			}
 		}
 		catch (err) {
-			this.showToast(ERROR_MESSAGE, err.message, ERROR_VARIANT);//Catching Potential error 2
+			this.showToast(resources.ERRORMESSAGE, err.message, resources.ERRORVARIANT);//Catching Potential error 2
 		}
 	}
 	// To fetch the TREATMENT type records from Notification Settings object
 	treatmentFunction(accidname) {
-		UPDATE_RECENT_NOTIFY({ accId: accidname, type: TREATMENT })
+		UPDATE_RECENT_NOTIFY({ accId: accidname, type: resources.TREATMENT })
 		// Null data is checked and AuraHandledException is thrown from the Apex
 			.then(data => {
 				this.isCheckboxtreatmentEmail = data[0].BI_PSP_Email__c;
@@ -114,13 +98,13 @@ accountName;
 			})
 			.catch(error => {
 				// Handle any errors that occur within the try block
-				this.showToast(ERROR_MESSAGE, error.message, ERROR_VARIANT);
+				this.showToast(resources.ERRORMESSAGE, error.message, resources.ERRORVARIANT);
 
 			})
 	}
 	// To fetch the Questionnaire records from Notification Settings object
 	questionFunction(accidname) {
-		UPDATE_RECENT_NOTIFY({ accId: accidname, type: QUESTIONNAIRES })
+		UPDATE_RECENT_NOTIFY({ accId: accidname, type: resources.QUESTIONNAIRES })
 		// Null data is checked and AuraHandledException is thrown from the Apex
 			.then(data => {
 				this.isCheckboxQuesEmail = data[0].BI_PSP_Email__c;
@@ -136,13 +120,13 @@ accountName;
 			})
 			.catch(error => {
 				// Handle any errors that occur within the try block
-				this.showToast(ERROR_MESSAGE, error.message, ERROR_VARIANT);
+				this.showToast(resources.ERRORMESSAGE, error.message, resources.ERRORVARIANT);
 
 			})
 	}
 	// To fetch the Symptom Tracker records from Notification Settings object
 	symptomFunction(accidname) {
-		UPDATE_RECENT_NOTIFY({ accId: accidname, type: SYMPTOM })
+		UPDATE_RECENT_NOTIFY({ accId: accidname, type: resources.SYMPTOM })
 		// Null data is checked and AuraHandledException is thrown from the Apex
 			.then(data => {
 
@@ -159,13 +143,13 @@ accountName;
 			})
 			.catch(error => {
 				// Handle any errors that occur within the try block
-				this.showToast(ERROR_MESSAGE, error.message, ERROR_VARIANT);
+				this.showToast(resources.ERRORMESSAGE, error.message, resources.ERRORVARIANT);
 
 			})
 	}
 	// To fetch the Challenges records from Notification Settings object
 	challengeFunction(accidname) {
-		UPDATE_RECENT_NOTIFY({ accId: accidname, type: CHALLENGES })
+		UPDATE_RECENT_NOTIFY({ accId: accidname, type: resources.CHALLENGES })
 		// Null data is checked and AuraHandledException is thrown from the Apex
 			.then(data => {
 
@@ -182,14 +166,14 @@ accountName;
 			})
 			.catch(error => {
 				// Handle any errors that occur within the try block
-				this.showToast(ERROR_MESSAGE, error.message, ERROR_VARIANT);
+				this.showToast(resources.ERRORMESSAGE, error.message, resources.ERRORVARIANT);
 
 			})
 
 	}
 	// To fetch the Community records from Notification Settings object
 	communityFunction(accidname) {
-		UPDATE_RECENT_NOTIFY({ accId: accidname, type: COMMUNITY })
+		UPDATE_RECENT_NOTIFY({ accId: accidname, type: resources.COMMUNITY })
 		// Null data is checked and AuraHandledException is thrown from the Apex
 			.then(data => {
 
@@ -204,13 +188,13 @@ accountName;
 			})
 			.catch(error => {
 				// Handle any errors that occur within the try block
-				this.showToast(ERROR_MESSAGE, error.message, ERROR_VARIANT);
+				this.showToast(resources.ERRORMESSAGE, error.message, resources.ERRORVARIANT);
 
 			})
 	}
 	// To fetch the Information center records from Notification Settings object
 	newContentFunction(accidname) {
-		UPDATE_RECENT_NOTIFY({ accId: accidname, type: NEW_CONTENT })
+		UPDATE_RECENT_NOTIFY({ accId: accidname, type: resources.NEW_CONTENT })
 		// Null data is checked and AuraHandledException is thrown from the Apex
 			.then(data => {
 
@@ -227,7 +211,7 @@ accountName;
 			})
 			.catch(error => {
 				// Handle any errors that occur within the try block
-				this.showToast(ERROR_MESSAGE, error.message, ERROR_VARIANT);
+				this.showToast(resources.ERRORMESSAGE, error.message, resources.ERRORVARIANT);
 
 			})
 
@@ -236,14 +220,14 @@ accountName;
 	sympCheckboxChange(event) {
 		const checkBox = event.target;
 		const label = checkBox.label;
-		if (label === EMAIL) {
+		if (label === resources.EMAIL_MSG) {
 			this.isCheckboxSympEmail = checkBox.checked;
-		} else if (label === SMS) {
+		} else if (label === resources.SMS_MSG) {
 			this.isCheckboxSympSms = checkBox.checked;
-		} else if (label === INSITE) {
+		} else if (label === resources.INSITE) {
 			this.isCheckboxSympInsite = checkBox.checked;
 		}
-		else if (label === PHONE) {
+		else if (label === resources.PHONE_MSG) {
 			this.isCheckboxSympPhone = checkBox.checked;
 		}
 
@@ -277,14 +261,14 @@ accountName;
 	NewCheckboxChange(event) {
 		const checkBox = event.target;
 		const label = checkBox.label;
-		if (label === EMAIL) {
+		if (label === resources.EMAIL_MSG) {
 			this.isCheckboxNewEmail = checkBox.checked;
-		} else if (label === SMS) {
+		} else if (label === resources.SMS_MSG) {
 			this.isCheckboxNewSms = checkBox.checked;
-		} else if (label === INSITE) {
+		} else if (label === resources.INSITE) {
 			this.isCheckboxNewInsite = checkBox.checked;
 		}
-		else if (label === PHONE) {
+		else if (label === resources.PHONE_MSG) {
 			this.isCheckboxNewPhone = checkBox.checked;
 		}
 		if (this.isCheckboxNewEmail || this.isCheckboxNewSms || this.isCheckboxNewInsite || this.isCheckboxNewPhone) {
@@ -316,10 +300,10 @@ accountName;
 	ComCheckboxChange(event) {
 		const checkBox = event.target;
 		const label = checkBox.label;
-		if (label === EMAIL) {
+		if (label === resources.EMAIL_MSG) {
 			this.iscommunityEmail = checkBox.checked;
 
-		} else if (label === INSITE) {
+		} else if (label === resources.INSITE) {
 			this.iscommunityInsite = checkBox.checked;
 
 		}
@@ -355,14 +339,14 @@ accountName;
 	QuesCheckboxChange(event) {
 		const checkBox = event.target;
 		const label = checkBox.label;
-		if (label === EMAIL) {
+		if (label === resources.EMAIL_MSG) {
 			this.isCheckboxQuesEmail = checkBox.checked;
-		} else if (label === SMS) {
+		} else if (label === resources.SMS_MSG) {
 			this.isCheckboxQuesSms = checkBox.checked;
-		} else if (label === INSITE) {
+		} else if (label === resources.INSITE) {
 			this.isCheckboxQuesInsite = checkBox.checked;
 		}
-		else if (label === PHONE) {
+		else if (label === resources.PHONE_MSG) {
 			this.isCheckboxQuesPhone = checkBox.checked;
 		}
 
@@ -397,14 +381,14 @@ accountName;
 	ChalCheckboxChange(event) {
 		const checkBox = event.target;
 		const label = checkBox.label;
-		if (label === EMAIL) {
+		if (label === resources.EMAIL_MSG) {
 			this.isCheckboxChalEmail = checkBox.checked;
-		} else if (label === SMS) {
+		} else if (label === resources.SMS_MSG) {
 			this.isCheckboxChalSms = checkBox.checked;
-		} else if (label === INSITE) {
+		} else if (label === resources.INSITE) {
 			this.isCheckboxChalInsite = checkBox.checked;
 		}
-		else if (label === PHONE) {
+		else if (label === resources.PHONE_MSG) {
 			this.isCheckboxChalPhone = checkBox.checked;
 		}
 
@@ -439,11 +423,11 @@ accountName;
 	tretCheckboxChange(event) {
 		const checkBox = event.target;
 		const label = checkBox.label;
-		if (label === EMAIL) {
+		if (label === resources.EMAIL_MSG) {
 			this.isCheckboxtreatmentEmail = checkBox.checked;
-		} else if (label === SMS) {
+		} else if (label === resources.SMS_MSG) {
 			this.isCheckboxtreatmentSms = checkBox.checked;
-		} else if (label === PHONE) {
+		} else if (label === resources.PHONE_MSG) {
 			this.isCheckboxtreatmentPhone = checkBox.checked;
 		}
 
@@ -492,7 +476,7 @@ accountName;
 			})
 			.catch(error => {
 				// Handle any errors that occur within the try block
-				this.showToast(ERROR_MESSAGE, error.message, ERROR_VARIANT);
+				this.showToast(resources.ERRORMESSAGE, error.message, resources.ERRORVARIANT);
 			})
 	}
 	//To Save the changes in notification settings
@@ -505,12 +489,12 @@ accountName;
 	// 	this.updateFunc(this.accountName, COMMUNITY, this.iscommunityEmail, '', this.iscommunityInsite, '')
 	// }
 		handleSave() {
-    this.updateFunc({ accids: this.accountName, type: TREATMENT, email: this.isCheckboxtreatmentEmail, sms: this.isCheckboxtreatmentSms, insite: true, phone: this.isCheckboxtreatmentPhone });
-    this.updateFunc({ accids: this.accountName, type: SYMPTOM, email: this.isCheckboxSympEmail, sms: this.isCheckboxSympSms, insite: this.isCheckboxSympInsite, phone: this.isCheckboxSympPhone });
-    this.updateFunc({ accids: this.accountName, type: QUESTIONNAIRES, email: this.isCheckboxQuesEmail, sms: this.isCheckboxQuesSms, insite: this.isCheckboxQuesInsite, phone: this.isCheckboxQuesPhone });
-    this.updateFunc({ accids: this.accountName, type: CHALLENGES, email: this.isCheckboxChalEmail, sms: this.isCheckboxChalSms, insite: this.isCheckboxChalInsite, phone: this.isCheckboxChalPhone });
-    this.updateFunc({ accids: this.accountName, type: NEW_CONTENT, email: this.isCheckboxNewEmail, sms: this.isCheckboxNewSms, insite: this.isCheckboxNewInsite, phone: this.isCheckboxNewPhone });
-    this.updateFunc({ accids: this.accountName, type: COMMUNITY, email: this.iscommunityEmail, sms: '', insite: this.iscommunityInsite, phone: '' });
+    this.updateFunc({ accids: this.accountName, type: resources.TREATMENT, email: this.isCheckboxtreatmentEmail, sms: this.isCheckboxtreatmentSms, insite: true, phone: this.isCheckboxtreatmentPhone });
+    this.updateFunc({ accids: this.accountName, type: resources.SYMPTOM, email: this.isCheckboxSympEmail, sms: this.isCheckboxSympSms, insite: this.isCheckboxSympInsite, phone: this.isCheckboxSympPhone });
+    this.updateFunc({ accids: this.accountName, type: resources.QUESTIONNAIRES, email: this.isCheckboxQuesEmail, sms: this.isCheckboxQuesSms, insite: this.isCheckboxQuesInsite, phone: this.isCheckboxQuesPhone });
+    this.updateFunc({ accids: this.accountName, type: resources.CHALLENGES, email: this.isCheckboxChalEmail, sms: this.isCheckboxChalSms, insite: this.isCheckboxChalInsite, phone: this.isCheckboxChalPhone });
+    this.updateFunc({ accids: this.accountName, type: resources.NEW_CONTENT, email: this.isCheckboxNewEmail, sms: this.isCheckboxNewSms, insite: this.isCheckboxNewInsite, phone: this.isCheckboxNewPhone });
+    this.updateFunc({ accids: this.accountName, type: resources.COMMUNITY, email: this.iscommunityEmail, sms: '', insite: this.iscommunityInsite, phone: '' });
 }
 	//This showToast is used for error 
 	showToast(title, message, variant) {

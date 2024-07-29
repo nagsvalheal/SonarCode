@@ -21,9 +21,10 @@ public with sharing class BI_PSPB_TreatmentVideoNotificationCtrl {
 			);
 			if (enrolleeRecords.isEmpty()) {
 				BI_PSP_LogMessagesUtility.logError(
-					BI_PSPB_NewConstantsCtrl.errorMsgRecordNotFound,
+					BI_PSPB_NotificatinRmdConstantsCtrl.errorMsgRecordNotFound,
 					BI_PSPB_TreatmentVideoNotificationCtrl.class.toString(),
-					false
+					false,
+					BI_PSPB_NotificatinRmdConstantsCtrl.severityError
 				);
 				return;
 			}
@@ -32,7 +33,7 @@ public with sharing class BI_PSPB_TreatmentVideoNotificationCtrl {
 				enrolleeIdss.add((Id) enrollee.get('Id'));
 			}
 			BI_PSPB_TaskParameters params = new BI_PSPB_TaskParameters(
-				BI_PSPB_NewConstantsCtrl.generalDemonstrationVideoSubject,
+				BI_PSPB_NotificatinRmdConstantsCtrl.generalDemonstrationVideoSubject,
 				BI_PSPB_ConstantsClassCtrl.actionTypeAction,
 				'Treatment Video',
 				'',
@@ -44,9 +45,10 @@ public with sharing class BI_PSPB_TreatmentVideoNotificationCtrl {
 			);
 			if (newTaskList.isEmpty()) {
 				BI_PSP_LogMessagesUtility.logError(
-					BI_PSPB_NewConstantsCtrl.errorMsgRecordNotFound,
+					BI_PSPB_NotificatinRmdConstantsCtrl.errorMsgRecordNotFound,
 					BI_PSPB_TreatmentVideoNotificationCtrl.class.toString(),
-					false
+					false,
+					BI_PSPB_NotificatinRmdConstantsCtrl.severityError
 				);
 				return;
 			}
@@ -61,13 +63,13 @@ public with sharing class BI_PSPB_TreatmentVideoNotificationCtrl {
 			if (!enrolleeIds.isEmpty()) {
 				BI_PSPB_NotificationSender.sendNotifications(
 					enrolleeIds,
-					BI_PSPB_NewConstantsCtrl.video,
+					BI_PSPB_NotificatinRmdConstantsCtrl.video,
 					null
 				);
 			}
 		} catch (Exception ex) {
 			BI_PSP_LogMessagesUtility.exceptionLogMessage(
-				'',
+				BI_PSPB_NotificatinRmdConstantsCtrl.recordNotFound,
 				BI_PSPB_TreatmentVideoNotificationCtrl.class.toString(),
 				ex
 			);

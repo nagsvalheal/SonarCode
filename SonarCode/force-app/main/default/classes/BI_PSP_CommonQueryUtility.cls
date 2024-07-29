@@ -42,4 +42,38 @@ public inherited sharing class BI_PSP_CommonQueryUtility {
         return Database.query(queryString);
     }
     
+    
+     /**
+     * @description Retrieves the Record Type Id for a given object and record type developer name.
+     * @param sObjectType The API name of the SObject type (e.g., 'Contact').
+     * @param developerName The Developer Name of the record type (e.g., 'Physician').
+     * @return The Record Type Id as an Id.
+     */
+    public static Id retrieveRecordTypeId(String sObjectType, String developerName) {
+        // Ensure parameters are not null or empty
+        if (String.isBlank(sObjectType) || String.isBlank(developerName)) {
+          //  throw new IllegalArgumentException('Object type and developer name cannot be null or empty.');
+        }
+        
+        // Retrieve the Record Type Id
+        try {
+            SObjectType objType = Schema.getGlobalDescribe().get(sObjectType);
+            if (objType == null) {
+              //  throw new IllegalArgumentException('Invalid SObject type: ' + sObjectType);
+            }
+            
+            // Retrieve record type info by DeveloperName
+            Map<String, Schema.RecordTypeInfo> recordTypeInfos = objType.getDescribe().getRecordTypeInfosByDeveloperName();
+            if (!recordTypeInfos.containsKey(developerName)) {
+                //throw new IllegalArgumentException('Record Type not found: ' + developerName);
+            }
+            
+            Id recordTypeId = recordTypeInfos.get(developerName).getRecordTypeId();
+            return recordTypeId;
+        } catch (Exception ex) {
+            // Log exception or handle as necessary
+            System.debug('Error retrieving Record Type Id: ' + ex.getMessage());
+            throw ex;
+        }
+    }
 }

@@ -16,21 +16,21 @@ public without sharing class BI_PSPB_MessageCenterCtrl {
 		try {
 			if(String.isBlank(enroleeId)){
 				BI_PSP_LogMessagesUtility.logError(
-						BI_PSPB_NewConstantsCtrl.errorMsgRecordNotFound,
+						BI_PSPB_NotificatinRmdConstantsCtrl.errorMsgRecordNotFound,
 						BI_PSPB_MessageCenterCtrl.class.toString(),
 						false,
-						BI_PSPB_NewConstantsCtrl.severityError
+						BI_PSPB_NotificatinRmdConstantsCtrl.severityError
 					);
 			} else {
 				generalNotifications = getNotifyRecords(
 				enroleeId,
-				BI_PSPB_NewConstantsCtrl.actionTypeGeneral,
-				BI_PSPB_NewConstantsCtrl.actionTypeUnRead
+				BI_PSPB_NotificatinRmdConstantsCtrl.actionTypeGeneral,
+				BI_PSPB_NotificatinRmdConstantsCtrl.actionTypeUnRead
 			);
 			}
 		} catch (Exception ex) {
 			BI_PSP_LogMessagesUtility.exceptionLogMessage(
-				BI_PSPB_NewConstantsCtrl.recordNotFound,
+				BI_PSPB_NotificatinRmdConstantsCtrl.recordNotFound,
 				BI_PSPB_MessageCenterCtrl.class.toString(),
 				ex
 			);
@@ -49,22 +49,22 @@ public without sharing class BI_PSPB_MessageCenterCtrl {
 		try {
 			if(String.isBlank(enroleeId)){
 				BI_PSP_LogMessagesUtility.logError(
-						BI_PSPB_NewConstantsCtrl.errorMsgRecordNotFound,
+						BI_PSPB_NotificatinRmdConstantsCtrl.errorMsgRecordNotFound,
 						BI_PSPB_MessageCenterCtrl.class.toString(),
 						false,
-						BI_PSPB_NewConstantsCtrl.severityError
+						BI_PSPB_NotificatinRmdConstantsCtrl.severityError
 					);
 			}
 			else {
 				actionNotifications = getNotifyRecords(
 				enroleeId,
-				BI_PSPB_NewConstantsCtrl.actionTypeAction,
-				BI_PSPB_NewConstantsCtrl.actionTypeNotificatonTypeAction
+				BI_PSPB_NotificatinRmdConstantsCtrl.actionTypeAction,
+				BI_PSPB_NotificatinRmdConstantsCtrl.actionTypeNotificatonTypeAction
 				);
 			}
 		} catch (Exception ex) {
 			BI_PSP_LogMessagesUtility.exceptionLogMessage(
-				BI_PSPB_NewConstantsCtrl.recordNotFound,
+				BI_PSPB_NotificatinRmdConstantsCtrl.recordNotFound,
 				BI_PSPB_MessageCenterCtrl.class.toString(),
 				ex
 			);
@@ -83,10 +83,10 @@ public without sharing class BI_PSPB_MessageCenterCtrl {
 	try {
 		if(String.isBlank(enroleeId)){
 			BI_PSP_LogMessagesUtility.logError(
-					BI_PSPB_NewConstantsCtrl.errorMsgRecordNotFound,
+					BI_PSPB_NotificatinRmdConstantsCtrl.errorMsgRecordNotFound,
 					BI_PSPB_MessageCenterCtrl.class.toString(),
 					false,
-					BI_PSPB_NewConstantsCtrl.severityError
+					BI_PSPB_NotificatinRmdConstantsCtrl.severityError
 				);
 		} else {
 			historyNotifications = getNotificationRecords(
@@ -98,7 +98,7 @@ public without sharing class BI_PSPB_MessageCenterCtrl {
 		}
 	} catch (Exception ex) {
 		BI_PSP_LogMessagesUtility.exceptionLogMessage(
-		BI_PSPB_NewConstantsCtrl.recordNotFound,
+		BI_PSPB_NotificatinRmdConstantsCtrl.recordNotFound,
 		BI_PSPB_MessageCenterCtrl.class.toString(),
 		ex
 	  );
@@ -124,10 +124,10 @@ public without sharing class BI_PSPB_MessageCenterCtrl {
 	try {
 		if(String.isBlank(enroleeId)){
 			BI_PSP_LogMessagesUtility.logError(
-					BI_PSPB_NewConstantsCtrl.errorMsgRecordNotFound,
+					BI_PSPB_NotificatinRmdConstantsCtrl.errorMsgRecordNotFound,
 					BI_PSPB_MessageCenterCtrl.class.toString(),
 					false,
-					BI_PSPB_NewConstantsCtrl.severityError
+					BI_PSPB_NotificatinRmdConstantsCtrl.severityError
 				);
 		} else {
 		String fields =
@@ -160,7 +160,7 @@ public without sharing class BI_PSPB_MessageCenterCtrl {
 }
 	} catch (Exception ex) {
 		BI_PSP_LogMessagesUtility.exceptionLogMessage(
-		BI_PSPB_NewConstantsCtrl.recordNotFound,
+		BI_PSPB_NotificatinRmdConstantsCtrl.recordNotFound,
 		BI_PSPB_MessageCenterCtrl.class.toString(),
 		ex
 	);
@@ -184,10 +184,10 @@ public without sharing class BI_PSPB_MessageCenterCtrl {
 	try {
 		if(String.isBlank(enroleeId)){
 			BI_PSP_LogMessagesUtility.logError(
-					BI_PSPB_NewConstantsCtrl.errorMsgRecordNotFound,
+					BI_PSPB_NotificatinRmdConstantsCtrl.errorMsgRecordNotFound,
 					BI_PSPB_MessageCenterCtrl.class.toString(),
 					false,
-					BI_PSPB_NewConstantsCtrl.severityError
+					BI_PSPB_NotificatinRmdConstantsCtrl.severityError
 				);
 		} else{
 			notificationRecords = getNotificationRecords(
@@ -199,7 +199,7 @@ public without sharing class BI_PSPB_MessageCenterCtrl {
 		}
 	} catch (Exception ex) {
 		BI_PSP_LogMessagesUtility.exceptionLogMessage(
-		BI_PSPB_NewConstantsCtrl.recordNotFound,
+		BI_PSPB_NotificatinRmdConstantsCtrl.recordNotFound,
 		BI_PSPB_MessageCenterCtrl.class.toString(),
 		ex
 	);

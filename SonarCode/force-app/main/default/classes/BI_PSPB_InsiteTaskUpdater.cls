@@ -14,14 +14,15 @@ public with sharing class BI_PSPB_InsiteTaskUpdater {
 		try{
 			if (String.isBlank(value)) {
 				BI_PSP_LogMessagesUtility.logError(
-						BI_PSPB_NewConstantsCtrl.errorMsgRecordNotFound,
-						BI_PSPB_InsiteTaskUpdater.class.toString(),
-						true
-					);
+					BI_PSPB_NotificatinRmdConstantsCtrl.errorMsgRecordNotFound,
+					BI_PSPB_DlqiQuestionnaireService.class.toString(),
+					false,
+                    BI_PSPB_NotificatinRmdConstantsCtrl.severityError
+				);
 			}
 		} catch (Exception ex) {
 			BI_PSP_LogMessagesUtility.exceptionLogMessage(
-			BI_PSPB_NewConstantsCtrl.recordNotFound,
+			BI_PSPB_NotificatinRmdConstantsCtrl.recordNotFound,
 			BI_PSPB_InsiteTaskUpdater.class.toString(),
 			ex
 		);
@@ -40,10 +41,11 @@ public with sharing class BI_PSPB_InsiteTaskUpdater {
 		try{
 			if(tasks.isEmpty() || String.isBlank(newStatus)){
 				BI_PSP_LogMessagesUtility.logError(
-						BI_PSPB_NewConstantsCtrl.errorMsgRecordNotFound,
-						BI_PSPB_InsiteTaskUpdater.class.toString(),
-						true
-					);
+					BI_PSPB_NotificatinRmdConstantsCtrl.errorMsgRecordNotFound,
+					BI_PSPB_DlqiQuestionnaireService.class.toString(),
+					false,
+                    BI_PSPB_NotificatinRmdConstantsCtrl.severityError
+				);
 			} else {
 				for (Task task : tasks) {
 					task.Status = newStatus;
@@ -52,7 +54,7 @@ public with sharing class BI_PSPB_InsiteTaskUpdater {
 			}
 		} catch (Exception ex) {
 			BI_PSP_LogMessagesUtility.exceptionLogMessage(
-			BI_PSPB_NewConstantsCtrl.errorCreatingTask,
+			BI_PSPB_NotificatinRmdConstantsCtrl.errorCreatingTask,
 			BI_PSPB_InsiteTaskUpdater.class.toString(),
 			ex
 		);

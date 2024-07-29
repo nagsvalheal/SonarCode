@@ -4,8 +4,8 @@
                     and populate the custom field BI_PSP_DateForCQ__c with the formatted date.
 * History:
 * Version	Author		Date			Detail			Description
-* 1.0		harish		05-Dec-2023		Created			Initial development.
-* 1.1		harish 	    01-Jan-2024		Updated			Updated for caregiver.
+* 1.0		Abinsha		05-Dec-2023		Created			Initial development.
+* 1.1		Abinsha 	01-Jan-2024		Updated			Updated for caregiver.
 * 1.2		Abinsha		04-Apr-2024		Updated			Catch log added.
 */
 
@@ -17,8 +17,7 @@ public with sharing class BI_PSP_AssessmentTriggerHandler {
      */
     public static void handleBeforeInsert(List<Assessment> newRecords) {
         try {
-            if (!newRecords.isEmpty()) {
-                formatEffectiveDateTime(newRecords);
+            formatEffectiveDateTime(newRecords);
                  // Loop through the records in the trigger
             for (Assessment record : newRecords) {
             // Check if the Status__c field is changed to 'Complete'
@@ -30,11 +29,8 @@ public with sharing class BI_PSP_AssessmentTriggerHandler {
                  }
                 }
               }
-            }
         } catch (Exception ex) {
-            BI_SFCOE_LOG_Util.handleException(ex,BI_PSP_QuestionnaireConstant.applicationName,
-            BI_PSP_AssessmentTriggerHandler.class.toString(),null,System.now()
-            );
+            BI_PSP_LogMessagesUtility.exceptionLogMessage('', BI_PSP_AssessmentTriggerHandler.class.toString(), ex);
         }
     }
 
@@ -49,9 +45,7 @@ public with sharing class BI_PSP_AssessmentTriggerHandler {
                 formatEffectiveDateTime(updatedRecords);
             }
         } catch (Exception ex) {
-            BI_SFCOE_LOG_Util.handleException(ex,BI_PSP_QuestionnaireConstant.applicationName,
-            BI_PSP_AssessmentTriggerHandler.class.toString(),null,System.now()
-            );
+          BI_PSP_LogMessagesUtility.exceptionLogMessage('', BI_PSP_AssessmentTriggerHandler.class.toString(), ex);
         }
     }
 
@@ -69,26 +63,13 @@ public with sharing class BI_PSP_AssessmentTriggerHandler {
 
                     record.BI_PSP_DateForCQ__c = formattedDate;
                 } else {
-                    BI_SFCOE_LOG_Util.logMessage(
-                        BI_PSP_QuestionnaireConstant.applicationName,
-                        BI_PSP_AssessmentTriggerHandler.class.toString(),
-                        '',
-                        System.now(),
-                        BI_PSP_QuestionnaireConstant.emptyAssessmentDate,
-                        BI_SFCOE_LOG_Util.LOG_SEVERITY_ERROR
-                    );
+                    BI_PSP_LogMessagesUtility.logError(BI_PSP_QuestionnaireConstant.emptyAssessmentDate, BI_PSP_AssessmentTriggerHandler.class.toString(), false, BI_PSP_QuestionnaireConstant.LOG_SEVERITY_INFO);
                     NullPointerException e = new NullPointerException();
                     throw e;
                 }
             }
         } catch (Exception ex) {
-            BI_SFCOE_LOG_Util.handleException(
-                ex,
-                BI_PSP_QuestionnaireConstant.applicationName,
-                BI_PSP_AssessmentTriggerHandler.class.toString(),
-                null,
-                System.now()
-            );
+           BI_PSP_LogMessagesUtility.exceptionLogMessage('', BI_PSP_AssessmentTriggerHandler.class.toString(), ex);
         }
     }
 }

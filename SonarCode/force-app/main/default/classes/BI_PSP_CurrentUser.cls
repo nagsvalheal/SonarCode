@@ -117,4 +117,5 @@ public inherited sharing class BI_PSP_CurrentUser {
 
         return enrollees;
     }
+    
 }

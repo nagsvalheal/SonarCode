@@ -21,7 +21,7 @@ public with sharing class BI_PSP_SymptomTrackerOperationsCtrl {
         BI_PSP_LogMessagesUtility.logError(
           BI_PSP_SymptomTrackerConstantCtrl.patientErrorMsg,
           BI_PSP_SymptomTrackerCtrl.class.toString(),
-          true
+          true,BI_PSP_SymptomTrackerConstantCtrl.LOG_SEVERITY_ERROR
         );
       } else {
         Date entryDate;
@@ -50,7 +50,7 @@ public with sharing class BI_PSP_SymptomTrackerOperationsCtrl {
           BI_PSP_LogMessagesUtility.logError(
             BI_PSP_SymptomTrackerConstantCtrl.error,
             BI_PSP_SymptomTrackerCtrl.class.toString(),
-            true
+            true,BI_PSP_SymptomTrackerConstantCtrl.LOG_SEVERITY_ERROR
           );
         }
       }
@@ -58,7 +58,7 @@ public with sharing class BI_PSP_SymptomTrackerOperationsCtrl {
       BI_PSP_LogMessagesUtility.logError(
         BI_PSP_SymptomTrackerConstantCtrl.patientErrorMsg,
         BI_PSP_SymptomTrackerCtrl.class.toString(),
-        true
+        true,BI_PSP_SymptomTrackerConstantCtrl.LOG_SEVERITY_ERROR
       );
     }
     return null;
@@ -77,7 +77,7 @@ public with sharing class BI_PSP_SymptomTrackerOperationsCtrl {
   @AuraEnabled(cacheable=true)
   public static List<HealthCloudGA__CarePlanTemplate__c> getLastCareTemplate() {
     try {
-     /* List<HealthCloudGA__CarePlanTemplate__c> results = [
+      /*List<HealthCloudGA__CarePlanTemplate__c> results = [
         SELECT Id, BI_PSP_Symptom_image__c, Name, RecordTypeId
         FROM HealthCloudGA__CarePlanTemplate__c
         WHERE
@@ -85,22 +85,19 @@ public with sharing class BI_PSP_SymptomTrackerOperationsCtrl {
         ORDER BY CreatedDate DESC
         LIMIT 10
       ]; */
-		 String queryString =
-        ' SELECT Id, BI_PSP_Symptom_image__c, Name, RecordTypeId FROM HealthCloudGA__CarePlanTemplate__c WHERE RecordType.Name =: \'' +
-        BI_PSP_SymptomTrackerConstantCtrl.symptomRecordType +
-        '\' ORDER BY CreatedDate DESC LIMIT 10';
-
-      List<HealthCloudGA__CarePlanTemplate__c> results = BI_PSP_CommonQueryUtility.executeWholeQueryInString(
-        queryString
-      );
-      // Log the number of records retrieved
+String query = 'SELECT Id, BI_PSP_Symptom_image__c, Name, RecordTypeId ' +
+               'FROM HealthCloudGA__CarePlanTemplate__c ' +
+               'WHERE RecordType.Name = \'' + BI_PSP_SymptomTrackerConstantCtrl.symptomRecordType + '\' ' +
+               'ORDER BY CreatedDate DESC ' +
+               'LIMIT 10';
+List<HealthCloudGA__CarePlanTemplate__c> results = Database.query(query);
       if (!results.isEmpty()) {
         return results;
       } else {
         BI_PSP_LogMessagesUtility.logError(
           BI_PSP_SymptomTrackerConstantCtrl.error,
           BI_PSP_SymptomTrackerCtrl.class.toString(),
-          true
+          true,BI_PSP_SymptomTrackerConstantCtrl.LOG_SEVERITY_ERROR
         );
       }
     } catch (Exception ex) {
@@ -109,7 +106,7 @@ public with sharing class BI_PSP_SymptomTrackerOperationsCtrl {
       BI_PSP_LogMessagesUtility.logError(
         BI_PSP_SymptomTrackerConstantCtrl.error,
         BI_PSP_SymptomTrackerCtrl.class.toString(),
-        true
+        true,BI_PSP_SymptomTrackerConstantCtrl.LOG_SEVERITY_ERROR
       );
       // Return an empty list in case of exception
     }
@@ -139,7 +136,7 @@ public with sharing class BI_PSP_SymptomTrackerOperationsCtrl {
         BI_PSP_LogMessagesUtility.logError(
           BI_PSP_SymptomTrackerConstantCtrl.applicationPhotoMsg,
           BI_PSP_SymptomTrackerCtrl.class.toString(),
-          true
+          true,BI_PSP_SymptomTrackerConstantCtrl.LOG_SEVERITY_ERROR
         );
       }
       // Create ContentVersion records
@@ -166,7 +163,7 @@ public with sharing class BI_PSP_SymptomTrackerOperationsCtrl {
       BI_PSP_LogMessagesUtility.logError(
         BI_PSP_SymptomTrackerConstantCtrl.applicationPhotoMsg,
         BI_PSP_SymptomTrackerCtrl.class.toString(),
-        true
+        true,BI_PSP_SymptomTrackerConstantCtrl.LOG_SEVERITY_ERROR
       );
     }
 
@@ -192,7 +189,7 @@ public with sharing class BI_PSP_SymptomTrackerOperationsCtrl {
         BI_PSP_LogMessagesUtility.logError(
           BI_PSP_SymptomTrackerConstantCtrl.symptomErrorMsg,
           BI_PSP_SymptomTrackerCtrl.class.toString(),
-          true
+          true,BI_PSP_SymptomTrackerConstantCtrl.LOG_SEVERITY_ERROR
         );
       } else {
         // Delete existing ContentDocumentLink records for the specified entity
@@ -254,7 +251,7 @@ public with sharing class BI_PSP_SymptomTrackerOperationsCtrl {
         BI_PSP_LogMessagesUtility.logError(
           BI_PSP_SymptomTrackerConstantCtrl.symptomErrorMsg,
           BI_PSP_SymptomTrackerCtrl.class.toString(),
-          true
+          true,BI_PSP_SymptomTrackerConstantCtrl.LOG_SEVERITY_ERROR
         );
       } else {
         // Query for the first ContentDocumentLink related to the symptomTrackerId
@@ -302,7 +299,7 @@ public with sharing class BI_PSP_SymptomTrackerOperationsCtrl {
         BI_PSP_LogMessagesUtility.logError(
           BI_PSP_SymptomTrackerConstantCtrl.careProgramErrorMsg,
           BI_PSP_SymptomTrackerCtrl.class.toString(),
-          true
+          true,BI_PSP_SymptomTrackerConstantCtrl.LOG_SEVERITY_ERROR
         );
       } else {
         // Debug log to check the value of careProgramEnrolleeId
@@ -345,7 +342,7 @@ public with sharing class BI_PSP_SymptomTrackerOperationsCtrl {
           BI_PSP_LogMessagesUtility.logError(
             BI_PSP_SymptomTrackerConstantCtrl.error,
             BI_PSP_SymptomTrackerCtrl.class.toString(),
-            true
+            true,BI_PSP_SymptomTrackerConstantCtrl.LOG_SEVERITY_ERROR
           );
         }
       }
@@ -355,7 +352,7 @@ public with sharing class BI_PSP_SymptomTrackerOperationsCtrl {
       BI_PSP_LogMessagesUtility.logError(
         BI_PSP_SymptomTrackerConstantCtrl.symptomErrorMsg,
         BI_PSP_SymptomTrackerCtrl.class.toString(),
-        true
+        true,BI_PSP_SymptomTrackerConstantCtrl.LOG_SEVERITY_ERROR
       );
 
       // Return null in case of an exception
@@ -380,7 +377,7 @@ public with sharing class BI_PSP_SymptomTrackerOperationsCtrl {
         BI_PSP_LogMessagesUtility.logError(
           BI_PSP_SymptomTrackerConstantCtrl.careProgramErrorMsg,
           BI_PSP_SymptomTrackerCtrl.class.toString(),
-          true
+          true,BI_PSP_SymptomTrackerConstantCtrl.LOG_SEVERITY_ERROR
         );
       }
         // Perform SOQL query to fetch CareProgramEnrollee and related Account fields
@@ -403,7 +400,7 @@ public with sharing class BI_PSP_SymptomTrackerOperationsCtrl {
       BI_PSP_LogMessagesUtility.logError(
         BI_PSP_SymptomTrackerConstantCtrl.checkGender,
         BI_PSP_SymptomTrackerCtrl.class.toString(),
-        true
+        true,BI_PSP_SymptomTrackerConstantCtrl.LOG_SEVERITY_ERROR
       );
     }
     return enrollees;

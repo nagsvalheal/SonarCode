@@ -349,7 +349,7 @@ export default class BiPspbArticleCategoryParent extends LightningElement {
 	getRandomElementsWithoutRepetition(arr, count, selectedTopics) {
 		// Shuffle array
 		let shuffled = arr.sort(() => 0.5 - Math.random());
-		let selectedQuestions = [];
+		let selectedArticleCategory = [];
 	
 		// Select questions without repetition
 		for (let i = 0; i < shuffled.length; i++) {
@@ -359,30 +359,14 @@ export default class BiPspbArticleCategoryParent extends LightningElement {
 			// If the topic is already selected, skip the question
 			if (!selectedTopics.includes(topic)) {
 				selectedTopics.push(topic);
-				selectedQuestions.push(question);
+				selectedArticleCategory.push(question);
 			}
 	
-			if (selectedQuestions.length === count) {
+			if (selectedArticleCategory.length === count) {
 				break; // Stop when the required number of questions is reached
 			}
 		}
-		console.log(JSON.stringify(selectedQuestions));
-		console.log('break');
-		// Remove specific articles if conditions are met
-		if (this.urlq === this.siteUrlq && this.patientStatusValue !== LABELS.ACUTE_STATUS) {
-			const labelsToRemove = [
-				LABELS.SPEVIGO_INJECTION_LABEL,
-				LABELS.PREVENTION_GPP_LABEL,
-				LABELS.SPEVIGO_INFUSION_LABEL,
-				LABELS.TREATING_GPP_LABEL,
-				LABELS.WORK_IN_GPP_LABEL
-			];
-	
-			selectedQuestions = selectedQuestions.filter(question => !labelsToRemove.includes(question));
-		}
-		console.log(JSON.stringify(selectedQuestions));
-		
-		return selectedQuestions;
+		return selectedArticleCategory;
 	}
 	
 
@@ -520,87 +504,46 @@ export default class BiPspbArticleCategoryParent extends LightningElement {
 		this.final = finaltitle;
 
 		if (this.final === LABELS.JUST_FOR_ME_CATEGORY) {
-			let selectedQuestions = this.getRandomElementsWithoutRepetition(
+			let selectedArticleCategory = this.getRandomElementsWithoutRepetition(
 				this.justForMeArticleList,
 				this.justForMeArticleList.length,
 				[]
 			);
-			if (selectedQuestions) {
-				this.searchItems = this.filterResultsByTitles(selectedQuestions);
+			if (selectedArticleCategory) {
+				this.searchItems = this.filterResultsByTitles(selectedArticleCategory);
 				this.showSearch = true;
 			}
 
-			if (finaltitle === LABELS.JUST_FOR_ME_CATEGORY) {
-				this.whatIsGpp = 'end-btn';
-				this.gppHealth = 'end-btn';
-				this.talkHcp = 'end-btn';
-				this.manageGpp = 'end-btn';
-				this.flaresCategory = 'end-btn';
-				this.justForMeCategory = 'end-btn-selected';
-				this.treatmentCategory = 'end-btn';
-			} else if (finaltitle === LABELS.FLARE_TREATMENT_LABEL || finaltitle === LABELS.FLARE_PREVENTION_LABEL) {
-				this.whatIsGpp = 'end-btn';
-				this.gppHealth = 'end-btn';
-				this.talkHcp = 'end-btn';
-				this.manageGpp = 'end-btn';
-				this.flaresCategory = 'end-btn';
-				this.justForMeCategory = 'end-btn';
-				this.treatmentCategory = 'end-btn-selected';
-			}
+			this.updateCategorySelection(finaltitle);
+			this.loadMoreLogic();
 
-			this.showLoadMore = true;
-
-			this.currentLength = 3;
-			this.originalSearchItemsOfSearch = this.searchItems;
-			this.searchItems = this.originalSearchItemsOfSearch.slice(
-				0,
-				this.currentLength
-			);
-
-			if (this.currentLength < this.originalSearchItemsOfSearch.length) {
-				this.showLoadMore = true;
-			} else {
-				this.showLoadMore = false;
-			}
 		} else if (finaltitle === LABELS.FLARE_TREATMENT_LABEL || finaltitle === LABELS.FLARE_PREVENTION_LABEL) {
-			if (finaltitle === LABELS.FLARE_TREATMENT_LABEL) {
-				this.spevigoArticle = [
-					LABELS.TREATING_GPP_LABEL,
-					LABELS.SPEVIGO_INFUSION_LABEL,
-					LABELS.WORK_IN_GPP_LABEL
-				];
-			} else {
-				this.spevigoArticle = [
-					LABELS.PREVENTION_GPP_LABEL,
-					LABELS.SPEVIGO_INJECTION_LABEL,
-					LABELS.WORK_IN_GPP_LABEL
-				];
-			}
-			let selectedQuestions = this.getRandomElementsWithoutRepetition(
-				this.spevigoArticle,
-				this.spevigoArticle.length,
-				[]
-			);
-			if (selectedQuestions) {
-				this.searchItems = this.filterResultsByTitles(selectedQuestions);
-				this.showSearch = true;
 
-				this.showLoadMore = true;
+			this.addSpevigoArticles(finaltitle);
+			let defaultClass = 'end-btn';
+			let selectedClass = 'end-btn-selected';
+			this.whatIsGpp = defaultClass;
+			this.gppHealth = defaultClass;
+			this.talkHcp = defaultClass;
+			this.manageGpp = defaultClass;
+			this.flaresCategory = defaultClass;
+			this.justForMeCategory = defaultClass;
+			this.treatmentCategory = selectedClass;
+		}else{
+			this.mapTags(finaltitle);
+		}
+	}
 
-				this.currentLength = 3;
-				this.originalSearchItemsOfSearch = this.searchItems;
-				this.searchItems = this.originalSearchItemsOfSearch.slice(
-					0,
-					this.currentLength
-				);
-
-				if (this.currentLength < this.originalSearchItemsOfSearch.length) {
-					this.showLoadMore = true;
-				} else {
-					this.showLoadMore = false;
-				}
-			}
-
+	updateCategorySelection(finaltitle){
+		if (finaltitle === LABELS.JUST_FOR_ME_CATEGORY) {
+			this.whatIsGpp = 'end-btn';
+			this.gppHealth = 'end-btn';
+			this.talkHcp = 'end-btn';
+			this.manageGpp = 'end-btn';
+			this.flaresCategory = 'end-btn';
+			this.justForMeCategory = 'end-btn-selected';
+			this.treatmentCategory = 'end-btn';
+		} else if (finaltitle === LABELS.FLARE_TREATMENT_LABEL || finaltitle === LABELS.FLARE_PREVENTION_LABEL) {
 			this.whatIsGpp = 'end-btn';
 			this.gppHealth = 'end-btn';
 			this.talkHcp = 'end-btn';
@@ -608,11 +551,52 @@ export default class BiPspbArticleCategoryParent extends LightningElement {
 			this.flaresCategory = 'end-btn';
 			this.justForMeCategory = 'end-btn';
 			this.treatmentCategory = 'end-btn-selected';
-		}else{
-			this.mapTags(finaltitle);
 		}
 	}
 
+	loadMoreLogic(){
+		this.showLoadMore = true;
+
+		this.currentLength = 3;
+		this.originalSearchItemsOfSearch = this.searchItems;
+		this.searchItems = this.originalSearchItemsOfSearch.slice(
+			0,
+			this.currentLength
+		);
+
+		if (this.currentLength < this.originalSearchItemsOfSearch.length) {
+			this.showLoadMore = true;
+		} else {
+			this.showLoadMore = false;
+		}
+	}
+
+	addSpevigoArticles(finaltitle){
+		if (finaltitle === LABELS.FLARE_TREATMENT_LABEL) {
+			this.spevigoArticle = [
+				LABELS.TREATING_GPP_LABEL,
+				LABELS.SPEVIGO_INFUSION_LABEL,
+				LABELS.WORK_IN_GPP_LABEL
+			];
+		} else {
+			this.spevigoArticle = [
+				LABELS.PREVENTION_GPP_LABEL,
+				LABELS.SPEVIGO_INJECTION_LABEL,
+				LABELS.WORK_IN_GPP_LABEL
+			];
+		}
+		let selectedArticleCategory = this.getRandomElementsWithoutRepetition(
+			this.spevigoArticle,
+			this.spevigoArticle.length,
+			[]
+		);
+		if (selectedArticleCategory) {
+			this.searchItems = this.filterResultsByTitles(selectedArticleCategory);
+			this.showSearch = true;
+
+			this.loadMoreLogic();
+		}
+	}
 	mapButton(finaltitle){
 		if (finaltitle === LABELS.WHAT_IS_GPP_CATEGORY) {
 			this.whatIsGpp = 'end-btn-selected';
@@ -714,13 +698,13 @@ export default class BiPspbArticleCategoryParent extends LightningElement {
 						'position: absolute; transform: translate(-50%, -50%); margin-left: 800px;';
 				}
 				if (this.final === LABELS.JUST_FOR_ME_CATEGORY) {
-					let selectedQuestions = this.getRandomElementsWithoutRepetition(
+					let selectedArticleCategory = this.getRandomElementsWithoutRepetition(
 						this.justForMeArticleList,
 						this.justForMeArticleList.length,
 						[]
 					);
-					if (selectedQuestions) {
-						this.searchItems = this.filterResultsByTitles(selectedQuestions);
+					if (selectedArticleCategory) {
+						this.searchItems = this.filterResultsByTitles(selectedArticleCategory);
 						this.showSearch = true;
 					}
 					if (finaltitle === LABELS.JUST_FOR_ME_CATEGORY) {

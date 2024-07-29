@@ -6,10 +6,10 @@ import { ShowToastEvent } from "lightning/platformShowToastEvent";
 import { NavigationMixin } from "lightning/navigation";
 import { loadStyle } from "lightning/platformResourceLoader";
 //  To import Apex Classes
-import CREATE_LEAD_RECORD from "@salesforce/apex/BI_PSPB_UpdatepatientCtrl.updateLeadCareRecord";
-import LEAD_ID from "@salesforce/apex/BI_PSPB_UpdatepatientCtrl.getPatientDetails";
-import CREATE_LEAD from "@salesforce/apex/BI_PSPB_UpdatepatientCtrl.updateLead";
-import LEAD_CAREGIVER from "@salesforce/apex/BI_PSPB_UpdatepatientCtrl.getEnrolleeCaregiverId";
+import CREATE_LEAD_RECORD from "@salesforce/apex/BI_PSPB_PrepopulateRecCtrl.updateLeadCareRecord";
+import LEAD_ID from "@salesforce/apex/BI_PSPB_PrepopulateRecCtrl.getPatientDetails";
+import CREATE_LEAD from "@salesforce/apex/BI_PSPB_PrepopulateRecCtrl.updateLead";
+import LEAD_CAREGIVER from "@salesforce/apex/BI_PSPB_PrepopulateRecCtrl.getEnrolleeCaregiverId";
 import COUNTRY from '@salesforce/apex/BI_PSPB_ReferringPractitionerCtrl.getCountries';
 import STATE from '@salesforce/apex/BI_PSPB_ReferringPractitionerCtrl.getStates';
 // To import Static Resources

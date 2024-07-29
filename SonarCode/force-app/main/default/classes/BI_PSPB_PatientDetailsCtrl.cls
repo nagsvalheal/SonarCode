@@ -23,6 +23,7 @@ public with sharing class BI_PSPB_PatientDetailsCtrl {
 	private static String accountError = System.Label.BI_PSP_AccountError;
 	private static String caregiverError = System.Label.BI_PSP_EnrolleeCaregiverErrorMessage;
     private static string parameterError = System.Label.BI_PSPB_ErrorParameter;
+	public static final String logSeverityError  = 'ERROR';
  	/**
      * @description Builds the SOQL conditions string based on the given parameters.
      * @param currentUserName The name of the current user.
@@ -66,7 +67,7 @@ public with sharing class BI_PSPB_PatientDetailsCtrl {
                 enrolleList.add((BI_PSPB_Enrollee_Caregiver__c) sObj);
             }
             if (enrolleList.isEmpty()) {
-                BI_PSP_LogMessagesUtility.logError(caregiverError,BI_PSPB_PatientDetailsCtrl.class.getName(),true);
+                BI_PSP_LogMessagesUtility.logError(caregiverError,BI_PSPB_PatientDetailsCtrl.class.getName(),true,logSeverityError);
             }
         } catch (Exception ex) {
             BI_PSP_LogMessagesUtility.exceptionLogMessage(caregiverError, BI_PSPB_PatientDetailsCtrl.class.getName(), ex);
@@ -85,7 +86,7 @@ public with sharing class BI_PSPB_PatientDetailsCtrl {
 		Account accountToReturn = new Account();
 		try {
 			if (String.isBlank(accountId)) {
-				BI_PSP_LogMessagesUtility.logError(parameterError,BI_PSPB_PatientDetailsCtrl.class.getName(),true);
+				BI_PSP_LogMessagesUtility.logError(parameterError,BI_PSPB_PatientDetailsCtrl.class.getName(),true,logSeverityError);
 			}
 			String fields = 'Id,BI_PSPB_Selected_Patient_ID__c,BI_PSPB_CaregiverCheck__c';
 			conditions = 'Id = \'' + accountId + '\'';
@@ -96,7 +97,7 @@ public with sharing class BI_PSPB_PatientDetailsCtrl {
 			}
 			if(accountToReturn == null)
 			{
-				BI_PSP_LogMessagesUtility.logError(accountError,BI_PSPB_PatientDetailsCtrl.class.getName(),true);
+				BI_PSP_LogMessagesUtility.logError(accountError,BI_PSPB_PatientDetailsCtrl.class.getName(),true,logSeverityError);
 			}
 		} catch (Exception ex) {
 			BI_PSP_LogMessagesUtility.exceptionLogMessage(accountError,BI_PSPB_PatientDetailsCtrl.class.getName(),ex);
