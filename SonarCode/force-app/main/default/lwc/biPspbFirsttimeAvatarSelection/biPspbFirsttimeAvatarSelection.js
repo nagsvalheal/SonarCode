@@ -14,40 +14,14 @@ import CURRENT_USER from '@salesforce/apex/BI_PSP_CurrentUser.getEnrolleeRecords
 import LOGGED_USER from '@salesforce/apex/BI_PSP_CurrentUser.getCurrentUser';
 import AVATAR from '@salesforce/apex/BI_PSPB_AvatarCtrl.updateEnrolleeAvatar';
 // Imports resourceUrl to reference external resources for proper rendering and functionality.
-import ADULT_AFRO_MAN from '@salesforce/resourceUrl/BI_PSPB_AdultAfroMan';
-import ADULT_AFRO_WOMAN from '@salesforce/resourceUrl/BI_PSPB_AdultAfroWomen';
-import ADULT_ARAB_MAN from '@salesforce/resourceUrl/BI_PSPB_AdultArabMan';
-import ADULT_ARAB_WOMAN from '@salesforce/resourceUrl/BI_PSPB_AdultArabWoman';
-import ADULT_ASIAN_MAN from '@salesforce/resourceUrl/BI_PSPB_AdultAsianMan';
-import ADULT_ASIAN_WOMAN from '@salesforce/resourceUrl/BI_PSPB_AdultAsianWoman';
-import ADULT_CAUCASIAN_MAN from '@salesforce/resourceUrl/BI_PSPB_AdultCaucasianMan';
-import ADULT_CAUCASIAN_WOMAN from '@salesforce/resourceUrl/BI_PSPB_AdultCaucasianWoman';
-import ADULT_INDIAN_MAN from '@salesforce/resourceUrl/BI_PSPB_AdultIndianMen';
-import ADULT_INDIAN_WOMAN from '@salesforce/resourceUrl/BI_PSPB_AdultIndianWoman';
-import ADULT_LATINO_MAN from '@salesforce/resourceUrl/BI_PSPB_AdultLatinoMan';
-import ADULT_LATINO_WOMAN from '@salesforce/resourceUrl/BI_PSPB_AdultLatinoWoman';
-import ELDER_ADULT_AFRO_MAN from '@salesforce/resourceUrl/BI_PSPB_ElderAdultAfroMan';
-import ELDER_ADULT_AFRO_WOMAN from '@salesforce/resourceUrl/BI_PSPB_ElderAdultAfroWoman';
-import ELDER_ADULT_ARAB_MAN from '@salesforce/resourceUrl/BI_PSPB_ElderAdultArabMan';
-import ELDER_ADULT_ARAB_WOMAN from '@salesforce/resourceUrl/BI_PSPB_ElderAdultArabWoman';
-import ELDER_ADULT_ASIAN_MAN from '@salesforce/resourceUrl/BI_PSPB_ElderAdultAsianMan';
-import ELDER_ADULT_ASIAN_WOMAN from '@salesforce/resourceUrl/BI_PSPB_ElderAdultAsianWoman';
-import ELDER_ADULT_CAUCASIAN_MAN from '@salesforce/resourceUrl/BI_PSPB_ElderAdultCaucasianMan';
-import ELDER_ADULT_CAUCASIAN_WOMAN from '@salesforce/resourceUrl/BI_PSPB_ElderAdultCaucasianWoman';
-import ELDER_ADULT_INDIAN_MEN from '@salesforce/resourceUrl/BI_PSPB_ElderAdultIndianMen';
-import ELDER_ADULT_INDIAN_WOMAN from '@salesforce/resourceUrl/BI_PSPB_ElderAdultIndianWoman';
-import ELDER_ADULT_LATINO_MAN from '@salesforce/resourceUrl/BI_PSPB_ElderAdultLatinoMan';
-import ELDER_ADULT_LATINO_WOMAN from '@salesforce/resourceUrl/BI_PSPB_ElderAdultLatinoWoman';
+import {label} from 'c/biPspbAvatarResources';
 // Imports labels for descriptive text or identifiers, enhancing accessibility and user understanding.
-import ERROR_MESSAGE from '@salesforce/label/c.BI_PSP_ConsoleError';
-import ERROR_VARIANT from '@salesforce/label/c.BI_PSP_ErrorVariantToast';
-import QUESTIONNAIRES from '@salesforce/label/c.BI_PSP_AvatarQuestionnaireUrl';
-import BRANDED_SITE_URL from '@salesforce/label/c.BI_PSPB_BrandedSiteNaviUrl';
-import UNASSIGNED_SITE_URL from '@salesforce/label/c.BI_PSPB_UnAssignedNaviUrl';
-import UNASSIGNED from '@salesforce/label/c.BI_PSP_Unassigned';
-import ACUTE from '@salesforce/label/c.BI_PSPB_Acute';
-import ACUTE_DASHBOARD from '@salesforce/label/c.BI_PSPB_AcuteDashboard';
-import DASHBOARD from '@salesforce/label/c.BI_PSPB_Dashboad';
+
+// import UNASSIGNED_SITE_URL from '@salesforce/label/c.BI_PSPB_UnAssignedNaviUrl';
+// import UNASSIGNED from '@salesforce/label/c.BI_PSP_Unassigned';
+// import ACUTE from '@salesforce/label/c.BI_PSPB_Acute';
+// import ACUTE_DASHBOARD from '@salesforce/label/c.BI_PSPB_AcuteDashboard';
+// import DASHBOARD from '@salesforce/label/c.BI_PSPB_Dashboad';
 
 export default class BiPspbFirsttimeAvatarSelection extends LightningElement {
 	//Proper naming conventions with camel case for all the variable will be followed in the future releases
@@ -58,30 +32,30 @@ export default class BiPspbFirsttimeAvatarSelection extends LightningElement {
 	loginValue;
 	loggedPatient;
 	@track imageClass = [
-		{ avatarclass: 'avatar', avatarname: 'avatarName', image: ADULT_AFRO_MAN, dataid: 1 },
-		{ avatarclass: 'avatar', avatarname: 'avatarName', image: ADULT_AFRO_WOMAN, dataid: 2 },
-		{ avatarclass: 'avatar', avatarname: 'avatarName', image: ADULT_ARAB_MAN, dataid: 3 },
-		{ avatarclass: 'avatar', avatarname: 'avatarName', image: ADULT_ARAB_WOMAN, dataid: 4 },
-		{ avatarclass: 'avatar', avatarname: 'avatarName', image: ADULT_ASIAN_MAN, dataid: 5 },
-		{ avatarclass: 'avatar', avatarname: 'avatarName', image: ADULT_ASIAN_WOMAN, dataid: 6 },
-		{ avatarclass: 'avatar', avatarname: 'avatarName', image: ADULT_CAUCASIAN_MAN, dataid: 7 },
-		{ avatarclass: 'avatar', avatarname: 'avatarName', image: ADULT_CAUCASIAN_WOMAN, dataid: 8 },
-		{ avatarclass: 'avatar', avatarname: 'avatarName', image: ADULT_INDIAN_MAN, dataid: 9 },
-		{ avatarclass: 'avatar', avatarname: 'avatarName', image: ADULT_INDIAN_WOMAN, dataid: 10 },
-		{ avatarclass: 'avatar', avatarname: 'avatarName', image: ADULT_LATINO_MAN, dataid: 11 },
-		{ avatarclass: 'avatar', avatarname: 'avatarName', image: ADULT_LATINO_WOMAN, dataid: 12 },
-		{ avatarclass: 'avatar', avatarname: 'avatarName', image: ELDER_ADULT_AFRO_MAN, dataid: 13 },
-		{ avatarclass: 'avatar', avatarname: 'avatarName', image: ELDER_ADULT_AFRO_WOMAN, dataid: 14 },
-		{ avatarclass: 'avatar', avatarname: 'avatarName', image: ELDER_ADULT_ARAB_MAN, dataid: 15 },
-		{ avatarclass: 'avatar', avatarname: 'avatarName', image: ELDER_ADULT_ARAB_WOMAN, dataid: 16 },
-		{ avatarclass: 'avatar', avatarname: 'avatarName', image: ELDER_ADULT_ASIAN_MAN, dataid: 17 },
-		{ avatarclass: 'avatar', avatarname: 'avatarName', image: ELDER_ADULT_ASIAN_WOMAN, dataid: 18 },
-		{ avatarclass: 'avatar', avatarname: 'avatarName', image: ELDER_ADULT_CAUCASIAN_MAN, dataid: 19 },
-		{ avatarclass: 'avatar', avatarname: 'avatarName', image: ELDER_ADULT_CAUCASIAN_WOMAN, dataid: 20 },
-		{ avatarclass: 'avatar', avatarname: 'avatarName', image: ELDER_ADULT_INDIAN_MEN, dataid: 21 },
-		{ avatarclass: 'avatar', avatarname: 'avatarName', image: ELDER_ADULT_INDIAN_WOMAN, dataid: 22 },
-		{ avatarclass: 'avatar', avatarname: 'avatarName', image: ELDER_ADULT_LATINO_MAN, dataid: 23 },
-		{ avatarclass: 'avatar', avatarname: 'avatarName', image: ELDER_ADULT_LATINO_WOMAN, dataid: 24 },
+		{ avatarclass: 'avatar', avatarname: 'avatarName', image: label.ADULT_AFRO_MAN, dataid: 1 },
+		{ avatarclass: 'avatar', avatarname: 'avatarName', image: label.ADULT_AFRO_WOMAN, dataid: 2 },
+		{ avatarclass: 'avatar', avatarname: 'avatarName', image: label.ADULT_ARAB_MAN, dataid: 3 },
+		{ avatarclass: 'avatar', avatarname: 'avatarName', image: label.ADULT_ARAB_WOMAN, dataid: 4 },
+		{ avatarclass: 'avatar', avatarname: 'avatarName', image: label.ADULT_ASIAN_MAN, dataid: 5 },
+		{ avatarclass: 'avatar', avatarname: 'avatarName', image: label.ADULT_ASIAN_WOMAN, dataid: 6 },
+		{ avatarclass: 'avatar', avatarname: 'avatarName', image: label.ADULT_CAUCASIAN_MAN, dataid: 7 },
+		{ avatarclass: 'avatar', avatarname: 'avatarName', image: label.ADULT_CAUCASIAN_WOMAN, dataid: 8 },
+		{ avatarclass: 'avatar', avatarname: 'avatarName', image: label.ADULT_INDIAN_MAN, dataid: 9 },
+		{ avatarclass: 'avatar', avatarname: 'avatarName', image: label.ADULT_INDIAN_WOMAN, dataid: 10 },
+		{ avatarclass: 'avatar', avatarname: 'avatarName', image: label.ADULT_LATINO_MAN, dataid: 11 },
+		{ avatarclass: 'avatar', avatarname: 'avatarName', image: label.ADULT_LATINO_WOMAN, dataid: 12 },
+		{ avatarclass: 'avatar', avatarname: 'avatarName', image: label.ELDER_ADULT_AFRO_MAN, dataid: 13 },
+		{ avatarclass: 'avatar', avatarname: 'avatarName', image: label.ELDER_ADULT_AFRO_WOMAN, dataid: 14 },
+		{ avatarclass: 'avatar', avatarname: 'avatarName', image: label.ELDER_ADULT_ARAB_MAN, dataid: 15 },
+		{ avatarclass: 'avatar', avatarname: 'avatarName', image: label.ELDER_ADULT_ARAB_WOMAN, dataid: 16 },
+		{ avatarclass: 'avatar', avatarname: 'avatarName', image: label.ELDER_ADULT_ASIAN_MAN, dataid: 17 },
+		{ avatarclass: 'avatar', avatarname: 'avatarName', image: label.ELDER_ADULT_ASIAN_WOMAN, dataid: 18 },
+		{ avatarclass: 'avatar', avatarname: 'avatarName', image: label.ELDER_ADULT_CAUCASIAN_MAN, dataid: 19 },
+		{ avatarclass: 'avatar', avatarname: 'avatarName', image: label.ELDER_ADULT_CAUCASIAN_WOMAN, dataid: 20 },
+		{ avatarclass: 'avatar', avatarname: 'avatarName', image: label.ELDER_ADULT_INDIAN_MEN, dataid: 21 },
+		{ avatarclass: 'avatar', avatarname: 'avatarName', image: label.ELDER_ADULT_INDIAN_WOMAN, dataid: 22 },
+		{ avatarclass: 'avatar', avatarname: 'avatarName', image: label.ELDER_ADULT_LATINO_MAN, dataid: 23 },
+		{ avatarclass: 'avatar', avatarname: 'avatarName', image: label.ELDER_ADULT_LATINO_WOMAN, dataid: 24 },
 
 	]
 	
@@ -105,7 +79,7 @@ export default class BiPspbFirsttimeAvatarSelection extends LightningElement {
 				}
 			} else if (error) {
 
-				this.showToast(ERROR_MESSAGE, error.message, ERROR_VARIANT);
+				this.HandleError(error.message);
 			}
 			const DEFAULT_SELECTED_AVATAR = this.imageClass.find(avatar => {
 				// Assuming this.avatarImg is a JSON string representing an object
@@ -118,7 +92,7 @@ export default class BiPspbFirsttimeAvatarSelection extends LightningElement {
 				this.avatarImage = DEFAULT_SELECTED_AVATAR.image;
 			}
 		} catch (err) {
-			this.showToast(ERROR_MESSAGE, err.message, ERROR_VARIANT);
+			this.HandleError(err.message);
 		}
 	}
 
@@ -161,19 +135,19 @@ export default class BiPspbFirsttimeAvatarSelection extends LightningElement {
 				.then(result => {
 					try {
 
-							window.location.assign(BRANDED_SITE_URL + QUESTIONNAIRES);
+							window.location.assign(label.BRANDED_SITEURL + label.QUESTIONNAIRES);
 							this.results = result;
 
 						}
 						catch (err) {
-							this.showToast(ERROR_MESSAGE, err.message, ERROR_VARIANT);
+							this.HandleError(err.message);
 						}
 
 
 					})
 					.catch(error => {
 						// Handle error or show an error message
-						this.showToast(ERROR_MESSAGE, error.message, ERROR_VARIANT);
+						this.HandleError(error.message);
 					});
 		
 		}
@@ -181,7 +155,7 @@ export default class BiPspbFirsttimeAvatarSelection extends LightningElement {
 		
 	}
 
-	 connectedCallback() {
+	connectedCallback() {
         const globalThis = window;
         this.currentPageUrl = globalThis.location?.href;
         this.urlSegments = this.currentPageUrl.split('/');
@@ -195,7 +169,7 @@ export default class BiPspbFirsttimeAvatarSelection extends LightningElement {
 			
             this.handleCurrentUserResult(data);
         } else if (error) {
-            this.showToast('Error', error.body.message, 'error');
+            this.HandleError(error.body.message);
         }
     }
 
@@ -232,14 +206,16 @@ export default class BiPspbFirsttimeAvatarSelection extends LightningElement {
                     break;
             }
         } catch (error) {
-            this.showToast('Error', error.message, 'error');
+            this.HandleError(error.message);
         } finally {
             this.isLoading = false;
         }
     }
 
 
-	
+	HandleError(error){
+		this.showToast(label.ERROR_MESSAGE, error.message, label.ERROR_VARIANT);
+	}
 	
 	showToast(title, message, variant) {
 		if (typeof window !== 'undefined') {

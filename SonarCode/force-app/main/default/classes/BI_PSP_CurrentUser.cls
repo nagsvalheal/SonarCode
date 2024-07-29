@@ -5,7 +5,7 @@
  * Version  Author      Date            Detail          Description
  * 1.0      Abinsha     10-Jul-2024     Created         Initial development.
  */
-public class BI_PSP_CurrentUser {
+public inherited sharing class BI_PSP_CurrentUser {
     private static String selctdPatientEnrolleeErrorMsg = System.Label.BI_PSP_SelectedPatientEnrollee;
     private static String careGiversSelectedPatientErrMsg = System.Label.BI_PSP_SelectedPatientAccount;
     private static String careGiversPatientAccountErr = System.Label.BI_PSP_CaregiversPatient;

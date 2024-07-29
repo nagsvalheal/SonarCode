@@ -6,48 +6,28 @@ import { ShowToastEvent } from "lightning/platformShowToastEvent";
 import { NavigationMixin } from "lightning/navigation";
 import { loadStyle } from "lightning/platformResourceLoader";
 //To import Apex Classes
-import CREATE_LEAD_RECORD from "@salesforce/apex/BI_PSPB_PrepopulateLeadRecCtrl.updateLeadRecord";
-import LEAD_ID from "@salesforce/apex/BI_PSPB_PrepopulateLeadRecCtrl.getPatientDetails";
+import CREATE_LEAD_RECORD from "@salesforce/apex/BI_PSPB_UpdatepatientCtrl.updateLeadRecord";
+import LEAD_ID from "@salesforce/apex/BI_PSPB_UpdatepatientCtrl.getPatientDetails";
 import COUNTRY from '@salesforce/apex/BI_PSPB_ReferringPractitionerCtrl.getCountries';
 import STATE from '@salesforce/apex/BI_PSPB_ReferringPractitionerCtrl.getStates';
-//To import Static Resource
-import OLD_GUY_JPEG_URL from "@salesforce/resourceUrl/BI_PSPB_PatientEntrollAvatar";
-import BG_LOGO from "@salesforce/resourceUrl/BI_PSPB_BeyondGppLogo";
-import WARNING_ICON from "@salesforce/resourceUrl/BI_PSP_WarningIcon";
-import TEXT_ALIGN from "@salesforce/resourceUrl/BI_PSPB_TextAlignmentHcp";
+
 //To import fields from Lead object
 //To import Custom Labels
-import PINCODE from "@salesforce/label/c.BI_PSPB_PatientZipCodeErrMsg";
-import MINORAGE from "@salesforce/label/c.BI_PSPB_MInorAge";
-import ERROR_MESSAGE from "@salesforce/label/c.BI_PSP_ConsoleError";
-import ERROR_VARIANT from "@salesforce/label/c.BI_PSP_ErrorVariantToast";
-import FEMALE from "@salesforce/label/c.BI_PSP_RbFemale";
-import MALE from "@salesforce/label/c.BI_PSP_RbMale";
-import OTHER from "@salesforce/label/c.BI_PSP_RbOther";
-import PHONE from "@salesforce/label/c.BI_PSPB_Phone";
-import SMS from "@salesforce/label/c.BI_PSP_SmsLabel";
-import EMAIL from "@salesforce/label/c.BI_PSP_NotificationEmail";
-import PREFER from "@salesforce/label/c.BI_PSP_RbNotToSay";
-import THANKFROMURL from "@salesforce/label/c.BI_PSPB_PreThankFormUrl";
-import DOBERROR from "@salesforce/label/c.BI_PSPB_PatientFutureDateErrMsg";
-import HCPENROLLMSG from "@salesforce/label/c.BI_PSPB_HcpMinorEnrollMsg";
+import { resource } from "c/biPspbEnrollmentFormResource";
 
 export default class BiPspbHcpPrepopulatePatientForm extends NavigationMixin(
 	LightningElement
 ) {
 	// Declaration of variables with   
-	avatarContentTop = `Hello! Welcome to Beyond GPP: The Spevigo® Patient Support Program.
-						We're excited to help you manage your generalized pustular psoriasis
-						(GPP) and make the most of your Spevigo® therapy.`;
-	avatarContentMid = `Please continue by verifying your information. Click 'next' to
-						proceed if the pre-filled information is correct.`;
-	avatarContentLast = `If not, please correct the information and then click 'next'.`;
+	avatarContentTop = resource.PRE_AVATAR_MSG_ONE;
+	avatarContentMid = resource.PRE_AVATAR_MSG_THREE;
+	avatarContentLast = resource.PRE_AVATAR_MSG_FOUR;
 	phoneInVisible = false;
 	fieldBox = false;
 	phoneVisible = true;
 	variable = false;
 	clickMethod = true;
-	mobileValueTwo = `Hello! Welcome to the Spevigo® patient ....`;
+	mobileValueTwo = resource.PRE_AVATAR_MSG_FIVE;
 	sldsProgree = false;
 	phone = "";
 	isLoaded = false;
@@ -97,22 +77,21 @@ export default class BiPspbHcpPrepopulatePatientForm extends NavigationMixin(
 	checkBoxName = false;
 	checkBox;
 	@track leadGender = [
-		{ label: MALE, value: MALE },
-		{ label: FEMALE, value: FEMALE },
-		{ label: PREFER, value: PREFER },
-		{ label: OTHER, value: OTHER }
+		{ label: resource.MALE, value: resource.MALE },
+		{ label: resource.FEMALE, value: resource.FEMALE },
+		{ label: resource.PREFER, value: resource.PREFER },
+		{ label: resource.OTHER, value: resource.OTHER }
 	];
 	@track leadPmc = [
-		{ label: SMS, value: SMS },
-		{ label: PHONE, value: PHONE },
-		{ label: EMAIL, value: EMAIL }
+		{ label: resource.SMS, value: resource.SMS },
+		{ label: resource.PHONE, value: resource.PHONE },
+		{ label: resource.EMAIL, value: resource.EMAIL }
 	];
 	openModal = false;
 	// Declaration of Global variables
-	label = { PINCODE };
-	selectedAvatarSrc = OLD_GUY_JPEG_URL;
-	bgLogo = BG_LOGO;
-	warningIcons = WARNING_ICON;
+	selectedAvatarSrc = resource.OLD_GUY_JPEG_URL;
+	bgLogo = resource.BGPP;
+	warningIcons = resource.WARNING_ICON;
 	selectedGender = "";
 	selectedCountry;
 
@@ -126,12 +105,28 @@ export default class BiPspbHcpPrepopulatePatientForm extends NavigationMixin(
 
 	//to get style format
 	connectedCallback() {
-		loadStyle(this, TEXT_ALIGN);
+		loadStyle(this, resource.TEXT_ALIGN);
 	}
 	validateFirstNamePattern() {
-		return !/^[a-zA-ZÀ-ž\s\-''`.]+$/u;
+		return /^[a-zA-ZÀ-ž\s\-''`.]+$/u;
 	}
 	//to validate firstname
+	FirstNameFieldErr(){
+		const FIRSTNAMEFIELD = this.template.querySelector(
+			'lightning-input[data-field="FN"]'
+		);
+		FIRSTNAMEFIELD.className = "textInput-err"; //css classes for UI
+				this.template.querySelector('label[data-field="FN"]').className =
+					"input-error-label";
+	}
+	FirstNameField(){
+		const FIRSTNAMEFIELD = this.template.querySelector(
+			'lightning-input[data-field="FN"]'
+		);
+		FIRSTNAMEFIELD.className = "textInput"; //css classes for UI
+				this.template.querySelector('label[data-field="FN"]').className =
+					"input-label";
+	}
 	handleFirstNameChange(event) {
 		this.firstName = event.target.value;
 		this.firstName =
@@ -139,25 +134,34 @@ export default class BiPspbHcpPrepopulatePatientForm extends NavigationMixin(
 			event.target.value.trim().charAt(0).toUpperCase() +
 			event.target.value.trim().slice(1);
 		//to get data field value from html
-		const FIRSTNAMEFIELD = this.template.querySelector(
-			'lightning-input[data-field="FN"]'
-		);
-		if (this.validateFirstNamePattern().test(this.firstName)) {
+		
+		if (!this.validateFirstNamePattern().test(this.firstName)) {
 				this.firstNameValid = true;
 				this.firstNameRequire = false;
-				FIRSTNAMEFIELD.className = "textInput-err"; //css classes for UI
-				this.template.querySelector('label[data-field="FN"]').className =
-					"input-error-label";
+				this.FirstNameFieldErr();
 			} else {
 				this.firstNameValid = false;
 				this.firstNameRequire = false;
-				FIRSTNAMEFIELD.className = "textInput";
-				this.template.querySelector('label[data-field="FN"]').className =
-					"input-label";
+				this.FirstNameField();
 			}
 		
 	}
-
+	LastNAmeFieldErr(){
+		const LASTNAMEFIELD = this.template.querySelector(
+			'lightning-input[data-field="LN"]'
+		);
+		LASTNAMEFIELD.className = "textInput-err";
+				this.template.querySelector('label[data-field="LN"]').className =
+					"input-error-label";
+	}
+	LastNAmeField(){
+		const LASTNAMEFIELD = this.template.querySelector(
+			'lightning-input[data-field="LN"]'
+		);
+		LASTNAMEFIELD.className = "textInput";
+				this.template.querySelector('label[data-field="LN"]').className =
+					"input-label";
+	}
 	//to validate lastname
 	handleLastNameChange(event) {
 		this.lastName = event.target.value;
@@ -166,117 +170,146 @@ export default class BiPspbHcpPrepopulatePatientForm extends NavigationMixin(
 			event.target.value.trim().charAt(0).toUpperCase() +
 			event.target.value.trim().slice(1);
 
-		const LASTNAMEFIELD = this.template.querySelector(
-			'lightning-input[data-field="LN"]'
-		);
-		if (this.validateFirstNamePattern().test(this.lastName)) {
+		if (!this.validateFirstNamePattern().test(this.lastName)) {
 				this.lastNameChangeValid = true;
 				this.lastNameChangeRequire = false;
-				LASTNAMEFIELD.className = "textInput-err";
-				this.template.querySelector('label[data-field="LN"]').className =
-					"input-error-label";
+				this.LastNAmeFieldErr();
 			} else {
 				this.lastNameChangeValid = false;
 				this.lastNameChangeRequire = false;
-				LASTNAMEFIELD.className = "textInput";
-				this.template.querySelector('label[data-field="LN"]').className =
-					"input-label";
+				this.LastNAmeField();
 			
 		}
 	}
-
-	//to validate dateofbirth
-	handleDobChange(event) {
+	DateFieldErr(){
 		const DOBFIELD = this.template.querySelector(
 			'lightning-input[data-field="dob"]'
 		);
+		DOBFIELD.className = "textInput-err";
+			this.template.querySelector('label[data-field="dob"]').className =
+				"input-error-label";
+	}
+	DateField(){
+		const DOBFIELD = this.template.querySelector(
+			'lightning-input[data-field="dob"]'
+		);
+		DOBFIELD.className = "textInput";
+			this.template.querySelector('label[data-field="dob"]').className =
+				"input-label";
+	}
+	//to validate dateofbirth
+	handleDobChange(event) {
 		this.dob = event.target.value;
 		this.validateDate();
 		if (this.dob) {
 			this.normalHeadingOne = false;
 			this.dateOfBirthVaild = false;
 			this.dateOfBirthRequire = false;
-			DOBFIELD.className = "textInput";
-			this.template.querySelector('label[data-field="dob"]').className =
-				"input-error";
+			this.DateField();
 		}
+	}
+	PhoneFieldErr(){
+		const PHONEFIELD = this.template.querySelector(
+			'lightning-input[data-field="PhoneNumber"]'
+		);
+		PHONEFIELD.className = "textInput-err";
+			this.template.querySelector('label[data-field="PhoneNumber"]').className =
+				"input-error-label";
+	}
+	PhoneField(){
+		const PHONEFIELD = this.template.querySelector(
+			'lightning-input[data-field="PhoneNumber"]'
+		);
+		PHONEFIELD.className = "textInput";
+			this.template.querySelector('label[data-field="PhoneNumber"]').className =
+				"input-label";
 	}
 	handlePhoneChangeEmpty(event) {
 		this.phone = event.target.value;
 		this.phoneRequire = false;
-		const PHONEFIELD = this.template.querySelector(
-			'lightning-input[data-field="PhoneNumber"]'
-		);
 		if (this.phoneNumber === "") {
 			this.phoneRequire = false;
 			this.PhoneerrorMessagevalid = false;
-			PHONEFIELD.className = "textInput";
-			this.template.querySelector('label[data-field="phone"]').className =
-				"input-label";
+			this.PhoneField();
 		}
+	}
+	PhoneRegex(){
+		return /^\+?[0-9]+$/u;
 	}
 	//to validate phone
 	handlePhoneChange(event) {
 		this.phone = event.target.value;
 		this.phoneRequire = false;
-		const PHONEFIELD = this.template.querySelector(
-			'lightning-input[data-field="PhoneNumber"]'
-		);
-		if (!/^\+?[0-9]+$/u.test(this.phone)) {
+		if (!this.PhoneRegex().test(this.phone)) {
 			this.phoneRequire = false;
 			this.PhoneerrorMessagevalid = true;
-			PHONEFIELD.className = "textInput-err";
-			this.template.querySelector('label[data-field="PhoneNumber"]').className =
-				"input-error-label";
+			this.PhoneFieldErr();
 		} else if (this.phone === "") {
 				this.phoneRequire = true;
 				this.PhoneerrorMessagevalid = false;
-				PHONEFIELD.className = "textInput-err";
-				this.template.querySelector(
-					'label[data-field="PhoneNumber"]'
-				).className = "input-error-label";
+				this.PhoneFieldErr();
 			} else {
 				this.PhoneerrorMessagevalid = false;
 			this.phoneRequire = false;
-				PHONEFIELD.className = "textInput";
-				this.template.querySelector(
-					'label[data-field="PhoneNumber"]'
-				).className = "input-label";
+			this.PhoneField();
 			}
 		
 	}
+PmcFieldErr(){
+	const MOCFIELD = this.template.querySelector(
+		'lightning-combobox[data-field="Pmc"]'
+	);
+	MOCFIELD.className = "textInput-err";
+			this.template.querySelector('label[data-field="Pmc"]').className =
+				"input-error-label";
+}
+PmcField(){
+	const MOCFIELD = this.template.querySelector(
+		'lightning-combobox[data-field="Pmc"]'
+	);
+	MOCFIELD.className = "textInput";
+			this.template.querySelector('label[data-field="Pmc"]').className =
+				"input-label";
+}
 
 	//to validate Preferred method of communication
 	handlePmcChange(event) {
-		const MOCFIELD = this.template.querySelector(
-			'lightning-combobox[data-field="Pmc"]'
-		);
+		
 		this.pmc = event.target.value;
-		if (this.pmc === SMS || this.pmc === PHONE) {
+		if (this.pmc === resource.SMS || this.pmc === resource.PHONE) {
 			this.phoneInVisible = true;
 			this.phoneVisible = false;
 			this.phoneRequire = false;
 			this.pmcRequire = false;
-			MOCFIELD.className = "textInput";
-			this.template.querySelector('label[data-field="Pmc"]').className =
-				"input-label";
+			this.PmcField();
 		}
 		else if (this.pmc === "") {
 			this.pmcRequire = true;
-			MOCFIELD.className = "textInput-err";
-			this.template.querySelector('label[data-field="Pmc"]').className =
-				"input-error-label";
+			this.PmcFieldErr();
 		}
 		else {
 			this.pmcRequire = false;
-			MOCFIELD.className = "textInput";
-			this.template.querySelector('label[data-field="Pmc"]').className =
-				"input-label";
+			this.PmcField();
 			this.phoneInVisible = false;
 			this.phoneVisible = true;
 		}
 	}
-
+	CountryFieldErr(){
+		const COUNTRYFIELD = this.template.querySelector(
+			'lightning-combobox[data-field="Country"]'
+		);
+		COUNTRYFIELD.className = "textInput-err";
+			this.template.querySelector('label[data-field="Country"]').className =
+				"input-error-label";
+	}
+	CountryField(){
+		const COUNTRYFIELD = this.template.querySelector(
+			'lightning-combobox[data-field="Country"]'
+		);
+		COUNTRYFIELD.className = "textInput";
+			this.template.querySelector('label[data-field="Country"]').className =
+				"input-label";
+	}
 	//to validate country
 	handleCountryChange(event) {
 		this.country = event.target.value;
@@ -288,39 +321,58 @@ export default class BiPspbHcpPrepopulatePatientForm extends NavigationMixin(
 				this.showToast(error);
 			});
 		this.country = event.target.value;
-		const COUNTRYFIELD = this.template.querySelector(
-			'lightning-combobox[data-field="Country"]'
-		);
+
 		if (this.country === "") {
 			this.countryRequire = true;
-			COUNTRYFIELD.className = "textInput-err";
-			this.template.querySelector('label[data-field="Country"]').className =
-				"input-error-label";
+			this.CountryFieldErr();
 		} else {
 			this.countryRequire = false;
-			COUNTRYFIELD.className = "textInput";
-			this.template.querySelector('label[data-field="Country"]').className =
-				"input-label";
+			this.CountryField();
 		}
 	}
-
-	//to validate state
-	handleStateChange(event) {
-		this.state = event.target.value;
+	StateFieldErr(){
 		const STATEFIELD = this.template.querySelector(
 			'lightning-combobox[data-field="State"]'
 		);
-		if (this.state === "") {
-			this.stateRequire = true;
-			STATEFIELD.className = "textInput-err";
+		STATEFIELD.className = "textInput-err";
 			this.template.querySelector('label[data-field="State"]').className =
 				"input-error-label";
-		} else {
-			this.stateRequire = false;
-			STATEFIELD.className = "textInput";
+	}
+	StateField(){
+		const STATEFIELD = this.template.querySelector(
+			'lightning-combobox[data-field="State"]'
+		);
+		STATEFIELD.className = "textInput";
 			this.template.querySelector('label[data-field="State"]').className =
 				"input-label";
+	}
+	//to validate state
+	handleStateChange(event) {
+		this.state = event.target.value;
+		
+		if (this.state === "") {
+			this.stateRequire = true;
+			this.StateFieldErr();
+		} else {
+			this.stateRequire = false;
+			this.StateField();
 		}
+	}
+	CityFieldErr(){
+		const CITYFIELD = this.template.querySelector(
+			'lightning-input[data-field="City"]'
+		);
+		CITYFIELD.className = "textInput-err";
+			this.template.querySelector('label[data-field="City"]').className =
+				"input-error-label";
+	}
+	CityField(){
+		const CITYFIELD = this.template.querySelector(
+			'lightning-input[data-field="City"]'
+		);
+		CITYFIELD.className = "textInput";
+			this.template.querySelector('label[data-field="City"]').className =
+				"input-label";
 	}
 
 	//to validate city
@@ -329,30 +381,38 @@ export default class BiPspbHcpPrepopulatePatientForm extends NavigationMixin(
 		this.city =
 			event.target.value.trim().charAt(0).toUpperCase() +
 			event.target.value.trim().slice(1);
-		const CITYFIELD = this.template.querySelector(
-			'lightning-input[data-field="City"]'
-		);
+
 		if (this.city === "") {
 			this.cityRequireOne = false;
 			this.cityRequire = true;
-			CITYFIELD.className = "textInput-err";
-			this.template.querySelector('label[data-field="City"]').className =
-				"input-error-label";
-		} else if (this.validateFirstNamePattern().test(this.city)) {
+			this.CityFieldErr();
+		} else if (!this.validateFirstNamePattern().test(this.city)) {
 				this.cityRequire = false;
 				this.cityRequireOne = true;
-				CITYFIELD.className = "textInput-err";
-				this.template.querySelector('label[data-field="City"]').className =
-					"input-error-label";
+				this.CityFieldErr();
 			}
 			else {
 				this.cityRequire = false;
 				this.cityRequireOne = false;
-				CITYFIELD.className = "textInput";
-				this.template.querySelector('label[data-field="City"]').className =
-					"input-label";
+				this.CityField();
 			
 		}
+	}
+	StreetFieldErr(){
+		const STREETFIELD = this.template.querySelector(
+			'lightning-textarea[data-field="Street"]'
+		);
+		STREETFIELD.className = "textInput-err";
+			this.template.querySelector('label[data-field="Street"]').className =
+				"input-error-label";
+	}
+	StreetField(){
+		const STREETFIELD = this.template.querySelector(
+			'lightning-textarea[data-field="Street"]'
+		);
+		STREETFIELD.className = "textInput";
+			this.template.querySelector('label[data-field="Street"]').className =
+				"input-label";
 	}
 	//to validate street
 	handleStreetChange(event) {
@@ -360,20 +420,32 @@ export default class BiPspbHcpPrepopulatePatientForm extends NavigationMixin(
 		this.street =
 			event.target.value.trim().charAt(0).toUpperCase() +
 			event.target.value.trim().slice(1);
-		const STREETFIELD = this.template.querySelector(
-			'lightning-textarea[data-field="Street"]'
-		);
 		if (this.street === "") {
 			this.streetRequire = true;
-			STREETFIELD.className = "textInput-err";
-			this.template.querySelector('label[data-field="Street"]').className =
-				"input-error-label";
+			this.StreetFieldErr();
 		} else {
 			this.streetRequire = false;
-			STREETFIELD.className = "textInput";
-			this.template.querySelector('label[data-field="Street"]').className =
-				"input-label";
+			this.StreetField();
 		}
+	}
+	ZipCode(){
+		return /^[a-zA-Z0-9]+$/u;
+	}
+	ZipCodeFieldErr(){
+		const ZIPCODE = this.template.querySelector(
+			'lightning-input[data-field="ZipCode"]'
+		);
+		ZIPCODE.className = "textInput-err";
+			this.template.querySelector('label[data-field="ZipCode"]').className =
+				"input-error-label";
+	}
+	ZipCodeField(){
+		const ZIPCODE = this.template.querySelector(
+			'lightning-input[data-field="ZipCode"]'
+		);
+		ZIPCODE.className = "textInput";
+			this.template.querySelector('label[data-field="ZipCode"]').className =
+				"input-label";
 	}
 	//to validate zipcode
 	handleZipCodeChange(event) {
@@ -381,27 +453,19 @@ export default class BiPspbHcpPrepopulatePatientForm extends NavigationMixin(
 		this.zipCode =
 			event.target.value.trim().charAt(0).toUpperCase() +
 			event.target.value.trim().slice(1);
-		const ZIPCODE = this.template.querySelector(
-			'lightning-input[data-field="ZipCode"]'
-		);
-		if (!/^[a-zA-Z0-9]+$/u.test(this.zipCode)) {
+		
+		if (!this.ZipCode().test(this.zipCode)) {
 			this.conZipCodeErrorMessage = false;
 			this.zipCodeRequire = true;
-			ZIPCODE.className = "textInput-err";
-			this.template.querySelector('label[data-field="ZipCode"]').className =
-				"input-error-label";
+			this.ZipCodeFieldErr();
 		} else if (this.zipCode === "") {
 				this.conZipCodeErrorMessage = true;
 				this.zipCodeRequire = false;
-				ZIPCODE.className = "textInput-err";
-				this.template.querySelector('label[data-field="ZipCode"]').className =
-					"input-error-label";
+				this.ZipCodeFieldErr();
 			} else {
 				this.conZipCodeErrorMessage = false;
 				this.zipCodeRequire = false;
-				ZIPCODE.className = "textInput";
-				this.template.querySelector('label[data-field="ZipCode"]').className =
-					"input-label";
+				this.ZipCodeField();
 			}
 		
 	}
@@ -423,25 +487,22 @@ export default class BiPspbHcpPrepopulatePatientForm extends NavigationMixin(
     }
 
     validatePhone() {
-        const PHONEFIELD = this.template.querySelector('lightning-input[data-field="PhoneNumber"]');
+
         if (this.phoneInVisible === true) {
             if (this.phone === "") {
                 this.phoneRequire = true;
                 this.PhoneerrorMessagevalid = false;
-                PHONEFIELD.className = "textInput-err";
-                this.template.querySelector('label[data-field="PhoneNumber"]').className = "input-error-label";
+				this.PhoneFieldErr();
                 return false;
-            } else if (!/^\+?[0-9]+$/u.test(this.phone)) {
+            } else if (!this.PhoneRegex().test(this.phone)) {
                 this.phoneRequire = false;
                 this.PhoneerrorMessagevalid = true;
-                PHONEFIELD.className = "textInput-err";
-                this.template.querySelector('label[data-field="PhoneNumber"]').className = "input-error-label";
+				this.PhoneFieldErr();
                 return false;
             } 
                 this.phoneRequire = false;
                 this.PhoneerrorMessagevalid = false;
-                PHONEFIELD.className = "textInput";
-                this.template.querySelector('label[data-field="PhoneNumber"]').className = "input-label";
+                this.PhoneField();
                 return true;
             
         }
@@ -449,107 +510,93 @@ export default class BiPspbHcpPrepopulatePatientForm extends NavigationMixin(
     }
 
     validatePmc() {
-        const MOCFIELD = this.template.querySelector('lightning-combobox[data-field="Pmc"]');
+ 
         if (this.pmc === "") {
             this.pmcRequire = true;
-            MOCFIELD.className = "textInput-err";
-            this.template.querySelector('label[data-field="Pmc"]').className = "input-error-label";
+            this.PmcFieldErr();
             return false;
         } 
             this.pmcRequire = false;
-            MOCFIELD.className = "textInput";
-            this.template.querySelector('label[data-field="Pmc"]').className = "input-label";
+			this.PmcField();
             return true;
         
     }
 
     validateCountry() {
-        const COUNTRYFIELD = this.template.querySelector('lightning-combobox[data-field="Country"]');
+
         if (this.country === "") {
             this.countryRequire = true;
-            COUNTRYFIELD.className = "textInput-err";
-            this.template.querySelector('label[data-field="Country"]').className = "input-error-label";
+            this.CountryFieldErr();
             return false;
         } 
             this.countryRequire = false;
-            COUNTRYFIELD.className = "textInput";
-            this.template.querySelector('label[data-field="Country"]').className = "input-label";
+			this.CountryField();
             return true;
         
     }
 
     validateState() {
-        const STATEFIELD = this.template.querySelector('lightning-combobox[data-field="State"]');
+  
         if (this.state === "") {
             this.stateRequire = true;
-            STATEFIELD.className = "textInput-err";
-            this.template.querySelector('label[data-field="State"]').className = "input-error-label";
+            this.StateFieldErr();
             return false;
         } 
             this.stateRequire = false;
-            STATEFIELD.className = "textInput";
-            this.template.querySelector('label[data-field="State"]').className = "input-label";
+            this.StateField();
             return true;
         
     }
 
     validateCity() {
-        const CITYFIELD = this.template.querySelector('lightning-input[data-field="City"]');
+        
         if (this.city === "") {
             this.cityRequire = true;
             this.cityRequireOne = false;
-            CITYFIELD.className = "textInput-err";
-            this.template.querySelector('label[data-field="City"]').className = "input-error-label";
+            this.CityFieldErr();
             return false;
-        } else if (!/^[a-zA-ZÀ-ž\s\-''`.]+$/u.test(this.city)) {
+        } else if (!this.validateFirstNamePattern().test(this.city)) {
             this.cityRequire = false;
             this.cityRequireOne = true;
-            CITYFIELD.className = "textInput-err";
-            this.template.querySelector('label[data-field="City"]').className = "input-error-label";
+			this.CityFieldErr();
             return false;
         } 
             this.cityRequire = false;
             this.cityRequireOne = false;
-            CITYFIELD.className = "textInput";
-            this.template.querySelector('label[data-field="City"]').className = "input-label";
+            this.CityField();
             return true;
         
     }
 
     validateStreet() {
-        const STREETFIELD = this.template.querySelector('lightning-textarea[data-field="Street"]');
+       
         if (this.street === "") {
             this.streetRequire = true;
-            STREETFIELD.className = "textInput-err";
-            this.template.querySelector('label[data-field="Street"]').className = "input-error-label";
+			this.StreetFieldErr();
             return false;
         } 
             this.streetRequire = false;
-            STREETFIELD.className = "textInput";
-            this.template.querySelector('label[data-field="Street"]').className = "input-label";
+            this.StreetField();
             return true;
         
     }
 
     validateZipCode() {
-        const ZIPCODE = this.template.querySelector('lightning-input[data-field="ZipCode"]');
+       
         if (this.zipCode === "") {
             this.zipCodeRequire = false;
             this.conZipCodeErrorMessage = true;
-            ZIPCODE.className = "textInput-err";
-            this.template.querySelector('label[data-field="ZipCode"]').className = "input-error-label";
+			this.ZipCodeFieldErr();
             return false;
-        } else if (!/^[a-zA-Z0-9]+$/u.test(this.zipCode)) {
+        } else if (!this.ZipCode().test(this.zipCode)) {
             this.conZipCodeErrorMessage = false;
             this.zipCodeRequire = true;
-            ZIPCODE.className = "textInput-err";
-            this.template.querySelector('label[data-field="ZipCode"]').className = "input-error-label";
+            this.ZipCodeFieldErr();
             return false;
         } 
             this.zipCodeRequire = false;
             this.conZipCodeErrorMessage = false;
-            ZIPCODE.className = "textInput";
-            this.template.querySelector('label[data-field="ZipCode"]').className = "input-label";
+            this.ZipCodeField();
             return true;
         
     }
@@ -571,9 +618,9 @@ export default class BiPspbHcpPrepopulatePatientForm extends NavigationMixin(
 	handleCreateLead() {
 		let globalThis = window;
 		if (!this.contactvalidform()) {
-			this.avatarContentTop = `Hello! Welcome to the Spevigo® patient support program. We're excited to help you manage your generalized pustular psoriasis (GPP) and make the most of your Spevigo® therapy.`;
-			this.avatarContentMid = `Please continue by verifying your information. Click 'next' to proceed if the pre-filled information is correct. `;
-			this.avatarContentLast = `If not, please correct the information and then click 'next'.`;
+			this.avatarContentTop = resource.PRE_AVATAR_MSG_TWO;
+			this.avatarContentMid = resource.PRE_AVATAR_MSG_THREE;
+			this.avatarContentLast = resource.PRE_AVATAR_MSG_FOUR;
 			this.Xmark();
 			return;
 		}
@@ -608,21 +655,20 @@ export default class BiPspbHcpPrepopulatePatientForm extends NavigationMixin(
 						globalThis?.localStorage.setItem("recordId", this.leadId);
 
 						try {
-							globalThis.location.assign(THANKFROMURL);
+							globalThis.location.assign(resource.THANK_FORM_URL);
 						} catch (error) {
-							this.showToast(ERROR_MESSAGE, error.message, ERROR_VARIANT); 
+							this.showToast(resource.ERROR_MESSAGE, error.message, resource.ERROR_VARIANT); 
 						}
-							
 						
 					})
 					.catch((error) => {
-						this.showToast(ERROR_MESSAGE, error.message, ERROR_VARIANT); // Catching Potential Error from Apex
+						this.showToast(resource.ERROR_MESSAGE, error.message, resource.ERROR_VARIANT); // Catching Potential Error from Apex
 					});
 			} catch (err) {
-				this.showToast(ERROR_MESSAGE, err.message, ERROR_VARIANT); // Catching Potential Error from LWC
+				this.showToast(resource.ERROR_MESSAGE, err.message, resource.ERROR_VARIANT); // Catching Potential Error from LWC
 			}
 		}
-		else if (!this.PHONEFIELD && this.pmc !== SMS && this.pmc !== PHONE && this.pmc) {
+		else if (!this.PHONEFIELD && this.pmc !== resource.SMS && this.pmc !== resource.PHONE && this.pmc) {
 			this.isButtonDisabled = true;
 			this.isLoaded = true;
 			let leadWrapper = {
@@ -642,18 +688,18 @@ export default class BiPspbHcpPrepopulatePatientForm extends NavigationMixin(
 						globalThis?.localStorage.setItem("recordId", this.leadId);
 
 						try {
-							globalThis.location.assign(THANKFROMURL);
+							globalThis.location.assign(resource.THANKFROMURL);
 						} catch (error) {
-							this.showToast(ERROR_MESSAGE, error.message, ERROR_VARIANT); 
+							this.showToast(resource.ERROR_MESSAGE, error.message, resource.ERROR_VARIANT); 
 						}
 							
 						
 					})
 					.catch((error) => {
-						this.showToast(ERROR_MESSAGE, error.message, ERROR_VARIANT); // Catching Potential Error from Apex
+						this.showToast(resource.ERROR_MESSAGE, error.message, resource.ERROR_VARIANT); // Catching Potential Error from Apex
 					});
 			} catch (err) {
-				this.showToast(ERROR_MESSAGE, err.message, ERROR_VARIANT); // Catching Potential Error from LWC
+				this.showToast(resource.ERROR_MESSAGE, err.message, resource.ERROR_VARIANT); // Catching Potential Error from LWC
 			}
 		}
 	}
@@ -665,18 +711,18 @@ export default class BiPspbHcpPrepopulatePatientForm extends NavigationMixin(
 		const SELECTEDDATE = new Date(this.dob);
 		this.doberrorMessage = false;
 		if (SELECTEDDATE > CURRENTDATE) {
-			this.dobErrorMessage = DOBERROR;
+			this.dobErrorMessage = resource.DOB_ERROR;
 			return;
 		}
 
 		// Validate that the user is not a minor (you can set a minimum age)
-		const MINAGE = MINORAGE;
+		const MINAGE = resource.MINORAGE;
 		const USERBIRTHYEAR = SELECTEDDATE.getFullYear();
 		const CURRENTYEAR = CURRENTDATE.getFullYear();
 
 		if (CURRENTYEAR - USERBIRTHYEAR < MINAGE) {
 			//   this.dobErrorMessage = false;
-			this.dobErrorMessage = HCPENROLLMSG;
+			this.dobErrorMessage = resource.HCPENROLLMSG;
 			return;
 		}
 
@@ -692,11 +738,9 @@ export default class BiPspbHcpPrepopulatePatientForm extends NavigationMixin(
 		this.template.querySelector("div.stepOne").classList.remove("slds-hide");
 		// Progress indicator
 		this.template.querySelector("div.slds-progress").classList.add("slds-hide");
-		this.avatarContentTop = `Hello! Welcome to Beyond GPP: The Spevigo® Patient Support Program.
-		We're excited to help you manage your generalized pustular psoriasis
-		(GPP) and make the most of your Spevigo® therapy.`;
-		this.avatarContentMid = `Please continue by verifying your information. Click 'next' to proceed if the pre-filled information is correct. `;
-		this.avatarContentLast = `If not, please correct the information and then click 'next'.`;
+		this.avatarContentTop = resource.PRE_AVATAR_MSG_ONE;
+		this.avatarContentMid = resource.PRE_AVATAR_MSG_THREE;
+		this.avatarContentLast = resource.PRE_AVATAR_MSG_FOUR;
 		this.Xmark();
 	}
 
@@ -711,11 +755,9 @@ export default class BiPspbHcpPrepopulatePatientForm extends NavigationMixin(
 			.querySelector("li.li-one")
 			.classList.remove("slds-is-completed");
 		this.template.querySelector("li.li-one").classList.add("slds-is-active");
-		this.avatarContentTop = `Hello! Welcome to Beyond GPP: The Spevigo® Patient Support Program.
-						We're excited to help you manage your generalized pustular psoriasis
-						(GPP) and make the most of your Spevigo® therapy.`;
-		this.avatarContentMid = `Please continue by verifying your information. Click 'next' to proceed if the pre-filled information is correct. `;
-		this.avatarContentLast = `If not, please correct the information and then click 'next'.`;
+		this.avatarContentTop = resource.PRE_AVATAR_MSG_ONE;
+		this.avatarContentMid = resource.PRE_AVATAR_MSG_THREE;
+		this.avatarContentLast = resource.PRE_AVATAR_MSG_FOUR;
 		this.Xmark();
 	}
 	//to go back to previous page - 3
@@ -731,11 +773,9 @@ export default class BiPspbHcpPrepopulatePatientForm extends NavigationMixin(
 			.querySelector("li.li-three")
 			.classList.remove("slds-is-completed");
 		this.template.querySelector("li.li-three").classList.add("slds-is-active");
-		this.avatarContentTop = `Hello! Welcome to Beyond GPP: The Spevigo® Patient Support Program.
-		We're excited to help you manage your generalized pustular psoriasis
-		(GPP) and make the most of your Spevigo® therapy.`;
-		this.avatarContentMid = `Please continue by verifying your information. Click 'next' to proceed if the pre-filled information is correct. `;
-		this.avatarContentLast = `If not, please correct the information and then click 'next'.`;
+		this.avatarContentTop = resource.PRE_AVATAR_MSG_ONE;
+		this.avatarContentMid = resource.PRE_AVATAR_MSG_THREE;
+		this.avatarContentLast = resource.PRE_AVATAR_MSG_FOUR;
 		this.Xmark();
 	}
 	//to go back to previous page - 4
@@ -783,18 +823,7 @@ export default class BiPspbHcpPrepopulatePatientForm extends NavigationMixin(
 						this.leadEmail = result.Email;
 						this.phone = result.Phone;
 						if (this.leadId !== "") {
-							this.sldsProgree = true;
-							this.currentStep = "2";
-							
-							this.toggleClass(this.template.querySelector("div.stepOne"), "slds-hide", true);
-							this.toggleClass(this.template.querySelector("div.stepTwo"), "slds-hide", false);
-							this.toggleClass(this.template.querySelector("div.slds-progress"), "slds-hide", false);
-						
-							this.avatarContentTop = `Hello! Welcome to Beyond GPP: The Spevigo® Patient Support Program. We're excited to help you manage your generalized pustular psoriasis (GPP) and make the most of your Spevigo® therapy.`;
-							this.avatarContentMid = `Please continue by verifying your information. Click 'next' to proceed if the pre-filled information is correct. `;
-							this.avatarContentLast = `If not, please correct the information and then click 'next'.`;
-							this.Xmark();
-							this.mobileValueTwo = `Hello! Welcome to Beyond GPP: The Spevigo® Patient....`;
+							this.LeadEmptyCondition();
 						}
 					})
 					.catch(() => {
@@ -807,48 +836,34 @@ export default class BiPspbHcpPrepopulatePatientForm extends NavigationMixin(
 						this.firstNameValid = true;
 						this.firstNameRequire = false;
 						FIRSTNAMEFIELD.value = "";
-						FIRSTNAMEFIELD.className = "textInput-err";
-						this.template.querySelector('label[data-field="FN"]').className =
-							"input-error-label";
+						this.FirstNameFieldErr();
 						this.firstname = "";
 
 						this.lastNameChangeValid = true;
 						this.lastNameChangeRequire = false;
 						LASTNAMEFIELD.value = "";
-						LASTNAMEFIELD.className = "textInput-err";
-						this.template.querySelector('label[data-field="LN"]').className =
-							"input-error-label";
+						this.LastNAmeFieldErr();
 						this.lastName = "";
 
 						this.dateOfBirthVaild = true;
 						DOBFIELD.value = "";
 						this.dateOfBirthRequire = false;
-						DOBFIELD.className = "textInput-err";
-						this.template.querySelector('label[data-field="dob"]').className =
-							"input-error-label";
+						this.DateFieldErr();
 						this.dob = "";
 						//innerhtml is used to achieve mobile responsiveness
-						this.avatarContentTop = `Hello! Welcome to the Spevigo® patient support program. We're excited to help you manage your generalized pustular psoriasis (GPP) and make the most of your Spevigo® therapy.`;
-						this.avatarContentMid = `Please continue by verifying your information. Click 'next' to proceed if the pre-filled information is correct. `;
-						this.avatarContentLast = `If not, please correct the information and then click 'next'.`;
-
-						this.Xmark();
-						this.mobileValueTwo = `Hello! Welcome to Beyond GPP: The Spevigo® Patient....`;
+						this.AvatarContent();
 					});
 			} catch (err) {
-				this.showToast(ERROR_MESSAGE, err.message, ERROR_VARIANT); // Catching Potential Error from Apex
+				this.showToast(resource.ERROR_MESSAGE, err.message, resource.ERROR_VARIANT); // Catching Potential Error from Apex
 			}
 		} else {
 			
-
 			if (FIRSTNAMEFIELD.value === "") {
 				this.normalHeadingOne = true;
 				this.normalHeading = false;
 				this.firstNameRequire = true;
 				this.firstNameValid = false;
-				FIRSTNAMEFIELD.className = "textInput-err";
-				this.template.querySelector('label[data-field="FN"]').className =
-					"input-error-label";
+				this.FirstNameFieldErr();
 			}
 			if (this.lastName === "") {
 				this.normalHeadingOne = true;
@@ -856,9 +871,7 @@ export default class BiPspbHcpPrepopulatePatientForm extends NavigationMixin(
 				this.lastNameChangeValid = false;
 
 				this.lastNameChangeRequire = true;
-				LASTNAMEFIELD.className = "textInput-err";
-				this.template.querySelector('label[data-field="LN"]').className =
-					"input-error-label";
+				this.LastNAmeFieldErr();
 			}
 
 			if (this.dob === "") {
@@ -866,18 +879,33 @@ export default class BiPspbHcpPrepopulatePatientForm extends NavigationMixin(
 				this.normalHeading = false;
 				this.dateOfBirthVaild = false;
 				this.dateOfBirthRequire = true;
-				DOBFIELD.className = "textInput-err";
-				this.template.querySelector('label[data-field="dob"]').className =
-					"input-error-label";
+				this.DateFieldErr();
 			}
 			//innerhtml is used to achieve mobile responsiveness
-			this.avatarContentTop = `Hello! Welcome to the Spevigo® patient support program. We're excited to help you manage your generalized pustular psoriasis (GPP) and make the most of your Spevigo® therapy.`;
-			this.avatarContentMid = `Please continue by verifying your information. Click 'next' to proceed if the pre-filled information is correct. `;
-			this.avatarContentLast = `If not, please correct the information and then click 'next'.`;
+			this.AvatarContent();
+		}
+	}
+	AvatarContent(){
+		this.avatarContentTop = resource.PRE_AVATAR_MSG_TWO;
+			this.avatarContentMid = resource.PRE_AVATAR_MSG_THREE;
+			this.avatarContentLast = resource.PRE_AVATAR_MSG_FOUR;
 
 			this.Xmark();
-			this.mobileValueTwo = `Hello! Welcome to Beyond GPP: The Spevigo® Patient....`;
-		}
+			this.mobileValueTwo = resource.PRE_AVATAR_MSG_FIVE;
+	}
+	LeadEmptyCondition(){
+		this.sldsProgree = true;
+							this.currentStep = "2";
+							
+							this.toggleClass(this.template.querySelector("div.stepOne"), "slds-hide", true);
+							this.toggleClass(this.template.querySelector("div.stepTwo"), "slds-hide", false);
+							this.toggleClass(this.template.querySelector("div.slds-progress"), "slds-hide", false);
+						
+							this.avatarContentTop = resource.PRE_AVATAR_MSG_ONE;
+							this.avatarContentMid = resource.PRE_AVATAR_MSG_THREE;
+							this.avatarContentLast = resource.PRE_AVATAR_MSG_FOUR;
+							this.Xmark();
+							this.mobileValueTwo = resource.PRE_AVATAR_MSG_FIVE;
 	}
 	handleKeyDownThree(event) {
 		event.preventDefault();
@@ -917,12 +945,7 @@ export default class BiPspbHcpPrepopulatePatientForm extends NavigationMixin(
 				LASTNAMEFIELD.className = "textInput-err";
 			}
 			//innerhtml is used to achieve mobile responsiveness
-			this.avatarContentTop = `Hello! Welcome to the Spevigo® patient support program. We're excited to help you manage your generalized pustular psoriasis (GPP) and make the most of your Spevigo® therapy.`;
-			this.avatarContentMid = `Please continue by verifying your information. Click 'next' to proceed if the pre-filled information is correct. `;
-			this.avatarContentLast = `If not, please correct the information and then click 'next'.`;
-
-			this.Xmark();
-			this.mobileValueTwo = `Hello! Welcome to Beyond GPP: The Spevigo® Patient....`;
+			this.AvatarContent();
 		}
 	}
 
@@ -1002,7 +1025,7 @@ export default class BiPspbHcpPrepopulatePatientForm extends NavigationMixin(
 				this.phone = result.Phone;
 			})
 			.catch((error) => {
-				this.showToast(ERROR_MESSAGE, error.message, ERROR_VARIANT); // Catching Potential Error from Apex
+				this.showToast(resource.ERROR_MESSAGE, error.message, resource.ERROR_VARIANT); // Catching Potential Error from Apex
 			});
 	}
 
@@ -1029,15 +1052,13 @@ export default class BiPspbHcpPrepopulatePatientForm extends NavigationMixin(
 	//to get avatar content
 	click() {
 
-		this.mobileValueTwo = `Hello! Welcome to Beyond GPP: The Spevigo® Patient Support Program. We're excited to help you manage your generalized pustular psoriasis (GPP) and make the most of your Spevigo® therapy.
-Please continue by verifying your information. Click 'next' to proceed if the pre-filled information is correct. 
- If not, please correct the information and then click 'next'.`;
+		this.mobileValueTwo = resource.PRE_AVATAR_MSG_SIX;
 		this.clickMethod = false;
 		this.fieldBox = true;
 	}
 	//to get avatar content in mobile view
 	Xmark() {
-		this.mobileValueTwo = `Hello! Welcome to Beyond GPP: The Spevigo® Patient....`;
+		this.mobileValueTwo = resource.PRE_AVATAR_MSG_FIVE;
 		this.clickMethod = true;
 		this.fieldBox = false;
 	}

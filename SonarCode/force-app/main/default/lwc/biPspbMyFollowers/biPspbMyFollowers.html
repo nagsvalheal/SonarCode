@@ -73,23 +73,23 @@
           <div class="divclass" key={username.Id}>
             <div class="avatarAndName">
               <img
-                src={username.avatarOfTheAccount}
+                src={username.userAvatarForEnrollee}
                 class="profileavatar"
                 onclick={handleFollowButtonClick}
                 data-id={username}
-                data-avatar={username.avatarOfTheAccount}
+                data-avatar={username.userAvatarForEnrollee}
                 data-username={username.BI_PSP_CareProgramEnrolleeFollow__r.BI_PSP_CommunityUsername__c}
-                data-accid={username.BI_PSP_CareProgramEnrolleeFollow__r.Id}
+                data-enrollee={username.BI_PSP_CareProgramEnrolleeFollow__r.Id}
                 data-following={username.followOrUnfollowButton}
                 data-it-button="MyFollowers: Profile Avatar"
               />
               <p
                 class="name"
                 onclick={handleFollowButtonClick}
-                data-avatar={username.avatarOfTheAccount}
+                data-avatar={username.userAvatarForEnrollee}
                 data-id={username}
                 data-username={username.BI_PSP_CareProgramEnrolleeFollow__r.BI_PSP_CommunityUsername__c}
-                data-accid={username.BI_PSP_CareProgramEnrolleeFollow__r.Id}
+                data-enrollee={username.BI_PSP_CareProgramEnrolleeFollow__r.Id}
                 data-following={username.followOrUnfollowButton}
                 data-it-button="MyFollowers: Profile Username"
               >
@@ -99,10 +99,10 @@
             <button
               class={username.followOrUnfollowButton}
               onclick={handleFollowUserButton}
-              data-avatar={username.avatarOfTheAccount}
+              data-avatar={username.userAvatarForEnrollee}
               data-id={username}
               data-username={username.BI_PSP_CareProgramEnrolleeFollow__r.BI_PSP_CommunityUsername__c}
-              data-accid={username.BI_PSP_CareProgramEnrolleeFollow__r.Id}
+              data-enrollee={username.BI_PSP_CareProgramEnrolleeFollow__r.Id}
               data-following={username.followOrUnfollowButton}
               data-it-button="MyFollowers: Follow/Unfollow "
             >

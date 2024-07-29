@@ -1,64 +1,45 @@
-public without sharing class  BI_PSP_SymptomTrackerContantCtrl {
-    public static String error = System.Label.BI_PSP_ConsoleError;
-
-  public static String errorMsg = '';
-  public static List<BI_PSP_Symptom_Tracker__c> existingRecords = new List<BI_PSP_Symptom_Tracker__c>();
-  public static String inActiveRecord = System.Label.BI_PSP_Inactive;
-  public static String checkValues = System.Label.BI_PSP_CheckValues;
-  public static String symptomErrorMsg = System.Label.BI_PSP_SymptomTrackerError;
-  public static String gppErrorMsg = System.Label.BI_PSP_GppValuesErrorMsg;
-  public static String careProgramErrorMsg = System.Label.BI_PSP_SymptomTrackerError;
-  public static String carePlanErrorMsg = System.Label.BI_PSP_CarePlanErrorMsg;
-  public static String patientErrorMsg = System.Label.BI_PSP_PatientErrorMsg;
-  public static String contentErrorMsg = System.Label.BI_PSP_ApplicationPhotoMsg;
-  public static String applicationPhotoMsg = System.Label.BI_PSP_ApplicationPhotoMsg;
-  public static String bodyPartsErrorMsg = System.Label.BI_PSP_BodyPartsErrorMsg;
-  public static String checkUniqueDate = System.Label.BI_PSP_CheckUnquieDate;
-  public static String checkGender = System.Label.BI_PSP_Gender;
-  public static String symptomRecordType = System.Label.BI_PSP_Symptom;
-  public static String inActive = System.Label.BI_PSP_AcitveRecord;
-  public static String activeLable = System.Label.BI_PSP_Active;
-  public static String fileName = System.Label.BI_PSP_UploadedFilePng;
-  public static String fileNamePath = System.Label.BI_PSP_UploadedFile;
-  public static String symptomTrackerInactive = System.Label.BI_PSPB_EnrolleeCaregiverStatusInactive;
-  public static String latestRecord = System.Label.BI_PSP_LatestRecords;
-  public static String alleryRecord = System.Label.BI_PSP_AllergyDatas;
-  public static String stausChange = System.Label.BI_PSP_SymptomUpdateStatus;
-
-    
-    public static BI_SFCOE_LOG_App_Settings__c settings = BI_SFCOE_LOG_App_Settings__c.getValues(
-    'PSPB'
-    );
-    public static String applicationName = settings != null
-    ? settings.BI_SFCOE_LOG_Application__c : '';
-
-
-      /**
-                                @description     Retrieves the last entry date for a specific Account
-                                        USER_MODE cannot be implemented here, as it is querying health cloud object.
-                                @param           accountId  details based on the provided user ID
-                                @return          editEntryDate  return insert id symptomrecord id return .This return values pass to bipspbiPspbSymptomTracker this components 
-                                */
-
+/**
+ * @description This class provides functionality for getLastCareTemplate  getLastEntryDate for Symptom Tracker module.
+ * @history
+ * Version    Author           Date           Detail    Description
+ * 1.0        Karthikeyan      23-Jul-2024    Created   Initial development.
+ */
+public with sharing class BI_PSP_SymptomTrackerOperationsCtrl {
+  /**
+ * @description Retrieves the last entry date for a specific patient from the Symptom Tracker.
+ *              The method queries the `BI_PSP_Symptom_Tracker__c` object for the most recent entry date
+ *              associated with the provided patient account ID. It returns the date of the most recent
+ *              entry or logs an error if the account ID is blank or no entries are found.
+ * @param accountId - The ID of the patient account for which the last entry date is being retrieved.
+ * @return Date - The most recent entry date for the specified patient. Returns null if no entries are found
+ *                 or if an error occurs.
+ */
   @AuraEnabled(cacheable=true)
   public static Date getLastEntryDate(String accountId) {
     try {
       if (String.isBlank(accountId)) {
         BI_PSP_LogMessagesUtility.logError(
-          BI_PSP_SymptomTrackerContantCtrl.patientErrorMsg,
+          BI_PSP_SymptomTrackerConstantCtrl.patientErrorMsg,
           BI_PSP_SymptomTrackerCtrl.class.toString(),
           true
         );
       } else {
         Date entryDate;
-        List<BI_PSP_Symptom_Tracker__c> results = [
+       /* List<BI_PSP_Symptom_Tracker__c> results = [
           SELECT BI_PSP_EditEntrydates__c
           FROM BI_PSP_Symptom_Tracker__c
           WHERE BI_PSP_Patient__c = :accountId
           WITH USER_MODE
           ORDER BY BI_PSP_EditEntrydates__c
-        ];
+        ];*/
+		 String queryString =
+        ' SELECT BI_PSP_EditEntrydates__c FROM BI_PSP_Symptom_Tracker__c WHERE BI_PSP_Patient__c = \'' +
+        accountId +
+        '\' WITH USER_MODE ORDER BY BI_PSP_EditEntrydates__c';
 
+      List<BI_PSP_Symptom_Tracker__c> results = BI_PSP_CommonQueryUtility.executeWholeQueryInString(
+        queryString
+      );
         if (!results.isEmpty()) {
           entryDate = results[0].BI_PSP_EditEntrydates__c;
         }
@@ -67,7 +48,7 @@ public without sharing class  BI_PSP_SymptomTrackerContantCtrl {
           return entryDate;
         } else {
           BI_PSP_LogMessagesUtility.logError(
-            BI_PSP_SymptomTrackerContantCtrl.errorMsg,
+            BI_PSP_SymptomTrackerConstantCtrl.error,
             BI_PSP_SymptomTrackerCtrl.class.toString(),
             true
           );
@@ -75,7 +56,7 @@ public without sharing class  BI_PSP_SymptomTrackerContantCtrl {
       }
     } catch (Exception ex) {
       BI_PSP_LogMessagesUtility.logError(
-        BI_PSP_SymptomTrackerContantCtrl.patientErrorMsg,
+        BI_PSP_SymptomTrackerConstantCtrl.patientErrorMsg,
         BI_PSP_SymptomTrackerCtrl.class.toString(),
         true
       );
@@ -96,21 +77,28 @@ public without sharing class  BI_PSP_SymptomTrackerContantCtrl {
   @AuraEnabled(cacheable=true)
   public static List<HealthCloudGA__CarePlanTemplate__c> getLastCareTemplate() {
     try {
-      List<HealthCloudGA__CarePlanTemplate__c> results = [
+     /* List<HealthCloudGA__CarePlanTemplate__c> results = [
         SELECT Id, BI_PSP_Symptom_image__c, Name, RecordTypeId
         FROM HealthCloudGA__CarePlanTemplate__c
         WHERE
-          RecordType.Name = :BI_PSP_SymptomTrackerContantCtrl.symptomRecordType
+          RecordType.Name = :BI_PSP_SymptomTrackerConstantCtrl.symptomRecordType
         ORDER BY CreatedDate DESC
         LIMIT 10
-      ];
+      ]; */
+		 String queryString =
+        ' SELECT Id, BI_PSP_Symptom_image__c, Name, RecordTypeId FROM HealthCloudGA__CarePlanTemplate__c WHERE RecordType.Name =: \'' +
+        BI_PSP_SymptomTrackerConstantCtrl.symptomRecordType +
+        '\' ORDER BY CreatedDate DESC LIMIT 10';
 
+      List<HealthCloudGA__CarePlanTemplate__c> results = BI_PSP_CommonQueryUtility.executeWholeQueryInString(
+        queryString
+      );
       // Log the number of records retrieved
       if (!results.isEmpty()) {
         return results;
       } else {
         BI_PSP_LogMessagesUtility.logError(
-          BI_PSP_SymptomTrackerContantCtrl.errorMsg,
+          BI_PSP_SymptomTrackerConstantCtrl.error,
           BI_PSP_SymptomTrackerCtrl.class.toString(),
           true
         );
@@ -119,7 +107,7 @@ public without sharing class  BI_PSP_SymptomTrackerContantCtrl {
       // Log the exception
 
       BI_PSP_LogMessagesUtility.logError(
-        BI_PSP_SymptomTrackerContantCtrl.errorMsg,
+        BI_PSP_SymptomTrackerConstantCtrl.error,
         BI_PSP_SymptomTrackerCtrl.class.toString(),
         true
       );
@@ -149,7 +137,7 @@ public without sharing class  BI_PSP_SymptomTrackerContantCtrl {
     try {
       if (fileContents.isEmpty() || String.isBlank(parentId)) {
         BI_PSP_LogMessagesUtility.logError(
-          BI_PSP_SymptomTrackerContantCtrl.applicationPhotoMsg,
+          BI_PSP_SymptomTrackerConstantCtrl.applicationPhotoMsg,
           BI_PSP_SymptomTrackerCtrl.class.toString(),
           true
         );
@@ -161,8 +149,8 @@ public without sharing class  BI_PSP_SymptomTrackerContantCtrl {
 
         ContentVersion contentVersion = new ContentVersion();
         contentVersion.VersionData = fileBlob;
-        contentVersion.Title = BI_PSP_SymptomTrackerContantCtrl.fileNamePath;
-        contentVersion.PathOnClient = BI_PSP_SymptomTrackerContantCtrl.fileName;
+        contentVersion.Title = BI_PSP_SymptomTrackerConstantCtrl.fileNamePath;
+        contentVersion.PathOnClient = BI_PSP_SymptomTrackerConstantCtrl.fileName;
         contentVersion.FirstPublishLocationId = parentId;
 
         contentVersionsToInsert.add(contentVersion);
@@ -176,7 +164,7 @@ public without sharing class  BI_PSP_SymptomTrackerContantCtrl {
       // Retrieve the IDs of the inserted ContentVersion records
     } catch (Exception ex) {
       BI_PSP_LogMessagesUtility.logError(
-        BI_PSP_SymptomTrackerContantCtrl.applicationPhotoMsg,
+        BI_PSP_SymptomTrackerConstantCtrl.applicationPhotoMsg,
         BI_PSP_SymptomTrackerCtrl.class.toString(),
         true
       );
@@ -202,19 +190,30 @@ public without sharing class  BI_PSP_SymptomTrackerContantCtrl {
     try {
       if (fileIds.isEmpty() || String.isBlank(symptomTrackerId)) {
         BI_PSP_LogMessagesUtility.logError(
-          BI_PSP_SymptomTrackerContantCtrl.symptomErrorMsg,
+          BI_PSP_SymptomTrackerConstantCtrl.symptomErrorMsg,
           BI_PSP_SymptomTrackerCtrl.class.toString(),
           true
         );
       } else {
         // Delete existing ContentDocumentLink records for the specified entity
-        List<ContentDocumentLink> existingLinks = [
+      /*  List<ContentDocumentLink> existingLinks = [
           SELECT Id
           FROM ContentDocumentLink
           WHERE LinkedEntityId = :symptomTrackerId
           WITH USER_MODE
-        ];
-        delete existingLinks;
+        ]; */
+           String queryString =
+        'SELECT Id FROM ContentDocumentLink  WHERE LinkedEntityId = \'' +
+        symptomTrackerId +
+        '\'  WITH USER_MODE';
+
+      List<ContentDocumentLink> existingLinks = BI_PSP_CommonQueryUtility.executeWholeQueryInString(
+        queryString
+      );
+          BI_PSP_DatabaseOperationsUtility.deleteHandleErrors(
+        existingLinks ,
+        BI_PSP_SymptomTrackerOperationsCtrl.class.toString()
+      );
 
         List<ContentDocumentLink> fileLinks = new List<ContentDocumentLink>();
         if (fileIds != null) {
@@ -235,7 +234,7 @@ public without sharing class  BI_PSP_SymptomTrackerContantCtrl {
       }
     } catch (System.DmlException ex) {
       BI_PSP_LogMessagesUtility.catchSystemException(
-        BI_PSP_SymptomTrackerContantCtrl.symptomErrorMsg,
+        BI_PSP_SymptomTrackerConstantCtrl.symptomErrorMsg,
         BI_PSP_SymptomTrackerCtrl.class.toString(),
         ex
       );
@@ -253,19 +252,26 @@ public without sharing class  BI_PSP_SymptomTrackerContantCtrl {
     try {
       if (String.isBlank(symptomTrackerId)) {
         BI_PSP_LogMessagesUtility.logError(
-          BI_PSP_SymptomTrackerContantCtrl.symptomErrorMsg,
+          BI_PSP_SymptomTrackerConstantCtrl.symptomErrorMsg,
           BI_PSP_SymptomTrackerCtrl.class.toString(),
           true
         );
       } else {
         // Query for the first ContentDocumentLink related to the symptomTrackerId
-        List<ContentDocumentLink> linksToDelete = [
+       /* List<ContentDocumentLink> linksToDelete = [
           SELECT Id
           FROM ContentDocumentLink
           WHERE LinkedEntityId = :symptomTrackerId
           LIMIT 1
-        ];
+        ];*/
+		 String queryString =
+        'SELECT Id, FROM ContentDocumentLink WHERE LinkedEntityId = \'' +
+        symptomTrackerId +
+        '\' LIMIT 1';
 
+       List<ContentDocumentLink> linksToDelete = BI_PSP_CommonQueryUtility.executeWholeQueryInString(
+        queryString
+      );
         BI_PSP_DatabaseOperationsUtility.deleteHandleErrors(
           linksToDelete,
           BI_PSP_SymptomTrackerCtrl.class.toString()
@@ -273,7 +279,7 @@ public without sharing class  BI_PSP_SymptomTrackerContantCtrl {
       }
     } catch (System.DmlException ex) {
       BI_PSP_LogMessagesUtility.catchSystemException(
-        BI_PSP_SymptomTrackerContantCtrl.applicationPhotoMsg,
+        BI_PSP_SymptomTrackerConstantCtrl.applicationPhotoMsg,
         BI_PSP_SymptomTrackerCtrl.class.toString(),
         ex
       );
@@ -294,7 +300,7 @@ public without sharing class  BI_PSP_SymptomTrackerContantCtrl {
     try {
       if (String.isBlank(careProgramEnrolleeId)) {
         BI_PSP_LogMessagesUtility.logError(
-          BI_PSP_SymptomTrackerContantCtrl.careProgramErrorMsg,
+          BI_PSP_SymptomTrackerConstantCtrl.careProgramErrorMsg,
           BI_PSP_SymptomTrackerCtrl.class.toString(),
           true
         );
@@ -302,28 +308,42 @@ public without sharing class  BI_PSP_SymptomTrackerContantCtrl {
         // Debug log to check the value of careProgramEnrolleeId
 
         // Query the most recent record based on the given careProgramEnrolleeId and status not 'inactive'
-        BI_PSP_Symptom_Tracker__c record = [
+      /*  BI_PSP_Symptom_Tracker__c record = [
           SELECT Id, BI_PSP_EditEntrydates__c, LastModifiedDate
           FROM BI_PSP_Symptom_Tracker__c
           WHERE
             BI_PSP_Care_Program_Enrollee__c = :careProgramEnrolleeId
-            AND BI_PSP_Symptom_Staus__c != :BI_PSP_SymptomTrackerContantCtrl.inActiveRecord
+            AND BI_PSP_Symptom_Staus__c != :BI_PSP_SymptomTrackerConstantCtrl.inActiveRecord
           ORDER BY LastModifiedDate DESC
           LIMIT 1
-        ];
+        ]; */
+            // Define the parameters for the query
+      String sObjectType = 'BI_PSP_Symptom_Tracker__c';
+      String fields = 'Id, BI_PSP_EditEntrydates__c, LastModifiedDate';
+      String conditions = 'BI_PSP_Care_Program_Enrollee__c = \'' +careProgramEnrolleeId +
+        '\' AND BI_PSP_Symptom_Staus__c != \'' +BI_PSP_SymptomTrackerConstantCtrl.inActiveRecord +
+        '\'  ORDER BY LastModifiedDate DESC LIMIT 1 ';
+      Boolean withUserMode = false;
 
-        if (record != null) {
+      List<BI_PSP_Symptom_Tracker__c> record = BI_PSP_CommonQueryUtility.executeQuery(
+        sObjectType,
+        fields,
+        conditions,
+        withUserMode
+      );
+		
+        if (record[0] != null) {
           // Create a map to store the result
           Map<String, Object> result = new Map<String, Object>();
-          result.put('recordId', record.Id);
-          result.put('lastModifiedDate', record.LastModifiedDate);
-          result.put('lasttime', record.LastModifiedDate);
+          result.put('recordId', record[0].Id);
+          result.put('lastModifiedDate', record[0].LastModifiedDate);
+          result.put('lasttime', record[0].LastModifiedDate);
 
           // Return the result map
           return result;
         } else {
           BI_PSP_LogMessagesUtility.logError(
-            BI_PSP_SymptomTrackerContantCtrl.errorMsg,
+            BI_PSP_SymptomTrackerConstantCtrl.error,
             BI_PSP_SymptomTrackerCtrl.class.toString(),
             true
           );
@@ -333,7 +353,7 @@ public without sharing class  BI_PSP_SymptomTrackerContantCtrl {
       // Log and handle the exception
 
       BI_PSP_LogMessagesUtility.logError(
-        BI_PSP_SymptomTrackerContantCtrl.symptomErrorMsg,
+        BI_PSP_SymptomTrackerConstantCtrl.symptomErrorMsg,
         BI_PSP_SymptomTrackerCtrl.class.toString(),
         true
       );
@@ -358,28 +378,34 @@ public without sharing class  BI_PSP_SymptomTrackerContantCtrl {
     try {
       if (String.isBlank(careProgramEnrolleeId)) {
         BI_PSP_LogMessagesUtility.logError(
-          BI_PSP_SymptomTrackerContantCtrl.careProgramErrorMsg,
+          BI_PSP_SymptomTrackerConstantCtrl.careProgramErrorMsg,
           BI_PSP_SymptomTrackerCtrl.class.toString(),
           true
         );
-      } else {
+      }
         // Perform SOQL query to fetch CareProgramEnrollee and related Account fields
-        enrollees = [
+       /* enrollees = [
           SELECT Id, AccountId, Account.Name, Account.HealthCloudGA__Gender__pc
           FROM CareProgramEnrollee
           WHERE Id = :careProgramEnrolleeId
           LIMIT 1
-        ];
-      }
+        ]; */
+         String queryString =
+        'SELECT Id, AccountId, Account.Name, Account.HealthCloudGA__Gender__pc FROM CareProgramEnrollee WHERE Id = \'' +
+        careProgramEnrolleeId +
+        '\' LIMIT 1';
+
+      enrollees = BI_PSP_CommonQueryUtility.executeWholeQueryInString(
+        queryString
+      );
+      
     } catch (Exception ex) {
       BI_PSP_LogMessagesUtility.logError(
-        BI_PSP_SymptomTrackerContantCtrl.checkGender,
+        BI_PSP_SymptomTrackerConstantCtrl.checkGender,
         BI_PSP_SymptomTrackerCtrl.class.toString(),
         true
       );
     }
     return enrollees;
   }
-
-    
 }

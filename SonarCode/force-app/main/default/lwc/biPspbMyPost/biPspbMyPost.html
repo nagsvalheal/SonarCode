@@ -3,63 +3,21 @@
 <template>
   <!-- To display ToastMessage after deleting the post  -->
   <div data-it-uid={userId} class="fulltemplate">
-    <template if:true={showDeleteToastMsg}>
+    <template if:true={showToastMsg}>
       <div class="toastmsg">
         <img src={deleteToast} class="deletetoastimg" />
-        <p class="tstmsg">Post Deleted Successfully.</p>
-      </div>
-      <button
-        class="toastmsgclose"
-        data-it-button="MyPost: Close Toast Msg"
-        title="Close"
-        onclick={closeToastMsgForPost}
-      >
-        &times;
-      </button>
-    </template>
-    <!-- To display ToastMessage after deleting the Comment  -->
-    <template if:true={showDeleteToastMsgForComment}>
-      <div class="toastmsg">
-        <img src={deleteToast} class="deletetoastimg" />
-        <p class="tstmsg">Comment Deleted Successfully.</p>
-      </div>
-      <button
-        class="toastmsgclose"
-        data-it-button="MyPost: Close Toast Msg"
-        title="Close"
-        onclick={closeToastMsgForComment}
-      >
-        &times;
-      </button>
-    </template>
-    <!-- To display ToastMessage after Follow the User  -->
-    <template if:true={followingToastMsg}>
-      <div class="toastmsg">
-        <img class="deletetoastimg" src={deleteToast} />
+        <p if:true={showDeleteToastMsg} class="tstmsg">Post Deleted Successfully.</p>
+        <p if:true={showDeleteToastMsgForComment} class="tstmsg">Comment Deleted Successfully.</p>
+        <p if:true={followingToastMsg} class="tstmsg">You Started Following {followUserName}.</p>
+        <p if:true={showDivUnfollow} class="tstmsg">You Unfollowed {followUserName} Successfully.</p>
 
-        <p class="tstmsg">You Started Following {followUserName}.</p>
-      </div>
-      <button
-        class="toastmsgclose"
-        data-it-button="MyPost: Close Toast Msg"
-        title="Close"
-        onclick={closeFollowingToastMsg}
-      >
-        &times;
-      </button>
-    </template>
-    <!-- To display ToastMessage after UnFollow the User  -->
-    <template if:true={showDivUnfollow}>
-      <div class="toastmsg">
-        <img class="deletetoastimg" src={deleteToast} />
 
-        <p class="tstmsg">You Unfollowed {followUserName} Successfully.</p>
       </div>
       <button
         class="toastmsgclose"
         data-it-button="MyPost: Close Toast Msg"
         title="Close"
-        onclick={closeShowDivUnfollow}
+        onclick={closeToastMsg}
       >
         &times;
       </button>
@@ -82,7 +40,7 @@
 
       <div class="rightside">
         <!-- To display ToastMessage after deleting the post only for mobile responsiveness -->
-        <template if:true={showDeleteToastMsg}>
+        <template if:true={showToastMsg}>
           <div class="toastmsgformobile">
             <img src={deleteToast} class="deletetoastimg" />
             <p data-scroll-target class="tstmsg">Post Deleted Successfully.</p>
@@ -91,7 +49,7 @@
             class="toastmsgcloseforMbl"
             data-it-button="MyPost: Close Toast Msg"
             title="Close"
-            onclick={closeToastMsgForPost}
+            onclick={closeToastMsg}
           >
             &times;
           </button>
@@ -355,15 +313,15 @@
                                     src={thumbsup.avatarDataForReaction}
                                     class="emojiprofile"
                                     onclick={profileFollowUnfollow}
-                                    data-accid={thumbsup.BI_PSP_AccountE__c}
-                                    data-name={thumbsup.BI_PSP_AccountE__r.BI_PSP_CommunityUsername__c}
+                                    data-enrollee={thumbsup.BI_PSP_CareProgramEnrolleeEmoji__c}
+                                    data-name={thumbsup.BI_PSP_CareProgramEnrolleeEmoji__r.BI_PSP_CommunityUsername__c}
                                     data-avat={thumbsup.avatarDataForReaction}
                                   />
                                   <p
                                     class="emojiusername"
                                     onclick={profileFollowUnfollow}
-                                    data-accid={thumbsup.BI_PSP_AccountE__c}
-                                    data-name={thumbsup.BI_PSP_AccountE__r.BI_PSP_CommunityUsername__c}
+                                    data-enrollee={thumbsup.BI_PSP_CareProgramEnrolleeEmoji__c}
+                                    data-name={thumbsup.BI_PSP_CareProgramEnrolleeEmoji__r.BI_PSP_CommunityUsername__c}
                                     data-avat={thumbsup.avatarDataForReaction}
                                     data-it-button="MyPost:  ViewReaction Profile(Username) - ThumbsUp"
                                   >
@@ -510,16 +468,16 @@
                                     src={smile.avatarDataForReaction}
                                     class="emojiprofile"
                                     onclick={profileFollowUnfollow}
-                                    data-accid={smile.BI_PSP_AccountE__c}
-                                    data-name={smile.BI_PSP_AccountE__r.BI_PSP_CommunityUsername__c}
+                                    data-enrollee={smile.BI_PSP_CareProgramEnrolleeEmoji__c}
+                                    data-name={smile.BI_PSP_CareProgramEnrolleeEmoji__r.BI_PSP_CommunityUsername__c}
                                     data-avat={smile.avatarDataForReaction}
                                     data-it-button="MyPost:  ViewReaction Profile(Avatar) - Smile"
                                   />
                                   <p
                                     class="emojiusername"
                                     onclick={profileFollowUnfollow}
-                                    data-accid={smile.BI_PSP_AccountE__c}
-                                    data-name={smile.BI_PSP_AccountE__r.BI_PSP_CommunityUsername__c}
+                                    data-enrollee={smile.BI_PSP_CareProgramEnrolleeEmoji__c}
+                                    data-name={smile.BI_PSP_CareProgramEnrolleeEmoji__r.BI_PSP_CommunityUsername__c}
                                     data-avat={smile.avatarDataForReaction}
                                     data-it-button="MyPost:  ViewReaction Profile(Username) - Smile"
                                   >
@@ -673,16 +631,16 @@
                                     src={foldedhands.avatarDataForReaction}
                                     class="emojiprofile"
                                     onclick={profileFollowUnfollow}
-                                    data-accid={foldedhands.BI_PSP_AccountE__c}
-                                    data-name={foldedhands.BI_PSP_AccountE__r.BI_PSP_CommunityUsername__c}
+                                    data-enrollee={foldedhands.BI_PSP_CareProgramEnrolleeEmoji__c}
+                                    data-name={foldedhands.BI_PSP_CareProgramEnrolleeEmoji__r.BI_PSP_CommunityUsername__c}
                                     data-avat={foldedhands.avatarDataForReaction}
                                     data-it-button="MyPost:  ViewReaction Profile(Avatar) - Hands Folded"
                                   />
                                   <p
                                     class="emojiusername"
                                     onclick={profileFollowUnfollow}
-                                    data-accid={foldedhands.BI_PSP_AccountE__c}
-                                    data-name={foldedhands.BI_PSP_AccountE__r.BI_PSP_CommunityUsername__c}
+                                    data-enrollee={foldedhands.BI_PSP_CareProgramEnrolleeEmoji__c}
+                                    data-name={foldedhands.BI_PSP_CareProgramEnrolleeEmoji__r.BI_PSP_CommunityUsername__c}
                                     data-avat={foldedhands.avatarDataForReaction}
                                     data-it-button="MyPost:  ViewReaction Profile(Username) - Hands Folded"
                                   >
@@ -834,16 +792,16 @@
                                     src={heart.avatarDataForReaction}
                                     class="emojiprofile"
                                     onclick={profileFollowUnfollow}
-                                    data-accid={heart.BI_PSP_AccountE__c}
-                                    data-name={heart.BI_PSP_AccountE__r.BI_PSP_CommunityUsername__c}
+                                    data-enrollee={heart.BI_PSP_CareProgramEnrolleeEmoji__c}
+                                    data-name={heart.BI_PSP_CareProgramEnrolleeEmoji__r.BI_PSP_CommunityUsername__c}
                                     data-avat={heart.avatarDataForReaction}
                                     data-it-button="MyPost:  ViewReaction Profile(Avatar) - Heart"
                                   />
                                   <p
                                     class="emojiusername"
                                     onclick={profileFollowUnfollow}
-                                    data-accid={heart.BI_PSP_AccountE__c}
-                                    data-name={heart.BI_PSP_AccountE__r.BI_PSP_CommunityUsername__c}
+                                    data-enrollee={heart.BI_PSP_CareProgramEnrolleeEmoji__c}
+                                    data-name={heart.BI_PSP_CareProgramEnrolleeEmoji__r.BI_PSP_CommunityUsername__c}
                                     data-avat={heart.avatarDataForReaction}
                                     data-it-button="MyPost:  ViewReaction Profile(Username) - Heart"
                                   >
@@ -995,16 +953,16 @@
                                     src={thinkingface.avatarDataForReaction}
                                     class="emojiprofile"
                                     onclick={profileFollowUnfollow}
-                                    data-accid={thinkingface.BI_PSP_AccountE__c}
-                                    data-name={thinkingface.BI_PSP_AccountE__r.BI_PSP_CommunityUsername__c}
+                                    data-enrollee={thinkingface.BI_PSP_CareProgramEnrolleeEmoji__c}
+                                    data-name={thinkingface.BI_PSP_CareProgramEnrolleeEmoji__r.BI_PSP_CommunityUsername__c}
                                     data-avat={thinkingface.avatarDataForReaction}
                                     data-it-button="MyPost:  ViewReaction Profile(Avatar) - ThoughtFul"
                                   />
                                   <p
                                     class="emojiusername"
                                     onclick={profileFollowUnfollow}
-                                    data-accid={thinkingface.BI_PSP_AccountE__c}
-                                    data-name={thinkingface.BI_PSP_AccountE__r.BI_PSP_CommunityUsername__c}
+                                    data-enrollee={thinkingface.BI_PSP_CareProgramEnrolleeEmoji__c}
+                                    data-name={thinkingface.BI_PSP_CareProgramEnrolleeEmoji__r.BI_PSP_CommunityUsername__c}
                                     data-avat={thinkingface.avatarDataForReaction}
                                     data-it-button="MyPost:  ViewReaction Profile(Username) - ThoughtFul"
                                   >
@@ -1320,16 +1278,16 @@
                                   src={commentitem.avatarDataForComment}
                                   class="commentimageforinside"
                                   onclick={profileFollowUnfollow}
-                                  data-accid={commentitem.BI_PSP_AccountCmt__c}
-                                  data-name={commentitem.BI_PSP_AccountCmt__r.BI_PSP_CommunityUsername__c}
+                                  data-enrollee={commentitem.BI_PSP_CareProgramEnrolleeCmt__c}
+                                  data-name={commentitem.BI_PSP_CareProgramEnrolleeCmt__r.BI_PSP_CommunityUsername__c}
                                   data-avat={commentitem.avatarDataForComment}
                                   data-it-button="MyPost: Follow Popup(Avatar) "
                                 />
                                 <p
                                   class="commentUserName"
                                   onclick={profileFollowUnfollow}
-                                  data-accid={commentitem.BI_PSP_AccountCmt__c}
-                                  data-name={commentitem.BI_PSP_AccountCmt__r.BI_PSP_CommunityUsername__c}
+                                  data-enrollee={commentitem.BI_PSP_CareProgramEnrolleeCmt__c}
+                                  data-name={commentitem.BI_PSP_CareProgramEnrolleeCmt__r.BI_PSP_CommunityUsername__c}
                                   data-avat={commentitem.avatarDataForComment}
                                   data-it-button="MyPost: Follow Popup(Username) "
                                 >

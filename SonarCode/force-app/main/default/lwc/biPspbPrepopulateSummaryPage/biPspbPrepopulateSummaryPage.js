@@ -2,23 +2,14 @@
 // To import Libraries
 import { LightningElement, wire} from 'lwc';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
-// To import Static Resources
-import IMG from '@salesforce/resourceUrl/BI_PSPB_ThankYouImage';
-import BGPP from '@salesforce/resourceUrl/BI_PSPB_BeyondGppLogo';
+
 //  To import Apex Classes
 import LEAD_GET from '@salesforce/apex/BI_PSPB_LeadCreationCtrl.getLead';
 import CAREGIVER_GET from '@salesforce/apex/BI_PSPB_LeadCreationCtrl.getCaregiver';
 import PHYSICIAN_GET from '@salesforce/apex/BI_PSPB_CreateLeadCtrl.getHcpDetails';
 import COTHANKS_GET from '@salesforce/apex/BI_PSPB_LeadCreationCtrl.checkCaregiverData';
-// To import Custom Label
-import TO_ACTIVE_MSG from '@salesforce/label/c.BI_PSPB_ThankYouContent';
-import EMAIL_SENT_MSG from '@salesforce/label/c.BI_PSPB_ThankYouEmailSent';
-import CHECK_MAIL_MSG from '@salesforce/label/c.BI_PSPB_CheckEmail';
-import EXISTING_ACCOUNT_MSG from '@salesforce/label/c.BI_PSPB_ThankYouMessage';
-import SEND_AVATAR_MSG from '@salesforce/label/c.BI_PSPB_SendAvatarMsg';
-import ERROR_MESSAGE from '@salesforce/label/c.BI_PSP_ConsoleError';
-import ERROR_VARIANT from '@salesforce/label/c.BI_PSP_ErrorVariantToast';
 
+import { resource } from "c/biPspbEnrollmentFormResource";
 export default class BiPspbPrepopulateSummaryPage extends LightningElement {
 	//Proper naming conventions with camel case for all the variables will be followed in the future releases
 	// Declaration of variables with  
@@ -37,8 +28,8 @@ export default class BiPspbPrepopulateSummaryPage extends LightningElement {
 	valueAvatar = false;
 	careEmail;
 	// Declaration of Global variables
-	beyandGpp = BGPP;
-	mailImg = IMG;
+	beyandGpp = resource.BGPP;
+	mailImg = resource.IMG;
 
 	//to get Lead's Physician record
 	renderedCallback() {
@@ -62,10 +53,10 @@ export default class BiPspbPrepopulateSummaryPage extends LightningElement {
 
 				})
 				.catch((error) => {
-					this.showToast(ERROR_MESSAGE, error.body.message, ERROR_VARIANT); // Catching Potential Error from Apex
+					this.HandleToast(error.body.message); // Catching Potential Error from Apex
 				});
 		} catch (error) {
-			this.showToast(ERROR_MESSAGE, error.message, ERROR_VARIANT); // Catching Potential Error from LWC
+			this.HandleToast(error.message); // Catching Potential Error from LWC
 		}
 	}
 
@@ -79,10 +70,10 @@ export default class BiPspbPrepopulateSummaryPage extends LightningElement {
 				this.recordDetails = data;
 				this.email = data[0].Email;
 			} else if (error) {
-				this.showToast(ERROR_MESSAGE, error.body.message, ERROR_VARIANT);// Catching Potential Error from Apex
+				this.HandleToast(error.body.message);// Catching Potential Error from Apex
 			}
 		} catch (err) {
-			this.showToast(ERROR_MESSAGE, err.body.message, ERROR_VARIANT); // Catching Potential Error from LWC
+			this.HandleToast(err.body.message); // Catching Potential Error from LWC
 		}
 	}
 
@@ -102,14 +93,14 @@ export default class BiPspbPrepopulateSummaryPage extends LightningElement {
 				}
 
 				this.dispatchEvent(
-					new CustomEvent(SEND_AVATAR_MSG, { detail: this.valueAvatar })
+					new CustomEvent(resource.SEND_AVATAR_MSG, { detail: this.valueAvatar })
 				);
 			}
 			catch (err) {
-				this.showToast(ERROR_MESSAGE, err.message, ERROR_VARIANT); // Catching Potential Error from LWC
+				this.HandleToast(err.message); // Catching Potential Error from LWC
 			}
 		} else if (error && data.length > 0) {
-			this.showToast(ERROR_MESSAGE, error.body.message, ERROR_VARIANT);// Catching Potential Error from Apex
+			this.HandleToast(error.body.message);// Catching Potential Error from Apex
 		}
 	}
 
@@ -125,15 +116,15 @@ export default class BiPspbPrepopulateSummaryPage extends LightningElement {
 				this.age = false;
 				this.head = false;
 				if (this.age === false) {
-					this.messageContent = TO_ACTIVE_MSG;
-					this.messageContentTwo = EMAIL_SENT_MSG + ' ' + data[0].Email;
+					this.messageContent = resource.THANKYOU_MSG_THREE;
+					this.messageContentTwo = resource.THANKYOU_MSG_FOUR + ' ' + data[0].Email;
 				}
 
 			} else if (error) {
-				this.showToast(ERROR_MESSAGE, error.body.message, ERROR_VARIANT);// Catching Potential Error from Apex
+				this.HandleToast(error.body.message);// Catching Potential Error from Apex
 			}
 		} catch (err) {
-			this.showToast(ERROR_MESSAGE, err.message, ERROR_VARIANT); // Catching Potential Error from LWC
+			this.HandleToast(err.message); // Catching Potential Error from LWC
 		}
 	}
 	callcothanks() {
@@ -145,18 +136,20 @@ export default class BiPspbPrepopulateSummaryPage extends LightningElement {
 				this.head = true;
 				if (this.contData === true) {
 					this.messageContent =
-						CHECK_MAIL_MSG + ' ' + this.careEmail;
-					this.messageContentTwo = EXISTING_ACCOUNT_MSG;
+					resource.THANKYOU_MSG_ONE + ' ' + this.careEmail;
+					this.messageContentTwo = resource.THANKYOU_MSG_TWO;
 				} else {
-					this.messageContent = TO_ACTIVE_MSG;
-					this.messageContentTwo = EMAIL_SENT_MSG + ' ' + this.careEmail;
+					this.messageContent = resource.THANKYOU_MSG_THREE;
+					this.messageContentTwo = resource.THANKYOU_MSG_FOUR + ' ' + this.careEmail;
 				}
 			})
 			.catch(err => {
-				this.showToast(ERROR_MESSAGE, err.message, ERROR_VARIANT);
+				this.HandleToast(err.message);
 			})
 	}
-
+HandleToast(error){
+	this.showToast(resource.ERROR_MESSAGE, error.body.message, resource.ERROR_VARIANT);
+}
 
 	showToast(title, message, variant) {
 		const EVENT = new ShowToastEvent({

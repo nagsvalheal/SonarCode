@@ -1,4 +1,4 @@
-/**
+/*
  * @description This BI_PSPB_treatmentvideocmd class is retrieves video URLs and patient status (chronic/acute/unassigned) for the Information Center
  * History:
  * Version	Author			Date			Detail				Description

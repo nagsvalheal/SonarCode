@@ -1,7 +1,7 @@
 // Import current user ID
 import ID from '@salesforce/user/Id';
 
-// Importing Static Resources
+// Importing Static Resources for Treament Reminders
 import ALARM from '@salesforce/resourceUrl/BI_PSPB_AlarmImg';
 import OUTLOOK_ICON from "@salesforce/resourceUrl/BI_PSPB_OutlookCalendar";
 import GOOGLE_ICON from "@salesforce/resourceUrl/BI_PSPB_GoogleCalendar";
@@ -10,8 +10,16 @@ import DEFAULT_AVATAR_URL from "@salesforce/resourceUrl/BI_PSPB_DefaultAvatarNav
 import TIC from "@salesforce/resourceUrl/BI_PSP_ToastTickIcon";
 import WARNING from "@salesforce/resourceUrl/BI_PSPB_WarningIcon";
 import YELLOW_ICON from '@salesforce/resourceUrl/BI_PSPB_YellowIcon';
-
-// Importing Custom Labels
+// Importing Static Resources for Notifications
+import NOTIFY_IMG from '@salesforce/resourceUrl/BI_PSPB_ArticleImg';
+import DOT_IMG from '@salesforce/resourceUrl/BI_PSPB_DotImg';
+import CHALLENGES_IMG from '@salesforce/resourceUrl/BI_PSPB_NotificationChallengesImg';
+import SYMTOM_IMG from '@salesforce/resourceUrl/BI_PSPB_SymptomImg';
+import QUESTIONNAIRE_IMAGE from '@salesforce/resourceUrl/BI_PSP_QuestionnaireImage';
+import AVATAR_IMG from '@salesforce/resourceUrl/BI_PSPB_SymptomImg';
+import TREATMENT_IMG from '@salesforce/resourceUrl/BI_PSPB_ArticleImg';
+import COMMUNITY_IMG from '@salesforce/resourceUrl/BI_PSP_CommunityLogo';
+// Importing Custom Labels for Treatment Reminders
 import JAN from "@salesforce/label/c.BI_PSPB_Jan";
 import FEB from "@salesforce/label/c.BI_PSPB_Feb";
 import MARCH from "@salesforce/label/c.BI_PSPB_March";
@@ -64,6 +72,32 @@ import SYSTEM_ADMIN_PROFILE from '@salesforce/label/c.BI_PSP_SystemAdminProfile'
 import QUESTION from '@salesforce/label/c.BI_PSPB_ReminderNotificationQues';
 import PREFERRED_WAY from '@salesforce/label/c.BI_PSPB_ReminderSetting';
 import NOTIFICATION_SETTINGS from '@salesforce/label/c.BI_PSPB_NotificationSetting';
+// Importing labels for Notifications
+import SYMPTOM from '@salesforce/label/c.BI_PSP_SymptomTrackerValue';
+import DLQI_QUESTIONNAIRES from '@salesforce/label/c.BI_PSP_AssessmentDlqi';
+import PSS_QUESTIONNAIRES from '@salesforce/label/c.BI_PSP_AssessmentPss';
+import WPAI_QUESTIONNAIRES from '@salesforce/label/c.BI_PSP_AssessmentWpai';
+import QSQ_QUESTIONNAIRES from '@salesforce/label/c.BI_PSP_Qsq';
+import NEW_CONTENT from '@salesforce/label/c.BI_PSP_NotificationNewContent';
+import CHALLENGES from '@salesforce/label/c.BI_PSP_ChallengesName';
+import COMMUNITY from '@salesforce/label/c.BI_PSPB_Community';
+import NOT_COMPLETED from '@salesforce/label/c.BI_PSP_NotCompleted';
+import BI_PSP_COMPLETED from '@salesforce/label/c.BI_PSP_Completed';
+import BI_PSP_HISTORY from '@salesforce/label/c.BI_PSPB_History';
+import MY_QUESTIONNAIRES from '@salesforce/label/c.BI_PSPB_MyQuestionnaires';
+import STATUS_EXPIRED from '@salesforce/label/c.BI_PSP_Expired';
+import GENERAL_NOTIFICATION from '@salesforce/label/c.BI_PSP_GeneralNotification';
+import GENERAL from '@salesforce/label/c.BI_PSPB_General';
+import ACTION_REQUIRED from '@salesforce/label/c.BI_PSPB_ActionRequiredValue';
+import ACTION from '@salesforce/label/c.BI_PSPB_Action';
+import READ from '@salesforce/label/c.BI_PSPB_Read';
+import TREATMENT from '@salesforce/label/c.BI_PSPB_Treatment';
+import PRESCRIPTION from '@salesforce/label/c.BI_PSPB_Prescription';
+import PRESCRIPTION_REMINDER from '@salesforce/label/c.BI_PSPB_PrescriptionReminderValue';
+import COMPLETED from '@salesforce/label/c.BI_PSP_Completed';//Duplicate
+import EXPIRED from '@salesforce/label/c.BI_PSP_Expired';//deuplicate
+import NOT_COMPLETED_HISTORY from '@salesforce/label/c.BI_PSPB_NotCompletedHistory';
+
 import ERROR_MESSAGE from '@salesforce/label/c.BI_PSP_ConsoleError';
 import ERROR_VARIANT from '@salesforce/label/c.BI_PSP_ErrorVariantToast';
 
@@ -72,6 +106,14 @@ export const resources = {
     ID,
     // Static Resources
     ALARM,
+    NOTIFY_IMG,
+    DOT_IMG,
+    CHALLENGES_IMG,
+    SYMTOM_IMG,
+    QUESTIONNAIRE_IMAGE,
+    AVATAR_IMG,
+    TREATMENT_IMG,
+    COMMUNITY_IMG,
     // Custom Labels
     JAN,
     FEB,
@@ -133,5 +175,30 @@ export const resources = {
     PATIENT_PROFILES,
     SLASH,
     SYSTEM_ADMIN_PROFILE,
-    YELLOW_ICON
+    YELLOW_ICON,
+    SYMPTOM,
+    DLQI_QUESTIONNAIRES,
+    PSS_QUESTIONNAIRES,
+    WPAI_QUESTIONNAIRES,
+    QSQ_QUESTIONNAIRES,
+    NEW_CONTENT,
+    CHALLENGES,
+    COMMUNITY,
+    NOT_COMPLETED,
+    BI_PSP_COMPLETED,
+    BI_PSP_HISTORY,
+    MY_QUESTIONNAIRES,
+    STATUS_EXPIRED,
+    GENERAL_NOTIFICATION,
+    GENERAL,
+    ACTION_REQUIRED,
+    ACTION,
+    READ,
+    TREATMENT,
+    PRESCRIPTION,
+    PRESCRIPTION_REMINDER,
+    COMPLETED,
+    EXPIRED,
+    NOT_COMPLETED_HISTORY
+
 };

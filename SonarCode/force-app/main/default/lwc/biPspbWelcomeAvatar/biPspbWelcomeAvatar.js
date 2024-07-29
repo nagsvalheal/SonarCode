@@ -8,18 +8,14 @@ import USER_CAREGIVER from '@salesforce/apex/BI_PSPB_AvatarCtrl.userCaregiver';
 import GET_LOGGED_IN_USER_ACCOUNT from '@salesforce/apex/BI_PSPB_AvatarCtrl.getLoggedInUserAccount';
 import GET_CATEGORY_MESSAGES from '@salesforce/apex/BI_PSPB_PersonalizedMessagesCtrl.getCategoryMessages';
 // To import Static Resource
-import DEFAULT_AVATAR_IMG from '@salesforce/resourceUrl/BI_PSPB_DefaultAvatarNavigation';
+import {label} from 'c/biPspbAvatarResources';
 // To get Current User Id
-import ID from '@salesforce/user/Id';
-// To import Custom Labels
-import WELCOME from '@salesforce/label/c.BI_PSP_Welcome';
-import GEN_CATEGORY_MESSAGES from '@salesforce/label/c.BI_PSP_GenMessageCategory';
-import ERROR_MESSAGE from '@salesforce/label/c.BI_PSP_ConsoleError';
-import ERROR_VARIANT from '@salesforce/label/c.BI_PSP_ErrorVariantToast';
+
+
 
 export default class BiPspbWelcomeAvatar extends LightningElement {
 	currentUserName = '';
-	userId = ID;
+	userId = label.ID;
 	finalMessage;
 	finalMessageList = [];
 	selectedValue;
@@ -36,7 +32,7 @@ export default class BiPspbWelcomeAvatar extends LightningElement {
 	selectedAvatarSrc = '';
 	userAccounts;
 	loggedUserData;
-	welcomStr = WELCOME;
+	welcomStr = label.WELCOME;
 
 	/* There's no need to check for null because in Apex, we're throwing an AuraHandledException. 
 	Therefore, null data won't be encountered. */
@@ -57,10 +53,10 @@ export default class BiPspbWelcomeAvatar extends LightningElement {
 				this.mapMessage();
 			} else if (error) {
 				// Handle errors
-				this.showToast(ERROR_MESSAGE, error.body.message, ERROR_VARIANT); // Catching Potential from Apex
+				this.HandleToast(error.body.message); // Catching Potential from Apex
 			}
 		} catch (err) {
-			this.showToast(ERROR_MESSAGE, err.message, ERROR_VARIANT); // Catching Potential Error from lwc
+			this.HandleToast(err.message); // Catching Potential Error from lwc
 		}
 	}
 
@@ -77,13 +73,13 @@ export default class BiPspbWelcomeAvatar extends LightningElement {
 				this.currentUserName = this.name;
 				this.selectedAvatarSrc = data[0]?.BI_PSP_AvatarUrl__c
 					? data[0]?.BI_PSP_AvatarUrl__c
-					: DEFAULT_AVATAR_IMG;
+					: label.DEFAULT_AVATAR_IMG;
 					this.replacePlaceholders();
 			} else if (error) {
-				this.showToast(ERROR_MESSAGE, error.body.message, ERROR_VARIANT); // Catching Potential Error from Apex
+				this.HandleToast(error.body.message); // Catching Potential Error from Apex
 			}
 		} catch (err) {
-			this.showToast(ERROR_MESSAGE, err.message, ERROR_VARIANT); // Catching Potential Error from Lwc
+			this.HandleToast(err.message); // Catching Potential Error from Lwc
 		}
 	}
 
@@ -100,39 +96,37 @@ export default class BiPspbWelcomeAvatar extends LightningElement {
 					this.currentUserName = this.name;
 					this.selectedAvatarSrc = this.userAccounts[0]?.BI_PSP_AvatarUrl__c
 						? this.userAccounts[0]?.BI_PSP_AvatarUrl__c
-						: DEFAULT_AVATAR_IMG;
+						: label.DEFAULT_AVATAR_IMG;
 				}
 				this.replacePlaceholders();
 			} else if (error) {
-				this.showToast(ERROR_MESSAGE, error.body.message, ERROR_VARIANT); // Catching Potential Error from apex
+				this.HandleToast(error.body.message); // Catching Potential Error from apex
 			}
 		} catch (err) {
-			this.showToast(ERROR_MESSAGE, err.message, ERROR_VARIANT); // Catching Potential Error from lwc
+			this.HandleToast(err.message); // Catching Potential Error from lwc
 		}
 	}
 
 	// To render the personalized messages and name of the user
 	mapMessage() {
-			if (this.message) {
-				if (this.message.length !== 0) {
-					this.finalMessageList.push(this.message);
-				}
-			}
-			if (this.genMessage) {
-				if (this.genMessage.length !== 0) {
-					this.finalMessageList.push(this.genMessage);
-				}
-			}
-
-			if (this.finalMessageList.length === 1) {
-				this.finalMessage = this.finalMessageList[0];
-			} else {
-				let finalans = this.getRandomNumber(0, 1);
-				this.finalMessage = this.finalMessageList[finalans];
-			}
-			this.replacePlaceholders();
-		
+		if (this.message && this.message.length !== 0) {
+			this.finalMessageList.push(this.message);
+		}
+	
+		if (this.genMessage && this.genMessage.length !== 0) {
+			this.finalMessageList.push(this.genMessage);
+		}
+	
+		if (this.finalMessageList.length === 1) {
+			this.finalMessage = this.finalMessageList[0];
+		} else if (this.finalMessageList.length > 1) {
+			let finalans = this.getRandomNumber(0, 1);
+			this.finalMessage = this.finalMessageList[finalans];
+		}
+	
+		this.replacePlaceholders();
 	}
+	
 
 	handleClick() {
 		this.personalizeMessage = false;
@@ -145,7 +139,7 @@ export default class BiPspbWelcomeAvatar extends LightningElement {
 	connectedCallback() {
 		// code
 		try {
-			GET_CATEGORY_MESSAGES({ categoryval: GEN_CATEGORY_MESSAGES })
+			GET_CATEGORY_MESSAGES({ categoryval: label.GEN_CATEGORY_MESSAGES })
 				.then((result) => {
 					this.generalMessages = result;
 					this.result = this.getRandomNumber(
@@ -156,10 +150,10 @@ export default class BiPspbWelcomeAvatar extends LightningElement {
 					this.replacePlaceholders();
 				})
 				.catch((error) => {
-					this.showToast(ERROR_MESSAGE, error.message, ERROR_VARIANT); // Catching Potential Error from apex
+					this.HandleToast(error.message); // Catching Potential Error from apex
 				});
 		} catch (err) {
-			this.showToast(ERROR_MESSAGE, err.message, ERROR_VARIANT); // Catching Potential Error from lwc
+			this.HandleToast(err.message); // Catching Potential Error from lwc
 		}
 	}
 
@@ -175,17 +169,23 @@ export default class BiPspbWelcomeAvatar extends LightningElement {
 
 	// Replace placeholders with the user's name
 	replacePlaceholders() {
-		if(this.name) {
-			if (this.message) {
-				this.message = this.message.replace(/\{!username\}/gu, this.name).replace(/XXX/gu, this.name);
-			}
-			if (this.genMessage) {
-				this.genMessage = this.genMessage.replace(/\{!username\}/gu, this.name).replace(/XXX/gu, this.name);
-			}
-			if (this.finalMessage) {
-				this.finalMessage = this.finalMessage.replace(/\{!username\}/gu, this.name).replace(/XXX/gu, this.name);
-			}
+		if (!this.name) {
+			return;
 		}
+	
+		const replacePlaceholdersInMessage = (message) => {
+			if (message) {
+				return message.replace(/\{!username\}/gu, this.name).replace(/XXX/gu, this.name);
+			}
+			return message;
+		};
+	
+		this.message = replacePlaceholdersInMessage(this.message);
+		this.genMessage = replacePlaceholdersInMessage(this.genMessage);
+		this.finalMessage = replacePlaceholdersInMessage(this.finalMessage);
+	}
+	HandleToast(error){
+		this.showToast(label.ERROR_MESSAGE, error.message, label.ERROR_VARIANT);
 	}
 
 	// showToast used for all the error messages caught

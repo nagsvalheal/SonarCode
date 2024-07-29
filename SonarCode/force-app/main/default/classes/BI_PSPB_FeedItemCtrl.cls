@@ -27,28 +27,39 @@ public with sharing class BI_PSPB_FeedItemCtrl {
           null
         );
       }
-        // Fetching the post of this Id, that is to be deleted.
-        BI_PSP_FeedItem__c feedItemToUpdate = [
-          SELECT Id, BI_PSP_SoftDelete__c
-          FROM BI_PSP_FeedItem__c
-          WHERE Id = :feedItemId
-          WITH USER_MODE LIMIT 1
-        ];
-        if (feedItemToUpdate != null) {
-          // Updating the 'BI_PSP_SoftDelete__c' field to softdelete the post.
-          feedItemToUpdate.BI_PSP_SoftDelete__c = BI_PSPB_CommunityConstantCtrl.softDelete;
-          BI_PSP_DatabaseOperationsUtility.updateAndHandleErrors(
-            new List<BI_PSP_FeedItem__c>{ feedItemToUpdate },
-            BI_PSPB_FeedItemCtrl.class.toString(),true
-          );
-        } else {
-          // Throwing exception when post is not found.
-          BI_PSP_LogMessagesUtility.exceptionLogMessage(
-            BI_PSPB_CommunityConstantCtrl.errorWhileFetchingPost,
-            BI_PSPB_FeedItemCtrl.class.toString(),
-            null
-          );
-        }
+      /*BI_PSP_FeedItem__c feedItemToUpdate = [
+              SELECT Id, BI_PSP_SoftDelete__c
+              FROM BI_PSP_FeedItem__c
+              WHERE Id = :feedItemId
+              WITH USER_MODE LIMIT 1
+            ]; */
+      // Define the parameters for the query
+      String queryString =
+        'SELECT Id, BI_PSP_SoftDelete__c FROM BI_PSP_FeedItem__c WHERE Id = \'' +
+        feedItemId +
+        '\' WITH USER_MODE LIMIT 1';
+
+      List<BI_PSP_FeedItem__c> feedItemToUpdate = BI_PSP_CommonQueryUtility.executeWholeQueryInString(
+        queryString
+      );
+
+      if (feedItemToUpdate[0] != null) {
+        // Updating the 'BI_PSP_SoftDelete__c' field to softdelete the post.
+        feedItemToUpdate[0]
+          .BI_PSP_SoftDelete__c = BI_PSPB_CommunityConstantCtrl.softDelete;
+        BI_PSP_DatabaseOperationsUtility.updateAndHandleErrors(
+          new List<BI_PSP_FeedItem__c>{ feedItemToUpdate[0] },
+          BI_PSPB_FeedItemCtrl.class.toString(),
+          true
+        );
+      } else {
+        // Throwing exception when post is not found.
+        BI_PSP_LogMessagesUtility.exceptionLogMessage(
+          BI_PSPB_CommunityConstantCtrl.errorWhileFetchingPost,
+          BI_PSPB_FeedItemCtrl.class.toString(),
+          null
+        );
+      }
     } catch (System.DmlException ex) {
       BI_PSP_LogMessagesUtility.catchSystemException(
         BI_PSPB_CommunityConstantCtrl.errorWhileDeleting,
@@ -76,40 +87,29 @@ public with sharing class BI_PSPB_FeedItemCtrl {
           null
         );
       }
-        // Getting account Id for the user.
-   /**     List<Account> accountRecords = BI_PSP_CurrentUser.returnTheAccounts();
-      String accountId = (accountRecords.isEmpty()) ? null : accountRecords[0].Id;
-        if (String.isBlank(accountId)) {   
-          // Throwing exception when account is not found.
-          BI_PSP_LogMessagesUtility.exceptionLogMessage(
-            BI_PSPB_CommunityConstantCtrl.errorWhileGetAccountId,
-            BI_PSPB_FeedItemCtrl.class.toString(),
-            null
-          );
-        }*/
-        // Getting enrollee records
-        List<CareProgramEnrollee> enrolleeRecords = BI_PSP_CurrentUser.getEnrolleeRecords();
-        if (enrolleeRecords.isEmpty()) {
-            // Throwing exception when enrollee records are not found
-            BI_PSP_LogMessagesUtility.exceptionLogMessage(
-                BI_PSPB_CommunityConstantCtrl.errorWhileCreatingPost,
-                BI_PSPB_FeedItemCtrl.class.toString(),
-                null
-            );
-            return;
-        }
-          //Creating new post with the entered category and sub category by the user.
-          newFeedItem = new BI_PSP_FeedItem__c(
-            BI_PSP_Phrase__c = subcategory,
-            BI_PSP_Category__c = category,
-           	BI_PSP_CareProgramEnrollee__c = enrolleeRecords[0].Id
-          );
-          BI_PSP_DatabaseOperationsUtility.insertAndHandleErrors(
-            new List<BI_PSP_FeedItem__c>{ newFeedItem },
-            BI_PSPB_FeedItemCtrl.class.toString(),
-            true
-          );
-        
+
+      // Getting enrollee records
+      List<CareProgramEnrollee> enrolleeRecords = BI_PSP_CurrentUser.getEnrolleeRecords();
+      if (enrolleeRecords.isEmpty()) {
+        // Throwing exception when enrollee records are not found
+        BI_PSP_LogMessagesUtility.exceptionLogMessage(
+          BI_PSPB_CommunityConstantCtrl.errorWhileCreatingPost,
+          BI_PSPB_FeedItemCtrl.class.toString(),
+          null
+        );
+        return;
+      }
+      //Creating new post with the entered category and sub category by the user.
+      newFeedItem = new BI_PSP_FeedItem__c(
+        BI_PSP_Phrase__c = subcategory,
+        BI_PSP_Category__c = category,
+        BI_PSP_CareProgramEnrollee__c = enrolleeRecords[0].Id
+      );
+      BI_PSP_DatabaseOperationsUtility.insertAndHandleErrors(
+        new List<BI_PSP_FeedItem__c>{ newFeedItem },
+        BI_PSPB_FeedItemCtrl.class.toString(),
+        false
+      );
     } catch (System.DmlException ex) {
       BI_PSP_LogMessagesUtility.catchSystemException(
         BI_PSPB_CommunityConstantCtrl.errorWhileCreatingPost,
@@ -127,11 +127,11 @@ public with sharing class BI_PSPB_FeedItemCtrl {
 	*/
   @AuraEnabled(cacheable=true)
   public static List<BI_PSP_FeedItem__c> fetchMyPost() {
-    List<BI_PSP_FeedItem__c> filteredResults;
+    List<BI_PSP_FeedItem__c> myPostRecords;
     try {
       // Getting the CareProgramEnrollee ID associated with the user ID.
       String cpeId = BI_PSP_CurrentUser.getEnrolleeRecords()[0].Id;
-          if (String.isBlank(cpeId)) {
+      if (String.isBlank(cpeId)) {
         // Throwing error when account not found.
         BI_PSP_LogMessagesUtility.exceptionLogMessage(
           BI_PSPB_CommunityConstantCtrl.errorWhileGetEnrolleeId,
@@ -139,9 +139,9 @@ public with sharing class BI_PSPB_FeedItemCtrl {
           null
         );
       }
-      /** List of posts that are created by the logged in user
-      with reactions and comments.*/
-      List<BI_PSP_FeedItem__c> myPostRecords = [
+      //List of posts that are created by the logged in user with reactions and comments.
+
+      myPostRecords = [
         SELECT
           Id,
           BI_PSP_Category__c,
@@ -152,22 +152,31 @@ public with sharing class BI_PSPB_FeedItemCtrl {
           (
             SELECT Id, BI_PSP_Comment__c, BI_PSP_CommentDelete__c
             FROM BI_PSP_FeedComment__r
-            WHERE BI_PSP_CommentDelete__c != :BI_PSPB_CommunityConstantCtrl.softDelete
+            WHERE
+              BI_PSP_CommentDelete__c != :BI_PSPB_CommunityConstantCtrl.softDelete
           ),
           (
             SELECT Id, BI_PSP_ReactionResult__c
             FROM BI_PSP_EmojiReactionController__r
           )
         FROM BI_PSP_FeedItem__c
-        WHERE BI_PSP_CareProgramEnrollee__c = :cpeId
+        WHERE
+          BI_PSP_CareProgramEnrollee__c = :cpeId
+          AND BI_PSP_SoftDelete__c != :BI_PSPB_CommunityConstantCtrl.softDelete
+          AND BI_PSP_Category__c != NULL
+          AND BI_PSP_Phrase__c != NULL
         ORDER BY CreatedDate DESC
       ];
-      filteredResults = new List<BI_PSP_FeedItem__c>();
-      for (BI_PSP_FeedItem__c item : myPostRecords) {
-        if (item.BI_PSP_SoftDelete__c != BI_PSPB_CommunityConstantCtrl.softDelete) {
-          filteredResults.add(item);
-        }
-      }
+
+      /* // Define the parameters for the query
+                String sObjectType = 'BI_PSP_FeedItem__c';
+                String fields = 'Id, BI_PSP_Category__c, BI_PSP_Phrase__c, BI_PSP_SoftDelete__c,  CreatedDate,(SELECT Id, BI_PSP_Comment__c, BI_PSP_CommentDelete__c FROM BI_PSP_FeedComment__r WHERE BI_PSP_CommentDelete__c != :BI_PSPB_CommunityConstantCtrl.softDelete),(SELECT Id, BI_PSP_ReactionResult__c FROM BI_PSP_EmojiReactionController__r)';
+                String conditions = 'BI_PSP_CareProgramEnrollee__c = \'' + cpeId + '\' ORDER BY CreatedDate DESC ';
+                Boolean withUserMode = false;
+    
+                // Fetch the feed items using the common query utility
+                List<BI_PSP_FeedItem__c> myPostRecords =  BI_PSP_CommonQueryUtility.executeQuery(sObjectType, fields, conditions, withUserMode);
+*/
     } catch (Exception ex) {
       BI_PSP_LogMessagesUtility.exceptionLogMessage(
         BI_PSPB_CommunityConstantCtrl.errorWhileFetchingPost,
@@ -180,7 +189,7 @@ public with sharing class BI_PSPB_FeedItemCtrl {
 				There are two different scenario such as it takes an action when 
 				it is returned as null and another action when it is returned with values.
 		*/
-    return filteredResults;
+    return myPostRecords;
   }
   /**		
 	* @description	Used to fetch all posts from database.Fetch and display 
@@ -196,7 +205,7 @@ public with sharing class BI_PSPB_FeedItemCtrl {
     try {
       // Getting the CareProgramEnrollee ID associated with the user ID.
       String cpeId = BI_PSP_CurrentUser.getEnrolleeRecords()[0].Id;
-            if (String.isBlank(cpeId)) {
+      if (String.isBlank(cpeId)) {
         // Throwing error when account not found.
         BI_PSP_LogMessagesUtility.exceptionLogMessage(
           BI_PSPB_CommunityConstantCtrl.errorWhileGetEnrolleeId,
@@ -204,56 +213,19 @@ public with sharing class BI_PSPB_FeedItemCtrl {
           null
         );
       }
-      // List of all posts with comments and reactions.
-      List<BI_PSP_FeedItem__c> allPostRecords = [
-        SELECT
-          Id,
-          BI_PSP_Category__c,
-          BI_PSP_Phrase__c,
-          BI_PSP_FollowStatus__c,
-          BI_PSP_SoftDelete__c,
-          BI_PSP_CareProgramEnrollee__c,
-          CreatedById,
-          CreatedDate,
-          	BI_PSP_CareProgramEnrollee__r.BI_PSP_AvatarUrl__c,
-          	BI_PSP_CareProgramEnrollee__r.BI_PSP_CommunityUsername__c,
-          (
-            SELECT Id, BI_PSP_Comment__c, BI_PSP_CommentDelete__c
-            FROM BI_PSP_FeedComment__r
-            WHERE BI_PSP_CommentDelete__c != :BI_PSPB_CommunityConstantCtrl.softDelete
-          ),
-          (
-            SELECT Id, BI_PSP_ReactionResult__c
-            FROM BI_PSP_EmojiReactionController__r
-          )
-        FROM BI_PSP_FeedItem__c
-        WHERE BI_PSP_CareProgramEnrollee__c != NULL
-        ORDER BY CreatedDate DESC
-      ];
-      //Fetching follow status.
-      List<BI_PSP_FeedFollow__c> currentUserFollowing = [
-        SELECT Id, BI_PSP_CareProgramEnrolleeFollow__c
-        FROM BI_PSP_FeedFollow__c
-        WHERE 	BI_PSP_CareProgramEnrolleeAccount__c = :cpeId AND BI_PSP_Type__c = :BI_PSPB_CommunityConstantCtrl.following
-      ];
-      Set<Id> followingUserIds = new Set<Id>();
-      for (BI_PSP_FeedFollow__c followRecord : currentUserFollowing) {
-        followingUserIds.add(followRecord.BI_PSP_CareProgramEnrolleeFollow__c);
-      }
+      // Fetch all relevant Feed Items and their comments and reactions.
+      List<BI_PSP_FeedItem__c> allPostRecords = fetchAllFeedItems();
+
+      // Fetch current user follow statuses.
+      Set<Id> followingUserIds = getFollowingUserIds(cpeId);
       for (BI_PSP_FeedItem__c item : allPostRecords) {
-        if (
-          item.BI_PSP_SoftDelete__c != BI_PSPB_CommunityConstantCtrl.softDelete &&
-          item.BI_PSP_Category__c != null &&
-          item.BI_PSP_Phrase__c != null
-        ) {
-          //	Check if the creator of	the	post is	being followed.
-          if (followingUserIds.contains(item.BI_PSP_CareProgramEnrollee__c)) {
-            item.BI_PSP_FollowStatus__c = BI_PSPB_CommunityConstantCtrl.following;
-          } else {
-            item.BI_PSP_FollowStatus__c = BI_PSPB_CommunityConstantCtrl.follow;
-          }
-          filteredResults.add(item);
+        //	Check if the creator of	the	post is	being followed.
+        if (followingUserIds.contains(item.BI_PSP_CareProgramEnrollee__c)) {
+          item.BI_PSP_FollowStatus__c = BI_PSPB_CommunityConstantCtrl.following;
+        } else {
+          item.BI_PSP_FollowStatus__c = BI_PSPB_CommunityConstantCtrl.follow;
         }
+        filteredResults.add(item);
       }
     } catch (Exception ex) {
       BI_PSP_LogMessagesUtility.exceptionLogMessage(
@@ -268,5 +240,63 @@ public with sharing class BI_PSPB_FeedItemCtrl {
 			it is returned as null and another action when it is returned with values.
 		*/
     return filteredResults;
+  }
+  /**
+   * @description Fetches all feed items that are not soft deleted, have non-null categories and phrases,
+   *              and include their comments and reactions. This method returns a list of feed items
+   *              along with their related comments and reactions.
+   * @return List<BI_PSP_FeedItem__c> - A list of feed items with associated comments and reactions.
+   */
+  private static List<BI_PSP_FeedItem__c> fetchAllFeedItems() {
+    List<BI_PSP_FeedItem__c> allPostRecords = [
+      SELECT
+        Id,
+        BI_PSP_Category__c,
+        BI_PSP_Phrase__c,
+        BI_PSP_FollowStatus__c,
+        BI_PSP_SoftDelete__c,
+        BI_PSP_CareProgramEnrollee__c,
+        CreatedDate,
+        BI_PSP_CareProgramEnrollee__r.BI_PSP_AvatarUrl__c,
+        BI_PSP_CareProgramEnrollee__r.BI_PSP_CommunityUsername__c,
+        (
+          SELECT Id, BI_PSP_Comment__c, BI_PSP_CommentDelete__c
+          FROM BI_PSP_FeedComment__r
+          WHERE
+            BI_PSP_CommentDelete__c != :BI_PSPB_CommunityConstantCtrl.softDelete
+        ),
+        (
+          SELECT Id, BI_PSP_ReactionResult__c
+          FROM BI_PSP_EmojiReactionController__r
+        )
+      FROM BI_PSP_FeedItem__c
+      WHERE
+        BI_PSP_CareProgramEnrollee__c != NULL
+        AND BI_PSP_SoftDelete__c != :BI_PSPB_CommunityConstantCtrl.softDelete
+        AND BI_PSP_Category__c != NULL
+        AND BI_PSP_Phrase__c != NULL
+      ORDER BY CreatedDate DESC
+    ];
+    return allPostRecords;
+  }
+  private static Set<Id> getFollowingUserIds(String cpeId) {
+    Set<Id> followingUserIds = new Set<Id>();
+
+    // Define the parameters for the query
+    String queryString =
+      'SELECT Id, BI_PSP_CareProgramEnrolleeFollow__c FROM BI_PSP_FeedFollow__c WHERE BI_PSP_CareProgramEnrolleeAccount__c = \'' +
+      cpeId +
+      '\' AND BI_PSP_Type__c = \'' +
+      BI_PSPB_CommunityConstantCtrl.following +
+      '\' ';
+
+    List<BI_PSP_FeedFollow__c> currentUserFollowing = BI_PSP_CommonQueryUtility.executeWholeQueryInString(
+      queryString
+    );
+
+    for (BI_PSP_FeedFollow__c followRecord : currentUserFollowing) {
+      followingUserIds.add(followRecord.BI_PSP_CareProgramEnrolleeFollow__c);
+    }
+    return followingUserIds;
   }
 }

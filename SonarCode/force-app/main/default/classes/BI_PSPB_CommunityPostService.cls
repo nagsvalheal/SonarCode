@@ -13,6 +13,7 @@ public with sharing class BI_PSPB_CommunityPostService {
 		try {
 			List<Task> taskRecords = BI_PSPB_CommunityTaskFetcher.fetchPendingCommunityPosts();
 
+            System.debug('taskRecords ' + taskRecords);
 			if (taskRecords.isEmpty()) {
 				BI_PSP_LogMessagesUtility.logError(
 					BI_PSPB_NewConstantsCtrl.errorMsgRecordNotFound,
@@ -33,18 +34,19 @@ public with sharing class BI_PSPB_CommunityPostService {
 					newTaskList.add(newTask);
 				}
 
+                System.debug('newTaskList ' + newTaskList);
 				if (!newTaskList.isEmpty()) {
-					BI_PSPB_HandleUtitlites.insertAndHandleErrors(
+					/*BI_PSPB_HandleUtitlites.insertAndHandleErrors(
 						newTaskList,
 						BI_PSPB_CommunityPostService.class.toString(),
 						false
-					);
+					);*/
 				}
 
 				if (!taskIds.isEmpty()) {
 					BI_PSPB_NotificationSender.sendNotifications(
 						taskIds,
-                        '',
+                        BI_PSPB_ConstantsClassCtrl.generalCreatePost,
 						communityUserNames
 					);
 				}

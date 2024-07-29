@@ -11,13 +11,13 @@ import RECORD_INSERTST_UPDATE from "@salesforce/apex/BI_PSP_SymptomTrackerCtrl.u
 import CHECK_UNIQUE_DATE from "@salesforce/apex/BI_PSP_SymptomTrackerCtrl.checkUniqueDate";
 import UPDATE_GPP_VALUE from "@salesforce/apex/BI_PSP_SymptomTrackerCtrl.updateGppValue";
 import UPDATE_RECENT_VALUE from "@salesforce/apex/BI_PSP_SymptomTrackerCtrl.updateRecentSymptomActivity";
-import CREATE_CONTENT_DOCUMENT_LINKS from "@salesforce/apex/BI_PSP_SymptomTrackerContantCtrl.createContentDocumentLinks";
-import GET_LAST from "@salesforce/apex/BI_PSP_SymptomTrackerContantCtrl.getLastCareTemplate";
+import CREATE_CONTENT_DOCUMENT_LINKS from "@salesforce/apex/BI_PSP_SymptomTrackerOperationsCtrl.createContentDocumentLinks";
+import GET_LAST from "@salesforce/apex/BI_PSP_SymptomTrackerOperationsCtrl.getLastCareTemplate";
 import GET_SYMPTOM_RECORD_DATA from "@salesforce/apex/BI_PSPB_SymptomPrimaryPageCtrl.getSymptomRecordData";
 import GET_CASE_IMAGE_URL from "@salesforce/apex/BI_PSPB_SymptomPrimaryPageCtrl.getBase64Image";
-import DELETE_CONTENT_DOCUMENT_LINKS from "@salesforce/apex/BI_PSP_SymptomTrackerContantCtrl.deleteContentDocumentLinks";
-import FETCH_ACCOUNT_DETAILS from "@salesforce/apex/BI_PSP_SymptomTrackerContantCtrl.fetchAccountDetails";
-import SAVE_FILES from "@salesforce/apex/BI_PSP_SymptomTrackerContantCtrl.saveFiles";
+import DELETE_CONTENT_DOCUMENT_LINKS from "@salesforce/apex/BI_PSP_SymptomTrackerOperationsCtrl.deleteContentDocumentLinks";
+import FETCH_ACCOUNT_DETAILS from "@salesforce/apex/BI_PSP_SymptomTrackerOperationsCtrl.fetchAccountDetails";
+import SAVE_FILES from "@salesforce/apex/BI_PSP_SymptomTrackerOperationsCtrl.saveFiles";
 import GET_ENROLLE from "@salesforce/apex/BI_PSP_ChallengeEnrolleCtrl.getEnrolle";
 // To import Static Resources
 import BOXED_ICON from "@salesforce/resourceUrl/BI_PSPB_BoxedIcon";
@@ -58,7 +58,7 @@ import DYNAMIC_VALUE from "@salesforce/label/c.BI_PSP_SomeDynamicValue";
 import DATE_INPUT_PAGE from "@salesforce/label/c.BI_PSP_DateInputPage";
 import UPLOADED_FILE from "@salesforce/label/c.BI_PSP_UploadedFile";
 import UPLOADED_FILE_PNG from "@salesforce/label/c.BI_PSP_UploadedFilePng";
-import GET_SYMPTOM_TRACKER_DETAILS from "@salesforce/apex/BI_PSP_SymptomTrackerContantCtrl.getSymptomTrackerDetails";
+import GET_SYMPTOM_TRACKER_DETAILS from "@salesforce/apex/BI_PSP_SymptomTrackerOperationsCtrl.getSymptomTrackerDetails";
 export default class biPspbSymptomTracker extends NavigationMixin(
     LightningElement
 ) {
@@ -1229,6 +1229,7 @@ changerecord(event){
     }) {
         // Null data is checked and AuraHandledException is thrown from the Apex
         if (data) {
+            console.log(data,';jjjj')
             try {
                 for (let careplanimage of data) {
                     if (careplanimage.Name === ITCHINESS) {

@@ -21,8 +21,9 @@
         if (String.isBlank(symptomTrackerId)) {
            
            BI_PSP_LogMessagesUtility.logError(
-              BI_PSP_SymptomTrackerContantCtrl.symptomErrorMsg,
-              BI_PSP_SymptomTrackerCtrl.class.toString(),true
+              BI_PSP_SymptomTrackerConstantCtrl.symptomErrorMsg,
+              BI_PSP_SymptomTrackerCtrl.class.toString(),true,
+                BI_PSP_SymptomTrackerConstantCtrl.LOG_SEVERITY_ERROR
             );
         }
         List<BI_PSP_Symptom_Tracker__c> records = [
@@ -49,7 +50,7 @@
             );
         }  catch (System.DmlException ex) {
               BI_PSP_LogMessagesUtility.catchSystemException(
-            BI_PSP_SymptomTrackerContantCtrl.applicationPhotoMsg,
+            BI_PSP_SymptomTrackerConstantCtrl.applicationPhotoMsg,
             BI_PSP_SymptomTrackerCtrl.class.toString(),
             ex
           );
@@ -70,8 +71,9 @@
         if (String.isBlank(cpeList) || editEntryDate == null) {
             
            BI_PSP_LogMessagesUtility.logError(
-              BI_PSP_SymptomTrackerContantCtrl.symptomErrorMsg,
-              BI_PSP_SymptomTrackerCtrl.class.toString(),true
+              BI_PSP_SymptomTrackerConstantCtrl.symptomErrorMsg,
+              BI_PSP_SymptomTrackerCtrl.class.toString(),true,
+                BI_PSP_SymptomTrackerConstantCtrl.LOG_SEVERITY_ERROR
             );
         }
         
@@ -81,7 +83,7 @@
             FROM BI_PSP_Symptom_Tracker__c
             WHERE BI_PSP_Care_Program_Enrollee__c = :cpeList
                 AND BI_PSP_EditEntrydates__c = :editEntryDate
-                AND BI_PSP_Symptom_Staus__c = :BI_PSP_SymptomTrackerContantCtrl.inActive
+                AND BI_PSP_Symptom_Staus__c = :BI_PSP_SymptomTrackerConstantCtrl.inActive
             LIMIT 1
         ];
         return !existingRecords.isEmpty();
@@ -99,8 +101,9 @@
         if (record == null || bodyParts == null) {
             
            BI_PSP_LogMessagesUtility.logError(
-              BI_PSP_SymptomTrackerContantCtrl.symptomErrorMsg,
-              BI_PSP_SymptomTrackerCtrl.class.toString(),true
+              BI_PSP_SymptomTrackerConstantCtrl.symptomErrorMsg,
+              BI_PSP_SymptomTrackerCtrl.class.toString(),true,
+                BI_PSP_SymptomTrackerConstantCtrl.LOG_SEVERITY_ERROR
             );
         }
     }
@@ -118,8 +121,9 @@
         if (cpes == null || cpes.AccountId == null) {
           
            BI_PSP_LogMessagesUtility.logError(
-              BI_PSP_SymptomTrackerContantCtrl.symptomErrorMsg,
-              BI_PSP_SymptomTrackerCtrl.class.toString(),true
+              BI_PSP_SymptomTrackerConstantCtrl.symptomErrorMsg,
+              BI_PSP_SymptomTrackerCtrl.class.toString(),true,
+                BI_PSP_SymptomTrackerConstantCtrl.LOG_SEVERITY_ERROR
             );
         }
         return cpes.AccountId;
@@ -136,8 +140,9 @@
         if (String.isBlank(careProgramId)) {
           
            BI_PSP_LogMessagesUtility.logError(
-              BI_PSP_SymptomTrackerContantCtrl.symptomErrorMsg,
-              BI_PSP_SymptomTrackerCtrl.class.toString(),true
+              BI_PSP_SymptomTrackerConstantCtrl.symptomErrorMsg,
+              BI_PSP_SymptomTrackerCtrl.class.toString(),true,
+                BI_PSP_SymptomTrackerConstantCtrl.LOG_SEVERITY_ERROR
             );
         }
         
@@ -168,8 +173,9 @@
         if (cptList.isEmpty()) {
            
            BI_PSP_LogMessagesUtility.logError(
-              BI_PSP_SymptomTrackerContantCtrl.symptomErrorMsg,
-              BI_PSP_SymptomTrackerCtrl.class.toString(),true
+              BI_PSP_SymptomTrackerConstantCtrl.symptomErrorMsg,
+              BI_PSP_SymptomTrackerCtrl.class.toString(),true,
+                BI_PSP_SymptomTrackerConstantCtrl.LOG_SEVERITY_ERROR
             );
         }
         return cptList[0];
@@ -186,8 +192,9 @@
         if (String.isBlank(cptId)) {
             
            BI_PSP_LogMessagesUtility.logError(
-              BI_PSP_SymptomTrackerContantCtrl.symptomErrorMsg,
-              BI_PSP_SymptomTrackerCtrl.class.toString(),true
+              BI_PSP_SymptomTrackerConstantCtrl.symptomErrorMsg,
+              BI_PSP_SymptomTrackerCtrl.class.toString(),true,
+                  BI_PSP_SymptomTrackerConstantCtrl.LOG_SEVERITY_ERROR
             );
         }
         

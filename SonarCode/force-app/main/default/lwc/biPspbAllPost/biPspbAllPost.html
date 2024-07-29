@@ -2,68 +2,19 @@
 <!-- Strings are hard coded in this HTML file to comply with the mobile responsiveness-->
 <template>
   <!-- To display ToastMessage after deleting the Comment  -->
-  <template if:true={showDeleteToastMsg}>
-    <button class="toastmsgclose" title="Close" onclick={closeCommentToastMsg}>
+  <template if:true={showToastMsg}>
+    <button class="toastmsgclose" title="Close" onclick={closeToastMsg}>
       X
     </button>
     <div class="toastmsg">
       <img src={deleteToast} data-scroll-target class="deletetoastimg" />
       &nbsp;&nbsp;&nbsp;&nbsp;
-      <p  class="cmtdeltoastmsg">Comment deleted successfully.</p>
+      <p  if:true={showDeleteToastMsg} class="cmtdeltoastmsg">Comment deleted successfully.</p>
+      <p if:true={showFollowToastMsg} class="flwtoastmsg">You started following {username}.</p>
+      <p if:true={showUnfollowToastMsg} class="flwtoastmsg">You unfollowed {username} successfully.</p>
     </div>
   </template>
-  <!-- To display ToastMessage after Follow the User  -->
-  <template if:true={showFollowToastMsg}>
-    <button
-      class="toastmsgclose"
-      title="Close"
-      onclick={closeAllFollowToastMsg}
-    >
-      X
-    </button>
-    <div class="toastmsg">
-      <img data-scroll-target class="img" src={deleteToast} />
-      &nbsp;&nbsp;&nbsp;&nbsp;
-      <p class="flwtoastmsg">You started following {username}.</p>
-    </div>
-  </template>
-  <!-- To display ToastMessage after UnFollow the User  -->
-  <template if:true={showUnfollowToastMsg}>
-    <button class="toastmsgclose" title="Close" onclick={closeUnfollowToastMsg}>
-      X
-    </button>
-    <div class="toastmsg">
-      <img data-scroll-target class="img" src={deleteToast} />
-      &nbsp;&nbsp;&nbsp;&nbsp;
-      <p class="flwtoastmsg">You unfollowed {username} successfully.</p>
-    </div>
-  </template>
-  <!-- To display ToastMessage after Follow the User for Emoji -->
-  <template if:true={showFollowToastMsgForMbl}>
-    <button
-      class="toastmsgclose"
-      title="Close"
-      onclick={closeAllFollowToastMsg}
-    >
-      X
-    </button>
-    <div class="toastmsg">
-      <img data-scroll-target class="img" src={deleteToast} />
-      &nbsp;&nbsp;&nbsp;&nbsp;
-      <p class="flwtoastmsg">You started following {followUserName}.</p>
-    </div>
-  </template>
-  <!-- To display ToastMessage after UnFollow the User for Emoji -->
-  <template if:true={showUnfollowToastMsgForMbl}>
-    <button class="toastmsgclose" title="Close" onclick={closeUnfollowToastMsg}>
-      X
-    </button>
-    <div class="toastmsg">
-      <img data-scroll-target class="img" src={deleteToast} />
-      &nbsp;&nbsp;&nbsp;&nbsp;
-      <p class="flwtoastmsg">You unfollowed {followUserName} successfully.</p>
-    </div>
-  </template>
+  
   <div data-it-uid={userId} class="head">
     <!-- This is the whole div includes leftside(avatar image and avatar content) and leftside(Posts)  -->
     <div class="row">
@@ -81,44 +32,16 @@
       <!-- This line is for mobile responsiveness based on the figma -->
       <hr class="forMblresponse" />
       <!-- To display ToastMessage after deleting the Comment only for mobile responsiveness -->
-      <template if:true={showDeleteToastMsg}>
+      <template if:true={showToastMsg}>
         <div class="toastmsgformobile">
           <img src={deleteToast} class="deletetoastimg" />
-          <p class="tstmsg">Comment deleted succesfully.</p>
+          <p if:true={showDeleteToastMsg} class="tstmsg">Comment deleted succesfully.</p>
+          <p if:true={showFollowToastMsg} class="flwtoastmsg">You started following {username}.</p>
+          <p  if:true={showUnfollowToastMsg} class="flwtoastmsg">You unfollowed {username} successfully.</p>
           <div
             class="toastmsgcloseformbl"
             title="Close"
-            onclick={closeCommentToastMsg}
-          >
-            &times;
-          </div>
-        </div>
-      </template>
-      <!-- To display ToastMessage after follow the User only for mobile responsiveness -->
-      <template if:true={showFollowToastMsg}>
-        <div class="toastmsgformobile">
-          <img src={deleteToast} class="deletetoastimg" />
-          <p class="flwtoastmsg">You started following {username}.</p>
-          <div
-            class="toastmsgcloseformbl"
-            title="Close"
-            onclick={closeAllFollowToastMsg}
-          >
-            &times;
-          </div>
-        </div>
-        <!-- To display ToastMessage after Unfollow the User only for mobile responsiveness --> </template
-      ><template if:true={showUnfollowToastMsg}>
-        <div class="toastmsgformobile">
-          <img src={deleteToast} class="deletetoastimg" />
-
-          <p class="flwtoastmsg">You unfollowed {username} successfully.</p>
-
-          <div
-            class="toastmsgcloseformbl"
-            title="Close"
-            onclick={closeUnfollowToastMsg}
-          >
+            onclick={closeToastMsg}>
             &times;
           </div>
         </div>
@@ -363,7 +286,7 @@
                                           data-it-button="allPost: ReactionAvatar(Profile) - ThumbsUp"
                                           class="emojiprofile"
                                           onclick={emojiFollowProfileBtn}
-                                          data-accid={thumbsup.BI_PSP_CareProgramEnrolleeEmoji__c}
+                                          data-enrollee={thumbsup.BI_PSP_CareProgramEnrolleeEmoji__c}
                                           data-name={thumbsup.BI_PSP_CareProgramEnrolleeEmoji__r.BI_PSP_CommunityUsername__c}
                                           data-avat={thumbsup.avatarDataForReaction}
                                         />
@@ -371,7 +294,7 @@
                                           class="emojiusername"
                                           data-it-button="allPost: ReactionAvatar(Username) - ThumbsUp"
                                           onclick={emojiFollowProfileBtn}
-                                          data-accid={thumbsup.BI_PSP_CareProgramEnrolleeEmoji__c}
+                                          data-enrollee={thumbsup.BI_PSP_CareProgramEnrolleeEmoji__c}
                                           data-name={thumbsup.BI_PSP_CareProgramEnrolleeEmoji__r.BI_PSP_CommunityUsername__c}
                                           data-avat={thumbsup.avatarDataForReaction}
                                         >
@@ -553,7 +476,7 @@
                                           data-it-button="allPost: ReactionAvatar(Profile) - Smile"
                                           class="emojiprofile"
                                           onclick={emojiFollowProfileBtn}
-                                          data-accid={smile.BI_PSP_CareProgramEnrolleeEmoji__c}
+                                          data-enrollee={smile.BI_PSP_CareProgramEnrolleeEmoji__c}
                                           data-name={smile.BI_PSP_CareProgramEnrolleeEmoji__r.BI_PSP_CommunityUsername__c}
                                           data-avat={smile.avatarDataForReaction}
                                         />
@@ -561,7 +484,7 @@
                                           class="emojiusername"
                                           data-it-button="allPost: ReactionAvatar(Username) - Smile"
                                           onclick={emojiFollowProfileBtn}
-                                          data-accid={smile.BI_PSP_CareProgramEnrolleeEmoji__c}
+                                          data-enrollee={smile.BI_PSP_CareProgramEnrolleeEmoji__c}
                                           data-name={smile.BI_PSP_CareProgramEnrolleeEmoji__r.BI_PSP_CommunityUsername__c}
                                           data-avat={smile.avatarDataForReaction}
                                         >
@@ -750,7 +673,7 @@
                                           data-it-button="allPost: ReactionAvatar(Profile) - HandsFolded"
                                           class="emojiprofile"
                                           onclick={emojiFollowProfileBtn}
-                                          data-accid={foldedhands.BI_PSP_CareProgramEnrolleeEmoji__c}
+                                          data-enrollee={foldedhands.BI_PSP_CareProgramEnrolleeEmoji__c}
                                           data-name={foldedhands.BI_PSP_CareProgramEnrolleeEmoji__r.BI_PSP_CommunityUsername__c}
                                           data-avat={foldedhands.avatarDataForReaction}
                                         />
@@ -758,7 +681,7 @@
                                           class="emojiusername"
                                           data-it-button="allPost: ReactionAvatar(Username) - HandsFolded"
                                           onclick={emojiFollowProfileBtn}
-                                          data-accid={foldedhands.BI_PSP_CareProgramEnrolleeEmoji__c}
+                                          data-enrollee={foldedhands.BI_PSP_CareProgramEnrolleeEmoji__c}
                                           data-name={foldedhands.BI_PSP_CareProgramEnrolleeEmoji__r.BI_PSP_CommunityUsername__c}
                                           data-avat={foldedhands.avatarDataForReaction}
                                         >
@@ -942,7 +865,7 @@
                                           data-it-button="allPost: ReactionAvatar(Profile) - Heart"
                                           class="emojiprofile"
                                           onclick={emojiFollowProfileBtn}
-                                          data-accid={heart.BI_PSP_CareProgramEnrolleeEmoji__c}
+                                          data-enrollee={heart.BI_PSP_CareProgramEnrolleeEmoji__c}
                                           data-name={heart.BI_PSP_CareProgramEnrolleeEmoji__r.BI_PSP_CommunityUsername__c}
                                           data-avat={heart.avatarDataForReaction}
                                         />
@@ -950,7 +873,7 @@
                                           class="emojiusername"
                                           data-it-button="allPost: ReactionAvatar(Username) - Heart"
                                           onclick={emojiFollowProfileBtn}
-                                          data-accid={heart.BI_PSP_CareProgramEnrolleeEmoji__c}
+                                          data-enrollee={heart.BI_PSP_CareProgramEnrolleeEmoji__c}
                                           data-name={heart.BI_PSP_CareProgramEnrolleeEmoji__r.BI_PSP_CommunityUsername__c}
                                           data-avat={heart.avatarDataForReaction}
                                         >
@@ -1137,7 +1060,7 @@
                                           data-it-button="allPost: ReactionAvatar(Profile) - Thoughtful"
                                           class="emojiprofile"
                                           onclick={emojiFollowProfileBtn}
-                                          data-accid={thinkingface.BI_PSP_CareProgramEnrolleeEmoji__c}
+                                          data-enrollee={thinkingface.BI_PSP_CareProgramEnrolleeEmoji__c}
                                           data-name={thinkingface.BI_PSP_CareProgramEnrolleeEmoji__r.BI_PSP_CommunityUsername__c}
                                           data-avat={thinkingface.avatarDataForReaction}
                                         />
@@ -1145,7 +1068,7 @@
                                           class="emojiusername"
                                           onclick={emojiFollowProfileBtn}
                                           data-it-button="allPost: ReactionAvatar(Username) - Thoughtful"
-                                          data-accid={thinkingface.BI_PSP_CareProgramEnrolleeEmoji__c}
+                                          data-enrollee={thinkingface.BI_PSP_CareProgramEnrolleeEmoji__c}
                                           data-name={thinkingface.BI_PSP_CareProgramEnrolleeEmoji__r.BI_PSP_CommunityUsername__c}
                                           data-avat={thinkingface.avatarDataForReaction}
                                         >
@@ -1464,7 +1387,7 @@
                               data-it-button="allPost: Comment-Profile(Follow/Unfollow) Popup"
                               class="viewcommentimage"
                               onclick={emojiFollowProfileBtn}
-                              data-accid={commentitem.BI_PSP_CareProgramEnrolleeCmt__c}
+                              data-enrollee={commentitem.BI_PSP_CareProgramEnrolleeCmt__c}
                               data-name={commentitem.BI_PSP_CareProgramEnrolleeCmt__r.BI_PSP_CommunityUsername__c}
                               data-avat={commentitem.avatarDataforcomment}
                             />
@@ -1485,7 +1408,7 @@
                                 class="commentUserName"
                                 data-it-button="allPost: Profile-Username(Follow/Unfollow)Popup"
                                 onclick={emojiFollowProfileBtn}
-                                data-accid={commentitem.BI_PSP_CareProgramEnrolleeCmt__c}
+                                data-enrollee={commentitem.BI_PSP_CareProgramEnrolleeCmt__c}
                                 data-name={commentitem.BI_PSP_CareProgramEnrolleeCmt__r.BI_PSP_CommunityUsername__c}
                                 data-avat={commentitem.avatarDataforcomment}
                               >

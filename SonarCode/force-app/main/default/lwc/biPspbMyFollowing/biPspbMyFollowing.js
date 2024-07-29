@@ -93,8 +93,8 @@ export default class BiPspbMyFollowing extends LightningElement {
           this.userNames = followings.map((follower) => ({
             ...follower,
             followOrUnFollowButton: label.FOLLOWING_LABEL,
-            avatarOfTheAccount:
-              follower.BI_PSP_AccountUser__r?.BI_PSP_AvatarUrl__c ||
+            userAvatarForEnrollee:
+              follower.BI_PSP_CareProgramEnrolleeFollow__r?.BI_PSP_AvatarUrl__c ||
               this.loggedUserAvatar
           }));
           this.isLoading = false;
@@ -108,7 +108,7 @@ export default class BiPspbMyFollowing extends LightningElement {
   // To unFollow the user
   handleUnFollowConfirmation() {
       this.isLoading = true;
-      UNFOLLOW_USER({ enrolleeIdToUnFollow: this.accountIdOfUser })
+      UNFOLLOW_USER({ enrolleeIdToUnFollow: this.enrolleeIdToUnFollow })
         .then(() => {
           this.retrieveFollowings();
           this.showToastForUnFollow = true;
@@ -149,7 +149,7 @@ export default class BiPspbMyFollowing extends LightningElement {
 
   // To handle follow followFollwingButton on click
   handleFollowButtonClick(event) {
-    this.accountIdOfUser = event.target.dataset.accid;
+    this.enrolleeIdToUnFollow = event.target.dataset.enrollee;
     this.avatarFollow = event.target.dataset.avatar;
     this.following = true;
     this.followingPopup = true;
@@ -158,7 +158,7 @@ export default class BiPspbMyFollowing extends LightningElement {
 
   // To handle follow popup when clicked on profile
   handleFollowProfileButton(event) {
-    this.accountIdOfUser = event.target.dataset.accid;
+    this.enrolleeIdToUnFollow = event.target.dataset.enrollee;
     this.avatarFollow = event.target.dataset.avatar;
     this.followingPopupConfirmation = true;
     this.setBodyOverflow(this.isDesktop);

@@ -15,7 +15,7 @@ import CAREGIVER_DATE_VIEW from '@salesforce/apex/BI_PSPB_ProfileManagerCtrl.get
 import UPDATE_CAREGIVERS_DETAILS from '@salesforce/apex/BI_PSPB_ProfileManagerCtrl.updateCaregivers';
 import CREATE_ENROLLEE_CREATE from '@salesforce/apex/BI_PSPB_LeadCreationCtrl.createEnroleeCargiver';
 import GREAND_ACCESS_BUTTON from '@salesforce/apex/BI_PSPB_ProfileManagerCtrl.grandAccessButton';
-import ENROLLEE_DETAILS from '@salesforce/apex/BI_PSP_ChallengeCtrl.getEnrolle';
+import ENROLLEE_DETAILS from '@salesforce/apex/BI_PSP_ChallengeEnrolleCtrl.getEnrolle';
 //To import contact fields
 import Contact from '@salesforce/schema/Contact';
 import COUNTRY_FIELD from '@salesforce/schema/Contact.BI_PSPB_Relationship_To_Patient__c';

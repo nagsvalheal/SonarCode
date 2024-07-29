@@ -27,6 +27,7 @@ public class BI_PSPB_CommunityConstantCtrl {
 	public static String errorWhileFollowing = System.Label.BI_PSP_ErrorForFollowAccount;
 	public static String errorWhileGettingFollowers = System.Label.BI_PSP_ErrorForGettingFollower;
     public static String alreadyFollowing = System.Label.BI_PSP_ErrorForFollowUser;
+    public static final String LOG_SEVERITY_ERROR  = 'ERROR';
     public static String softDelete = System.Label.BI_PSP_SoftDelete;//Label for soft delete action.
     //Emoji reaction types.
     public static String thumbsUp = System.Label.BI_PSP_ThumbsUpNumber;

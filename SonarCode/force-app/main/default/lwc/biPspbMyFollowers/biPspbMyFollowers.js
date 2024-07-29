@@ -120,9 +120,9 @@ export default class BiPspbMyFollowers extends LightningElement {
                     this.userNames = followers.map((follower) => ({
                         ...follower,
                         followOrUnfollowButton: followingList.some(
-                            (obj) => obj.BI_PSP_AccountUser__c === follower?.BI_PSP_AccountUser__c
+                            (obj) => obj.BI_PSP_CareProgramEnrolleeFollow__c === follower?.BI_PSP_CareProgramEnrolleeFollow__c
                         ) ? label.FOLLOWING_LABEL : label.FOLLOW_LABEL,
-                        avatarOfTheAccount: follower.BI_PSP_AccountUser__r?.BI_PSP_AvatarUrl__c || this.loggedUserAvatar
+                        userAvatarForEnrollee: follower.BI_PSP_CareProgramEnrolleeFollow__r?.BI_PSP_AvatarUrl__c || this.loggedUserAvatar
                     }));
                 }
             } else {
@@ -142,13 +142,13 @@ export default class BiPspbMyFollowers extends LightningElement {
       this.isLoading = true;
       this.closeToastMessage();
       UNFOLLOW_USER({
-        enrolleeIdToUnFollow: this.accountIdToFollowId
+        enrolleeIdToUnFollow: this.enrolleeIdToFollow
       })
         .then(() => {
           this.userNames = this.userNames.map((follower) => ({
             ...follower,
             followOrUnfollowButton:
-              follower.BI_PSP_AccountUser__c === this.accountIdToFollowId
+              follower.BI_PSP_CareProgramEnrolleeFollow__c === this.enrolleeIdToFollow
                 ? label.FOLLOW_LABEL
                 : follower.followOrUnfollowButton
           }));
@@ -171,13 +171,13 @@ export default class BiPspbMyFollowers extends LightningElement {
       this.isLoading = true;
       this.closeToastMessage();
       FOLLOW_USER({
-        enrolleeIdToFollow: this.accountIdToFollowId
+        enrolleeIdToFollow: this.enrolleeIdToFollow
       })
         .then(() => {
           this.userNames = this.userNames.map((follower) => ({
             ...follower,
             followOrUnfollowButton:
-              follower.BI_PSP_AccountUser__c === this.accountIdToFollowId
+              follower.BI_PSP_CareProgramEnrolleeFollow__c === this.enrolleeIdToFollow
                 ? label.FOLLOWING_LABEL
                 : follower.followOrUnfollowButton
           }));
@@ -227,7 +227,7 @@ export default class BiPspbMyFollowers extends LightningElement {
   handleFollowingButtonClick(event) {
     this.selectedUserId = event.target.dataset.id;
     this.selectedUser = event.target.dataset.username;
-    this.accountIdToFollowId = event.target.dataset.accid;
+    this.enrolleeIdToFollow = event.target.dataset.enrollee;
   }
   handleFollowButtonClick(event) {
     this.handleButtonClick(event, false);
@@ -239,7 +239,7 @@ export default class BiPspbMyFollowers extends LightningElement {
   handleButtonClick(event, isConfirmation) {
     this.selectedUserId = event.target.dataset.id;
     this.selectedUser = event.target.dataset.username;
-    this.accountIdToFollowId = event.target.dataset.accid;
+    this.enrolleeIdToFollow = event.target.dataset.enrollee;
     this.button = event.target.dataset.following;
     this.avatarFollow = event.target.dataset.avatar;
     

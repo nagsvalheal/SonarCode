@@ -2,17 +2,8 @@
 // To import Libraries
 import { LightningElement } from 'lwc';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
-// To import Custom Labels
-import BRANDED_URL from '@salesforce/label/c.BI_PSPB_SiteLabel';
-import UNASSIGNED_URL from '@salesforce/label/c.BI_PSPB_UnAssignedLabel';
-import ERROR_MESSAGE from '@salesforce/label/c.BI_PSP_ConsoleError';
-import ERROR_VARIANT from '@salesforce/label/c.BI_PSP_ErrorVariantToast';
-import BRANDED_NAVI_URL from '@salesforce/label/c.BI_PSPB_BrandedSiteNaviUrl';
-import UNASSIGNED_NAVI_URL from '@salesforce/label/c.BI_PSPB_UnAssignedNaviUrl';
-import CAREGIVER_PROFILE_URL from '@salesforce/label/c.BI_PSPB_CaregiverProfileUrl';
-import CAREGIVER_PATIENT_URL from '@salesforce/label/c.BI_PSPB_CaregiverPatientUrl';
-import CAREGIVER_SELECT_URL from '@salesforce/label/c.BI_PSPB_CaregiverSelectAvatarUrl';
-import CAREGIVER_NOTIFY_URL from '@salesforce/label/c.BI_PSPB_CaregiverNotificationPageUrl';
+
+import {resources} from 'c/biPspbResourceProfileManager';
 
 export default class BiPspbCaregiverNotificationParent extends LightningElement {
 	//this method is used to navigating a user unassigned and branded
@@ -24,36 +15,36 @@ export default class BiPspbCaregiverNotificationParent extends LightningElement 
 			const PATH = URL_OBJECT.pathname; // Split the PATH using '/' as a separator
 			const PATH_COMPONENTS = PATH.split('/'); // Find the component you need (in this case, 'Branded')
 			const DESIRED_COMPONENTS = PATH_COMPONENTS.find((component) =>
-				[BRANDED_URL.toLowerCase(), UNASSIGNED_URL.toLowerCase()].includes(
+				[resources.BRANDED_URL.toLowerCase(), resources.UNASSIGNED_URL.toLowerCase()].includes(
 					component.toLowerCase()
 				)
 			);
 
-			if (DESIRED_COMPONENTS.toLowerCase() === BRANDED_URL.toLowerCase()) {
-				this.urlq = BRANDED_NAVI_URL;
+			if (DESIRED_COMPONENTS.toLowerCase() === resources.BRANDED_URL.toLowerCase()) {
+				this.urlq = resources.BRANDED_NAVI_URL;
 			} else {
-				this.urlq = UNASSIGNED_NAVI_URL;
+				this.urlq = resources.UNASSIGNED_NAVI_URL;
 			}
 		}
 		catch (error) {
-			this.showToast(ERROR_MESSAGE, error.message, ERROR_VARIANT); //catching potential error from LWC
+			this.showToast(resources.ERROR_MESSAGE, error.message, resources.ERROR_VARIANT); //catching potential error from LWC
 		}
 	}
 	// navigation for caregiver
 	openCarMyProfile() {
-		window.location.assign(this.urlq + CAREGIVER_PROFILE_URL);
+		window.location.assign(this.urlq + resources.CAREGIVER_PROFILE_URL);
 	}
 	openCarMyCaregiver() {
-		window.location.assign(this.urlq + CAREGIVER_PATIENT_URL);
+		window.location.assign(this.urlq + resources.CAREGIVER_PATIENT_URL);
 	}
 	openCarSelectAvatar() {
 		window.location.assign(
-			this.urlq + CAREGIVER_SELECT_URL
+			this.urlq + resources.CAREGIVER_SELECT_URL
 		);
 	}
 	openCarNotSettings() {
 		window.location.assign(
-			this.urlq + CAREGIVER_NOTIFY_URL
+			this.urlq + resources.CAREGIVER_NOTIFY_URL
 		);
 	}
 	showToast(title, message, variant) {

@@ -13,7 +13,6 @@ Ver   Date         Author                               Modification
 */
 
 public without sharing class BI_PSPB_SymptomPrimaryPageCtrl {
-
   /**
 		
 		@description     Method to retrieve symptom record data based on symptomTrackerId
@@ -29,8 +28,8 @@ public without sharing class BI_PSPB_SymptomPrimaryPageCtrl {
     try {
       if (String.isBlank(symptomTrackerId)) {
         return null;
-      } else {
-        primaryPageSymptom = [
+      } 
+     /*   primaryPageSymptom = [
           SELECT
             Id,
             BI_PSP_EditEntrydates__c,
@@ -41,25 +40,40 @@ public without sharing class BI_PSPB_SymptomPrimaryPageCtrl {
           FROM BI_PSP_Symptom_Tracker__c
           WHERE Id = :symptomTrackerId
           LIMIT 1
-        ]; //USER_MODE cannot be implemented here, as it is querying health cloud object.
-      }
-      if (primaryPageSymptom.isEmpty()) {
+        ]; //USER_MODE cannot be implemented here, as it is querying health cloud object. */
+         String sObjectType = 'BI_PSP_Symptom_Tracker__c';
+      String fields = ' Id,BI_PSP_EditEntrydates__c,BI_PSP_Patient__c,BI_PSP_Recent_Activities__c,BI_PSP_Are_you_currently_experiencing__c,BI_PSP_Care_Program_Enrollee__c';
+      String conditions =
+        'Id = \'' +
+        symptomTrackerId +
+        '\'   LIMIT 1' ;
+
+      // Use utility to execute query
+      primaryPageSymptom = BI_PSP_CommonQueryUtility.executeQuery(
+        sObjectType,
+        fields,
+        conditions,
+        false
+      );
+
       
-       BI_PSP_LogMessagesUtility.logError(
-          BI_PSP_SymptomTrackerContantCtrl.symptomErrorMsg,
-          BI_PSP_SymptomTrackerCtrl.class.toString(),true
+      if (primaryPageSymptom.isEmpty()) {
+        BI_PSP_LogMessagesUtility.logError(
+          BI_PSP_SymptomTrackerConstantCtrl.symptomErrorMsg,
+          BI_PSP_SymptomTrackerCtrl.class.toString(),
+          true
         );
       } else {
         return primaryPageSymptom;
       }
     } catch (Exception ex) {
-       BI_PSP_LogMessagesUtility.logError(
-          BI_PSP_SymptomTrackerContantCtrl.errorMsg,
-          BI_PSP_SymptomTrackerCtrl.class.toString(),true
-        );
-
+      BI_PSP_LogMessagesUtility.logError(
+        BI_PSP_SymptomTrackerConstantCtrl.error,
+        BI_PSP_SymptomTrackerCtrl.class.toString(),
+        true
+      );
     }
-      return null;
+    return null;
   }
 
   /**
@@ -77,8 +91,8 @@ public without sharing class BI_PSPB_SymptomPrimaryPageCtrl {
     try {
       if (String.isBlank(symptomTrackerId)) {
         return null;
-      } else {
-        primaryAllergyIntolerance = [
+      } 
+       /* primaryAllergyIntolerance = [
           SELECT
             Id,
             BI_PSP_Bodyparts__c,
@@ -88,25 +102,50 @@ public without sharing class BI_PSPB_SymptomPrimaryPageCtrl {
             BI_PSP_Symptoms__r.HealthCloudGA__CarePlanTemplate__r.Name
           FROM AllergyIntolerance
           WHERE BI_PSP_Symptom_Name__c = :symptomTrackerId
-        ]; //USER_MODE cannot be implemented here, as it is querying health cloud object.
-      }
+        ]; //USER_MODE cannot be implemented here, as it is querying health cloud object. */
+        
+          String queryString =
+        'SELECT Id, BI_PSP_Bodyparts__c,BI_PSP_Mood__c,BI_PSP_Intensity__c,BI_PSP_Temperature__c, BI_PSP_Symptoms__r.HealthCloudGA__CarePlanTemplate__r.Name FROM AllergyIntolerance WHERE BI_PSP_Symptom_Name__c = \'' +
+        symptomTrackerId +
+        '\'';
+
+       primaryAllergyIntolerance = BI_PSP_CommonQueryUtility.executeWholeQueryInString(
+        queryString
+      );
+        /*
+      String sObjectType = 'AllergyIntolerance';
+      String fields = 'Id, BI_PSP_Bodyparts__c,BI_PSP_Mood__c,BI_PSP_Intensity__c,BI_PSP_Temperature__c, BI_PSP_Symptoms__r.HealthCloudGA__CarePlanTemplate__r.Name';
+      String conditions =
+        'BI_PSP_Symptom_Name__c = \'' +
+        symptomTrackerId  +
+        '\'  ' ;
+
+      // Use utility to execute query
+      List<BI_PSP_Symptom_Tracker__c> existingRecords = BI_PSP_CommonQueryUtility.executeQuery(
+        sObjectType,
+        fields,
+        conditions,
+        false
+      );*/
+
+      
 
       if (primaryAllergyIntolerance.isEmpty()) {
-            BI_PSP_LogMessagesUtility.logError(
-          BI_PSP_SymptomTrackerContantCtrl.alleryRecord,
-          BI_PSP_SymptomTrackerCtrl.class.toString(),true
+        BI_PSP_LogMessagesUtility.logError(
+          BI_PSP_SymptomTrackerConstantCtrl.alleryRecord,
+          BI_PSP_SymptomTrackerCtrl.class.toString(),
+          true
         );
-
       }
       return primaryAllergyIntolerance;
     } catch (Exception ex) {
       BI_PSP_LogMessagesUtility.logError(
-          BI_PSP_SymptomTrackerContantCtrl.errorMsg,
-          BI_PSP_SymptomTrackerCtrl.class.toString(),true
-        );
-
+        BI_PSP_SymptomTrackerConstantCtrl.error,
+        BI_PSP_SymptomTrackerCtrl.class.toString(),
+        true
+      );
     }
-       return null;
+    return null;
   }
   /** 
 		@description     Method to retrieve base64 image based on symptomTrackerId
@@ -121,14 +160,22 @@ public without sharing class BI_PSPB_SymptomPrimaryPageCtrl {
     try {
       if (String.isBlank(symptomTrackerId)) {
         return null;
-      } else {
-        List<ContentDocumentLink> documentLinks = [
+      } 
+     /*   List<ContentDocumentLink> documentLinks = [
           SELECT ContentDocumentId
           FROM ContentDocumentLink
           WHERE
             LinkedEntityId = :symptomTrackerId
             AND ContentDocument.FileType IN ('jpg', 'png')
-        ];
+        ]; */
+          String queryString =
+        'SELECT ContentDocumentId FROM ContentDocumentLink WHERE LinkedEntityId = \'' +
+        symptomTrackerId +
+        '\' AND ContentDocument.FileType IN (\'jpg\', \'png\')';
+
+      List<ContentDocumentLink> documentLinks = BI_PSP_CommonQueryUtility.executeWholeQueryInString(
+        queryString
+      );
 
         if (!documentLinks.isEmpty()) {
           Set<Id> contentDocumentIds = new Set<Id>();
@@ -136,14 +183,22 @@ public without sharing class BI_PSPB_SymptomPrimaryPageCtrl {
             contentDocumentIds.add(docLink.ContentDocumentId);
           }
 
-          List<ContentVersion> contentVersions = [
+        /*  List<ContentVersion> contentVersions = [
             SELECT VersionData, FileType
             FROM ContentVersion
             WHERE
               ContentDocumentId IN :contentDocumentIds
               AND FileType IN ('jpg', 'png')
             ORDER BY CreatedDate DESC
-          ];
+          ]; */
+              String queryStringVersion =
+        'SELECT VersionData, FileType FROM ContentVersion WHERE ContentDocumentId IN : \'' +
+        contentDocumentIds +
+        '\' AND FileType IN (\'jpg\', \'png\')';
+
+      List<ContentVersion> contentVersions = BI_PSP_CommonQueryUtility.executeWholeQueryInString(
+        queryStringVersion
+      );
 
           for (ContentVersion content : contentVersions) {
             String base64URL =
@@ -154,17 +209,19 @@ public without sharing class BI_PSPB_SymptomPrimaryPageCtrl {
             base64URLs.add(base64URL);
           }
         } else {
-            BI_PSP_LogMessagesUtility.logError(
-          BI_PSP_SymptomTrackerContantCtrl.symptomErrormsg,
-          BI_PSP_SymptomTrackerCtrl.class.toString(),true
-        );
+          BI_PSP_LogMessagesUtility.logError(
+            BI_PSP_SymptomTrackerConstantCtrl.symptomErrormsg,
+            BI_PSP_SymptomTrackerCtrl.class.toString(),
+            true
+          );
         }
-      }
+      
     } catch (Exception ex) {
-       BI_PSP_LogMessagesUtility.logError(
-          BI_PSP_SymptomTrackerContantCtrl.applicationPhotoMsg,
-          BI_PSP_SymptomTrackerCtrl.class.toString(),true
-        );
+      BI_PSP_LogMessagesUtility.logError(
+        BI_PSP_SymptomTrackerConstantCtrl.applicationPhotoMsg,
+        BI_PSP_SymptomTrackerCtrl.class.toString(),
+        true
+      );
       // throw new AuraHandledException(applicationPhotoMsg);
     }
 
@@ -181,35 +238,39 @@ public without sharing class BI_PSPB_SymptomPrimaryPageCtrl {
   public static void deleteSymptomTrackerRecords(Id symptomTrackerId) {
     try {
       // Query for BI_PSP_Symptom_Tracker__c records related to the given symptomTrackerId
-      List<BI_PSP_Symptom_Tracker__c> symptomTrackersToUpdate = [
+     /* List<BI_PSP_Symptom_Tracker__c> symptomTrackersToUpdate = [
         SELECT Id, BI_PSP_Symptom_Staus__c
         FROM BI_PSP_Symptom_Tracker__c
         WHERE Id = :symptomTrackerId
-      ];
+      ]; */
+          String queryString =
+        'SELECT Id, BI_PSP_Symptom_Staus__c FROM BI_PSP_Symptom_Tracker__c WHERE Id = \'' +
+        symptomTrackerId + '\' ';
+
+      List<BI_PSP_Symptom_Tracker__c> symptomTrackersToUpdate = BI_PSP_CommonQueryUtility.executeWholeQueryInString(
+        queryString
+      );
 
       if (!symptomTrackersToUpdate.isEmpty()) {
         // Changes the status to "Inactive" for each record
         for (BI_PSP_Symptom_Tracker__c tracker : symptomTrackersToUpdate) {
-          tracker.BI_PSP_Symptom_Staus__c = BI_PSP_SymptomTrackerContantCtrl.symptomTrackerInactive;
+          tracker.BI_PSP_Symptom_Staus__c = BI_PSP_SymptomTrackerConstantCtrl.symptomTrackerInactive;
         }
 
-      
-          
-          
-    BI_PSPB_HandleUtitlites.deleteHandleErrors(symptomTrackersToUpdate,BI_PSP_SymptomTrackerCtrl.class.toString());
-  
-      } else {
- 
-             BI_PSP_LogMessagesUtility.logError(
-          BI_PSP_SymptomTrackerContantCtrl.stausChange,
-          BI_PSP_SymptomTrackerCtrl.class.toString(),true
+        BI_PSPB_HandleUtitlites.deleteHandleErrors(
+          symptomTrackersToUpdate,
+          BI_PSP_SymptomTrackerCtrl.class.toString()
         );
-            
-            
+      } else {
+        BI_PSP_LogMessagesUtility.logError(
+          BI_PSP_SymptomTrackerConstantCtrl.stausChange,
+          BI_PSP_SymptomTrackerCtrl.class.toString(),
+          true
+        );
       }
-    }  catch (System.DmlException ex) {
-          BI_PSP_LogMessagesUtility.catchSystemException(
-        BI_PSP_SymptomTrackerContantCtrl.applicationPhotoMsg,
+    } catch (System.DmlException ex) {
+      BI_PSP_LogMessagesUtility.catchSystemException(
+        BI_PSP_SymptomTrackerConstantCtrl.applicationPhotoMsg,
         BI_PSP_SymptomTrackerCtrl.class.toString(),
         ex
       );
@@ -228,22 +289,39 @@ public without sharing class BI_PSPB_SymptomPrimaryPageCtrl {
 
     try {
       if (String.isBlank(careProgramEnrolleeId)) {
-         BI_PSP_LogMessagesUtility.logError(
-          BI_PSP_SymptomTrackerContantCtrl.symptomErrormsg,
-          BI_PSP_SymptomTrackerCtrl.class.toString(),true
+        BI_PSP_LogMessagesUtility.logError(
+          BI_PSP_SymptomTrackerConstantCtrl.symptomErrormsg,
+          BI_PSP_SymptomTrackerCtrl.class.toString(),
+          true
         );
       } else {
         // Query for the latest record based on the entry date
-        List<BI_PSP_Symptom_Tracker__c> latestRecords = [
+     /*   List<BI_PSP_Symptom_Tracker__c> latestRecords = [
           SELECT Id, BI_PSP_EditEntrydates__c, BI_PSP_Care_Program_Enrollee__c
           FROM BI_PSP_Symptom_Tracker__c
           WHERE
             BI_PSP_Care_Program_Enrollee__c = :careProgramEnrolleeId
-            AND BI_PSP_Symptom_Staus__c != :BI_PSP_SymptomTrackerContantCtrl.symptomTrackerInactive
+            AND BI_PSP_Symptom_Staus__c != :BI_PSP_SymptomTrackerConstantCtrl.symptomTrackerInactive
           ORDER BY BI_PSP_EditEntrydates__c DESC
           LIMIT 1
-        ]; //USER_MODE cannot be implemented here, as it is querying health cloud object.
+        ]; //USER_MODE cannot be implemented here, as it is querying health cloud object. */
+		 // Construct query conditions
+      String sObjectType = 'BI_PSP_Symptom_Tracker__c';
+      String fields = 'Id, BI_PSP_EditEntrydates__c, BI_PSP_Care_Program_Enrollee__c';
+      String conditions =
+        'BI_PSP_Care_Program_Enrollee__c = \'' +
+        careProgramEnrolleeId +
+        '\' AND BI_PSP_Symptom_Staus__c != \'' +
+        BI_PSP_SymptomTrackerConstantCtrl.symptomTrackerInactive+
+        '\' ORDER BY BI_PSP_EditEntrydates__c DESC LIMIT 1';
 
+      // Use utility to execute query
+      List<BI_PSP_Symptom_Tracker__c> latestRecords  = BI_PSP_CommonQueryUtility.executeQuery(
+        sObjectType,
+        fields,
+        conditions,
+        false
+      );
         if (!latestRecords.isEmpty()) {
           // Access the fields of the latest record
           BI_PSP_Symptom_Tracker__c latestRecord = latestRecords[0];
@@ -252,15 +330,15 @@ public without sharing class BI_PSPB_SymptomPrimaryPageCtrl {
           result.add(recordId);
           result.add(String.valueOf(entryDate));
         } else {
-          result.add(BI_PSP_SymptomTrackerContantCtrl.errorMsg);
+          result.add(BI_PSP_SymptomTrackerConstantCtrl.error);
         }
       }
     } catch (Exception ex) {
       BI_PSP_LogMessagesUtility.logError(
-          BI_PSP_SymptomTrackerContantCtrl.latestRecord,
-          BI_PSP_SymptomTrackerCtrl.class.toString(),true
-        );
-  
+        BI_PSP_SymptomTrackerConstantCtrl.latestRecord,
+        BI_PSP_SymptomTrackerCtrl.class.toString(),
+        true
+      );
     }
 
     return result; //result null check is handled in the LWC

@@ -62,7 +62,7 @@
 
 					<div class="slds-form-element__help" if:true={firstNameErrorMessage}>
 						<img src={warningIcons} width="12px" height="12px">
-						<span class="slds-form-element__helps">{label.PATIENT_FIRSTNAME}</span>
+						<span class="slds-form-element__helps">{patientFirstName}</span>
 					</div>
 					<div class="slds-form-element__help" if:true={firstNameErrorMessageValid}>
 						<img src={warningIcons} width="12px" height="12px">
@@ -78,7 +78,7 @@
 						placeholder="Enter Last Name" maxlength="60"></lightning-input>
 					<div class="slds-form-element__help" if:true={lastNameErrorMessage}>
 						<img src={warningIcons} width="12px" height="12px">
-						<span class="slds-form-element__helps">{label.PATIENT_LASTNAME}</span>
+						<span class="slds-form-element__helps">{patientLastName}</span>
 					</div>
 					<div class="slds-form-element__help" if:true={lastNameErrorMessageValid}>
 						<img src={warningIcons} width="12px" height="12px">
@@ -93,7 +93,7 @@
 
 					<div class="slds-form-element__help" if:true={doberrorMessage}>
 						<img src={warningIcons} width="12px" height="12px">
-						<span class="slds-form-element__helps">{label.PATIENT_DATEOFBIRTH}</span>
+						<span class="slds-form-element__helps">{patientDob}</span>
 					</div>
 					<div class="slds-form-element__help" if:true={dobErrorMessage}>
 						<img src={warningIcons} width="12px" height="12px">
@@ -117,7 +117,7 @@
 						variant="label-hidden"></lightning-combobox>
 					<div class="slds-form-element__help" if:true={genderErrorMessage}>
 						<img src={warningIcons} width="12px" height="12px">
-						<span class="slds-form-element__helps">{label.PATIENT_GENDER}</span>
+						<span class="slds-form-element__helps">{patientGender}</span>
 					</div>
 				</div>
 				<div class="input-div">
@@ -126,7 +126,7 @@
 						onchange={handleEmailChange} placeholder="Enter Email"></lightning-input>
 					<div class="slds-form-element__help" if:true={emailErrorMessage}>
 						<img src={warningIcons} width="12px" height="12px">
-						<span class="slds-form-element__helps">{label.PATIENT_EMAIL}</span>
+						<span class="slds-form-element__helps">{patientEmail}</span>
 					</div>
 					<div class="slds-form-element__help" if:true={emailError}>
 						<img src={warningIcons} width="12px" height="12px">
@@ -253,7 +253,7 @@
 						</lightning-input>
 						<div class="slds-form-element__help" if:true={hcpFirstNameErrorMessage}>
 							<img src={warningIcons} width="12px" height="12px">
-							<span class="slds-form-element__helps">{label.PATIENT_FIRSTNAME}</span>
+							<span class="slds-form-element__helps">{patientFirstName}</span>
 						</div>
 						<div class="slds-form-element__help" if:true={firstNameErrorMessageValid}>
 							<img src={warningIcons} width="12px" height="12px">
@@ -268,7 +268,7 @@
 						</lightning-input>
 						<div class="slds-form-element__help" if:true={hcpLastNameErrorMessage}>
 							<img src={warningIcons} width="12px" height="12px">
-							<span class="slds-form-element__helps">{label.PATIENT_LASTNAME}</span>
+							<span class="slds-form-element__helps">{patientLastName}</span>
 						</div>
 						<div class="slds-form-element__help" if:true={lastNameErrorMessageValid}>
 							<img src={warningIcons} width="12px" height="12px">
@@ -296,7 +296,7 @@
 						</lightning-input>
 						<div class="slds-form-element__help" if:true={hcpPhoneNumberErrorMessage}>
 							<img src={warningIcons} width="12px" height="12px">
-							<span class="slds-form-element__helps">{label.PATIENT_PHONE}</span>
+							<span class="slds-form-element__helps">{patientPhone}</span>
 						</div>
 						<div class="slds-form-element__help" if:true={PhoneerrorMessagevalid}>
 							<img src={warningIcons} width="12px" height="12px">
@@ -328,7 +328,7 @@
 						</lightning-input>
 						<div class="slds-form-element__help" if:true={hcpEmailErrorMessage}>
 							<img src={warningIcons} width="12px" height="12px">
-							<span class="slds-form-element__helps">{label.PATIENT_EMAIL}</span>
+							<span class="slds-form-element__helps">{patientEmail}</span>
 						</div>
 						<div class="slds-form-element__help" if:true={emailError}>
 							<img src={warningIcons} width="12px" height="12px">
@@ -394,7 +394,7 @@
 									onkeypress={handleKeyDown} placeholder="+Enter Phone Number"></lightning-input>
 								<div class="slds-form-element__help" if:true={conPhoneErrorMessage}>
 									<img src={warningIcons} width="12px" height="12px">
-									<span class="slds-form-element__helps">{label.PATIENT_PHONE}</span>
+									<span class="slds-form-element__helps">{patientPhone}</span>
 								</div>
 								<div class="slds-form-element__help" if:true={PhoneerrorMessagevalid}>
 									<img src={warningIcons} width="12px" height="12px">
@@ -410,7 +410,7 @@
 							<div class="slds-form-element__help" if:true={conPmcErrorMessage}>
 								<img src={warningIcons} width="12px" height="12px">
 								<span class="slds-form-element__helps">
-									{label.PREFERRED_CONTACT_METHOD}
+									{patientPmc}
 								</span>
 							</div>
 						</div>
@@ -422,7 +422,7 @@
 							</lightning-combobox>
 							<div class="slds-form-element__help" if:true={conCountryErrorMessage}>
 								<img src={warningIcons} width="12px" height="12px">
-								<span class="slds-form-element__helps">{label.COUNTRY}</span>
+								<span class="slds-form-element__helps">{countryfield}</span>
 							</div>
 						</div>
 						<div class="input-div">
@@ -433,7 +433,7 @@
 							</lightning-combobox>
 							<div class="slds-form-element__help" if:true={conStateErrorMessage}>
 								<img src={warningIcons} width="12px" height="12px">
-								<span class="slds-form-element__helps">{label.STATE}</span>
+								<span class="slds-form-element__helps">{statecode}</span>
 							</div>
 						</div>
 						<div class="input-div">
@@ -444,7 +444,7 @@
 							</lightning-input>
 							<div class="slds-form-element__help" if:true={conCityErrorMessage}>
 								<img src={warningIcons} width="12px" height="12px">
-								<span class="slds-form-element__helps">{label.CITY}</span>
+								<span class="slds-form-element__helps">{cityCode}</span>
 							</div>
 							<div class="slds-form-element__help" if:true={RpCityErrorMessageValid}>
 								<img src={warningIcons} width="12px" height="12px">
@@ -459,7 +459,7 @@
 							</lightning-textarea>
 							<div class="slds-form-element__help" if:true={conStreetErrorMessage}>
 								<img src={warningIcons} width="12px" height="12px">
-								<span class="slds-form-element__helps">{label.STREET}</span>
+								<span class="slds-form-element__helps">{streetcode}</span>
 							</div>
 						</div>
 						<div class="input-div">
@@ -470,7 +470,7 @@
 							</lightning-input>
 							<div class="slds-form-element__help" if:true={conZipCodeErrorMessage}>
 								<img src={warningIcons} width="12px" height="12px">
-								<span class="slds-form-element__helps">{label.PINCODE}</span>
+								<span class="slds-form-element__helps">{pinCode}</span>
 							</div>
 							<div class="slds-form-element__help" if:true={ZiperrorMessagevalid}>
 								<img src={warningIcons} width="12px" height="12px">

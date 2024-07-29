@@ -26,9 +26,11 @@ public with sharing class BI_PSPB_FeedCommentCtrl {
         );
       }
       // Getting account Id of the user.
-      List<Account> accountRecords = BI_PSP_CurrentUser.returnTheAccounts();
-      String accountId = (accountRecords.isEmpty()) ? null : accountRecords[0].Id;
-      if (String.isBlank(accountId)) {
+      List<CareProgramEnrollee> enrolleeRecords = BI_PSP_CurrentUser.getEnrolleeRecords();
+      String enrolleeId = (enrolleeRecords.isEmpty())
+        ? null
+        : enrolleeRecords[0].Id;
+      if (String.isBlank(enrolleeId)) {
         // Throwing error when account not found.
         BI_PSP_LogMessagesUtility.exceptionLogMessage(
           BI_PSPB_CommunityConstantCtrl.errorWhileGetEnrolleeId,
@@ -40,11 +42,11 @@ public with sharing class BI_PSPB_FeedCommentCtrl {
       createComment = new BI_PSP_FeedComment__c();
       createComment.BI_PSP_Comment__c = commentContent;
       createComment.BI_PSP_FeedItem__c = postId;
-      createComment.BI_PSP_AccountCmt__c = accountId;
+      createComment.BI_PSP_CareProgramEnrolleeCmt__c = enrolleeId;
       BI_PSP_DatabaseOperationsUtility.insertAndHandleErrors(
         new List<BI_PSP_FeedComment__c>{ createComment },
         BI_PSPB_FeedItemCtrl.class.toString(),
-        true
+        false
       );
     } catch (System.DmlException ex) {
       BI_PSP_LogMessagesUtility.catchSystemException(
@@ -74,26 +76,24 @@ public with sharing class BI_PSPB_FeedCommentCtrl {
           null
         );
       }
-        // Comments of the particular posts.
-        comments = [
-          SELECT
-            id,
-            BI_PSP_Comment__c,
-            BI_PSP_CommentDelete__c,
-            CreatedDate,
-            CreatedById,
-            BI_PSP_FeedItem__c,
-            BI_PSP_CareProgramEnrolleeCmt__r.BI_PSP_AvatarUrl__c,
-            BI_PSP_CareProgramEnrolleeCmt__r.BI_PSP_CommunityUsername__c,
-            BI_PSP_CareProgramEnrolleeCmt__c
-          FROM BI_PSP_FeedComment__c
-          WHERE
-            BI_PSP_FeedItem__c = :feedItemId
-            AND BI_PSP_CommentDelete__c != :BI_PSPB_CommunityConstantCtrl.softDelete
-            AND 	BI_PSP_CareProgramEnrolleeCmt__c != NULL
-          ORDER BY CreatedDate DESC
-        ];
-      
+      // Comments of the particular posts.
+      // Construct query conditions
+      String sObjectType = 'BI_PSP_FeedComment__c';
+      String fields = 'id, BI_PSP_Comment__c, BI_PSP_CommentDelete__c, CreatedDate, BI_PSP_FeedItem__c, BI_PSP_CareProgramEnrolleeCmt__r.BI_PSP_AvatarUrl__c, BI_PSP_CareProgramEnrolleeCmt__r.BI_PSP_CommunityUsername__c, BI_PSP_CareProgramEnrolleeCmt__c';
+      String conditions =
+        'BI_PSP_FeedItem__c = \'' +
+        feedItemId +
+        '\' AND BI_PSP_CommentDelete__c != \'' +
+        BI_PSPB_CommunityConstantCtrl.softDelete +
+        '\' AND BI_PSP_CareProgramEnrolleeCmt__c != NULL ORDER BY CreatedDate DESC';
+
+      // Use utility to execute query
+      comments = BI_PSP_CommonQueryUtility.executeQuery(
+        sObjectType,
+        fields,
+        conditions,
+        false
+      );
     } catch (Exception ex) {
       BI_PSP_LogMessagesUtility.exceptionLogMessage(
         BI_PSPB_CommunityConstantCtrl.errorWhileGettingComment,
@@ -121,38 +121,41 @@ public with sharing class BI_PSPB_FeedCommentCtrl {
     String commentToUpdate,
     String commentId
   ) {
-    BI_PSP_FeedComment__c commentToEdit;
+    List<BI_PSP_FeedComment__c> commentToEdit;
     try {
-      if (
-        (String.isBlank(commentToUpdate)) || (String.isBlank(commentId))) {
+      if ((String.isBlank(commentToUpdate)) || (String.isBlank(commentId))) {
         BI_PSP_LogMessagesUtility.exceptionLogMessage(
           BI_PSPB_CommunityConstantCtrl.errorWhileEditingComment,
           BI_PSPB_FeedItemCtrl.class.toString(),
           null
         );
       }
-        // Fetching the comment that is to be updated.
-        commentToEdit = [
-          SELECT id, BI_PSP_Comment__c
-          FROM BI_PSP_FeedComment__c
-          WHERE id = :commentId
-          WITH USER_MODE LIMIT 1
-        ];
-        if (commentToEdit != null) {
-          commentToEdit.BI_PSP_Comment__c = commentToUpdate;
-          BI_PSP_DatabaseOperationsUtility.updateAndHandleErrors(
-            new List<BI_PSP_FeedComment__c>{ commentToEdit },
-            BI_PSPB_FeedItemCtrl.class.toString(),true
-          );
-        } else {
-          // Throwing error when comments not found.
-          BI_PSP_LogMessagesUtility.exceptionLogMessage(
-            BI_PSPB_CommunityConstantCtrl.errorWhileGettingComment,
-            BI_PSPB_FeedItemCtrl.class.toString(),
-            null
-          );
-        }
-      
+      // Fetching the comment that is to be updated.
+      // Construct query conditions
+      String queryString =
+        'SELECT Id, BI_PSP_Comment__c FROM BI_PSP_FeedComment__c WHERE Id = \'' +
+        commentId +
+        '\' WITH USER_MODE LIMIT 1';
+
+      // Use utility to execute query
+      commentToEdit = BI_PSP_CommonQueryUtility.executeWholeQueryInString(
+        queryString
+      );
+      if (commentToEdit[0] != null) {
+        commentToEdit[0].BI_PSP_Comment__c = commentToUpdate;
+        BI_PSP_DatabaseOperationsUtility.updateAndHandleErrors(
+          new List<BI_PSP_FeedComment__c>{ commentToEdit[0] },
+          BI_PSPB_FeedItemCtrl.class.toString(),
+          true
+        );
+      } else {
+        // Throwing error when comments not found.
+        BI_PSP_LogMessagesUtility.exceptionLogMessage(
+          BI_PSPB_CommunityConstantCtrl.errorWhileGettingComment,
+          BI_PSPB_FeedItemCtrl.class.toString(),
+          null
+        );
+      }
     } catch (System.DmlException ex) {
       BI_PSP_LogMessagesUtility.catchSystemException(
         BI_PSPB_CommunityConstantCtrl.errorWhileEditingComment,
@@ -163,7 +166,7 @@ public with sharing class BI_PSPB_FeedCommentCtrl {
     /** Here 'commentToEdit' is not checked for null exception as 
 				it is handled in LWC.
 			*/
-    return commentToEdit;
+    return commentToEdit[0];
   }
   /**
 	* @description	Used to	softdelete a comment from particular post.
@@ -182,27 +185,34 @@ public with sharing class BI_PSPB_FeedCommentCtrl {
           null
         );
       }
-        // Fetchig the comment that is to be deleted.
-        BI_PSP_FeedComment__c feedCommentItemToUpdate = [
-          SELECT Id, BI_PSP_CommentDelete__c
-          FROM BI_PSP_FeedComment__c
-          WHERE Id = :feedCommentItemId
-          WITH USER_MODE LIMIT 1
-        ];
-        if (feedCommentItemToUpdate != null) {
-          feedCommentItemToUpdate.BI_PSP_CommentDelete__c = BI_PSPB_CommunityConstantCtrl.softDelete;
-          BI_PSP_DatabaseOperationsUtility.updateAndHandleErrors(
-            new List<BI_PSP_FeedComment__c>{ feedCommentItemToUpdate },
-            BI_PSPB_FeedItemCtrl.class.toString(),true
-          );
-        } else {
-          // Throwing error when comment not found.
-          BI_PSP_LogMessagesUtility.exceptionLogMessage(
-            BI_PSPB_CommunityConstantCtrl.errorWhileGettingComment,
-            BI_PSPB_FeedItemCtrl.class.toString(),
-            null
-          );
-        }
+      // Fetchig the comment that is to be deleted.
+      // Construct query conditions
+      String queryString =
+        'SELECT Id, BI_PSP_CommentDelete__c FROM BI_PSP_FeedComment__c WHERE Id = \'' +
+        feedCommentItemId +
+        '\' WITH USER_MODE LIMIT 1';
+
+      // Use utility to execute query
+      List<BI_PSP_FeedComment__c> feedCommentItemToUpdate = BI_PSP_CommonQueryUtility.executeWholeQueryInString(
+        queryString
+      );
+
+      if (feedCommentItemToUpdate[0] != null) {
+        feedCommentItemToUpdate[0]
+          .BI_PSP_CommentDelete__c = BI_PSPB_CommunityConstantCtrl.softDelete;
+        BI_PSP_DatabaseOperationsUtility.updateAndHandleErrors(
+          new List<BI_PSP_FeedComment__c>{ feedCommentItemToUpdate[0] },
+          BI_PSPB_FeedItemCtrl.class.toString(),
+          false
+        );
+      } else {
+        // Throwing error when comment not found.
+        BI_PSP_LogMessagesUtility.exceptionLogMessage(
+          BI_PSPB_CommunityConstantCtrl.errorWhileGettingComment,
+          BI_PSPB_FeedItemCtrl.class.toString(),
+          null
+        );
+      }
     } catch (System.DmlException ex) {
       BI_PSP_LogMessagesUtility.catchSystemException(
         BI_PSPB_CommunityConstantCtrl.errorWhileDeletingComment,
@@ -221,7 +231,7 @@ public with sharing class BI_PSPB_FeedCommentCtrl {
 	*/
   @AuraEnabled(cacheable=true)
   public static list<BI_PSP_FeedItem__c> getCommentOptions(string feedItemId) {
-    list<BI_PSP_FeedItem__c> feed;
+    list<BI_PSP_FeedItem__c> feedRecords;
     try {
       if (String.isBlank(feedItemId)) {
         BI_PSP_LogMessagesUtility.exceptionLogMessage(
@@ -230,21 +240,25 @@ public with sharing class BI_PSPB_FeedCommentCtrl {
           null
         );
       }
-        // List of comment options for respective category and sub-category.
-        feed = [
-          SELECT id, BI_PSP_Phrase__c, BI_PSP_Category__c
-          FROM BI_PSP_FeedItem__c
-          WHERE id = :feedItemId
-          WITH USER_MODE LIMIT 1
-        ];
-        if (feed.isEmpty()) {
-          BI_PSP_LogMessagesUtility.exceptionLogMessage(
-            BI_PSPB_CommunityConstantCtrl.errorWhileGettingComment,
-            BI_PSPB_FeedItemCtrl.class.toString(),
-            null
-          );
-        }
-      
+      // List of comment options for respective category and sub-category.
+      // Construct query conditions
+      String queryString =
+        'SELECT id, BI_PSP_Phrase__c, BI_PSP_Category__c FROM BI_PSP_FeedItem__c WHERE Id = \'' +
+        feedItemId +
+        '\' WITH USER_MODE LIMIT 1';
+
+      // Use utility to execute query
+      feedRecords = BI_PSP_CommonQueryUtility.executeWholeQueryInString(
+        queryString
+      );
+
+      if (feedRecords.isEmpty()) {
+        BI_PSP_LogMessagesUtility.exceptionLogMessage(
+          BI_PSPB_CommunityConstantCtrl.errorWhileGettingComment,
+          BI_PSPB_FeedItemCtrl.class.toString(),
+          null
+        );
+      }
     } catch (Exception ex) {
       BI_PSP_LogMessagesUtility.exceptionLogMessage(
         BI_PSPB_CommunityConstantCtrl.errorWhileGettingComment,
@@ -252,6 +266,6 @@ public with sharing class BI_PSPB_FeedCommentCtrl {
         ex
       );
     }
-    return feed;
+    return feedRecords;
   }
 }

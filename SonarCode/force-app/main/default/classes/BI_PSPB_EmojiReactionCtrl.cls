@@ -9,6 +9,7 @@
  * 1.2      Deepa       04-Apr-2024     Updated         Catch log added.
  * 1.3      Deepa       22-Apr-2024     Updated         Code Review.
  * 1.4      Deepa       27-Apr-2024     Updated         Indentation.
+ * 1.5		Deepa		27-Jul-2024		Updated			Code Refactor.
  */
 
 public with sharing class BI_PSPB_EmojiReactionCtrl {
@@ -37,10 +38,12 @@ public with sharing class BI_PSPB_EmojiReactionCtrl {
         );
       }
       // Get account Id for the user.
-      List<Account> accountRecords = BI_PSP_CurrentUser.returnTheAccounts();
-      String accountId = (accountRecords.isEmpty()) ? null : accountRecords[0].Id;
+      List<CareProgramEnrollee> enrolleeRecords = BI_PSP_CurrentUser.getEnrolleeRecords();
+      String enrolleeId = (enrolleeRecords.isEmpty())
+        ? null
+        : enrolleeRecords[0].Id;
       // Check if accountId is not blank
-      if (String.isBlank(accountId)) {
+      if (String.isBlank(enrolleeId)) {
         // Throwing exception when account not found.
         BI_PSP_LogMessagesUtility.exceptionLogMessage(
           BI_PSPB_CommunityConstantCtrl.errorWhileGetEnrolleeId,
@@ -49,15 +52,25 @@ public with sharing class BI_PSPB_EmojiReactionCtrl {
         );
       }
       // Query if existing reactions there for the given feed item and account.
-      List<BI_PSP_EmojiReactionController__c> existingReactions = [
-        SELECT Id, BI_PSP_ReactionResult__c
-        FROM BI_PSP_EmojiReactionController__c
-        WHERE
-          BI_PSP_FeedItem__c = :feedItemId
-          AND BI_PSP_AccountE__c = :accountId
-        WITH USER_MODE
-        LIMIT 1
-      ];
+      // Define the parameters for the query
+      String sObjectType = 'BI_PSP_EmojiReactionController__c';
+      String fields = 'Id, BI_PSP_ReactionResult__c';
+      String conditions =
+        'BI_PSP_FeedItem__c = \'' +
+        feedItemId +
+        '\' AND BI_PSP_CareProgramEnrolleeEmoji__c = \'' +
+        enrolleeId +
+        '\'' +
+        'LIMIT 1';
+      Boolean withUserMode = false;
+
+      List<BI_PSP_EmojiReactionController__c> existingReactions = BI_PSP_CommonQueryUtility.executeQuery(
+        sObjectType,
+        fields,
+        conditions,
+        withUserMode
+      );
+
       // Check if existing reactions are found.
       if (!existingReactions.isEmpty()) {
         // Update the existing reaction record.
@@ -65,7 +78,8 @@ public with sharing class BI_PSPB_EmojiReactionCtrl {
         // update the  records into the database.
         BI_PSP_DatabaseOperationsUtility.updateAndHandleErrors(
           new List<BI_PSP_EmojiReactionController__c>{ existingReactions[0] },
-          BI_PSPB_EmojiReactionCtrl.class.toString(),true
+          BI_PSPB_EmojiReactionCtrl.class.toString(),
+          true
         );
 
         //return the updated value.
@@ -75,16 +89,16 @@ public with sharing class BI_PSPB_EmojiReactionCtrl {
         newReactions = new BI_PSP_EmojiReactionController__c(
           BI_PSP_ReactionResult__c = reactions,
           BI_PSP_FeedItem__c = feedItemId,
-          BI_PSP_AccountE__c = accountId
+          BI_PSP_CareProgramEnrolleeEmoji__c = enrolleeId
         );
         // Insert the new reaction record.
         BI_PSP_DatabaseOperationsUtility.insertAndHandleErrors(
           new List<BI_PSP_EmojiReactionController__c>{ newReactions },
           BI_PSPB_EmojiReactionCtrl.class.toString(),
-          true
+          false
         );
         /** Here 'newReactions' is not checked for null exception as
-        it is handled in LWC.		*/
+         it is handled in LWC.		*/
       }
     } catch (System.DmlException ex) {
       // Catch any other exceptions that might occur during the process.
@@ -129,15 +143,24 @@ public with sharing class BI_PSPB_EmojiReactionCtrl {
         );
       }
       // Query EmojiReactions for the specific feed item and user's account.
-      reactions = [
-        SELECT Id, BI_PSP_ReactionResult__c, BI_PSP_CareProgramEnrolleeEmoji__c
-        FROM BI_PSP_EmojiReactionController__c
-        WHERE
-          BI_PSP_FeedItem__c = :feedItemId
-          AND BI_PSP_CareProgramEnrolleeEmoji__c = :cpeId
-        LIMIT 1
-      ];
+      // Define the parameters for the query
+      String sObjectType = 'BI_PSP_EmojiReactionController__c';
+      String fields = 'Id, BI_PSP_ReactionResult__c, BI_PSP_CareProgramEnrolleeEmoji__c';
+      String conditions =
+        'BI_PSP_FeedItem__c = \'' +
+        feedItemId +
+        '\' AND BI_PSP_CareProgramEnrolleeEmoji__c = \'' +
+        cpeId +
+        '\'' +
+        'LIMIT 1';
+      Boolean withUserMode = false;
 
+      reactions = BI_PSP_CommonQueryUtility.executeQuery(
+        sObjectType,
+        fields,
+        conditions,
+        withUserMode
+      );
       // Check if any reactions were found.
       if (!reactions.isEmpty()) {
         // Returning reactions when record is found.
@@ -187,15 +210,24 @@ public with sharing class BI_PSPB_EmojiReactionCtrl {
         );
       }
       // Query EmojiReactions for the specific feed item and user's account
-      List<BI_PSP_EmojiReactionController__c> reactions = [
-        SELECT Id, BI_PSP_ReactionResult__c, CreatedById, BI_PSP_CareProgramEnrolleeEmoji__c
-        FROM BI_PSP_EmojiReactionController__c
-        WHERE
-          BI_PSP_FeedItem__c = :feedItemId
-          AND BI_PSP_CareProgramEnrolleeEmoji__c = :cpeId
-        WITH USER_MODE
-        LIMIT 1
-      ];
+      // Define the parameters for the query
+      String sObjectType = 'BI_PSP_EmojiReactionController__c';
+      String fields = 'Id, BI_PSP_ReactionResult__c,CreatedById, BI_PSP_CareProgramEnrolleeEmoji__c';
+      String conditions =
+        'BI_PSP_FeedItem__c = \'' +
+        feedItemId +
+        '\'  AND BI_PSP_CareProgramEnrolleeEmoji__c = \'' +
+        cpeId +
+        '\'' +
+        'LIMIT 1';
+      Boolean withUserMode = false;
+
+      List<BI_PSP_EmojiReactionController__c> reactions = BI_PSP_CommonQueryUtility.executeQuery(
+        sObjectType,
+        fields,
+        conditions,
+        withUserMode
+      );
       if (reactions.isEmpty()) {
         // Throw an exception if no reactions are found to delete.
         BI_PSP_LogMessagesUtility.exceptionLogMessage(
@@ -220,38 +252,39 @@ public with sharing class BI_PSPB_EmojiReactionCtrl {
     }
   }
 
-    /**
-	@description 	To count the total number of thinking face reactions 
-					for a particular post.
-	@param 			feedItemId - The Id of the feed item for which 
-					thinking face reactions are counted.
-	@return 		List<BI_PSP_EmojiReactionController__c> - A list of
-					thinking face reactions.
-					Returns to biPspbMyPost and biPspbAllPost LWC.
-	*/
+  /**
+   * @description To count the total number of reactions of a specific type for a particular post.
+   * @param feedItemId - The Id of the feed item for which reactions are counted.
+   * @param reactionType - The type of reaction to count (e.g., 'thinking face').
+   * @return List<BI_PSP_EmojiReactionController__c> - A list of reactions of the specified type.
+   *         Returns the list of reactions for use in `biPspbMyPost` and `biPspbAllPost` LWC.
+   */
   @AuraEnabled
   public static List<BI_PSP_EmojiReactionController__c> totalReactionsByType(
-    String feedItemId , string reactionType
+    String feedItemId,
+    string reactionType
   ) {
     List<BI_PSP_EmojiReactionController__c> totalReactionsRecords;
     try {
       if (String.isNotBlank(feedItemId)) {
         // Query to count total thinking face reactions for a post.
-        totalReactionsRecords = [
-          SELECT
-            Id,
-            BI_PSP_ReactionResult__c,
-            CreatedById,
-            BI_PSP_CareProgramEnrolleeEmoji__c,
-            BI_PSP_CareProgramEnrolleeEmoji__r.BI_PSP_CommunityUsername__c,
-            BI_PSP_CareProgramEnrolleeEmoji__r.BI_PSP_AvatarUrl__c
-          FROM BI_PSP_EmojiReactionController__c
-          WHERE
-            BI_PSP_FeedItem__c = :feedItemId
-            AND BI_PSP_ReactionResult__c = :reactionType
-            AND BI_PSP_CareProgramEnrolleeEmoji__c != NULL
-          ORDER BY CreatedDate DESC
-        ];
+        // Define the parameters for the query
+        String sObjectType = 'BI_PSP_EmojiReactionController__c';
+        String fields = ' Id,BI_PSP_ReactionResult__c,BI_PSP_CareProgramEnrolleeEmoji__c,BI_PSP_CareProgramEnrolleeEmoji__r.BI_PSP_CommunityUsername__c,BI_PSP_CareProgramEnrolleeEmoji__r.BI_PSP_AvatarUrl__c';
+        String conditions =
+          'BI_PSP_FeedItem__c = \'' +
+          feedItemId +
+          '\' AND BI_PSP_ReactionResult__c = \'' +
+          reactionType +
+          '\'AND BI_PSP_CareProgramEnrolleeEmoji__c != NULL ORDER BY CreatedDate DESC';
+        Boolean withUserMode = false;
+
+        totalReactionsRecords = BI_PSP_CommonQueryUtility.executeQuery(
+          sObjectType,
+          fields,
+          conditions,
+          withUserMode
+        );
       } else {
         // Throw an exception if feedItemId ID is null.
         BI_PSP_LogMessagesUtility.exceptionLogMessage(
@@ -279,42 +312,49 @@ public with sharing class BI_PSPB_EmojiReactionCtrl {
   /**
 	@description 	Used to check if the user reacting to the post
 					is following the posted user.
-	@param 			loggedAccountId - The Id of the logged-in user's account.
-	@param 			otherAccountId - The Id of the account being checked for 
+	@param 			loggedEnrolleeId - The Id of the logged-in user's account.
+	@param 			otherEnrolleeId - The Id of the account being checked for 
 					follow status.
 	@return 		List<BI_PSP_FeedFollow__c> - A list of feed follow records.
 					Returns to biPspbMyPost and biPspbAllPost LWC.
 	*/
   @AuraEnabled
   public static List<BI_PSP_FeedFollow__c> checkFollowingStatus(
-    String loggedAccountId,
-    String otherAccountId
+    String loggedEnrolleeId,
+    String otherEnrolleeId
   ) {
     List<BI_PSP_FeedFollow__c> feedFollowRecords;
     try {
-      //check loggedAccountId and otherAccountId is not null.
-      if (
-        String.isBlank(loggedAccountId) || String.isBlank(otherAccountId)
-      ) {
-        // Throw an exception if loggedAccountId and otherAccountId is null.
+      //check loggedEnrolleeId and otherEnrolleeId is not null.
+      if (String.isBlank(loggedEnrolleeId) || String.isBlank(otherEnrolleeId)) {
+        // Throw an exception if loggedEnrolleeId and otherEnrolleeId is null.
         BI_PSP_LogMessagesUtility.exceptionLogMessage(
           BI_PSPB_CommunityConstantCtrl.errorWhileGetEnrolleeId,
           BI_PSPB_EmojiReactionCtrl.class.toString(),
           null
         );
       }
-        // Query to check if the reacted user is following the posted user.
-        feedFollowRecords = [
-          SELECT Id, BI_PSP_Account__c, BI_PSP_AccountUser__c, BI_PSP_Type__c
-          FROM BI_PSP_FeedFollow__c
-          WHERE
-          BI_PSP_CareProgramEnrolleeAccount__c = :loggedAccountId
-            AND BI_PSP_CareProgramEnrolleeFollow__c = :otherAccountId
-            AND BI_PSP_Type__c = :BI_PSPB_CommunityConstantCtrl.following
-          WITH USER_MODE
-          LIMIT 1
-        ];
-      
+      // Query to check if the reacted user is following the posted user.
+      // Define the parameters for the query
+      String sObjectType = 'BI_PSP_FeedFollow__c';
+      String fields = 'Id, BI_PSP_CareProgramEnrolleeAccount__c, BI_PSP_CareProgramEnrolleeFollow__c, BI_PSP_Type__c';
+      String conditions =
+        'BI_PSP_CareProgramEnrolleeAccount__c  = \'' +
+        loggedEnrolleeId +
+        '\' AND BI_PSP_CareProgramEnrolleeFollow__c = \'' +
+        otherEnrolleeId +
+        '\'  AND BI_PSP_Type__c = \'' +
+        BI_PSPB_CommunityConstantCtrl.following +
+        '\'' +
+        'LIMIT 1';
+      Boolean withUserMode = false;
+
+      feedFollowRecords = BI_PSP_CommonQueryUtility.executeQuery(
+        sObjectType,
+        fields,
+        conditions,
+        withUserMode
+      );
     } catch (Exception ex) {
       // Catch any other exceptions that might occur during the process.
       // Log the exception and throw a general error exception.

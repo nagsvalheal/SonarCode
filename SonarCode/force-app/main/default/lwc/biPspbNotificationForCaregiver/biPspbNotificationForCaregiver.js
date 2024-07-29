@@ -2,23 +2,16 @@
 // To import Libraries
 import { LightningElement } from 'lwc';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
-// To import Custom Labels
-import UNASSIGNED_SITE_URL from '@salesforce/label/c.BI_PSPB_UnAssignedNaviUrl';
-import CAREGIVER_PROFILE from '@salesforce/label/c.BI_PSPB_CaregiverProfileUrl';
-import PATIENT_INFO from '@salesforce/label/c.BI_PSPB_CaregiverPatientUrl';
-import SELECT_AVATAR from '@salesforce/label/c.BI_PSPB_CaregiverSelectAvatarUrl';
-import NOTIFICATION from '@salesforce/label/c.BI_PSPB_CaregiverNotificationPageUrl';
-import ERROR_MESSAGE from '@salesforce/label/c.BI_PSP_ConsoleError';
-import ERROR_VARIANT from '@salesforce/label/c.BI_PSP_ErrorVariantToast';
 
+import {resources} from 'c/biPspbResourceProfileManager';
 export default class BiPspbNotificationForCaregiver extends LightningElement {
 	//Proper naming conventions with camel case for all the variables will be followed in the future releases
 	// Declaration of Global variables
-	unAssignedUrl = UNASSIGNED_SITE_URL;
-	caregiverProfile = CAREGIVER_PROFILE;
-	patientInfo = PATIENT_INFO;
-	selectAvatar = SELECT_AVATAR;
-	patientNotification = NOTIFICATION;
+	unAssignedUrl = resources.UNASSIGNED_SITE_URL;
+	caregiverProfile = resources.CAREGIVER_PROFILE;
+	patientInfo = resources.PATIENT_INFO;
+	selectAvatar = resources.SELECT_AVATAR;
+	patientNotification = resources.NOTIFICATION;
 	baseUrl;
 	currentPageUrl;
 	urlSegments;
@@ -31,7 +24,7 @@ export default class BiPspbNotificationForCaregiver extends LightningElement {
 			this.baseUrl = `${this.urlSegments[0]}//${this.urlSegments[2]}`;
 		}
 		catch (error) {
-			this.showToast(ERROR_MESSAGE, error.body.message, ERROR_VARIANT); // Catching Potential Error from LWC
+			this.showToast(resources.ERROR_MESSAGE, error.body.message, resources.ERROR_VARIANT); // Catching Potential Error from LWC
 		}
 	}
 

@@ -33,7 +33,7 @@ public without sharing class BI_PSP_ChallengeCtrl {
         challengetoUpdate.BI_PSP_Status__c = getChallengeStatus(activeAvailable);
 		list<HealthCloudGA__CareProgramPlanTemplate__c> careProgramValues = getCareProgram(challengetoUpdate.BI_PSP_Care_Program_Plan_Template__r.Id);
         //HealthCloudGA__CareProgramPlanTemplate__c careProgram = careProgramValues[0];
-        HealthCloudGA__CarePlanTemplate__c carePlan = getCarePlan(careProgramValues[0].HealthCloudGA__CarePlanTemplate__r.Id, challengetoUpdate);
+        HealthCloudGA__CarePlanTemplate__c carePlan = getTrackingChallenge(careProgramValues[0].HealthCloudGA__CarePlanTemplate__r.Id, challengetoUpdate);
 
         List<Assessment> assesList = getAssessments(challengetoUpdate.BI_PSP_Care_Program_Enrollee__r.Id);
         ChallengeWrapper successMessage = validateChallenge(activeAvailable, carePlan, assesList, userId, challengetoUpdate);
@@ -147,7 +147,7 @@ private static List<HealthCloudGA__CareProgramPlanTemplate__c> getCareProgram(St
  */
 
 
-private static HealthCloudGA__CarePlanTemplate__c getCarePlan(String carePlanTemplateId, Award challangersId) {
+private static HealthCloudGA__CarePlanTemplate__c getTrackingChallenge(String carePlanTemplateId, Award challangersId) {
     // Define the query parameters
     String sObjectType = 'HealthCloudGA__CarePlanTemplate__c';
     String fields = 'Id, Name, BI_PSP_Challenge_Level__c, HealthCloudGA__Description__c';
@@ -169,6 +169,8 @@ private static HealthCloudGA__CarePlanTemplate__c getCarePlan(String carePlanTem
         ')';
         
     Boolean withSharingKeyword = FALSE;
+    
+
 
     // Execute the query using the common query utility
     List<SObject> resultList = BI_PSP_CommonQueryUtility.executeQuery(sObjectType, fields, conditions, withSharingKeyword);
@@ -214,43 +216,6 @@ private static List<Assessment> getAssessments(String enrolleeId) {
  * @param challengetoUpdate The Award record to be updated.
  * @return ChallengeWrapper object containing the update status and any error messages.
  */
-
-// private static ChallengeWrapper validateChallenge(String activeAvailable, HealthCloudGA__CarePlanTemplate__c carePlan, List<Assessment> assesList, String userId, Award challengetoUpdate) {
-//     ChallengeWrapper successMessage = new ChallengeWrapper();
-//     if (activeAvailable == BI_PSP_ChallengeConstantCtrl.challengeCompleted) {
-//         // Validation logic for different levels
-//         if (carePlan.HealthCloudGA__Description__c == System.Label.BI_PSP_SymptomOne && carePlan.BI_PSP_Challenge_Level__c == BI_PSP_ChallengeConstantCtrl.challengeLevelOne) {
-//             return validateSymptomTracker(challengetoUpdate, successMessage, 1, BI_PSP_ChallengeConstantCtrl.completeOneSt);
-//         } else if (carePlan.HealthCloudGA__Description__c == System.Label.BI_PSP_SymptomTwo && carePlan.BI_PSP_Challenge_Level__c == BI_PSP_ChallengeConstantCtrl.challengeLevelTwo) {
-//             return validateSymptomTracker(challengetoUpdate, successMessage, 4, BI_PSP_ChallengeConstantCtrl.completeFourSt);
-//         } else if (carePlan.HealthCloudGA__Description__c == System.Label.BI_PSP_SymptomThree && carePlan.BI_PSP_Challenge_Level__c == BI_PSP_ChallengeConstantCtrl.challengeLevelThree) {
-//             successMessage.challengeUpdated = challengetoUpdate;
-//             successMessage.percentage = 100;
-//         } else if (carePlan.HealthCloudGA__Description__c == System.Label.BI_PSP_QuestionnaireLevelOne && carePlan.BI_PSP_Challenge_Level__c == BI_PSP_ChallengeConstantCtrl.challengeLevelOne) {
-//             return validateAssessment(assesList,challengetoUpdate, BI_PSP_ChallengeConstantCtrl.assessmentWpai, successMessage, BI_PSP_ChallengeConstantCtrl.completeWpai);
-//         } else if (carePlan.HealthCloudGA__Description__c == System.Label.BI_PSP_QuestionnaireLevelTwo && carePlan.BI_PSP_Challenge_Level__c == BI_PSP_ChallengeConstantCtrl.challengeLevelTwo) {
-//             return validateAssessment(assesList,challengetoUpdate, BI_PSP_ChallengeConstantCtrl.assessmentPss, successMessage, BI_PSP_ChallengeConstantCtrl.completePss);
-//         } else if (carePlan.HealthCloudGA__Description__c == System.Label.BI_PSP_QuestionnaireLevelThree && carePlan.BI_PSP_Challenge_Level__c == BI_PSP_ChallengeConstantCtrl.challengeLevelThree) {
-//             return validateAssessment(assesList,challengetoUpdate, BI_PSP_ChallengeConstantCtrl.assessmentDlqi, successMessage, BI_PSP_ChallengeConstantCtrl.completeDlqi);
-//         } else if (carePlan.HealthCloudGA__Description__c == BI_PSP_ChallengeConstantCtrl.iamRegularLevelOne && carePlan.BI_PSP_Challenge_Level__c == BI_PSP_ChallengeConstantCtrl.challengeLevelOne) {
-//             return validateLoginHistory(userId,challengetoUpdate, 4, successMessage);
-//         } else if (carePlan.HealthCloudGA__Description__c == BI_PSP_ChallengeConstantCtrl.iamRegularLevelTwo && carePlan.BI_PSP_Challenge_Level__c == BI_PSP_ChallengeConstantCtrl.challengeLevelTwo) {
-//             return validateLoginHistory(userId,challengetoUpdate, 8, successMessage);
-//         } else if (carePlan.HealthCloudGA__Description__c == BI_PSP_ChallengeConstantCtrl.iamRegularLevelThree && carePlan.BI_PSP_Challenge_Level__c == BI_PSP_ChallengeConstantCtrl.challengeLevelThree) {
-//             return validateLoginHistory(userId,challengetoUpdate, 15, successMessage);
-//         } else if (carePlan.HealthCloudGA__Description__c == BI_PSP_ChallengeConstantCtrl.gppExpertLevelOne && carePlan.BI_PSP_Challenge_Level__c == BI_PSP_ChallengeConstantCtrl.challengeLevelOne) {
-//             return validateArticleLike(challengetoUpdate, 2, successMessage);
-//         } else if (carePlan.HealthCloudGA__Description__c == BI_PSP_ChallengeConstantCtrl.gppExpertLevelTwo && carePlan.BI_PSP_Challenge_Level__c == BI_PSP_ChallengeConstantCtrl.challengeLevelTwo) {
-//             return validateArticleLike(challengetoUpdate, 5, successMessage);
-//         } else if (carePlan.HealthCloudGA__Description__c == BI_PSP_ChallengeConstantCtrl.gppExpertLevelThree && carePlan.BI_PSP_Challenge_Level__c == BI_PSP_ChallengeConstantCtrl.challengeLevelThree) {
-//             return validateArticleLike(challengetoUpdate, 10, successMessage);
-//         }
-//     } else {
-//         successMessage.challengeUpdated = challengetoUpdate;
-//         successMessage.percentage = 100;
-//     }
-//     return successMessage;
-// }
 
 private static ChallengeWrapper validateChallenge(String activeAvailable, HealthCloudGA__CarePlanTemplate__c carePlan, List<Assessment> assesList, String userId, Award challengetoUpdate) {
     ChallengeWrapper successMessage = new ChallengeWrapper();

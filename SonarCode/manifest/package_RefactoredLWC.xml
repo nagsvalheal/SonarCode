@@ -1,93 +1,104 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
 <types>
-<members>biPspbActiveChallenges</members>
-<members>biPspbAcuteVideo</members>
-<members>biPspbAcuteVideoAvatar</members>
-<members>biPspbAcuteVideoParent</members>
-<members>biPspbAddCaregivers</members>
-<members>biPspbArticleCategoryParent</members>
-<members>biPspbArticleContentAvatar</members>
-<members>biPspbArticlesForDashboard</members>
-<members>biPspbAvailableChallenges</members>
-<members>biPspbCaregiverPostLogin</members>
-<members>biPspbCaregiverProfile</members>
-<members>biPspbCgPatientInformation</members>
-<members>biPspbChallenges</members>
-<members>biPspbChronicVideo</members>
-<members>biPspbChronicVideoAvatar</members>
-<members>biPspbChronicVideoParent</members>
-<members>biPspbCommonNavBar</members>
-<members>biPspbContactUs</members>
-<members>biPspbDlqiCard</members>
-<members>biPspbDlqiCompletedQuestionnaire</members>
-<members>biPspbFirsttimeAvatarSelection</members>
-<members>biPspbFooterLogo</members>
-<members>biPspbHcpEnrollment</members>
-<members>biPspbHcpPrepopulateCaregiverForm</members>
-<members>biPspbHcpPrepopulatePatientForm</members>
-<members>biPspbHcpPrepopulateSummary</members>
-<members>biPspbNavBar</members>
-<members>biPspbNavigationBar</members>
-<members>biPspbNotificationReminderResources</members>
-<members>biPspbNotificationSetting</members>
-<members>biPspbPatientEnrollmentForm</members>
-<members>biPspbPatientProfileDetail</members>
-<members>biPspbPrepopulateSummaryPage</members>
-<members>biPspbPrescriptionParent</members>
-<members>biPspbPrescriptionStatus</members>
-<members>biPspbPrescriptionWidget</members>
-<members>biPspbPreStatusParent</members>
-<members>biPspbPrivacyNotice</members>
-<members>biPspbPsoriasisCard</members>
-<members>biPspbPssCompletedQuestionnaires</members>
-<members>biPspbQsqCompletedQuesFourteenWeeks</members>
-<members>biPspbQsqCompletedQuesTwoMonths</members>
-<members>biPspbQualitativeCard</members>
-<members>biPspbReminderNotificationSetting</members>
-<members>biPspbReminderSetup</members>
-<members>biPspbReminderSetupParent</members>
-<members>biPspbReminderWidget</members>
-<members>biPspbSettingForNotification</members>
-<members>biPspbTermsOfUse</members>
-<members>biPspbThankyouForHcpEnrollment</members>
-<members>biPspbUpdatePrescription</members>
-<members>biPspbWapiCard</members>
-<members>biPspbWapiCompletedQuestionnaire</members>
-<members>biPspbWelcomeAvatar</members>
-<members>biPspLabelAndResourceGeneral</members>
-<members>biPspbLabelAndResourceCommunity</members>
-<members>biPspLabelAndResourceChallenges</members>
-<members>biPspbChallenges</members>
-<members>biPspbTrophyCaseComponent</members>
-<members>biPspbWidgetChallenges</members>
-<members>biPspbCaregiverPatientParent</members>
-<members>biPspbCaregiverNotificationParent</members>
-<members>biPspbNotificationForPatient</members>
-<members>biPspbNotificationForCaregiver</members>
-<members>biPspbMyFollowers</members>
-<members>biPspbMyFollowing</members>
-<members>biPspbChatterNavBar</members>
-<members>biPspbChatterUsername</members>
-<members>biPspbCreatePost</members>
-<members>biPspbMyPost</members>
-<members>biPspbAllPost</members>
-<members>BiPspbItchinessSymptom</members>
-<members>biPspbFatigueSymptoms</members>
-<members>biPspbMoodSymptom</members>
-<members>biPspbPainSymptom</members>
-<members>biPspbPrimaryPageSymptom</members>
-<members>biPspbPustulesSymptoms</members>
-<members>biPspbSymptomLandingPage</members>
-<members>biPspbSymptomTracker</members>
-<members>BiPspbSymptomTrackerChartParent</members>
-<members>biPspbSymptomTrackerGraph</members>
-<members>BiPspbSymptomTrackerLandingPageParent</members>
-<members>BiPspbSymptomTrackerMainParent</members>
-<members>BiPspbSymptomTrackerPdf</members>
-<members>biPspRednessSymptom</members>
-<members>biPspTemperaturesymtom</members>
-<name>LightningComponentBundle</name>
+        <members>biPspbActiveChallenges</members>
+        <members>biPspbAcuteVideo</members>
+        <members>biPspbAcuteVideoAvatar</members>
+        <members>biPspbAcuteVideoParent</members>
+        <members>biPspbAddCaregivers</members>
+        <members>biPspbArticleCategoryParent</members>
+        <members>biPspbArticleContentAvatar</members>
+        <members>biPspbArticlesForDashboard</members>
+        <members>biPspbAvailableChallenges</members>
+        <members>biPspbCaregiverPostLogin</members>
+        <members>biPspbCaregiverProfile</members>
+        <members>biPspbCgPatientInformation</members>
+        <members>biPspbChallenges</members>
+        <members>biPspbChronicVideo</members>
+        <members>biPspbChronicVideoAvatar</members>
+        <members>biPspbChronicVideoParent</members>
+        <members>biPspbCommonNavBar</members>
+        <members>biPspbContactUs</members>
+        <members>biPspbDlqiCard</members>
+        <members>biPspbDlqiCompletedQuestionnaire</members>
+        <members>biPspbFirsttimeAvatarSelection</members>
+        <members>biPspbFooterLogo</members>
+        <members>biPspbHcpEnrollment</members>
+        <members>biPspbHcpPrepopulateCaregiverForm</members>
+        <members>biPspbHcpPrepopulatePatientForm</members>
+        <members>biPspbHcpPrepopulateSummary</members>
+        <members>biPspbNavBar</members>
+        <members>biPspbNavigationBar</members>
+        <members>biPspbNotificationReminderResources</members>
+        <members>biPspbNotificationSetting</members>
+        <members>biPspbPatientEnrollmentForm</members>
+        <members>biPspbPatientProfileDetail</members>
+        <members>biPspbPrepopulateSummaryPage</members>
+        <members>biPspbPrescriptionParent</members>
+        <members>biPspbPrescriptionStatus</members>
+        <members>biPspbPrescriptionWidget</members>
+        <members>biPspbPreStatusParent</members>
+        <members>biPspbPrivacyNotice</members>
+        <members>biPspbPsoriasisCard</members>
+        <members>biPspbPssCompletedQuestionnaires</members>
+        <members>biPspbQsqCompletedQuesFourteenWeeks</members>
+        <members>biPspbQsqCompletedQuesTwoMonths</members>
+        <members>biPspbQualitativeCard</members>
+        <members>biPspbReminderNotificationSetting</members>
+        <members>biPspbReminderSetup</members>
+        <members>biPspbReminderSetupParent</members>
+        <members>biPspbReminderWidget</members>
+        <members>biPspbSettingForNotification</members>
+        <members>biPspbTermsOfUse</members>
+        <members>biPspbThankyouForHcpEnrollment</members>
+        <members>biPspbUpdatePrescription</members>
+        <members>biPspbWapiCard</members>
+        <members>biPspbWapiCompletedQuestionnaire</members>
+        <members>biPspbWelcomeAvatar</members>
+        <members>biPspLabelAndResourceGeneral</members>
+        <members>biPspbLabelAndResourceCommunity</members>
+        <members>biPspLabelAndResourceChallenges</members>
+        <members>biPspbChallenges</members>
+        <members>biPspbTrophyCaseComponent</members>
+        <members>biPspbWidgetChallenges</members>
+        <members>biPspbCaregiverPatientParent</members>
+        <members>biPspbCaregiverNotificationParent</members>
+        <members>biPspbNotificationForPatient</members>
+        <members>biPspbNotificationForCaregiver</members>
+        <members>biPspbMyFollowers</members>
+        <members>biPspbMyFollowing</members>
+        <members>biPspbChatterNavBar</members>
+        <members>biPspbChatterUsername</members>
+        <members>biPspbCreatePost</members>
+        <members>biPspbMyPost</members>
+        <members>biPspbAllPost</members>
+        <members>BiPspbItchinessSymptom</members>
+        <members>biPspbFatigueSymptoms</members>
+        <members>biPspbMoodSymptom</members>
+        <members>biPspbPainSymptom</members>
+        <members>biPspbPrimaryPageSymptom</members>
+        <members>biPspbPustulesSymptoms</members>
+        <members>biPspbSymptomLandingPage</members>
+        <members>biPspbSymptomTracker</members>
+        <members>BiPspbSymptomTrackerChartParent</members>
+        <members>biPspbSymptomTrackerGraph</members>
+        <members>BiPspbSymptomTrackerLandingPageParent</members>
+        <members>BiPspbSymptomTrackerMainParent</members>
+        <members>BiPspbSymptomTrackerPdf</members>
+        <members>biPspRednessSymptom</members>
+        <members>biPspTemperaturesymtom</members>
+        <members> biPspLabelAndResourceChallenges</members>
+        <members>biPspbAvailableChallenges</members>
+        <members>biPspbActiveChallenges</members>
+        <members>biPspbChartPercentage</members>
+        <members>biPspbWidgetChallenges</members>
+        <members>biPspbTrophyCaseComponent</members>
+        <members>biPspbChallenges</members>
+        <members>biPspbCompletedChallengeComponent</members>
+        <members>biPspbArticleCategoryAvatar</members>
+        <members>biPspbArticleContentNavigation</members>
+        <members>biPspbEnrollmentFormResource</members>
+    <name>LightningComponentBundle</name>
 </types>
 <version>59.0</version>
 </Package>

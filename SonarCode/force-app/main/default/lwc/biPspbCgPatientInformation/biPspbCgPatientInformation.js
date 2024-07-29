@@ -17,6 +17,8 @@ import PATIENT_INFO from '@salesforce/apex/BI_PSPB_PatientFormCtrl.getPatientInf
 import COUNTRYS from "@salesforce/apex/BI_PSPB_ReferringPractitionerCtrl.getCountries";
 import STATES from "@salesforce/apex/BI_PSPB_ReferringPractitionerCtrl.getStates";
 
+// To import Static Resources
+
 import {resources} from 'c/biPspbResourceProfileManager';
 export default class BiPspbCgPatientInformation extends LightningElement {
 	//Proper naming conventions with camel case for all the variables will be followed in the future releases
@@ -114,9 +116,9 @@ export default class BiPspbCgPatientInformation extends LightningElement {
 	{ label: resources.OTHERS, value: resources.OTHERS }
 	];
 	@track preffer = [
-		{ label: resources.SMS_LABEL, value: resources.SMS_LABEL },
-		{ label: resources.PHONE_LABEL, value: resources.PHONE_LABEL },
-		{ label: resources.EMAIL_LABEL, value: resources.EMAIL_LABEL }
+		{ label: resources.SMS_STRING, value: resources.SMS_STRING },
+		{ label: resources.PHONE_STRING, value: resources.PHONE_STRING },
+		{ label: resources.EMAIL_STRING, value: resources.EMAIL_STRING }
 	];
 	@track phoneNumberMandatory = false;
 	@track accountSettingHide = true;
@@ -136,21 +138,20 @@ export default class BiPspbCgPatientInformation extends LightningElement {
 	rightimg = resources.RIGHT_ICONE;
 	firstNameError=resources.FIRST_NAMEERROR;
 	lastNameError=resources.LAST_NAMEERROR;
-	dobError= resources.DOB;
 	emailError=resources.EMAIL_ERROR;
+	dobError=resources.DOB;
+	genderError=resources.GENDER;
 	aboveError=resources.ABOVE_ERROR;
-	futureDate=resources.FUTHURE_DATE;
-	gender=resources.GENDER;
-	minorErrorMsg=resources.MINOR_ERROR;
-	phoneError=resources.PHONE_ERROR;
+	futureError=resources.FUTHURE_DATE;
+	minorMsg=resources.MINOR_ERROR;
 	mobileError=resources.MOBILE;
+	phoneError=resources.PHONE;
 	preferredMode=resources.PREFERRED_CONTACT_METHOD;
 	countryError=resources.COUNTRY;
 	stateError=resources.STATE;
 	cityError=resources.CITY;
 	streetError=resources.STREET;
 	pincodeError=resources.PINCODE;
-	validPincodeError=resources.VALIDPINCODE;
 
 	Warningicon = resources.WARNING;
 	StateCode = [];
@@ -171,7 +172,7 @@ export default class BiPspbCgPatientInformation extends LightningElement {
 				value: country.value
 			}));
 		} else if (error) {
-			this.showToast(resources.ERROR_MESSAGE, error.message, resources.ERROR_VARIANT);
+			this.showToast(resources.ERRORMESSAGE, error.message, resources.ERRORVARIANT);
 		}
 	}
 
@@ -198,10 +199,10 @@ export default class BiPspbCgPatientInformation extends LightningElement {
 				})
 				.catch(error => {
 
-					this.showToast(resources.ERROR_MESSAGE, error.message, resources.ERROR_VARIANT);// Catching Potential Error from Apex
+					this.showToast(resources.ERRORMESSAGE, error.message, resources.ERRORVARIANT);// Catching Potential Error from Apex
 				});
 		} catch (err) {
-			this.showToast(resources.ERROR_MESSAGE, err.message, resources.ERROR_VARIANT);//Catching Potential Error from LWC
+			this.showToast(resources.ERRORMESSAGE, err.message, resources.ERRORVARIANT);//Catching Potential Error from LWC
 
 		}
 
@@ -275,13 +276,13 @@ export default class BiPspbCgPatientInformation extends LightningElement {
 			}
 
 			else if (error) {
-				this.showToast(resources.ERROR_MESSAGE, error.body.message, resources.ERROR_VARIANT);// Catching Potential Error from Apex
+				this.showToast(resources.ERRORMESSAGE, error.body.message, resources.ERRORVARIANT);// Catching Potential Error from Apex
 			}
 			else if (data === null) {
-				this.showToast(resources.ERROR_MESSAGE, error.body.message, resources.ERROR_VARIANT);// Catching Potential Error from Apex
+				this.showToast(resources.ERRORMESSAGE, error.body.message, resources.ERRORVARIANT);// Catching Potential Error from Apex
 			}
 		} catch (err) {
-			this.showToast(resources.ERROR_MESSAGE, err.message, resources.ERROR_VARIANT); //Catching Potential Error from LWC
+			this.showToast(resources.ERRORMESSAGE, err.message, resources.ERRORVARIANT); //Catching Potential Error from LWC
 
 		}
 	}
@@ -308,7 +309,7 @@ export default class BiPspbCgPatientInformation extends LightningElement {
 			}
 
 		} catch (error) {
-			this.showToast(resources.ERROR_MESSAGE, error.message, resources.ERROR_VARIANT); //Catching Potential Error from LWC
+			this.showToast(resources.ERRORMESSAGE, error.message, resources.ERRORVARIANT); //Catching Potential Error from LWC
 
 		}
 
@@ -333,7 +334,7 @@ export default class BiPspbCgPatientInformation extends LightningElement {
 				}
 			}
 		} catch (error) {
-			this.showToast(resources.ERROR_MESSAGE, error.message, resources.ERROR_VARIANT); //Catching Potential Error from LWC
+			this.showToast(resources.ERRORMESSAGE, error.message, resources.ERRORVARIANT); //Catching Potential Error from LWC
 
 		}
 
@@ -525,7 +526,7 @@ export default class BiPspbCgPatientInformation extends LightningElement {
 	handlePmcChange(event) {
 		this.preferredCommunication = event.target.value;
 
-		if (this.preferredCommunication === resources.SMS_LABEL || this.preferredCommunication === resources.PHONE_LABEL) {
+		if (this.preferredCommunication === resources.SMS_STRING || this.preferredCommunication === resources.PHONE_STRING) {
 			this.pmcName = resources.PHONE_NUMBER_REQUIRED;
 			if (this.patientMobilePhone === '' || this.patientMobilePhone === undefined) {
 
@@ -582,7 +583,7 @@ export default class BiPspbCgPatientInformation extends LightningElement {
 				}));
 			})
 			.catch((error) => {
-				this.showToast(resources.ERROR_MESSAGE, error.message, resources.ERROR_VARIANT);
+				this.showToast(resources.ERRORMESSAGE, error.message, resources.ERRORVARIANT);
 			});
 	}
 	//to validate state field
@@ -854,7 +855,7 @@ export default class BiPspbCgPatientInformation extends LightningElement {
 	}
 	
 	validatePhone() {
-		if (!this.patientMobilePhone && (this.preferredCommunication === resources.SMS_LABEL || this.preferredCommunication === resources.PHONE_STRING)) {
+		if (!this.patientMobilePhone && (this.preferredCommunication === resources.SMS_STRING || this.preferredCommunication === resources.PHONE_STRING)) {
 			this.phoneErrorMessage = true;
 			this.setFieldErrorStyles('phone');
 		} else {
@@ -947,7 +948,7 @@ export default class BiPspbCgPatientInformation extends LightningElement {
 		})
 		.catch(error => {
 			this.updatePopup = false;
-			this.showToast(resources.ERROR_MESSAGE, error.message, resources.ERROR_VARIANT); // Catching Potential Error from Apex
+			this.showToast(resources.ERRORMESSAGE, error.message, resources.ERRORVARIANT); // Catching Potential Error from Apex
 		});
 	}
 	
@@ -978,7 +979,7 @@ export default class BiPspbCgPatientInformation extends LightningElement {
 		})
 		.catch(error => {
 			this.updatePopup = false;
-			this.showToast(resources.ERROR_MESSAGE, error.message, resources.ERROR_VARIANT); // Catching Potential Error from Apex
+			this.showToast(resources.ERRORMESSAGE, error.message, resources.ERRORVARIANT); // Catching Potential Error from Apex
 		});
 	}
 	
@@ -1023,7 +1024,7 @@ export default class BiPspbCgPatientInformation extends LightningElement {
 				window.scrollTo({ top: 0, behavior: 'smooth' });
 			})
 			.catch(error => {
-				this.showToast(resources.ERROR_MESSAGE, error.message, resources.ERROR_VARIANT); // Catching Potential Error
+				this.showToast(resources.ERRORMESSAGE, error.message, resources.ERRORVARIANT); // Catching Potential Error
 			});
 
 
@@ -1065,7 +1066,7 @@ export default class BiPspbCgPatientInformation extends LightningElement {
 				window.scrollTo({ top: 0, behavior: 'smooth' });
 			})
 			.catch(error => {
-				this.showToast(resources.ERROR_MESSAGE, error.message, resources.ERROR_VARIANT); // Catching Potential Error
+				this.showToast(resources.ERRORMESSAGE, error.message, resources.ERRORVARIANT); // Catching Potential Error
 			});
 
 

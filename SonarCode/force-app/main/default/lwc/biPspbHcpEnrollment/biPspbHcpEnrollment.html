@@ -42,7 +42,7 @@
 				<img src={BGpp} class="marTB20" alt="Beyond Gpp">
 				<h1 class="heading">Enroll a Patient</h1>
 				<div class="slds-form-element__help" if:true={referringErrorMessage}>
-					<span class="errorFieldMsg error">{label.REFERRING_PRACTICE}</span>
+					<span class="errorFieldMsg error">{refferingPractice}</span>
 				</div>
 				<div class="PI ">
 					<div class="one">01&nbsp;</div>
@@ -161,7 +161,7 @@
 							</lightning-input>
 							<div class="slds-form-element__help" if:true={rpFirstnameErrorMessage}>
 								<img class="warningclass" src={warning}>
-								<span class="errorFieldMsg">{label.PHYSICIAN_FIRST_NAME}</span>
+								<span class="errorFieldMsg">{firstNameError}</span>
 							</div>
 							<div class="slds-form-element__help" if:true={rpFirstnameErrorMessageVaild}>
 								<img class="warningclass" src={warning}>
@@ -175,7 +175,7 @@
 								class="textInput" placeholder="Enter Last Name" maxlength="60"></lightning-input>
 							<div class="slds-form-element__help" if:true={rpLastnameErrorMessage}>
 								<img class="warningclass" src={warning}>
-								<span class="errorFieldMsg">{label.PHYSICIAN_LAST_NAME}</span>
+								<span class="errorFieldMsg">{lastName}</span>
 							</div>
 							<div class="slds-form-element__help" if:true={rpLastnameErrorMessageValid}>
 								<img class="warningclass" src={warning}>
@@ -190,7 +190,7 @@
 							</lightning-input>
 							<div class="slds-form-element__help" if:true={rpStateLicenseErrorMessage}>
 								<img class="warningclass" src={warning}>
-								<span class="errorFieldMsg">{label.LICENSE_NUMBER}</span>
+								<span class="errorFieldMsg">{licenseNumber}</span>
 							</div>
 							<div class="slds-form-element__help" if:true={rpStateLicenseErrorMessageValid}>
 								<img class="warningclass" src={warning}>
@@ -225,7 +225,7 @@
 							</lightning-combobox>
 							<div class="slds-form-element__help" if:true={rpPracticeTypeErrorMessage}>
 								<img class="warningclass" src={warning}>
-								<span class="errorFieldMsg">{label.PRACTICE_TYPE_ERR}</span>
+								<span class="errorFieldMsg">{practicetypeError}</span>
 							</div>
 						</div>
 
@@ -241,7 +241,7 @@
 								placeholder="Enter Email"></lightning-input>
 							<div class="slds-form-element__help" if:true={rpEmailErrorMessage}>
 								<img class="warningclass" src={warning}>
-								<span class="errorFieldMsg">{label.PHYSICIAN_EMAIL}</span>
+								<span class="errorFieldMsg">{physicianEmail}</span>
 							</div>
 							<div class="slds-form-element__help" if:true={RpEmailErrorValid}>
 								<img class="warningclass" src={warning}>
@@ -255,7 +255,7 @@
 								variant="label-hidden" id="hPhone" placeholder="+Enter Phone Number"></lightning-input>
 							<div class="slds-form-element__help" if:true={rpPhoneErrorMessage}>
 								<img class="warningclass" src={warning}>
-								<span class="errorFieldMsg">{label.PHYSICIAN_PHONE}</span>
+								<span class="errorFieldMsg">{phoneError}</span>
 							</div>
 						</div>
 						<div class="input-div">
@@ -277,7 +277,7 @@
 							</lightning-combobox>
 							<div class="slds-form-element__help" if:true={RPcountryerrorMessage}>
 								<img class="warningclass" src={warning}>
-								<span class="errorFieldMsg">{label.PHYSICIAN_COUNTRY}</span>
+								<span class="errorFieldMsg">{countrycode}</span>
 							</div>
 						</div>
 						<div class="input-div">
@@ -288,7 +288,7 @@
 							</lightning-combobox>
 							<div class="slds-form-element__help" if:true={rpStateCodeErrorMessage}>
 								<img class="warningclass" src={warning}>
-								<span class="errorFieldMsg">{label.PHYSICIAN_STATE}</span>
+								<span class="errorFieldMsg">{stateCodeError}</span>
 							</div>
 						</div>
 						<div class="input-div">
@@ -298,7 +298,7 @@
 							</lightning-input>
 							<div class="slds-form-element__help" if:true={rpCityErrorMessage}>
 								<img class="warningclass" src={warning}>
-								<span class="errorFieldMsg">{label.PHYSICIAN_CITY}</span>
+								<span class="errorFieldMsg">{cityError}</span>
 							</div>
 							<div class="slds-form-element__help" if:true={rpCityErrorMessageValid}>
 								<img class="warningclass" src={warning}>
@@ -313,7 +313,7 @@
 							</lightning-textarea>
 							<div class="slds-form-element__help" if:true={rpStreetErrorMessage}>
 								<img class="warningclass" src={warning}>
-								<span class="errorFieldMsg">{label.PHYSICIAN_STREET}</span>
+								<span class="errorFieldMsg">{streetError}</span>
 							</div>
 						</div>
 						<div class="input-div">
@@ -324,7 +324,7 @@
 							</lightning-input>
 							<div class="slds-form-element__help" if:true={rpPostalCodeErrorMessage}>
 								<img class="warningclass" src={warning}>
-								<span class="errorFieldMsg">{label.PHYSICIAN_ZIPCODE}</span>
+								<span class="errorFieldMsg">{pinCodeError}</span>
 							</div>
 							<div class="slds-form-element__help" if:true={RPpostalerrorMessagevalid}>
 								<img class="warningclass" src={warning}>
@@ -364,7 +364,7 @@
 					</lightning-input>
 					<div class="slds-form-element__help" if:true={firstnameErrorMessage}>
 						<img class="warningclass" src={warning}>
-						<span class="errorFieldMsg">{label.PATIENT_FIRST_NAME}</span>
+						<span class="errorFieldMsg">{firstNameError}</span>
 					</div>
 					<div class="slds-form-element__help" if:true={firstnameErrorMessagevaild}>
 						<img class="warningclass" src={warning}>
@@ -379,7 +379,7 @@
 					</lightning-input>
 					<div class="slds-form-element__help" if:true={lastnameErrorMessage}>
 						<img class="warningclass" src={warning}>
-						<span class="errorFieldMsg">{label.PATIENT_LAST_NAME}</span>
+						<span class="errorFieldMsg">{lastName}</span>
 					</div>
 					<div class="slds-form-element__help" if:true={lastnameErrorMessagevaild}>
 						<img class="warningclass" src={warning}>
@@ -394,13 +394,13 @@
 					</lightning-input>
 					<div class="slds-form-element__help" if:true={dobErrorMessage}>
 						<img class="warningclass" src={warning}>
-						<span class="errorFieldMsg">{label.PATIENT_DATE_OF_BIRTH}</span>
+						<span class="errorFieldMsg">{patientDob}</span>
 					</div>
 
 
 					<div class="slds-form-element__help" if:true={error}>
 						<img class="warningclass" src={warning}>
-						<span class="errorFieldMsg">{label.PATIENT_FUTURE_DATE}</span>
+						<span class="errorFieldMsg">{futureDateError}</span>
 					</div>
 					<div class="slds-form-element__help" if:true={oneNineZeroZeroErrors}>
 						<img class="warningclass" src={warning}>
@@ -410,12 +410,12 @@
 				<div class="input-div">
 					<label class="input-label" data-field="pGender">Gender*</label>
 					<lightning-combobox name="HealthCloudGA__Gender__c" label="Gender*" placeholder="Select"
-						class="textInput" options={leadGender} value={selectedGender} onchange={handleGenderChange}
+						class="textInput" options={leadGender} value={selectedGender} onchange={PatientGenderChange}
 						variant="label-hidden" data-field="pGender">
 					</lightning-combobox>
 					<div class="slds-form-element__help" if:true={genderErrorMessage}>
 						<img class="warningclass" src={warning}>
-						<span class="errorFieldMsg">{label.PATIENT_GENDER}</span>
+						<span class="errorFieldMsg">{genderField}</span>
 					</div>
 				</div>
 				<div class="input-div" if:true={isAdult}>
@@ -426,7 +426,7 @@
 					</lightning-input>
 					<div class="slds-form-element__help" if:true={emailErrorMessage}>
 						<img class="warningclass" src={warning}>
-						<span class="errorFieldMsg">{label.PATIENT_EMAIL}</span>
+						<span class="errorFieldMsg">{physicianEmail}</span>
 					</div>
 					<div class="slds-form-element__help" if:true={emailErrorValid}>
 						<img class="warningclass" src={warning}>
@@ -473,7 +473,7 @@
 					</lightning-input>
 					<div class="slds-form-element__help" if:true={careFirstnameErrorMessage}>
 						<img class="warningclass" src={warning}>
-						<span class="errorFieldMsg">{label.CAREGIVER_FIRST_NAME}</span>
+						<span class="errorFieldMsg">{firstNameError}</span>
 					</div>
 					<div class="slds-form-element__help" if:true={careFirstnameErrorMessageValid}>
 						<img class="warningclass" src={warning}>
@@ -488,7 +488,7 @@
 					</lightning-input>
 					<div class="slds-form-element__help" if:true={careLastnameErrorMessage}>
 						<img class="warningclass" src={warning}>
-						<span class="errorFieldMsg">{label.CAREGIVER_LAST_NAME}</span>
+						<span class="errorFieldMsg">{lastName}</span>
 					</div>
 					<div class="slds-form-element__help" if:true={careLastnameErrorMessageValid}>
 						<img class="warningclass" src={warning}>
@@ -517,7 +517,7 @@
 					</div>
 					<div class="slds-form-element__help" if:true={minorError}>
 						<img class="warningclass" src={warning}>
-						<span class="errorFieldMsg">{label.CAREGIVER_DATE_OF_BIRTH}</span>
+						<span class="errorFieldMsg">You need to be 18 or above for self enrollment</span>
 					</div>
 				</div>
 				<div class="input-div">
@@ -528,7 +528,7 @@
 					</lightning-combobox>
 					<div class="slds-form-element__help" if:true={relationshipErrorMessage}>
 						<img class="warningclass" src={warning}>
-						<span class="errorFieldMsg">{label.CAREGIVER_RELATIONSHIP}</span>
+						<span class="errorFieldMsg">{relationshipError}</span>
 					</div>
 				</div>
 				<div class="input-div">
@@ -539,7 +539,7 @@
 					</lightning-input>
 					<div class="slds-form-element__help" if:true={careEmailErrorMessage}>
 						<img class="warningclass" src={warning}>
-						<span class="errorFieldMsg">{label.CAREGIVER_EMAIL}</span>
+						<span class="errorFieldMsg">{physicianEmail}</span>
 					</div>
 					<div class="slds-form-element__help" if:true={cEmailErrorValid}>
 						<img class="warningclass" src={warning}>
@@ -617,7 +617,7 @@
 
 				<div class="slds-form-element__help" if:true={drugErrorMessage}>
 					<img class="warningclass" src={warning}>
-					<span class="errorFieldMsg">{label.DRUGNAME}</span>
+					<span class="errorFieldMsg">{drugError}</span>
 				</div>
 				<div class="slds-form-element__help" if:true={searchResultEmpty}>
 					<img class="warningclass" src={warning}>
@@ -687,11 +687,11 @@
 					</lightning-input>
 					<div class="slds-form-element__help" if:true={dateErrorMessage}>
 						<img class="warningclass" src={warning}>
-						<span class="errorFieldMsg">{label.PRESCRIBED_DATE}</span>
+						<span class="errorFieldMsg">{prescriptedError}</span>
 					</div>
 					<div class="slds-form-element__help" if:true={errorss}>
 						<img class="warningclass" src={warning}>
-						<span class="errorFieldMsg">{label.PRESCRIBED_FUTURE_DATE}</span>
+						<span class="errorFieldMsg">{preFutureDate}</span>
 					</div>
 					<div class="slds-form-element__help" if:true={presOneNineZeroZeroErrors}>
 						<img class="warningclass" src={warning}>
@@ -794,7 +794,7 @@
 
 				<div class="slds-form-element__help" if:true={authorizeErrorMessage}>
 					<img class="warningclass" src={warning}>
-					<span class="errorFieldMsg">{label.AGREE}</span>
+					<span class="errorFieldMsg">{agreeError}</span>
 				</div>
 				<div class="btn-div" if:false={isButtonDisabled}>
 					<button class="prev-button" onclick={goBackToStepThree}>Previous</button>

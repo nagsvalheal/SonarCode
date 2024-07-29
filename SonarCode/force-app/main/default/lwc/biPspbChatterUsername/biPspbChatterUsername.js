@@ -63,8 +63,9 @@ export default class BiPspbChatterUsername extends LightningElement {
       LOGIN_COMMUNITY_USERNAME()
         .then((result) => {
           this.userInputBox = "userInputBox";
+          
           //Validate the Entered Name and Raise error if condition not met
-          if (this.isUsernameInvalid(result)) {
+          if (this.isUsernameInvalid(result[0])) {
             this.userInputBox = "userInputBoxError";
             this.showError = true;
             this.showErrorForNull = false;
@@ -73,14 +74,12 @@ export default class BiPspbChatterUsername extends LightningElement {
           }
           //if all Validations are cleared then Create the Username  and Navigate to all post Page
           else {
-            if (this.communityUsername) {
               this.userInputBox = "userInputBox";
               this.normal = true;
               this.showErrorForNull = false;
               this.showError = false;
               this.showSpinner = true;
               this.createUsernameAndNavigate();
-            }
           }
         })
         .catch((err) => {
@@ -90,27 +89,17 @@ export default class BiPspbChatterUsername extends LightningElement {
         });
   }
   isUsernameInvalid(result) {
-    return (
-      result &&
-      ((this.communityUsername &&
-        result.FirstName &&
-        this.communityUsername
-          .toLowerCase()
-          .includes(result.FirstName.toLowerCase())) ||
-        (result.LastName &&
-          this.communityUsername
-            .toLowerCase()
-            .includes(result.LastName.toLowerCase())) ||
-        (result.PersonEmail &&
-          this.communityUsername
-            .toLowerCase()
-            .includes(result.PersonEmail.toLowerCase())) ||
-        (result.Phone &&
-          this.communityUsername
-            .toLowerCase()
-            .includes(result.Phone.toLowerCase())))
+    const username = this.communityUsername.trim().toLowerCase();
+    const invalid = (
+        result && (
+            (result.FirstName && username.includes(result.FirstName.toLowerCase())) ||
+            (result.LastName && username.includes(result.LastName.toLowerCase())) ||
+            (result.PersonEmail && username.includes(result.PersonEmail.toLowerCase())) ||
+            (result.Phone && username.includes(result.Phone.toLowerCase()))
+        )
     );
-  }
+    return invalid;
+}
   createUsernameAndNavigate() {
     INSERT_COMMUNITY_USERNAME({ username: this.communityUsername })
       .then(() => {

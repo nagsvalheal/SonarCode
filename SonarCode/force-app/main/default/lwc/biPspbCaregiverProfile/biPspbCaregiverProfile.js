@@ -7,9 +7,7 @@ import { loadStyle } from 'lightning/platformResourceLoader';
 import USER_CAREGIVER from '@salesforce/apex/BI_PSPB_ProfileManagerCtrl.userCaregiver';
 import USER_CAREGIVERS from '@salesforce/apex/BI_PSPB_AvatarCtrl.userCaregiver';
 import UPDATE_CAREGIVER_DETAILS from '@salesforce/apex/BI_PSPB_ProfileManagerCtrl.updateCaregiverDetails';
-//To import Static Resource
-import RIGHT_ICON from '@salesforce/resourceUrl/BI_PSP_ToastTickIcon';
-import TEXT_ALIGN from '@salesforce/resourceUrl/BI_PSPB_TextAlignmentHcp';
+
 // To get Current UserId
 import ID from '@salesforce/user/Id';
 
@@ -68,7 +66,7 @@ export default class BiPspbCaregiverProfile extends LightningElement {
 		{ label: resources.OTHER_RELATIVE, value: resources.OTHER_RELATIVE }
 	];
 	//Global variables(without does not trigger automatic re-renders)
-	rightImg = RIGHT_ICON;
+	rightImg = resources.RIGHT_ICON;
 	firstNameError=resources.FIRST_NAME_ERR;
 	futuredateError=resources.FUTURE_DATE_ERR;
 	majorDateError=	resources.MAJOR_DATE_ERR;
@@ -114,10 +112,10 @@ export default class BiPspbCaregiverProfile extends LightningElement {
 					this.pmc = resources.PHONE_MANDATORY_LABEL;
 				}
 			} else if (error) {
-				this.showToast(resources.ERROR_MESSAGE, error.message, resources.ERROR_VARIANT); // Catching Potential Error from Apex
+				this.showToast(resources.ERRORMESSAGE, error.message, resources.ERRORVARIANT); // Catching Potential Error from Apex
 			}
 		} catch (err) {
-			this.showToast(resources.ERROR_MESSAGE, error.message, resources.ERROR_VARIANT); // Catching Potential Error from Lwc
+			this.showToast(resources.ERRORMESSAGE, error.message, resources.ERRORVARIANT); // Catching Potential Error from Lwc
 		}
 	}
 
@@ -969,7 +967,7 @@ else{
 					// Handle success, if needed
 				})
 				.catch((error) => {
-					this.showToast(resources.ERROR_MESSAGE, error.message, resources.ERROR_VARIANT); // Catching Potential Error
+					this.showToast(resources.ERRORMESSAGE, error.message, resources.ERRORVARIANT); // Catching Potential Error
 					// Handle error, if needed
 				});
 		
@@ -999,11 +997,11 @@ else{
 						this.selectedAvatarSrc = this.defaultImg;
 					}
 				} else if (error) {
-					this.showToast(resources.ERROR_MESSAGE, error.message, resources.ERROR_VARIANT); // Catching Potential Error from Apex
+					this.showToast(resources.ERRORMESSAGE, error.message, resources.ERRORVARIANT); // Catching Potential Error from Apex
 				}
 			}
 		} catch (err) {
-			this.showToast(resources.ERROR_MESSAGE, err.message, resources.ERROR_VARIANT); // Catching Potential Error from Lwc
+			this.showToast(resources.ERRORMESSAGE, err.message, resources.ERRORVARIANT); // Catching Potential Error from Lwc
 		}
 	}
 
@@ -1049,10 +1047,10 @@ else{
 	// To load combobox text align style
 	connectedCallback(){
 		try {
-		loadStyle(this, TEXT_ALIGN);
+		loadStyle(this, resources.TEXT_ALIGN);
 		}
 		catch(err){
-			this.showToast(resources.ERROR_MESSAGE, err.message, resources.ERROR_VARIANT);// Catching Potential Error from Lwc
+			this.showToast(resources.ERRORMESSAGE, err.message, resources.ERRORVARIANT);// Catching Potential Error from Lwc
 		}
 	}
 	

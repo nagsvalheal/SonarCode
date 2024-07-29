@@ -27,10 +27,20 @@ public with sharing class BI_PSPB_TreatmentVideoNotificationCtrl {
 				);
 				return;
 			}
-
-			/*List<Task> newTaskList = BI_PSPB_TaskCreationCtrl.createTasks(
-				enrolleeRecords,
-				BI_PSPB_NewConstantsCtrl.generalDemonstrationVideoSubject
+			List<Id> enrolleeIdss = new List<Id>();
+			for (SObject enrollee : enrolleeRecords) {
+				enrolleeIdss.add((Id) enrollee.get('Id'));
+			}
+			BI_PSPB_TaskParameters params = new BI_PSPB_TaskParameters(
+				BI_PSPB_NewConstantsCtrl.generalDemonstrationVideoSubject,
+				BI_PSPB_ConstantsClassCtrl.actionTypeAction,
+				'Treatment Video',
+				'',
+				BI_PSPB_ConstantsClassCtrl.actionTypeNotificatonTypeAction
+			);
+			List<Task> newTaskList = BI_PSPB_TaskCreationCtrl.createTasks(
+				enrolleeIdss,
+				params
 			);
 			if (newTaskList.isEmpty()) {
 				BI_PSP_LogMessagesUtility.logError(
@@ -45,14 +55,14 @@ public with sharing class BI_PSPB_TreatmentVideoNotificationCtrl {
 				newTaskList,
 				BI_PSPB_TreatmentVideoNotificationCtrl.class.toString(),
 				false
-			);*/
+			);
 
 			List<Id> enrolleeIds = collectEnrolleeIds(enrolleeRecords);
 			if (!enrolleeIds.isEmpty()) {
 				BI_PSPB_NotificationSender.sendNotifications(
 					enrolleeIds,
 					BI_PSPB_NewConstantsCtrl.video,
-                    null
+					null
 				);
 			}
 		} catch (Exception ex) {
@@ -65,15 +75,15 @@ public with sharing class BI_PSPB_TreatmentVideoNotificationCtrl {
 	}
 
 	/**
-	* @description  Used to get all enrollees and adding it to a list.
-	* @param enrolleeRecords List of enrollees.
-	* @return Returning list of Ids
-	*/
+	 * @description  Used to get all enrollees and adding it to a list.
+	 * @param enrolleeRecords List of enrollees.
+	 * @return Returning list of Ids
+	 */
 	private static List<Id> collectEnrolleeIds(
 		List<CareProgramEnrollee> enrolleeRecords
 	) {
 		List<Id> enrolleeIds = new List<Id>();
-		try{
+		try {
 			for (CareProgramEnrollee enrollee : enrolleeRecords) {
 				enrolleeIds.add(enrollee.Id);
 			}

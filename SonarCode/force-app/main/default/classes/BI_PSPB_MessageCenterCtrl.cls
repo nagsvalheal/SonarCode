@@ -18,7 +18,8 @@ public without sharing class BI_PSPB_MessageCenterCtrl {
 				BI_PSP_LogMessagesUtility.logError(
 						BI_PSPB_NewConstantsCtrl.errorMsgRecordNotFound,
 						BI_PSPB_MessageCenterCtrl.class.toString(),
-						false
+						false,
+						BI_PSPB_NewConstantsCtrl.severityError
 					);
 			} else {
 				generalNotifications = getNotifyRecords(
@@ -50,7 +51,8 @@ public without sharing class BI_PSPB_MessageCenterCtrl {
 				BI_PSP_LogMessagesUtility.logError(
 						BI_PSPB_NewConstantsCtrl.errorMsgRecordNotFound,
 						BI_PSPB_MessageCenterCtrl.class.toString(),
-						false
+						false,
+						BI_PSPB_NewConstantsCtrl.severityError
 					);
 			}
 			else {
@@ -83,7 +85,8 @@ public without sharing class BI_PSPB_MessageCenterCtrl {
 			BI_PSP_LogMessagesUtility.logError(
 					BI_PSPB_NewConstantsCtrl.errorMsgRecordNotFound,
 					BI_PSPB_MessageCenterCtrl.class.toString(),
-					false
+					false,
+					BI_PSPB_NewConstantsCtrl.severityError
 				);
 		} else {
 			historyNotifications = getNotificationRecords(
@@ -100,6 +103,7 @@ public without sharing class BI_PSPB_MessageCenterCtrl {
 		ex
 	  );
 	}
+	system.debug('historyNotifications'+historyNotifications);
 	return historyNotifications;
   }
 	/**
@@ -122,7 +126,8 @@ public without sharing class BI_PSPB_MessageCenterCtrl {
 			BI_PSP_LogMessagesUtility.logError(
 					BI_PSPB_NewConstantsCtrl.errorMsgRecordNotFound,
 					BI_PSPB_MessageCenterCtrl.class.toString(),
-					false
+					false,
+					BI_PSPB_NewConstantsCtrl.severityError
 				);
 		} else {
 		String fields =
@@ -132,12 +137,14 @@ public without sharing class BI_PSPB_MessageCenterCtrl {
 		String conditions;
 
 	if (isHistory) {
-		conditions =
-			'WhatId = \'' +enroleeId +'\' ' +'AND (BI_PSP_Notification_Type__c = \'' +
-			BI_PSPB_ConstantsClassCtrl.actionTypeGeneral +'\' ' +
-			'OR BI_PSP_Notification_Type__c = \'' +
-			BI_PSPB_ConstantsClassCtrl.actionTypeAction +
-			'\') ' +'ORDER BY CreatedDate DESC';
+		conditions = 'WhatId = \'' + enroleeId + '\' ' +
+		'AND (BI_PSP_Notification_Type__c = \'' + BI_PSPB_ConstantsClassCtrl.actionTypeGeneral + '\' ' +
+		'OR BI_PSP_Notification_Type__c = \'' + BI_PSPB_ConstantsClassCtrl.actionTypeAction + '\') ' +
+		'AND (Status = \'' + BI_PSPB_ConstantsClassCtrl.notificationStatusComplete + '\' ' +
+		'OR Status = \'' + BI_PSPB_ConstantsClassCtrl.notificationStatusNotComplete + '\' ' +
+		'OR Status = \'' + BI_PSPB_ConstantsClassCtrl.actionTypeRead + '\' ' +
+		'OR Status = \'' + BI_PSPB_ConstantsClassCtrl.actionTypeNotificationTypeExpired + '\') ' +
+		'ORDER BY CreatedDate DESC';
 	} else {
 		conditions ='WhatId = \'' +enroleeId +'\' ' +
 			'AND BI_PSP_Notification_Type__c = \'' +notificationType +
@@ -179,7 +186,8 @@ public without sharing class BI_PSPB_MessageCenterCtrl {
 			BI_PSP_LogMessagesUtility.logError(
 					BI_PSPB_NewConstantsCtrl.errorMsgRecordNotFound,
 					BI_PSPB_MessageCenterCtrl.class.toString(),
-					false
+					false,
+					BI_PSPB_NewConstantsCtrl.severityError
 				);
 		} else{
 			notificationRecords = getNotificationRecords(

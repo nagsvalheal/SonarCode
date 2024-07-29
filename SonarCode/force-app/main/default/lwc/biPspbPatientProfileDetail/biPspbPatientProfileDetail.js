@@ -5,11 +5,7 @@ import { loadStyle } from 'lightning/platformResourceLoader';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 // To import current user ID
 import Id from '@salesforce/user/Id';
-// To import Static Resources
-import TEXT_ALIGN from '@salesforce/resourceUrl/BI_PSPB_TextAlignmentHcp';
-import WARNING from '@salesforce/resourceUrl/BI_PSPB_WarningIcon';
-import RIGHT_ICON from '@salesforce/resourceUrl/BI_PSP_ToastTickIcon';
-import BOXEDD_ICON from '@salesforce/resourceUrl/BI_PSPB_BoxedIcon';
+
 //  To import Apex Classes
 import CREATE_CASE from '@salesforce/apex/BI_PSPB_CaseCtrl.createCase';
 import CREATE_ACCESS_CASE from '@salesforce/apex/BI_PSPB_CaseCtrl.createAccessCase';
@@ -22,37 +18,7 @@ import COUNTRYS from "@salesforce/apex/BI_PSPB_ReferringPractitionerCtrl.getCoun
 import STATES from "@salesforce/apex/BI_PSPB_ReferringPractitionerCtrl.getStates";
 
 
-// To import Custom Labels
-import FIRST_NAME from '@salesforce/label/c.BI_PSPB_PatientFirstNameErrMsg';
-import LAST_NAME from '@salesforce/label/c.BI_PSPB_PatientLastNameErrMsg';
-import DOB from '@salesforce/label/c.BI_PSPB_PatientDateOfBirthErrMsg';
-import MINOR from '@salesforce/label/c.BI_PSPB_MinnorPatientErrMsg';
-import FUTURE_DATE from '@salesforce/label/c.BI_PSPB_PatientFutureDateErrMsg';
-import ABOVE_DATE from '@salesforce/label/c.BI_PSPB_YearOlderErrMsg';
-import EMAIL from '@salesforce/label/c.BI_PSPB_PatientEmailErrMsg';
-import GENDER from '@salesforce/label/c.BI_PSPB_PatientGenterErrMsg';
-import PHONE from '@salesforce/label/c.BI_PSPB_PhoneRequiredErrMsg';
-import MOBILE from '@salesforce/label/c.BI_PSPB_PatientPhoneErrMsg';
-import PREFERRED_CONTACT_METHOD from '@salesforce/label/c.BI_PSPB_PatientPrefferMethodErrMsg';
-import COUNTRY from '@salesforce/label/c.BI_PSPB_PatientCountryRequiredErrMsg';
-import STATE from '@salesforce/label/c.BI_PSPB_PatientStateErrMsg';
-import CITY from '@salesforce/label/c.BI_PSPB_PatientCityErrMsg';
-import STREET from '@salesforce/label/c.BI_PSPB_PatientStreetErrMsg';
-import PINCODE from '@salesforce/label/c.BI_PSPB_PatientZipCodeErrMsg';
-import VALIDPINCODE from '@salesforce/label/c.BI_PSPB_CaregiverValidPinCodeErrMsg';
-import ERROR_MESSAGE from '@salesforce/label/c.BI_PSP_ConsoleError';
-import ERROR_VARIANT from '@salesforce/label/c.BI_PSP_ErrorVariantToast';
-import SMS_STRING from '@salesforce/label/c.BI_PSP_SmsLabel';
-import PHONE_STRING from '@salesforce/label/c.BI_PSPB_Phone';
-import EMAIL_STRING from '@salesforce/label/c.BI_PSP_NotificationEmail';
-import MALE from '@salesforce/label/c.BI_PSP_RbMale';
-import FEMALE from '@salesforce/label/c.BI_PSP_RbFemale';
-import PREFER_NOT from '@salesforce/label/c.BI_PSP_RbNotToSay';
-import OTHERS from '@salesforce/label/c.BI_PSP_Others';
-import PHONE_NUMBER_REQUIRED from '@salesforce/label/c.BI_PSPB_PhoneNumberMandatory';
-import PHONE_NUMBER_LABEl from '@salesforce/label/c.BI_PSPB_PhoneNumberLabel';
-import MINOR_AGE from '@salesforce/label/c.BI_PSPB_MInorAge';
-
+import {resources} from 'c/biPspbResourceProfileManager';
 
 export default class BiPspbPatientProfileDetail extends LightningElement {
 	//Proper naming conventions with camel case for all the variables will be followed in the future releases
@@ -132,12 +98,12 @@ DeleteMessage = false;
 accessMessage = false;
 colorChnage = 'outlined-button' //css class
 colorChanage = 'outlined-button' //css class
-boxedIcon = BOXEDD_ICON;
+boxedIcon = resources.BOXEDD_ICON;
 phoneNumberMandatory = false;
-@track leadPmc = [{ label: MALE, value: MALE },
-	{ label: FEMALE, value: FEMALE },
-	{ label: PREFER_NOT, value: PREFER_NOT },
-	{ label: OTHERS, value: OTHERS }
+@track leadPmc = [{ label: resources.MALE, value: resources.MALE },
+	{ label: resources.FEMALE, value: resources.FEMALE },
+	{ label: resources.PREFER_NOT, value: resources.PREFER_NOT },
+	{ label: resources.OTHERS, value: resources.OTHERS }
 	];
 recordId;
 updatePopup = false;
@@ -147,12 +113,12 @@ up = false;
 checkboxFirstValue;
 checkboxSecondValue;
 @track preffer = [
-		{ label: SMS_STRING, value: SMS_STRING },
-		{ label: PHONE_STRING, value: PHONE_STRING },
-		{ label: EMAIL_STRING, value: EMAIL_STRING }
+		{ label: resources.SMS_STRING, value: resources.SMS_STRING },
+		{ label: resources.PHONE_STRING, value: resources.PHONE_STRING },
+		{ label: resources.EMAIL_STRING, value: resources.EMAIL_STRING }
 	];
 ZipErrorMessageValid = false;
-pmcName = PHONE_NUMBER_LABEl;
+pmcName = resources.PHONE_NUMBER_LABEl;
 minorerror=false;
 	// Declaration of Global variables
 	enrolleeids;
@@ -160,11 +126,26 @@ minorerror=false;
 	StateCode = [];
 	userId = Id;
 	caregiverAccountIds;
-	rightimg = RIGHT_ICON;
-
-
-	label = { FIRST_NAME, LAST_NAME, DOB, MINOR, FUTURE_DATE, ABOVE_DATE, EMAIL, GENDER, PHONE, MOBILE, PREFERRED_CONTACT_METHOD, COUNTRY, STATE, CITY, STREET, PINCODE, VALIDPINCODE };
-	Warningicon = WARNING;
+	rightimg = resources.RIGHT_ICON;
+	firstNameError=resources.FIRST_NAMEERROR;
+	lastNameError=resources.FIRST_NAMEERROR;
+	dobError=resources.DOB;
+	minorCaregiver=resources.MINOR_CAREGIVER;
+	futureDate=resources.FUTURE_DATE_ERR;
+	aboveError=resources.ABOVE_ERROR;
+	emailError=resources.EMAIL_ERROR;
+	genderError=resources.GENDER;
+	phoneError=resources.PHONE_ERROR;
+	mobileError=resources.MOBILE;
+	prefferedMode=resources.PREFERRED_CONTACT_METHOD;
+	countryError=resources.COUNTRY;
+	stateError=resources.STATE;
+	cityError=resources.CITY;
+	streetError=resources.STREET;
+	pincodeError=resources.PINCODE;
+	validError=resources.VALIDPINCODE;
+	
+	Warningicon = resources.WARNING;
 
 	//to prepopulate patient information
 	@wire(ACCOUNT_DETAILS)
@@ -189,21 +170,21 @@ minorerror=false;
 				if(this.country && this.state){
 				this.loadState();
 				}
-				if ((this.patientDOB !== null || this.patientDOB !== undefined) && this.patientAge <= MINOR_AGE) {
+				if ((this.patientDOB !== null || this.patientDOB !== undefined) && this.patientAge <= resources.MINOR_AGE) {
 					this.isDOBDisabled = true;
 				}
-				if (this.preferredCommunication === SMS_STRING || this.preferredCommunication === PHONE_STRING) {
-					this.pmcName = PHONE_NUMBER_REQUIRED;
+				if (this.preferredCommunication === resources.SMS_STRING || this.preferredCommunication === resources.PHONE_STRING) {
+					this.pmcName = resources.PHONE_NUMBER_REQUIRED;
 
 				}
 				
 			}
 			else if (error) {
-				this.showToast(ERROR_MESSAGE, error.body.message, ERROR_VARIANT);// Catching Potential Error from Apex
+				this.showToast(resources.ERROR_MESSAGE, error.body.message, resources.ERROR_VARIANT);// Catching Potential Error from Apex
 			}
 
 		} catch (err) {
-			this.showToast(ERROR_MESSAGE, err.message, ERROR_VARIANT); // Catching Potential Error
+			this.showToast(resources.ERROR_MESSAGE, err.message, resources.ERROR_VARIANT); // Catching Potential Error
 		}
 	}
 
@@ -232,7 +213,7 @@ minorerror=false;
 		}
 		catch (err) {
 
-			this.showToast(ERROR_MESSAGE, err.message, ERROR_VARIANT); //Catching Potential Error from LWC
+			this.showToast(resources.ERROR_MESSAGE, err.message, resources.ERROR_VARIANT); //Catching Potential Error from LWC
 
 		}
 	}
@@ -257,7 +238,7 @@ minorerror=false;
 
 		}
 		catch (err) {
-			this.showToast(ERROR_MESSAGE, err.message, ERROR_VARIANT); //Catching Potential Error from LWC
+			this.showToast(resources.ERROR_MESSAGE, err.message, resources.ERROR_VARIANT); //Catching Potential Error from LWC
 		}
 	}
 //get country values 
@@ -269,7 +250,7 @@ minorerror=false;
 				value: country.value
 			}));
 		} else if (error) {
-			this.showToast(ERROR_MESSAGE, error.message, ERROR_VARIANT);
+			this.showToast(resources.ERROR_MESSAGE, error.message, resources.ERROR_VARIANT);
 		}
 	}
 
@@ -277,7 +258,7 @@ minorerror=false;
 
 	connectedCallback() {
 		try {
-			loadStyle(this, TEXT_ALIGN);
+			loadStyle(this, resources.TEXT_ALIGN);
 			ENROLLEE_DETAILS({ userId: this.userId })
 
 				.then(result => {
@@ -294,10 +275,10 @@ minorerror=false;
 					}
 				})
 				.catch(error => {
-					this.showToast(ERROR_MESSAGE, error.message, ERROR_VARIANT);//Catching Potential Error from Apex
+					this.showToast(resources.ERROR_MESSAGE, error.message, resources.ERROR_VARIANT);//Catching Potential Error from Apex
 				})
 		} catch (error) {
-			this.showToast(ERROR_MESSAGE, error.message, ERROR_VARIANT);//Catching Potential Error from LWC
+			this.showToast(resources.ERROR_MESSAGE, error.message, resources.ERROR_VARIANT);//Catching Potential Error from LWC
 		}
 
 	}
@@ -395,7 +376,7 @@ minorerror=false;
 	validateDate() {
 		const CURRENT_DATE = new Date();
 		const SELECTED_DATE = new Date(this.patientDOB);
-		const MIN_AGE = MINOR_AGE;
+		const MIN_AGE = resources.MINOR_AGE;
 
 		// Reset error messages and input styles
 		this.resetErrors();
@@ -476,7 +457,7 @@ minorerror=false;
 
 	}
 	validatePhone() {
-		if (this.patientMobilePhone === '' && this.pmcName === PHONE_NUMBER_REQUIRED) {
+		if (this.patientMobilePhone === '' && this.pmcName === resources.PHONE_NUMBER_REQUIRED) {
 
 			this.MobileErrorMessage = true;
 			this.template.querySelector('lightning-input[data-field="phone"]').className = "textInput-err";
@@ -511,17 +492,17 @@ minorerror=false;
 	}
 	validatepmc() {
 
-		if (this.preferredCommunication === SMS_STRING || this.preferredCommunication === PHONE_STRING) {
+		if (this.preferredCommunication === resources.SMS_STRING || this.preferredCommunication === resources.PHONE_STRING) {
 
-			this.pmcName = PHONE_NUMBER_REQUIRED;
+			this.pmcName = resources.PHONE_NUMBER_REQUIRED;
 			if (this.patientMobilePhone === undefined || this.patientMobilePhone === '') {
-				this.pmcName = PHONE_NUMBER_REQUIRED;
+				this.pmcName = resources.PHONE_NUMBER_REQUIRED;
 
 				this.MobileErrorMessage = true;
 				this.template.querySelector('lightning-input[data-field="phone"]').className = "textInput-err";
 				this.template.querySelector('label[data-field="phone"]').className = "input-error-label";
 			} else {
-				this.pmcName = PHONE_NUMBER_REQUIRED;
+				this.pmcName = resources.PHONE_NUMBER_REQUIRED;
 
 				this.MobileErrorMessage = false;
 				this.template.querySelector('lightning-input[data-field="phone"]').className = "textInput";
@@ -529,7 +510,7 @@ minorerror=false;
 			}
 		} else {
 
-			this.pmcName = PHONE_NUMBER_LABEl;
+			this.pmcName = resources.PHONE_NUMBER_LABEl;
 			this.MobileErrorMessage = false;
 			this.template.querySelector('lightning-input[data-field="phone"]').className = "textInput";
 			this.template.querySelector('label[data-field="phone"]').className = "input-label";
@@ -560,7 +541,7 @@ minorerror=false;
 				}));
 			})
 			.catch((error) => {
-				this.showToast(ERROR_MESSAGE, error.message, ERROR_VARIANT);
+				this.showToast(resources.ERROR_MESSAGE, error.message, resources.ERROR_VARIANT);
 			});
 	}
 	validateCountry() {
@@ -854,7 +835,7 @@ minorerror=false;
 				window.scrollTo({ top: 0, behavior: 'smooth' });
 			})
 			.catch(error => {
-				this.showToast(ERROR_MESSAGE, error.message, ERROR_VARIANT); // Catching Potential Error
+				this.showToast(resources.ERROR_MESSAGE, error.message, resources.ERROR_VARIANT); // Catching Potential Error
 			});
 
 
@@ -891,7 +872,7 @@ minorerror=false;
 				window.scrollTo({ top: 0, behavior: 'smooth' });
 			})
 			.catch(error => {
-				this.showToast(ERROR_MESSAGE, error.message, ERROR_VARIANT); // Catching Potential Error
+				this.showToast(resources.ERROR_MESSAGE, error.message, resources.ERROR_VARIANT); // Catching Potential Error
 			});
 	}
 

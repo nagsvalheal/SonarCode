@@ -3,18 +3,7 @@
 import { LightningElement } from "lwc";
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 
-//To import Static resources
-import BRANDED_URL from "@salesforce/label/c.BI_PSPB_SiteLabel";
-import UNASSIGNED_URL from "@salesforce/label/c.BI_PSPB_UnAssignedLabel";
-import BRANDED_SITE_URL from '@salesforce/label/c.BI_PSPB_BrandedSiteNaviUrl';
-import UNASSIGNED_SIT_EURL from '@salesforce/label/c.BI_PSPB_UnAssignedNaviUrl';
-//To import The Custom labels
-import CAREGIVER_NOTIFICATION from '@salesforce/label/c.BI_PSPB_CaregiverNotification';
-import CAREGIVER_PROFILE_SITE from '@salesforce/label/c.BI_PSPB_CaregiverProfileSite';
-import CAREGIVER_PATIENT from '@salesforce/label/c.BI_PSPB_CaregiverPatient';
-import CAREGIVER_SELECT_AVATAR from '@salesforce/label/c.BI_PSPB_CaregiverSelectAvatar';
-import errormessage from '@salesforce/label/c.BI_PSP_ConsoleError';
-import errorvariant from '@salesforce/label/c.BI_PSP_ErrorVariantToast';
+import {resources} from 'c/biPspbResourceProfileManager';
 
 export default class BiPspbCaregiverPatientParent extends LightningElement {
 
@@ -26,34 +15,34 @@ export default class BiPspbCaregiverPatientParent extends LightningElement {
 			const path = urlObject.pathname; // Split the path using '/' as a separator
 			const pathComponents = path.split("/"); // Find the component you need (in this case, 'Branded')
 			const desiredComponent = pathComponents.find((component) =>
-				[BRANDED_URL.toLowerCase(), UNASSIGNED_URL.toLowerCase()].includes(
+				[resources.BRANDED_URL.toLowerCase(), resources.UNASSIGNED_URL.toLowerCase()].includes(
 					component.toLowerCase()
 				)
 			);
-			if (desiredComponent.toLowerCase() === BRANDED_URL.toLowerCase()) {
-				this.urlq = BRANDED_SITE_URL;
+			if (desiredComponent.toLowerCase() === resources.BRANDED_URL.toLowerCase()) {
+				this.urlq = resources.BRANDED_SITE_URL;
 			} else {
-				this.urlq = UNASSIGNED_SIT_EURL;
+				this.urlq = resources.UNASSIGNED_SITE_URL;
 			}
 		}
 		catch (err) {
 			// Handle error
-			this.showToast(errormessage, err.message, errorvariant);
+			this.showToast(resources.ERRORMESSAGE, err.message, resources.ERRORVARIANT);
 		}
 	}
 
 	//These are caregiver account manager Navigation
 	openCarMyProfile() {
-		window.location.assign(this.urlq + CAREGIVER_PROFILE_SITE);
+		window.location.assign(this.urlq + resources.CAREGIVER_PROFILE_SITE);
 	}
 	openCarMyCaregiver() {
-		window.location.assign(this.urlq + CAREGIVER_PATIENT);
+		window.location.assign(this.urlq + resources.CAREGIVER_PATIENT);
 	}
 	openCarSelectAvatar() {
-		window.location.assign(this.urlq + CAREGIVER_SELECT_AVATAR);
+		window.location.assign(this.urlq + resources.CAREGIVER_SELECT_AVATAR);
 	}
 	openCarNotSettings() {
-		window.location.assign(this.urlq + CAREGIVER_NOTIFICATION);
+		window.location.assign(this.urlq + resources.CAREGIVER_NOTIFICATION);
 	}
 
 	//this ShowToast message is used for Error

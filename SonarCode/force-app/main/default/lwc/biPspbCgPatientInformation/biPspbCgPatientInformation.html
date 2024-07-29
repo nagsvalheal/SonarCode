@@ -121,9 +121,9 @@
 						<lightning-input field-name="BI_PSP_Birthdate__c" label="Date of Birth" type="date"
 							onchange={agecalculationEvent} onkeydown={handleKeyDownThree} value={patientDOB} data-field="Birthdate" class="textInput"
 							disabled={isDOBDisabled} variant="label-hidden" placeholder="DD.MM.YYYY" date-style="short"></lightning-input>
-						<span if:true={minorError} class="slds-form-element__help"><img class="css" src={Warningicon}>{minorErrorMsg}</span>
-						<span if:true={minorErrorTwo} class="slds-form-element__help"><img class="css" src={Warningicon}>{label.ABOVE_DATE}</span>
-						<span if:true={minorErrorThree} class="slds-form-element__help"><img class="css" src={Warningicon}>{futureDate}</span>
+						<span if:true={minorError} class="slds-form-element__help"><img class="css" src={Warningicon}>{minorMsg}</span>
+						<span if:true={minorErrorTwo} class="slds-form-element__help"><img class="css" src={Warningicon}>{aboveError}</span>
+						<span if:true={minorErrorThree} class="slds-form-element__help"><img class="css" src={Warningicon}>{futureError}</span>
 						<!-- <span if:true={dobErrorMessage} class="slds-form-element__help">
 
 							<img src={Warningicon}> {label.DOB}
@@ -142,7 +142,7 @@
 						</lightning-combobox>
 						<div class="slds-form-element__help" if:true={relationshipErrorMessage}>
 							<img class="css" src={Warningicon}>
-							<span class="slds-form-element__helps">{gender}</span>
+							<span class="slds-form-element__helps">{genderError}</span>
 						</div>
 					</div>
 
@@ -225,7 +225,7 @@
 									onchange={handleFieldCity}  maxlength="35" disabled={isMaillingCityDisabled} placeholder="Enter City Name"> </lightning-input>
 							</span>
 							<div class="slds-form-element__help" if:true={cityMessage}><img class="css"
-									src={Warningicon}>{label.CITY}</div>
+									src={Warningicon}>{cityError}</div>
 									<div class="slds-form-element__help" if:true={RpCityErrorMessageValid}>
 										<img class="css" src={Warningicon} width="12px" height="12px">
 										<span class="slds-form-element__helps">Please enter a valid city</span>
@@ -240,7 +240,7 @@
 									onchange={handleFieldstreet} disabled={isMaillingStreetDisabled} placeholder="Enter Address">
 								</lightning-input></span>
 							<div class="slds-form-element__help" if:true={streetMessage}><img class="css"
-									src={Warningicon}>{label.STREET}</div>
+									src={Warningicon}>{streetError}</div>
 						</div>
 						<div class="input-div">
 							<label for="pc" data-field="zipcode" class="input-label">Zip Code*</label>

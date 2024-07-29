@@ -36,5 +36,10 @@ public inherited sharing class BI_PSP_CommonQueryUtility {
         // Execute the query and return the results
         return Database.query(queryString);
     }
+     public static List<SObject> executeWholeQueryInString(String queryString) {
+        
+        // Execute the query and return the results
+        return Database.query(queryString);
+    }
     
 }

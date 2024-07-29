@@ -22,7 +22,7 @@ public with sharing class BI_PSPB_PatientDetailsCtrl {
 	private static String errorReturn = System.Label.BI_PSPB_ErrorReturning;
 	private static String accountError = System.Label.BI_PSP_AccountError;
 	private static String caregiverError = System.Label.BI_PSP_EnrolleeCaregiverErrorMessage;
-
+    private static string parameterError = System.Label.BI_PSPB_ErrorParameter;
  	/**
      * @description Builds the SOQL conditions string based on the given parameters.
      * @param currentUserName The name of the current user.
@@ -32,7 +32,6 @@ public with sharing class BI_PSPB_PatientDetailsCtrl {
      */
 	public static String buildConditions(String currentUserName, String currentUserEmail,Boolean isActive) {
 		String conditions = '';
-
 		conditions += 'BI_PSPB_Caregiver__r.Name = \'' + currentUserName + '\'';
 		conditions += ' AND ';
 		conditions += 'BI_PSPB_Caregiver__r.PersonEmail = \'' + currentUserEmail + '\'';
@@ -67,11 +66,10 @@ public with sharing class BI_PSPB_PatientDetailsCtrl {
                 enrolleList.add((BI_PSPB_Enrollee_Caregiver__c) sObj);
             }
             if (enrolleList.isEmpty()) {
-                BI_SFCOE_LOG_Util.logMessage(applicationName, BI_PSPB_PatientDetailsCtrl.class.toString(), '', System.now(), caregiverError, BI_SFCOE_LOG_Util.LOG_SEVERITY_ERROR);
-                return null;
+                BI_PSP_LogMessagesUtility.logError(caregiverError,BI_PSPB_PatientDetailsCtrl.class.getName(),true);
             }
         } catch (Exception ex) {
-            BI_PSP_LogMessagesUtility.exceptionLogMessage(accountError, BI_PSPB_PatientDetailsCtrl.class.getName(), ex);
+            BI_PSP_LogMessagesUtility.exceptionLogMessage(caregiverError, BI_PSPB_PatientDetailsCtrl.class.getName(), ex);
         }
         return enrolleList;
     }
@@ -86,20 +84,22 @@ public with sharing class BI_PSPB_PatientDetailsCtrl {
 	public static Account getcaregiverAccountforSwitch(String accountId) {
 		Account accountToReturn = new Account();
 		try {
-			if (!String.isBlank(accountId)) {
-				String fields = 'Id,BI_PSPB_Selected_Patient_ID__c,BI_PSPB_CaregiverCheck__c';
-				conditions = 'Id = \'' + accountId + '\'';
-				Boolean withSharingKeywrd = true;
-				List<SObject> sObjectResponses = BI_PSP_CommonQueryUtility.executeQuery('Account', fields, conditions, withSharingKeywrd);
-				for (SObject sObj : sObjectResponses) {
-					accountToReturn = (Account) sObjectResponses[0];
-				}
-			} else {
-				BI_PSP_LogMessagesUtility.logError(BI_PSPB_ConstantsClassCtrl.error,BI_PSPB_PatientDetailsCtrl.class.toString(),false);
-				return null;
+			if (String.isBlank(accountId)) {
+				BI_PSP_LogMessagesUtility.logError(parameterError,BI_PSPB_PatientDetailsCtrl.class.getName(),true);
+			}
+			String fields = 'Id,BI_PSPB_Selected_Patient_ID__c,BI_PSPB_CaregiverCheck__c';
+			conditions = 'Id = \'' + accountId + '\'';
+			Boolean withSharingKeywrd = true;
+			List<SObject> sObjectResponses = BI_PSP_CommonQueryUtility.executeQuery('Account', fields, conditions, withSharingKeywrd);
+			for (SObject sObj : sObjectResponses) {
+				accountToReturn = (Account) sObjectResponses[0];
+			}
+			if(accountToReturn == null)
+			{
+				BI_PSP_LogMessagesUtility.logError(accountError,BI_PSPB_PatientDetailsCtrl.class.getName(),true);
 			}
 		} catch (Exception ex) {
-			BI_PSP_LogMessagesUtility.exceptionLogMessage(errorReturn,BI_PSPB_LeadCreationCtrl.class.getName(),ex);
+			BI_PSP_LogMessagesUtility.exceptionLogMessage(accountError,BI_PSPB_PatientDetailsCtrl.class.getName(),ex);
 		}
 		return accountToReturn;
 	}
@@ -117,7 +117,7 @@ public with sharing class BI_PSPB_PatientDetailsCtrl {
 		String selectedAccountId,
 		Boolean check
 	) {
-		Account accountToUpdate;
+		Account accountToUpdate = new Account();
 		try {
 			//SelectedAccountId has to be null for SelectedAccountId according to our recuirement
 			if (
@@ -134,7 +134,7 @@ public with sharing class BI_PSPB_PatientDetailsCtrl {
 				return null;
 			}
 		} catch (Exception ex) {
-			BI_PSP_LogMessagesUtility.exceptionLogMessage(errorDml,BI_PSPB_LeadCreationCtrl.class.getName(),ex);
+			BI_PSP_LogMessagesUtility.exceptionLogMessage(accountError,BI_PSPB_PatientDetailsCtrl.class.getName(),ex);
 		}
 		return accountToUpdate;
 	}

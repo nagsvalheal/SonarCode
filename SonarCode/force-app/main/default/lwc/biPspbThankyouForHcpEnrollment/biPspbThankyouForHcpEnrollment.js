@@ -3,21 +3,15 @@
 import { LightningElement, wire } from "lwc";
 import { ShowToastEvent } from "lightning/platformShowToastEvent";
 // Imports resourceUrl to reference external resources for proper rendering and functionality.
-import IMG from "@salesforce/resourceUrl/BI_PSPB_ThankYouImage";
-import BGPP from "@salesforce/resourceUrl/BI_PSPB_BeyondGppLogo";
+
 // Importing Apex classes to interact with Salesforce backend for data retrieval.
-import LEAD from "@salesforce/apex/BI_PSPB_EnrollementUtilities.getLead";
-import CAREGIVER from "@salesforce/apex/BI_PSPB_EnrollementUtilities.getCaregiver";
-import PRES_INFO from "@salesforce/apex/BI_PSPB_EnrollementUtilities.getPresInfo";
+import LEAD from "@salesforce/apex/BI_PSPB_EnrollementUtilities.getExistingLeads";
+import CAREGIVER from "@salesforce/apex/BI_PSPB_EnrollementUtilities.getLeadCaregiver";
+import PRES_INFO from "@salesforce/apex/BI_PSPB_EnrollementUtilities.getLeadPrescription";
 import THANKS from "@salesforce/apex/BI_PSPB_EnrollementUtilities.checkCaregiverData";
-// Imports labels for descriptive text or identifiers, enhancing accessibility and user understanding.
-import ERROR_VARIANT from "@salesforce/label/c.BI_PSP_ErrorVariantToast";
-import ERROR_MESSAGE from "@salesforce/label/c.BI_PSP_ConsoleError";
-import THANKYOU_MSG_ONE from "@salesforce/label/c.BI_PSPB_CheckEmail";
-import THANKYOU_MSG_TWO from "@salesforce/label/c.BI_PSPB_ThankYouMessage";
-import THANKYOU_MSG_THREE from "@salesforce/label/c.BI_PSPB_ThankYouContent";
-import THANKYOU_MSG_FOUR from "@salesforce/label/c.BI_PSPB_ThankYouEmailSent";
+
 // Imports showToastEvent to display notification messages, informing users about component actions or events.
+import { resource } from "c/biPspbEnrollmentFormResource";
 
 export default class BiPspbThankyouForHcpEnrollment extends LightningElement {
 	//Proper naming conventions with camel case for all the variable will be followed in the future releases
@@ -34,8 +28,8 @@ export default class BiPspbThankyouForHcpEnrollment extends LightningElement {
 	messageContentTwo;
 	contData;
 	// Declaration of variables
-	BGpp = BGPP;
-	mailImg = IMG;
+	BGpp = resource.BGPP;
+	mailImg = resource.IMG;
 
 	//To fetch the Patient details
 	//There's no need to check for null because in Apex, we're throwing an AuraHandledException. 
@@ -49,12 +43,12 @@ export default class BiPspbThankyouForHcpEnrollment extends LightningElement {
 				this.email = data[0].Email;
 			}
 			catch (err) {
-				this.showToast(ERROR_MESSAGE, err.message, ERROR_VARIANT);
+				this.HandleToast(err.message);
 			}
 		}
 		else if (error) {
 			// Handle error
-			this.showToast(ERROR_MESSAGE, error.message, ERROR_VARIANT);
+			this.HandleToast(error.message);
 		}
 	}
 
@@ -70,12 +64,12 @@ export default class BiPspbThankyouForHcpEnrollment extends LightningElement {
 				this.age = true;
 			}
 			catch (err) {
-				this.showToast(ERROR_MESSAGE, err.body.message, ERROR_VARIANT); // Catching Potential Error from lwc
+				this.HandleToast(err.body.message); // Catching Potential Error from lwc
 			}
 		}
 		else if (error && data.length > 0) {
 			//  Handle error
-			this.showToast(ERROR_MESSAGE, error.message, ERROR_VARIANT); // Catching Potential Error from apex
+			this.HandleToast(error.message); // Catching Potential Error from apex
 		}
 	}
 
@@ -89,12 +83,12 @@ export default class BiPspbThankyouForHcpEnrollment extends LightningElement {
 				this.presInfo = data;
 			}
 			catch (err) {
-				this.showToast(ERROR_MESSAGE, err.message, ERROR_VARIANT);// Catching Potential Error from lwc
+				this.HandleToast(err.message);// Catching Potential Error from lwc
 			}
 		}
 		else if (error) {
 			// Handle error
-			this.showToast(ERROR_MESSAGE, error.message, ERROR_VARIANT);// Catching Potential Error from apex
+			this.HandleToast(error.message);// Catching Potential Error from apex
 		}
 	}
 
@@ -108,21 +102,21 @@ export default class BiPspbThankyouForHcpEnrollment extends LightningElement {
 			try {
 				this.contData = data;
 				if (this.contData === true) {
-					this.messageContent = THANKYOU_MSG_ONE + this.email;
-					this.messageContentTwo = THANKYOU_MSG_TWO;
+					this.messageContent = resource.THANKYOU_MSG_ONE + this.email;
+					this.messageContentTwo = resource.THANKYOU_MSG_TWO;
 				}
 				else {
-					this.messageContent = THANKYOU_MSG_THREE;
-					this.messageContentTwo = THANKYOU_MSG_FOUR + this.email;
+					this.messageContent = resource.THANKYOU_MSG_THREE;
+					this.messageContentTwo = resource.THANKYOU_MSG_FOUR + this.email;
 				}
 			}
 			catch (err) {
-				this.showToast(ERROR_MESSAGE, err.message, ERROR_VARIANT);// Catching Potential Error from lwc
+				this.HandleToast(err.message);// Catching Potential Error from lwc
 			}
 		}
 		else if (error && data.length > 0) {
 			// Handle error
-			this.showToast(ERROR_MESSAGE, error.message, ERROR_VARIANT);// Catching Potential Error from apex
+			this.HandleToast(error.message);// Catching Potential Error from apex
 		}
 
 	}
@@ -142,8 +136,11 @@ export default class BiPspbThankyouForHcpEnrollment extends LightningElement {
 			}
 		}
 		catch (error) {
-			this.showToast(ERROR_MESSAGE, error.body.message, ERROR_VARIANT);// Catching Potential Error from lwc
+			this.HandleToast(error.body.message);// Catching Potential Error from lwc
 		}
+	}
+	HandleToast(error){
+		this.showToast(resource.ERROR_MESSAGE, error.body.message, resource.ERROR_VARIANT);
 	}
 	//This ShowToast Message is used For Error
 	showToast(title, message, variant) {

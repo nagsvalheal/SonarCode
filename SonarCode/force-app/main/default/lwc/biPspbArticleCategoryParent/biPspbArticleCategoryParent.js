@@ -10,7 +10,7 @@ import PATIENT_STATUS from '@salesforce/apex/BI_PSPB_TreatmentVideoCtrl.patientS
 import GET_PERSONALIZED_ARTICLES from '@salesforce/apex/BI_PSPB_PersonalizedArticlesCtrl.getPersonalizedArticles';
 import UPDATE_REACTION from '@salesforce/apex/BI_PSPB_CmsCtrl.updateReaction';
 // To import Custom Labels
-import {LABELS} from 'c/biPspbLabelForInfoCenter';
+import {LABELS, MINSMAP} from 'c/biPspbLabelForInfoCenter';
 
 // To get Current UserId
 import ID from '@salesforce/user/Id';
@@ -56,37 +56,7 @@ export default class BiPspbArticleCategoryParent extends LightningElement {
 	renderedChildrenCount = 0;
 	channelName = LABELS.CHANNEL_NAME;
 	siteUrlq;
-	topics = {
-    [LABELS.WHAT_GPP_LABEL]: [LABELS.WHAT_GPP_MINS],
-    [LABELS.FACTS_GPP_LABEL]: [LABELS.FACTS_GPP_MINS],
-    [LABELS.RARE_GPP_LABEL]: [LABELS.RARE_GPP_MINS],
-    [LABELS.WHY_DO_I_HAVE_GPP_LABEL]: [LABELS.WHY_DO_I_HAVE_GPP_MINS],
-    [LABELS.DIAGNOSIS_GPP_LABEL]: [LABELS.DIAGNOSIS_GPP_MINS],
-    [LABELS.GPP_CONTAGIOUS_LABEL]: [LABELS.GPP_CONTAGIOUS_MINS],
-    [LABELS.FRIENDS_FAMILY_LABEL]: [LABELS.FRIENDS_FAMILY_MINS],
-    [LABELS.FEELING_EXCLUDED_LABEL]: [LABELS.FEELING_EXCLUDED_MINS],
-    [LABELS.GPP_INTIMACY_LABEL]: [LABELS.GPP_INTIMACY_MINS],
-    [LABELS.GPP_PREGNANCY_LABEL]: [LABELS.GPP_PREGNANCY_MINS],
-    [LABELS.MANAGE_FLARE_LABEL]: [LABELS.MANAGE_FLARE_MINS],
-    [LABELS.GPP_COMORBIDITIES_LABEL]: [LABELS.GPP_COMORBIDITIES_MINS],
-    [LABELS.MANAGE_GPP_SYMPTOMS_LABEL]: [LABELS.MANAGE_GPP_SYMPTOMS_MINS],
-    [LABELS.ASK_DOCTOR_LABEL]: [LABELS.ASK_DOCTOR_MINS],
-    [LABELS.SEEK_MEDICARE_LABEL]: [LABELS.SEEK_MEDICARE_MINS],
-    [LABELS.SEEK_EMERGENCY_LABEL]: [LABELS.SEEK_EMERGENCY_MINS],
-    [LABELS.MANAGE_SCARS_LABEL]: [LABELS.MANAGE_SCARS_MINS],
-    [LABELS.COMPLICAT_GPP_LABEL]: [LABELS.COMPLICAT_GPP_MINS],
-    [LABELS.RECOGNIZING_FLARES_LABEL]: [LABELS.RECOGNIZING_FLARES_MINS],
-    [LABELS.VISIT_DOCTOR_LABEL]: [LABELS.VISIT_DOCTOR_MINS],
-    [LABELS.DERMATOLOGIST_LABEL]: [LABELS.DERMATOLOGIST_MINS],
-    [LABELS.TALK_GPP_LABEL]: [LABELS.TALK_GPP_MINS],
-    [LABELS.NOT_ALONE_LABEL]: [LABELS.NOT_ALONE_MINS],
-    [LABELS.POSITIVE_CHOICES_LABEL]: [LABELS.POSITIVE_CHOICES_MINS],
-    [LABELS.TREATING_GPP_LABEL]: [LABELS.TREATING_GPP_MINS],
-    [LABELS.SPEVIGO_INFUSION_LABEL]: [LABELS.SPEVIGO_INFUSION_MINS],
-    [LABELS.PREVENTION_GPP_LABEL]: [LABELS.PREVENTION_GPP_MINS],
-    [LABELS.SPEVIGO_INJECTION_LABEL]: [LABELS.SPEVIGO_INJECTION_MINS],
-    [LABELS.WORK_IN_GPP_LABEL]: [LABELS.WORK_IN_GPP_MINS]
-}
+	topics = MINSMAP;
 	titlesMap = {
 		[LABELS.WHAT_IS_GPP_CATEGORY]: [
 			LABELS.RARE_GPP_LABEL,
@@ -205,6 +175,7 @@ export default class BiPspbArticleCategoryParent extends LightningElement {
 				}
 			}
 			this.showSpinner=true;
+			this.getMobStyle();
 		} catch (error) {
 			this.showToast(LABELS.ERROR_MESSAGE, error.message, LABELS.ERROR_VARIANT); // Catching Potential Error from Lwc
 		}
@@ -307,12 +278,8 @@ export default class BiPspbArticleCategoryParent extends LightningElement {
 	wiredArticleData({ error, data }) {
 		try {
 			if (data) {
-				this.justForMeArticleList = [LABELS.COMPLICAT_GPP_LABEL];
-
 				this.justForMeArticleList = JSON.parse(JSON.stringify(data));
 			} else if (error) {
-				this.error = error;
-				this.results = undefined;
 				this.showToast(LABELS.ERROR_MESSAGE, error.body.message, LABELS.ERROR_VARIANT);// Catching Potential Error from Apex
 			}
 		} catch (err) {
@@ -380,60 +347,44 @@ export default class BiPspbArticleCategoryParent extends LightningElement {
 
 	// Filter the articles without repetition
 	getRandomElementsWithoutRepetition(arr, count, selectedTopics) {
+		// Shuffle array
 		let shuffled = arr.sort(() => 0.5 - Math.random());
 		let selectedQuestions = [];
-
+	
+		// Select questions without repetition
 		for (let i = 0; i < shuffled.length; i++) {
 			let question = shuffled[i];
 			let topic = question.split(' ')[0]; // Extract the first word as the topic
-		
-			selectedTopics.push(topic);
-			selectedQuestions.push(question);
-		
+			
+			// If the topic is already selected, skip the question
+			if (!selectedTopics.includes(topic)) {
+				selectedTopics.push(topic);
+				selectedQuestions.push(question);
+			}
+	
 			if (selectedQuestions.length === count) {
 				break; // Stop when the required number of questions is reached
 			}
 		}
-
-		//Remove Spevigo articles if it is unassigned
-
-		if (this.urlq === this.siteUrlq) {
-			if (this.patientStatusValue !== LABELS.ACUTE_STATUS) {
-				if (selectedQuestions.indexOf(LABELS.SPEVIGO_INJECTION_LABEL) !== -1) {
-					selectedQuestions.splice(
-						selectedQuestions.indexOf(LABELS.SPEVIGO_INJECTION_LABEL),
-						1
-					);
-				}
-				if (selectedQuestions.indexOf(LABELS.PREVENTION_GPP_LABEL) !== -1) {
-					this.searchItems.splice(
-						selectedQuestions.indexOf(LABELS.PREVENTION_GPP_LABEL),
-						1
-					);
-				}
-				if (selectedQuestions.indexOf(LABELS.SPEVIGO_INFUSION_LABEL) !== -1) {
-					selectedQuestions.splice(
-						selectedQuestions.indexOf(LABELS.SPEVIGO_INFUSION_LABEL),
-						1
-					);
-				}
-				if (selectedQuestions.indexOf(LABELS.TREATING_GPP_LABEL) !== -1) {
-					selectedQuestions.splice(
-						selectedQuestions.indexOf(LABELS.TREATING_GPP_LABEL),
-						1
-					);
-				}
-				if (selectedQuestions.indexOf(LABELS.WORK_IN_GPP_LABEL) !== -1) {
-					selectedQuestions.splice(
-						selectedQuestions.indexOf(LABELS.WORK_IN_GPP_LABEL),
-						1
-					);
-				}
-			}
+		console.log(JSON.stringify(selectedQuestions));
+		console.log('break');
+		// Remove specific articles if conditions are met
+		if (this.urlq === this.siteUrlq && this.patientStatusValue !== LABELS.ACUTE_STATUS) {
+			const labelsToRemove = [
+				LABELS.SPEVIGO_INJECTION_LABEL,
+				LABELS.PREVENTION_GPP_LABEL,
+				LABELS.SPEVIGO_INFUSION_LABEL,
+				LABELS.TREATING_GPP_LABEL,
+				LABELS.WORK_IN_GPP_LABEL
+			];
+	
+			selectedQuestions = selectedQuestions.filter(question => !labelsToRemove.includes(question));
 		}
-
+		console.log(JSON.stringify(selectedQuestions));
+		
 		return selectedQuestions;
 	}
+	
 
 	// Filter the articles based on titles
 	filterResultsByTitles(titlesToFilter) {
@@ -453,9 +404,6 @@ export default class BiPspbArticleCategoryParent extends LightningElement {
 		let titleFound = false;
 		
     for (let j = 0; j < titlesToFilter.length; j++) {
-		console.log(result.text,'re');
-		console.log(JSON.stringify(titlesToFilter));
-		console.log(titlesToFilter[j]);
         if (
             result.text.trim().toLowerCase() ===
             titlesToFilter[j].trim().toLowerCase()
@@ -740,7 +688,7 @@ export default class BiPspbArticleCategoryParent extends LightningElement {
 	@wire(CurrentPageReference)
 	pageReference({ state }) {
 		try {
-			if (state && state.id) {
+			if (state?.id) {
 				this.stateResult = state.id;
 				this.showSearch = false;
 				this.searchItems = [];
@@ -899,9 +847,18 @@ export default class BiPspbArticleCategoryParent extends LightningElement {
 		);
 
 		if(category &&  display_div) {
+		this.addStyleForDropDown(category,display_div);
+
+		if (displayvideotab) {
+			displayvideotab.style.display = 'none';
+		}
+	}
+	}
+
+	addStyleForDropDown(category,display_div){
 		if (this.final === LABELS.GPP_HEALTH_CATEGORY) {
-				category.style.marginLeft = '-41px';
-				display_div.style.width = '154%';
+			category.style.marginLeft = '-41px';
+			display_div.style.width = '154%';
 		}
 		if (this.final === LABELS.TALK_HCP_CATEGORY) {
 				category.style.marginLeft = '-72px';
@@ -933,26 +890,24 @@ export default class BiPspbArticleCategoryParent extends LightningElement {
 				category.style.marginLeft = '-111px';
 				display_div.style.width = '182%';
 		}
-
-		if (displayvideotab) {
-			displayvideotab.style.display = 'none';
-		}
 	}
+
+	getMobStyle(){
+		let globalThis = window;
+		let displayvideotab = this.template.querySelector(
+			'.grid-containerNavTab'
+		);
+
+		if (globalThis.innerWidth <= 1000) {
+			this.mobStyle();
+		} else if (displayvideotab) {
+				displayvideotab.style.display = '';
+			}
 	}
 	// Rendering the category names of the articles for mobile responsiveness.
 	renderedCallback() {
 		try {
-			this.renderedChildrenCount=this.renderedChildrenCount+1;			
-			let windowWidth = window.innerWidth;
-			let displayvideotab = this.template.querySelector(
-				'.grid-containerNavTab'
-			);
-
-			if (windowWidth <= 1000) {
-				this.mobStyle();
-			} else if (displayvideotab) {
-					displayvideotab.style.display = '';
-				}
+			this.renderedChildrenCount=this.renderedChildrenCount+1;
 			if (this.allChildrenRendered) {
                 this.showSpinner = false;
             }

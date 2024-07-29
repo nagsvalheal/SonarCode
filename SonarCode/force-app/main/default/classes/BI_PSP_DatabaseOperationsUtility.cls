@@ -5,7 +5,7 @@
  * 1.0      Abinsha     10-Jul-2024     Created         Initial development.
  * 1.1      Ashif       16-Jul-2024     Updated         Updated for Dml Capturing.
  */
-public class BI_PSP_DatabaseOperationsUtility {
+public inherited sharing class BI_PSP_DatabaseOperationsUtility {
  private static BI_SFCOE_LOG_App_Settings__c settings = BI_SFCOE_LOG_App_Settings__c.getValues('PSPB');
     public static string applicationName = settings != null ? settings.BI_SFCOE_LOG_Application__c : '';
     public static Database.SaveResult[] insertResults;

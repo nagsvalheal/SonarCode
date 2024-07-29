@@ -1,17 +1,11 @@
 import { LightningElement, wire} from 'lwc';
+import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 // Imports resourceUrl to reference external resources for proper rendering and functionality.
-import IMG from '@salesforce/resourceUrl/BI_PSPB_ThankYouImage';
-import BGPP from '@salesforce/resourceUrl/BI_PSPB_BeyondGppLogo';
 // Importing Apex classes to interact with Salesforce backend for data retrieval.
 import LEAD_GET from '@salesforce/apex/BI_PSPB_LeadCreationCtrl.getLead';
 import CAREGIVER_GET from '@salesforce/apex/BI_PSPB_CreateLeadCtrl.getHcpDetails';
-// Imports labels for descriptive text or identifiers, enhancing accessibility and user understanding.
-import ERROR_VARIANT from '@salesforce/label/c.BI_PSP_ErrorVariantToast';
-import ERROR_MESSAGE from '@salesforce/label/c.BI_PSP_ConsoleError';
 // Imports showToastEvent to display notification messages, informing users about component actions or events.
-import { ShowToastEvent } from 'lightning/platformShowToastEvent';
-
-
+import { resource } from "c/biPspbEnrollmentFormResource";
 export default class BiPspbHcpPrepopulateSummary extends LightningElement {
 
 	age = true;
@@ -21,8 +15,8 @@ export default class BiPspbHcpPrepopulateSummary extends LightningElement {
 	recordId;
 	count;
 	patientEmail;
-	mailImg = IMG;
-	beyandGpp = BGPP;
+	mailImg = resource.IMG;
+	beyandGpp = resource.BGPP;
 
 	//  get lead record from apex
 	//There's no need to check for null because in Apex, we're throwing an AuraHandledException. 
@@ -36,13 +30,13 @@ export default class BiPspbHcpPrepopulateSummary extends LightningElement {
 
 			}
 			else if (error) {
-				this.showToast(ERROR_MESSAGE, error.message, ERROR_VARIANT);// Catching Potential Error from apex
+				this.HandleToast(error.message);// Catching Potential Error from apex
 			}
 		}
 		catch (err) {
 			// Handle any errors that occur within the try block
 
-			this.showToast(ERROR_MESSAGE, err.message, ERROR_VARIANT);// Catching Potential Error from lwc
+			this.HandleToast(err.message);// Catching Potential Error from lwc
 
 		}
 
@@ -60,14 +54,14 @@ export default class BiPspbHcpPrepopulateSummary extends LightningElement {
 
 			}
 			else if (error) {
-				this.showToast(ERROR_MESSAGE, error.message, ERROR_VARIANT);// Catching Potential Error from apex
+				this.HandleToast(error.message);// Catching Potential Error from apex
 
 			}
 		}
 		catch (err) {
 			// Handle any errors that occur within the try block
 
-			this.showToast(ERROR_MESSAGE, err.message, ERROR_VARIANT);// Catching Potential Error from lwc
+			this.HandleToast(err.message);// Catching Potential Error from lwc
 
 		}
 	}
@@ -83,10 +77,13 @@ export default class BiPspbHcpPrepopulateSummary extends LightningElement {
 		} catch (error) {
 			// Handle any errors that occur within the try block
 
-			this.showToast(ERROR_MESSAGE, error.message, ERROR_VARIANT);// Catching Potential Error from lwc
+			this.HandleToast(error.message);// Catching Potential Error from lwc
 		}
 	}
 
+	HandleToast(error){
+		this.showToast(resource.ERROR_MESSAGE, error.message, resource.ERROR_VARIANT);
+	}
 	showToast(title, message, variant) {
 		const EVENT = new ShowToastEvent({
 			title: title,

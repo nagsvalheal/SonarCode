@@ -255,6 +255,7 @@
 
 .warningclass {
 	margin-right: 10px;
+    width: 12px;
 }
 
 .divclass {
@@ -322,10 +323,11 @@
 }
 
 .labelred {
-	color: red;
-	font-weight: 600;
-	line-height: 24px;
-	font-style: normal;
+	color: #ec4e4e;
+    font-weight: 600;
+    line-height: 24px;
+    font-style: normal;
+    font-size: 16px;
 }
 
 .popup-hidden {

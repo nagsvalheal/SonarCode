@@ -40,6 +40,20 @@
         <members>BI_PSP_SymptomTrackerhelperCtrl</members>
         <members>BI_PSPB_SymptomPrimaryPageCtrl</members>
         <members>BI_PSP_SymptomTrackerContantCtrl</members>
+        <members>BI_PSP_SymptomTrackerOperationsCtrl</members>
+        <members>BI_PSPB_PatientPrescriptionCtrl</members>
+        <members>BI_PSPB_PatientCasesFilesCtrl</members>
+        <members>BI_PSP_AssessmentCtrl</members>
+        <members>BI_PSP_QsqQuestionnaireCtrl</members>
+        <members>BI_PSP_CompletedQuestionnaireCtrl</members>
+        <members>BI_PSP_DraftResponseCtrl</members>
+        <members>BI_PSP_AssessmentTriggerHandler</members>
+        <members>BI_PSP_AssessmentQuestionsCtrl</members>
+        <members>BI_PSP_CaregiverAndPatientCtrl</members>
+        <members>BI_PSP_CommonQueryUtility</members>
+        <members>BI_PSP_CurrentUser</members>
+        <members>BI_PSP_LogMessagesUtility</members>
+        <members>BI_PSP_DatabaseOperationsUtility</members>
     <name>ApexClass</name>
     </types>
     <version>59.0</version>

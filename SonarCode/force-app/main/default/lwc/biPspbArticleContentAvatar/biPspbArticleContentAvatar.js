@@ -11,51 +11,12 @@ import GET_LOGGED_IN_USER_ACCOUNT from '@salesforce/apex/BI_PSPB_AvatarCtrl.getL
 // To import Static Resource
 import DEFAULT_IMG from '@salesforce/resourceUrl/BI_PSPB_ProfileAvatar';
 // To import Custom Labels
-import BRANDED_URL from '@salesforce/label/c.BI_PSPB_SiteLabel';
-import UNASSIGNED_URL from '@salesforce/label/c.BI_PSPB_UnAssignedLabel';
-import WHAT_GPP_LABEL from '@salesforce/label/c.BI_PSP_WhatGppLabel';
-import FACTS_GPP_LABEL from '@salesforce/label/c.BI_PSP_FactsGppLabel';
-import RARE_GPP_LABEL from '@salesforce/label/c.BI_PSP_RareGppLabel';
-import WHY_DO_I_HAVE_GPP_LABEL from '@salesforce/label/c.BI_PSP_WhyDoIHaveGppLabel';
-import DIAGNOSIS_GPP_LABEL from '@salesforce/label/c.BI_PSP_DiagnosisGppLabel';
-import GPP_CONTAGIOUS_LABEL from '@salesforce/label/c.BI_PSP_GppContagiousLabel';
-import FRIENDS_FAMILY_LABEL from '@salesforce/label/c.BI_PSP_FriendsFamilyLabel';
-import FEELING_EXCLUDED_LABEL from '@salesforce/label/c.BI_PSP_FeelingExcludedLabel';
-import GPP_INTIMACTY_LABEL from '@salesforce/label/c.BI_PSP_GppIntimacyLabel';
-import GPP_PREGNANCY_LABEL from '@salesforce/label/c.BI_PSP_GppPregnancyLabel';
-import MANAGE_FLARE_LABEL from '@salesforce/label/c.BI_PSP_ManageFlareLabel';
-import GPP_COMORBIDITIES_LABEL from '@salesforce/label/c.BI_PSP_GppComorbiditiesLabel';
-import MANAGE_GPP_SYMPTOMS_LABEL from '@salesforce/label/c.BI_PSP_ManageGppSymptomsLabel';
-import ASK_DOCTOR_LABEL from '@salesforce/label/c.BI_PSP_AskDoctorLabel';
-import SEEK_MEDICARE_LABEL from '@salesforce/label/c.BI_PSP_SeekMediCareLabel';
-import SEEK_EMERGENCY_LABEL from '@salesforce/label/c.BI_PSP_SeekEmergencyLabel';
-import MANAGE_SCARS_LABEL from '@salesforce/label/c.BI_PSP_ManageScarsLabel';
-import COMPLICAT_GPP_LABEL from '@salesforce/label/c.BI_PSP_ComplicatGppLabel';
-import RECOGNIZING_FLARES_LABEL from '@salesforce/label/c.BI_PSP_RecognizingFlaresLabel';
-import VISIT_DOCTOR_LABEL from '@salesforce/label/c.BI_PSP_VisitDoctorLabel';
-import DERMATOLOGIST_LABEL from '@salesforce/label/c.BI_PSP_DermatologistLabel';
-import TALK_GPP_LABEL from '@salesforce/label/c.BI_PSP_TalkGppLabel';
-import NOT_ALONE_LABEL from '@salesforce/label/c.BI_PSP_NotAloneLabel';
-import POSITIVE_CHOICES_LABEL from '@salesforce/label/c.BI_PSP_PositiveChoicesLabel';
-import TREATING_GPP_LABEL from '@salesforce/label/c.BI_PSPB_TreatingGppLabel';
-import SPEVIGO_INFUSION_LABEL from '@salesforce/label/c.BI_PSPB_SpevigoInfusionLabel';
-import PREVENTION_GPP_LABEL from '@salesforce/label/c.BI_PSPB_PreventionGppLabel';
-import SPEVIGO_INJECTION_LABEL from '@salesforce/label/c.BI_PSPB_SpevigoInjectionLabel';
-import WORK_IN_GPP_LABEL from '@salesforce/label/c.BI_PSPB_WorkInGppLabel';
-import GEN_CATEGORY from '@salesforce/label/c.BI_PSP_GenMessageCategory';
-import SOCIAL_LIFE_CATEGORY from '@salesforce/label/c.BI_PSP_SocialLifeCategory';
-import MANAGEMENT_CATEGORY from '@salesforce/label/c.BI_PSP_ManagementCategory';
-import MENTAL_HEALTH_CATEGORY from '@salesforce/label/c.BI_PSP_MentalHealthCategory';
-import HEALTHY_LIFE_CATEGORY from '@salesforce/label/c.BI_PSPB_HealthyLifeCategory';
-import UNASSIGNED_STATUS from '@salesforce/label/c.BI_PSP_Unassigned';
-import BRANDED_SITE_URL from '@salesforce/label/c.BI_PSPB_BrandedSiteNaviUrl';
-import UNASSIGNED_SITE_URL from '@salesforce/label/c.BI_PSPB_UnAssignedNaviUrl';
-import SEARCH_PAGE from '@salesforce/label/c.BI_PSPB_InfoCenterSearchUrl';
-import ERROR_MESSAGE from '@salesforce/label/c.BI_PSP_ConsoleError';
-import ERROR_VARIENT from '@salesforce/label/c.BI_PSP_ErrorVariantToast';
-import ENTER_EVENT from '@salesforce/label/c.BI_PSP_EventEnter';
+import { LABELS } from 'c/biPspbLabelForInfoCenter';
+
+
 // To get Current UserId
 import ID from '@salesforce/user/Id';
+
 
 export default class BiPspbArticleContentAvatar extends LightningElement {
 
@@ -93,10 +54,10 @@ export default class BiPspbArticleContentAvatar extends LightningElement {
 				// Handle the data
 			} else if (error) {
 				// Handle the error
-				this.showToast(ERROR_MESSAGE, error.body.message, ERROR_VARIENT); // Catching Potential Error from Apex
+				this.showToast(LABELS.ERROR_MESSAGE, error.body.message, LABELS.ERROR_VARIANT); // Catching Potential Error from Apex
 			}
 		} catch (err) {
-			this.showToast(ERROR_MESSAGE, err.message, ERROR_VARIENT); // Catching Potential Error from Lwc
+			this.showToast(LABELS.ERROR_MESSAGE, err.message, LABELS.ERROR_VARIANT); // Catching Potential Error from Lwc
 		}
 	}
 
@@ -104,7 +65,7 @@ export default class BiPspbArticleContentAvatar extends LightningElement {
 	renderedCallback() {
 		//code
 		try {
-			if (this.patientStatusRecord === UNASSIGNED_STATUS) {
+			if (this.patientStatusRecord === LABELS.UNASSIGNED_STATUS) {
 				// Assuming you have a paragraph element with the class 'para'
 				let paraElement = this.template.querySelector(".para");
 
@@ -117,7 +78,7 @@ export default class BiPspbArticleContentAvatar extends LightningElement {
 				}
 			}
 		} catch (error) {
-			this.showToast(ERROR_MESSAGE, error.message, ERROR_VARIENT); // Catching Potential Error
+			this.showToast(LABELS.ERROR_MESSAGE, error.message, LABELS.ERROR_VARIANT); // Catching Potential Error
 		}
 	}
 
@@ -137,30 +98,30 @@ export default class BiPspbArticleContentAvatar extends LightningElement {
 
 			// Find the component you need (in this case, 'Branded')
 			let desiredComponent = pathComponents.find((component) =>
-				[BRANDED_URL.toLowerCase(), UNASSIGNED_URL.toLowerCase()].includes(
+				[LABELS.BRANDED_URL.toLowerCase(), LABELS.UNASSIGNED_URL.toLowerCase()].includes(
 					component.toLowerCase()
 				)
 			);
 
-			if (desiredComponent.toLowerCase() === BRANDED_URL.toLowerCase()) {
-				this.urlq = BRANDED_URL;
-				this.siteUrlq = BRANDED_SITE_URL;
+			if (desiredComponent.toLowerCase() === LABELS.BRANDED_URL.toLowerCase()) {
+				this.urlq = LABELS.BRANDED_URL;
+				this.siteUrlq = LABELS.BRANDED_SITE_URL;
 			} else {
-				this.urlq = UNASSIGNED_URL;
-				this.siteUrlq = UNASSIGNED_SITE_URL;
+				this.urlq = LABELS.UNASSIGNED_URL;
+				this.siteUrlq = LABELS.UNASSIGNED_SITE_URL;
 			}
 			this.currentPageUrl = globalThis.location.href;
 			this.urlSegments = this.currentPageUrl.split("/");
 			this.baseUrl = `${this.urlSegments[0]}//${this.urlSegments[2]}`;
 
-			if (this.urlq === BRANDED_URL) {
+			if (this.urlq === LABELS.BRANDED_URL) {
 				this.showBrandedNav = true;
 			} else {
 				this.showBrandedNav = false;
 			}
 		}
 		catch(error){
-			this.showToast(ERROR_MESSAGE, error.message, ERROR_VARIENT); // Catching Potential Error
+			this.showToast(LABELS.ERROR_MESSAGE, error.message, LABELS.ERROR_VARIANT); // Catching Potential Error
 
 		}
 	}
@@ -186,19 +147,8 @@ export default class BiPspbArticleContentAvatar extends LightningElement {
 					this.name = data.length > 0 ? data[0].Name : "";
 					this.currentUserName = this.name;
 
-					if (this.genMessageRecord.includes("{!username}")) {
-						this.genMessageRecord = this.genMessageRecord.replace(
-							/\{!username\}/gu,
-							this.currentUserName
-						);
-					}
+					this.replacePlaceHolder();
 
-					if (this.genMessageRecord.includes("XXX")) {
-						this.genMessageRecord = this.genMessageRecord.replace(
-							/XXX/gu,
-							this.currentUserName
-						);
-					}
 					this.cardImage = data[0]?.BI_PSP_AvatarUrl__c
 						? data[0]?.BI_PSP_AvatarUrl__c
 						: DEFAULT_IMG;
@@ -209,10 +159,10 @@ export default class BiPspbArticleContentAvatar extends LightningElement {
 					}
 				}
 			} else if (error) {
-				this.showToast(ERROR_MESSAGE, error.body.message, ERROR_VARIENT); // Catching Potential Error from Apex
+				this.showToast(LABELS.ERROR_MESSAGE, error.body.message, LABELS.ERROR_VARIANT); // Catching Potential Error from Apex
 			}
 		} catch (err) {
-			this.showToast(ERROR_MESSAGE, err.message, ERROR_VARIENT); // Catching Potential Error from Lwc
+			this.showToast(LABELS.ERROR_MESSAGE, err.message, LABELS.ERROR_VARIANT); // Catching Potential Error from Lwc
 		}
 	}
 
@@ -228,20 +178,7 @@ export default class BiPspbArticleContentAvatar extends LightningElement {
 					this.name =
 						this.userAccounts.length > 0 ? this.userAccounts[0]?.Name : "";
 					this.currentUserName = this.name;
-
-					if (this.genMessageRecord.includes("{!username}")) {
-						this.genMessageRecord = this.genMessageRecord.replace(
-							/\{!username\}/gu,
-							this.currentUserName
-						);
-					}
-
-					if (this.genMessageRecord.includes("XXX")) {
-						this.genMessageRecord = this.genMessageRecord.replace(
-							/XXX/gu,
-							this.currentUserName
-						);
-					}
+					this.replacePlaceHolder();
 
 					if (this.userAccounts[0]?.BI_PSP_AvatarUrl__c) {
 						this.cardImage = this.userAccounts[0]?.BI_PSP_AvatarUrl__c;
@@ -250,10 +187,10 @@ export default class BiPspbArticleContentAvatar extends LightningElement {
 					}
 				}
 			} else if (error) {
-				this.showToast(ERROR_MESSAGE, error.body.message, ERROR_VARIENT); // Catching Potential Error from Apex
+				this.showToast(LABELS.ERROR_MESSAGE, error.body.message, LABELS.ERROR_VARIANT); // Catching Potential Error from Apex
 			}
 		} catch (err) {
-			this.showToast(ERROR_MESSAGE, err.message, ERROR_VARIENT); // Catching Potential Error from Lwc
+			this.showToast(LABELS.ERROR_MESSAGE, err.message, LABELS.ERROR_VARIANT); // Catching Potential Error from Lwc
 		}
 	}
 
@@ -271,12 +208,12 @@ export default class BiPspbArticleContentAvatar extends LightningElement {
 	@wire(CurrentPageReference)
 	pageReference({ state }) {
 		try {
-			if (state && state.id) {
+			if (state?.id) {
 				this.articleTitle = state.id;
 				this.findCategory();
 			}
 		} catch (err) {
-			this.showToast(ERROR_MESSAGE, err.message, ERROR_VARIENT); // Catching Potential Error
+			this.showToast(LABELS.ERROR_MESSAGE, err.message, LABELS.ERROR_VARIANT); // Catching Potential Error
 		}
 	}
 
@@ -284,40 +221,40 @@ export default class BiPspbArticleContentAvatar extends LightningElement {
 	findCategory() {
 		try {
 			let categoryArticles = {
-				[GEN_CATEGORY]: [
-					WHAT_GPP_LABEL,
-					FACTS_GPP_LABEL,
-					RARE_GPP_LABEL,
-					WHY_DO_I_HAVE_GPP_LABEL,
-					DIAGNOSIS_GPP_LABEL
+				[LABELS.GEN_CATEGORY]: [
+					LABELS.WHAT_GPP_LABEL,
+					LABELS.FACTS_GPP_LABEL,
+					LABELS.RARE_GPP_LABEL,
+					LABELS.WHY_DO_I_HAVE_GPP_LABEL,
+					LABELS.DIAGNOSIS_GPP_LABEL
 				],
-				[SOCIAL_LIFE_CATEGORY]: [
-					GPP_CONTAGIOUS_LABEL,
-					FRIENDS_FAMILY_LABEL,
-					FEELING_EXCLUDED_LABEL,
-					GPP_INTIMACTY_LABEL
+				[LABELS.SOCIAL_LIFE_CATEGORY]: [
+					LABELS.GPP_CONTAGIOUS_LABEL,
+					LABELS.FRIENDS_FAMILY_LABEL,
+					LABELS.FEELING_EXCLUDED_LABEL,
+					LABELS.GPP_INTIMACY_LABEL
 				],
-				[MANAGEMENT_CATEGORY]: [
-					GPP_PREGNANCY_LABEL,
-					MANAGE_FLARE_LABEL,
-					GPP_COMORBIDITIES_LABEL,
-					MANAGE_GPP_SYMPTOMS_LABEL,
-					ASK_DOCTOR_LABEL,
-					SEEK_MEDICARE_LABEL,
-					SEEK_EMERGENCY_LABEL,
-					MANAGE_SCARS_LABEL,
-					COMPLICAT_GPP_LABEL,
-					RECOGNIZING_FLARES_LABEL,
-					VISIT_DOCTOR_LABEL,
-					DERMATOLOGIST_LABEL,
-					TREATING_GPP_LABEL,
-					SPEVIGO_INFUSION_LABEL,
-					PREVENTION_GPP_LABEL,
-					SPEVIGO_INJECTION_LABEL,
-					WORK_IN_GPP_LABEL
+				[LABELS.MANAGEMENT_CATEGORY]: [
+					LABELS.GPP_PREGNANCY_LABEL,
+					LABELS.MANAGE_FLARE_LABEL,
+					LABELS.GPP_COMORBIDITIES_LABEL,
+					LABELS.MANAGE_GPP_SYMPTOMS_LABEL,
+					LABELS.ASK_DOCTOR_LABEL,
+					LABELS.SEEK_MEDICARE_LABEL,
+					LABELS.SEEK_EMERGENCY_LABEL,
+					LABELS.MANAGE_SCARS_LABEL,
+					LABELS.COMPLICAT_GPP_LABEL,
+					LABELS.RECOGNIZING_FLARES_LABEL,
+					LABELS.VISIT_DOCTOR_LABEL,
+					LABELS.DERMATOLOGIST_LABEL,
+					LABELS.TREATING_GPP_LABEL,
+					LABELS.SPEVIGO_INFUSION_LABEL,
+					LABELS.PREVENTION_GPP_LABEL,
+					LABELS.SPEVIGO_INJECTION_LABEL,
+					LABELS.WORK_IN_GPP_LABEL
 				],
-				[MENTAL_HEALTH_CATEGORY]: [TALK_GPP_LABEL, NOT_ALONE_LABEL],
-				[HEALTHY_LIFE_CATEGORY]: [POSITIVE_CHOICES_LABEL]
+				[LABELS.MENTAL_HEALTH_CATEGORY]: [LABELS.TALK_GPP_LABEL, LABELS.NOT_ALONE_LABEL],
+				[LABELS.HEALTHY_LIFE_CATEGORY]: [LABELS.POSITIVE_CHOICES_LABEL]
 			};
 
 			// Input article
@@ -329,10 +266,10 @@ export default class BiPspbArticleContentAvatar extends LightningElement {
 				}
 			}
 			if (this.categoryRecord.length === 0) {
-				this.categoryRecord = GEN_CATEGORY;
+				this.categoryRecord = LABELS.GEN_CATEGORY;
 			}
 		} catch (error) {
-			this.showToast(ERROR_MESSAGE, error.message, ERROR_VARIENT); // Catching Potential Error
+			this.showToast(LABELS.ERROR_MESSAGE, error.message, LABELS.ERROR_VARIANT); // Catching Potential Error
 			// Handle the error as needed
 		}
 	}
@@ -348,47 +285,47 @@ export default class BiPspbArticleContentAvatar extends LightningElement {
 				this.result = this.getRandomNumber(0, this.generalMessages.length - 1);
 				this.genMessageRecord = this.generalMessages[this.result];
 
-				// Replace placeholders in message
-				if (this.genMessageRecord.includes("{!username}")) {
-					if (this.currentUserName !== "") {
-						this.genMessageRecord = this.genMessageRecord.replace(
-							/\{!username\}/gu,
-							this.currentUserName
-						);
-					}
-				}
-
-				if (this.genMessageRecord.includes("XXX")) {
-					if (this.currentUserName !== "") {
-						this.genMessageRecord = this.genMessageRecord.replace(
-							/XXX/gu,
-							this.currentUserName
-						);
-					}
-				}
-
 				if (this.genMessageRecord === this.message) {
 					this.genMessageRecord = this.generalMessages[this.result - 1];
 				}
 
+				this.replacePlaceHolder();
+
 				// Handle other replacements as needed
 			} else if (error) {
 				// Handle errors
-				this.showToast(ERROR_MESSAGE, error.body.message, ERROR_VARIENT); // Catching Potential Error from Apex
+				this.showToast(LABELS.ERROR_MESSAGE, error.body.message, LABELS.ERROR_VARIANT); // Catching Potential Error from Apex
 			}
 		} catch (err) {
-			this.showToast(ERROR_MESSAGE, err.message, ERROR_VARIENT); // Catching Potential Error from Lwc
+			this.showToast(LABELS.ERROR_MESSAGE, err.message, LABELS.ERROR_VARIANT); // Catching Potential Error from Lwc
 		}
 	}
 
+	replacePlaceHolder(){
+		if(this.currentUserName){
+		if (this.genMessageRecord.includes("{!username}")) {
+			this.genMessageRecord = this.genMessageRecord.replace(
+				/\{!username\}/gu,
+				this.currentUserName
+			);
+		}
+
+		if (this.genMessageRecord.includes("XXX")) {
+			this.genMessageRecord = this.genMessageRecord.replace(
+				/XXX/gu,
+				this.currentUserName
+			);
+		}
+	}
+	}
 	// To navigate information center search results page
 	handleSearch(event) {
 		let searchTerm = event.target.value.toLowerCase();
 		this.searchitems = [];
 
-		if (event.key === ENTER_EVENT && searchTerm) {
+		if (event.key === LABELS.ENTER_EVENT && searchTerm) {
 			window.location.href =
-				this.baseUrl + this.siteUrlq + SEARCH_PAGE + searchTerm;
+				this.baseUrl + this.siteUrlq + LABELS.SEARCH_PAGE + searchTerm;
 		}
 	}
 
@@ -399,7 +336,7 @@ export default class BiPspbArticleContentAvatar extends LightningElement {
 
 	// Method to handle key up event for search input
 	handleSearchInputKeyUp(event) {
-		if (event.key === ENTER_EVENT) {
+		if (event.key === LABELS.ENTER_EVENT) {
 			this.handleSearch(event);
 		}
 	}
