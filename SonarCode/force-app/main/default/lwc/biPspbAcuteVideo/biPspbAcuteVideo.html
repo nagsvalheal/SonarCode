@@ -1,0 +1,47 @@
+<!--This lightning web component is used for display the acute patient customized video-->
+<template>
+	<div class="flexele">
+		<!-- Strings are hard coded in this HTML file to comply with the mobile responsiveness-->
+		<h1 class="heading">
+			Spevigo® IV Infusion Administered For Flare Treatment
+		</h1>
+		<!--Display the video for desktop view-->
+		<div class="video-container">
+			<iframe class="responsive-iframe" src={videoUrl} height={videoHeight} width={videoWidth} frameborder="0" allowfullscreen
+				title="Video Player">
+			</iframe>
+		</div>
+		<!--Display the video for mobile view-->
+		<div class="video-containermb">
+			<iframe class="responsive-iframe" src={videoUrl} height="190" width="auto" frameborder="0" allowfullscreen
+				title="Video Player">
+			</iframe>
+		</div>
+		<div class="mbalign">
+			<hr class="linetranscript" />
+			<div class="transcript">
+				Transcript
+				<lightning-icon class="vicon" icon-name={iconName} alternative-text={iconAltText}
+					onclick={toggleContent}>
+				</lightning-icon>
+				<div class={contentClass}>
+					<!-- Taggled content -->
+					<p><!-- This is the content that can be toggled. --></p>
+				</div>
+			</div>
+			<hr class="linetranscript" />
+
+			<h2 class="disclaimer">Disclaimer</h2>
+			<br />
+
+			<div class="messagedisclaimer">
+				<p>
+					*Remember that content is only indicated for educational purpose only
+					and is not professional medical advice, diagnosis, treatment, or
+					care. Always consult with your physician or other qualified healthcare
+					provider for any information or before starting a new treatment.
+				</p>
+			</div>
+		</div>
+	</div>
+</template>

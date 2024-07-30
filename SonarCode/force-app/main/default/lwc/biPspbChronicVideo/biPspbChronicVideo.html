@@ -1,0 +1,59 @@
+<!--This lightning web component is used for display the chronic patient customized video-->
+<template>
+	<!-- Strings are hard coded in this HTML file to comply with the mobile responsiveness-->
+	<h1 class="heading">
+		Initiation Of Spevigo® Subcutaneous Injection For Flare Prevention
+	</h1>
+	<!--Display the video for desktop view-->
+	<div class="video-container">
+		<iframe class="responsive-iframe" src={videoUrl} height="511" width={videoWidth} frameborder="0" allowfullscreen
+			title="Video Player">
+		</iframe>
+	</div>
+	<!--Display the video for mobile view-->
+	<div class="video-containermb">
+		<iframe class="responsive-iframe" src={videoUrl} height="190" width="auto" frameborder="0" allowfullscreen
+			title="Video Player">
+		</iframe>
+	</div>
+
+	<div class="mbalign">
+		<hr />
+		<div class="transcript">
+			Transcript
+			<lightning-icon class="vicon" icon-name={iconName} alternative-text={iconAltText} onclick={toggleContent}>
+			</lightning-icon>
+			<div class={contentClass}>
+				<!-- Taggled content -->
+				<p><!-- This is the content that can be toggled. --></p>
+			</div>
+		</div>
+		<hr />
+		<br />
+
+		<!--Display the vertical video player-->
+		<div class="videosreel">
+			<iframe class="responsive-iframe" src={videoUrl} height="512" width="394" frameborder="0" allowfullscreen
+				title="Video Player">
+			</iframe>
+		</div>
+		<div class="videosreelmb">
+			<iframe class="responsive-iframe" src={videoUrl} height="485" width="auto" frameborder="0" allowfullscreen
+				title="Video Player">
+			</iframe>
+		</div>
+		<br />
+
+		<h2 class="disclaimer">Disclaimer</h2>
+		<br />
+
+		<div class="messagedisclaimer">
+			<p>
+				*Remember that content is only indicated for educational purpose only
+				and is not professional medical advice, diagnosis, treatment, or
+				care. Always consult with your physician or other qualified healthcare
+				provider for any information or before starting a new treatment.
+			</p>
+		</div>
+	</div>
+</template>

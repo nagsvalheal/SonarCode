@@ -1,0 +1,115 @@
+<template>
+	<!-- This lightning web component consolidates for thankyou message summary page -->
+	<div>
+		<div class="sidebar-container1"></div>
+		<div>
+			<div class="sidebar-container"></div>
+
+			<div class="container">
+				<img src={mailImg} class="img" /> <br />
+				<br />
+				<h1 class="tophead">Thanks for Enrolling your Patient!</h1>
+				<p class="pclass">
+					Your patient will receive an email to complete the registration <br />
+					process
+				</p>
+				<br />
+				<h2 class="enroll">Enrollment Summary</h2>
+				<br />
+				<!--if the candiate has no caregiver -->
+				<div if:true={recordId}>
+					<template if:false={age}>
+						<div class="slds-grid slds-gutters">
+							<div class="slds-col">
+								<span>
+									<p class="shead">Patient Information</p>
+									
+									<template for:each={recordDetails} for:item="lead">
+										<p key={lead.Id} class="title">
+											Name: {lead.FirstName} {lead.LastName} <br />
+											Date of Birth: {lead.HealthCloudGA__BirthDate__c} <br />
+											E-mail: <span class="underline-email">{lead.Email}</span>
+											<br />
+											Phone no: {lead.Phone} <br />
+										</p>
+									</template>
+								</span>
+							</div>
+							<br />
+							<div class="slds-col">
+								<span>
+									<p class="shead">Prescription Information</p>
+									
+									<template for:each={presInfo} for:item="pres">
+										<P key={pres.id} class="title">
+											Product: {pres.BI_PSPB_Drug__r.Name} <br />
+											Product code: {pres.BI_PSPB_Drug_Code__c} <br />
+											Prescribed date: {pres.BI_PSPB_Prescribed_Date__c} <br />
+											Dosage: {pres.BI_PSPB_Dosage__c} <br />
+											Frequency: {pres.BI_PSPB_Frequency__c} <br />
+											Refills: {pres.BI_PSPB_of_Refills__c}<br />
+											Quantity: {pres.BI_PSPB_Quantity__c} <br />
+										</P>
+									</template>
+								</span>
+							</div>
+						</div>
+						<br />
+					</template>
+					<!--if the candiate has caregiver -->
+
+					<template if:true={age}>
+						<div class="slds-grid slds-gutters">
+							<div class="slds-col">
+								<span>
+									<p class="shead">Patient Information</p>
+									
+									<template for:each={recordDetails} for:item="lead">
+										<P key={lead.id} class="title">
+											Name: {lead.FirstName} {lead.LastName} <br />
+											Date of Birth: {lead.HealthCloudGA__BirthDate__c} <br />
+										</P>
+									</template>
+								</span>
+							</div>
+
+							<div class="slds-col">
+								<span>
+									<p class="shead">Caregiver Information</p>
+									
+									<template for:each={caregiver} for:item="care">
+										<P key={care.id} class="title">
+											Name: {care.BI_PSPB_First_Name__c}
+											{care.BI_PSPB_Last_Name__c}<br />
+											Relationship: {care.BI_PSPB_Relationship_to_Patient__c}
+											<br />
+											E-mail: <span class="underline-email">{care.BI_PSPB_E_mail_ID__c}</span><br />
+
+											Phone no: {care.BI_PSPB_Phone_number__c} <br />
+										</P>
+									</template>
+								</span> 
+							</div>
+							<br />
+						</div>
+						<div>
+							<p class="shead">Prescription Information</p>
+							
+							<template for:each={presInfo} for:item="pres">
+								<P key={pres.id} class="title">
+									Product: {pres.BI_PSPB_Drug__r.Name} <br />
+									Product code: {pres.BI_PSPB_Drug_Code__c} <br />
+									Prescribed date: {pres.BI_PSPB_Prescribed_Date__c} <br />
+									Dosage: {pres.BI_PSPB_Dosage__c} <br />
+									Frequency: {pres.BI_PSPB_Frequency__c} <br />
+									Refills: {pres.BI_PSPB_of_Refills__c}<br />
+									Quantity: {pres.BI_PSPB_Quantity__c} <br />
+								</P>
+							</template>
+						</div>
+					</template>
+				</div>
+			</div>
+		</div>
+	</div>
+</template>

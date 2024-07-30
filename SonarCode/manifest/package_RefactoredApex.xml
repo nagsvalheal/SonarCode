@@ -2,7 +2,7 @@
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
     <types>
         <members>BI_PSPB_TreatmentCtrl</members>
-        <members>BI_PSPB_WidgetCtrl</members>
+        <members>BI_PSPB_TreatmentWidgetCtrl</members>
         <members>BI_PSPB_FeedCommentCtrl</members>
         <members>BI_PSPB_OutlookReminderCalendarCtrl</members>
         <members>BI_PSPB_CommunityConstantCtrl</members>
@@ -36,7 +36,7 @@
         <members>BI_PSPB_EmojiReactionCtrl</members>
         <members>BI_PSPB_FeedItemCtrl</members>
         <members>BI_PSP_SymptomTrackerCtrl</members>
-        <members>BI_PSP_SymptomTrackerhelperCtrl</members>
+        <members>BI_PSP_SymptomTrackerHelperCtrl</members>
         <members>BI_PSPB_SymptomPrimaryPageCtrl</members>
         <members>BI_PSP_SymptomTrackerConstantCtrl</members>
         <members>BI_PSP_SymptomTrackerOperationsCtrl</members>
@@ -52,12 +52,12 @@
         <members>BI_PSPB_SmsBatch</members>
         <members>BI_PSPB_EmailStatusBatchSched</members>
         <members>BI_PSPB_EmailBatch</members>
-        <members>BI_PSPB_CaseCtrlAccess</members>
-        <members>BI_PSPB_CaseCtrlDeletion</members>
+        <members>BI_PSPB_CaseAccessCtrl</members>
+        <members>BI_PSPB_CaseDeletionCtrl</members>
         <members>BI_PSPB_NotificatinRmdConstantsCtrl</members>
         <members>BI_PSPB_NotificationSender</members>
         <members>BI_PSP_UpdateNotificationCtrl</members>
-        <members>BI_PSPB_UpdatePatientCtrl</members>
+        <members>BI_PSPB_PatientEntityCtrl</members>
         <members>BI_PSPB_ProductListCtrl</members>
         <members>BI_PSPB_ReferringPractitionerCtrl</members>
         <members>BI_PSP_AssessmentManagementCtrl</members>

@@ -1,0 +1,82 @@
+<!-- This component for Avatar Navigation or prompt message through Avatar -->
+<template>
+	<!-- Avatar image -->
+
+	<div class="avatar-picklist-container">
+		<div class="avatar-container">
+			<img src={selectedAvatarSrc} class="slds-m-right_large" />
+		</div>
+
+		<!-- prompt message -->
+		<div class="Dot">
+			<div if:true={content} class="navigationcontent">
+				<div class="flex1">
+					<div>
+						<pre class="contentbox">{selectedNameOne}</pre>
+						<div class="contentboxmobile">
+							<p>{mobileName}</p>
+						</div>
+					</div>
+					<div if:true={showClose} class={closeValue} onclick={handleClose}>
+						<a><span style="font-size: 27px; color: grey">&times;</span></a>
+					</div>
+				</div>
+			</div>
+
+				<div if:true={qualitative} class="navigationcontent">
+				<div class="flex1">
+					<div>
+						<pre class="contentbox"><p class="qualtive">Qualitative Satisfaction Questionnaire</p>{selectedNameOne}</pre>
+						<div class="contentboxmobile">
+							<p>Qualitative Satisfaction Questionnaire.{mobileName} {saveAsDraftMsg}</p>
+						</div>
+					</div>
+					<div if:true={showClose} class={closeValue} onclick={handleClose}>
+						<a><span style="font-size: 27px; color: grey">&times;</span></a>
+					</div>
+				</div>
+			</div>
+
+			<div if:true={twoContentMobile} class="navigationcontent2mobile">
+				<p class="contentboxmobile">{selectedNameTwo}</p>
+			</div>
+			<div if:true={challengeContentMobile} class="navigationcontent3mobile">
+				<p class="contentboxmobile">{selectedNameThree}</p>
+			</div>
+			<div if:true={contentDot} class="navigationcontentdot">
+				<p onclick={mobileclick} class="contentboxdot">...</p>
+			</div>
+		</div>
+
+		<div if:true={twoContent} class="navigationcontent2">
+			<pre class="contentbox">{selectedNameTwo}</pre>
+		</div>
+		<div if:true={challangeContent} class="navigationcontent3">
+			<pre class="contentboxchal">{selectedNameThree}</pre>
+		</div>
+		<div class="summaryflex">
+			<div if:true={summary} class={navigationContentFive}>
+				<div class="flex1">
+					<div>
+						<div><p class="contentbox5">{selectedName6}</p></div>
+						<div class="contentboxmobile">
+							<p>{mobileName}</p>
+						</div>
+						<pre class="contentbox1">{selectedNameFive}</pre>
+					</div>
+					<div if:true={showClose} class={closeValue} onclick={handleClose}>
+						<a><span style="font-size: 27px; color: grey">&times;</span></a>
+					</div>
+				</div>
+			</div>
+			<div if:true={contentDotOne} class={navigationContentDotOne}>
+				<p onclick={mobileclick} class="contentboxdot2">...</p>
+			</div>
+		</div>
+
+		<div if:true={dermo} class="navigationcontent4">
+			<pre class="contentbox2">{selectedNameFour}</pre>
+		</div>
+	</div>
+	<hr class="line" />
+</template>

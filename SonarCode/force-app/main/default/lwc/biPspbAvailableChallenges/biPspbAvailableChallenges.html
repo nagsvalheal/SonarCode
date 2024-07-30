@@ -1,0 +1,75 @@
+<!--This lightning web component helps the user to see the available challenges and gives the ability to make them as active challenge-->
+<template>
+  <div class="grid-containerAC">
+    <div class="AChallenges">
+      <!-- Challenge Trophy -->
+      <div class="ChallengeTrophy slds-align_absolute-center">
+        <!-- Displaying an image or rich text for the challenge trophy -->
+        <lightning-formatted-rich-text
+          value={image}
+        ></lightning-formatted-rich-text>
+        <!-- Alternatively, if using an image: -->
+      </div>
+      <!-- Active Challenges -->
+      <div class="ActiveChallenges">
+        <!-- Reward Points Display -->
+        <div
+          class="grid-containerXPButtons slds-align_absolute-center slds-p-bottom_xx-large"
+        >
+          <p class="XPButton">{rewardPoints} XP</p>
+        </div>
+        <!-- Card Details -->
+        <div class="grid-containerCardDetails">
+          <!-- Challenge title -->
+          <div class="slds-align_absolute-center slds-p-top_small">
+            <p class="CardTitle">{title}</p>
+          </div>
+          <!-- Horizontal Line Separator -->
+          <div>
+            <hr />
+          </div>
+          <!-- Challenge description -->
+          <div class="slds-align_absolute-center">
+            <template if:true={otherChallenges}>
+            <p class="CardPara">
+              {description}
+              <template if:true={linktoArticle}
+                ><a class="noDecoration" onclick={openArticles}
+                  > "<u>Link to the article</u>"</a
+                ></template
+              >
+              <template if:true={whyBeingActive}
+                ><a class="noDecoration" onclick={openArticlesActive}
+                  > "<u>why being active is important</u>"</a
+                ></template
+              >
+            </p>
+            </template>
+            <template if:true={quesChallenges}>
+            <p class="CardPara">
+              <template if:true={trackYourGppDivWpai}>
+                Fill and track your answers to the <a class="noDecoration" onclick={TrackYourGppNavigationWPAI}>
+                  "<u>GPP impact on work life</u>"</a> questionnaire
+              </template>
+              <template if:true={trackYourGppDivPss}>
+                Fill and track your answers to the <a class="noDecoration" onclick={TrackYourGppNavigationPSS}>
+                  "<u>GPP symptoms</u>"</a> questionnaire
+              </template>
+              <template if:true={trackYourGppDivDlqi}>
+                Fill and track your answers to the <a class="noDecoration" onclick={TrackYourGppNavigationDLQI}>
+                  "<u>GPP impact on quality of life</u>"</a> questionnaire
+              </template>
+            </p>
+            </template>
+          </div>
+          <!-- Accept Challenge Button -->
+          <div class="slds-align_absolute-center">
+            <button class="ComChaButton" onclick={afterAccept}>
+              Accept Challenge
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
