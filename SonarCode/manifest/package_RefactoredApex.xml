@@ -11,10 +11,9 @@
         <members>BI_PSPB_PersonalizedMessagesCtrl</members>
         <members>BI_PSPB_PersonalizationConstantCtrl</members>
         <members>BI_PSPB_TreatmentVideoCtrl</members>
-        <members>BI_PSP_LetsPersonliseCtrl</members>
         <members>BI_PSP_ChallengeCtrl</members>
         <members>BI_PSP_DatabaseOperationsUtility</members>
-        <members>BI_PSPB_LogUtilities</members>
+        <members>BI_PSP_LogMessagesUtility</members>
         <members>BI_PSP_CurrentUser</members>
         <members>BI_PSP_CommonQueryUtility</members>
         <members>BI_PSPB_MessageCenterCtrl</members>
@@ -44,16 +43,29 @@
         <members>BI_PSPB_PatientPrescriptionCtrl</members>
         <members>BI_PSPB_PatientCasesFilesCtrl</members>
         <members>BI_PSP_AssessmentCtrl</members>
-        <members>BI_PSP_QsqQuestionnaireCtrl</members>
         <members>BI_PSP_CompletedQuestionnaireCtrl</members>
         <members>BI_PSP_DraftResponseCtrl</members>
         <members>BI_PSP_AssessmentTriggerHandler</members>
         <members>BI_PSP_AssessmentQuestionsCtrl</members>
         <members>BI_PSP_CaregiverAndPatientCtrl</members>
-        <members>BI_PSP_CommonQueryUtility</members>
-        <members>BI_PSP_CurrentUser</members>
-        <members>BI_PSP_LogMessagesUtility</members>
-        <members>BI_PSP_DatabaseOperationsUtility</members>
+        <members>BI_PSPB_SmsStatusBatchSched</members>
+        <members>BI_PSPB_SmsBatch</members>
+        <members>BI_PSPB_EmailStatusBatchSched</members>
+        <members>BI_PSPB_EmailBatch</members>
+        <members>BI_PSPB_CaseCtrlAccess</members>
+        <members>BI_PSPB_CaseCtrlDeletion</members>
+        <members>BI_PSPB_NotificatinRmdConstantsCtrl</members>
+        <members>BI_PSPB_NotificationSender</members>
+        <members>BI_PSP_UpdateNotificationCtrl</members>
+        <members>BI_PSPB_UpdatePatientCtrl</members>
+        <members>BI_PSPB_ProductListCtrl</members>
+        <members>BI_PSPB_ReferringPractitionerCtrl</members>
+        <members>BI_PSP_AssessmentManagementCtrl</members>
+        <members>BI_PSPB_InsiteTaskFetcher</members>
+        <members>BI_PSP_GraphCtrl</members>
+        <members>BI_PSP_QualitativeSatisfactionCtrl</members>
+        <members>BI_PSPB_EnrollmentConsent</members>
+        <members>BI_PSPB_EnrollmentHcpAndPatient</members>
     <name>ApexClass</name>
     </types>
     <version>59.0</version>

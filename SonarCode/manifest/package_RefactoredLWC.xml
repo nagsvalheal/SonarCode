@@ -72,21 +72,6 @@
         <members>biPspbCreatePost</members>
         <members>biPspbMyPost</members>
         <members>biPspbAllPost</members>
-        <members>BiPspbItchinessSymptom</members>
-        <members>biPspbFatigueSymptoms</members>
-        <members>biPspbMoodSymptom</members>
-        <members>biPspbPainSymptom</members>
-        <members>biPspbPrimaryPageSymptom</members>
-        <members>biPspbPustulesSymptoms</members>
-        <members>biPspbSymptomLandingPage</members>
-        <members>biPspbSymptomTracker</members>
-        <members>BiPspbSymptomTrackerChartParent</members>
-        <members>biPspbSymptomTrackerGraph</members>
-        <members>BiPspbSymptomTrackerLandingPageParent</members>
-        <members>BiPspbSymptomTrackerMainParent</members>
-        <members>BiPspbSymptomTrackerPdf</members>
-        <members>biPspRednessSymptom</members>
-        <members>biPspTemperaturesymtom</members>
         <members> biPspLabelAndResourceChallenges</members>
         <members>biPspbAvailableChallenges</members>
         <members>biPspbActiveChallenges</members>
@@ -98,6 +83,34 @@
         <members>biPspbArticleCategoryAvatar</members>
         <members>biPspbArticleContentNavigation</members>
         <members>biPspbEnrollmentFormResource</members>
+        <members>biPspbIntroductionCard</members>
+        <members>biPspbAvatarNavigationQuestionnaires</members>
+        <members>biPspbQuestionnarieSumChart</members>
+        <members>biPspbPssQuestionnaire</members>
+        <members>biPspbSupportCaseResources</members>
+        <members>biPspbAvatarResources</members>
+        <members>biPspbSupportCenterParent</members>
+        <members>biPspbSupportCenter</members>
+        <members>biPspbCaseComponentParent</members>
+        <members>biPspbCaseComponent</members>
+        <members>biPspbArticleSearchAvatar</members>
+        <members>biPspbArticleSearchParent</members>
+        <members>biPspbRelatedArticles</members>
+        <members>biPspbInfoLandingAvatar</members>
+        <members>biPspbInfoCenterLandingParent</members>
+        <members>biPspbInformationCenterLanding</members>
+        <members>biPspbArticleContentParent</members>
+        <members>biPspbArticleSearchNavigation</members>
+        <members>biPspbArticleLike</members>
+        <members>biPspbArticleContent</members>
+        <members>biPspbMedicalInformationsEnquiry</members>
+        <members>biPspbMedicalInformationEnquiryParent</members>
+        <members>biPspbReportAdverseEvents</members>
+        <members>biPspbReportAdverseEventParent</members>
+        <members>biPspbPlatformSupportParent</members>
+        <members>biPspbPlatformSupport</members>
+        <members>biPspbPatientSelectionSwitch</members>
+        <members>biPspbNotificationHistoryForm</members>
     <name>LightningComponentBundle</name>
 </types>
 <version>59.0</version>
