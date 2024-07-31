@@ -56,7 +56,7 @@
 <members>BI_PSPB_CaseDeletionCtrl</members>
 <members>BI_PSPB_NotificatinRmdConstantsCtrl</members>
 <members>BI_PSPB_NotificationSender</members>
-<members>BI_PSP_UpdateNotificationCtrl</members>
+<members>BI_PSP_NotificationCtrl</members>
 <members>BI_PSPB_PatientEntityCtrl</members>
 <members>BI_PSPB_ProductListCtrl</members>
 <members>BI_PSPB_ReferringPractitionerCtrl</members>

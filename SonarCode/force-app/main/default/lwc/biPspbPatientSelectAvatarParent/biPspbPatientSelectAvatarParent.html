@@ -1,0 +1,34 @@
+<!-- This component consolidates functionality for displaying avatars and selecting avatars  -->
+<template>
+	<lightning-layout multiple-rows class="tabClass">
+		<lightning-layout-item size="12" small-device-size="12" medium-device-size="12" large-device-size="12">
+			<div class="tabsDiv pad">
+				<div class="grid-containerTabs">
+					<a onclick={openPatMyProfile} class="anchorText">My Profile</a>
+					<a onclick={openPatMyCaregiver} class="anchorText">My Caregiver</a>
+					<a onclick={openPatSelectAvatar} class="anchorTextActive">Select Avatar</a>
+					<a onclick={openPatNotSettings} class="anchorText">Notification Settings</a>
+				</div>
+			</div>
+		</lightning-layout-item>
+	</lightning-layout>
+
+	<lightning-layout multiple-rows class="layoutColor pad">
+		<lightning-layout-item size="12" small-device-size="12" medium-device-size="4" large-device-size="4"
+			class="slds-p-top_xx-large slds-p-bottom_xx-large">
+			<!--Display the Avatar Navigation---->
+			<div class="custom-box1">
+				<c-bi-Pspb-Avatar-Navigation></c-bi-Pspb-Avatar-Navigation>
+			</div>
+		</lightning-layout-item>
+		<lightning-layout-item size="12" small-device-size="12" medium-device-size="8" large-device-size="8"
+			class="slds-p-top_xx-large slds-p-bottom_xx-large">
+			<!--Display the Avatar to select by patient under profile manager---->
+			<div class="custom-box2">
+				<div>
+					<c-bi-Pspb-Avatar-Selection></c-bi-Pspb-Avatar-Selection>
+				</div>
+			</div>
+		</lightning-layout-item>
+	</lightning-layout>
+</template>
