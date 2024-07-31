@@ -111,6 +111,71 @@
         <members>biPspbPlatformSupport</members>
         <members>biPspbPatientSelectionSwitch</members>
         <members>biPspbNotificationHistoryForm</members>
+        <members>biPspbPrepopulatedFormParent</members>
+        <members>biPspbPrepopulatedSummaryParent</members>
+        <members>biPspbPatientEnrollmentParent</members>
+        <members>biPspbPatientSummaryParent</members>
+        <members>biPspbHomeIconForThankyouMsg</members>
+        <members>biPspbHomeIconParent</members>
+        <members>biPspbPrepopulatedCaregiverFormParent</members>
+        <members>biPspbHcpSummaryParent</members>
+        <members>biPspbPatientSelectAvatarParent</members>
+        <members>biPspbLoginHome</members>
+        <members>biPspbOutstandingPage</members>
+        <members>biPspbOutstandingPageParent</members>
+        <members>biPspbIntroductionQuesParent</members>
+        <members>biPspbDlqiCompletedQuesParent</members>
+        <members>biPspbDlqiQuesParent</members>
+        <members>biPspbWapiCompletedQuesParent</members>
+        <members>biPspbWapiQuesParent</members>
+        <members>biPspbPssCompletedQuesParent</members>
+        <members>biPspbPsoriasisQuesParent</members>
+        <members>biPspbQsqCompletedQuesTwoMonthsParent</members>
+        <members>biPspbQsqCompletedQsFourteenWeeksParent</members>
+        <members>biPspbQsqTwoMonthsQuesParent</members>
+        <members>biPspbQsqFourteenWeekQuesParent</members>
+        <members>biPspbAboutMyselfParent</members>
+        <members>biPspbMyGppParent</members>
+        <members>biPspbAboutMySelfQuestionnaire</members>
+        <members>biPspbMeAndMyGppQuestionnaire</members>
+        <members>biPspbDlqiQuestionnaire</members>
+        <members>biPspbWapiQuestionnaire</members>
+        <members>biPspbIntroductionQuestionnaire</members>
+        <members>biPspbQsqAfterTwoMonths</members>
+        <members>biPspbQsqAfterFourteenWeeks</members>
+        <members>biPspbLoginFooter</members>
+        <members>biPspbIamPatientLandingParent</members>
+        <members>biPspbIamHcpLandingParent</members>
+        <members>biPspbFooterQuickLinks</members>
+        <members>biPspbCaregiverProfileParent</members>
+        <members>biPspbPatientProfileParent</members>
+        <members>biPspbDashboardParent</members>
+        <members>biPspbDashboardUaParent</members>
+        <members>biPspbCgSelectAvatarParent</members>
+        <members>biPspbCgAvatarSelectionParent</members>
+        <members>biPspbAvatarSelectionParent</members>
+        <members>biPspbAcuteDashboardParent</members>
+        <members>biPspbHistoryNotificationParent</members>
+        <members>biPspbActionNotificationFormParent</members>
+        <members>biPspbNotificationGeneralFormParent</members>
+        <members>biPspbNotificationActionForm</members>
+        <members>biPspbItchinessSymptom</members>
+        <members>biPspbFatigueSymptoms</members>
+        <members>biPspbMoodSymptom</members>
+        <members>biPspbLabelAndResourceSymptom</members>
+        <members>biPspbPainSymptoms</members>
+        <members>biPspbPrimaryPageSymptom</members>
+        <members>biPspbPustulesSymptoms</members>
+        <members>biPspbRednessSymptoms</members>
+        <members>biPspbSymptomLandingPage</members>
+        <members>biPspbSymptomTracker</members>
+        <members>biPspbSymptomTrackerChartParent</members>
+        <members>biPspbSymptomTrackerGraph</members>
+        <members>biPspbSymptomTrackerLandingPageParent</members>
+        <members>biPspbSymptomTrackerMainParent</members>
+        <members>biPspbSymptomTrackerPdf</members>
+        <members>biPspbTemperatureSymptoms</members>
+        <members>biPspbLabelForInfoCenter</members>
     <name>LightningComponentBundle</name>
 </types>
 <version>59.0</version>
