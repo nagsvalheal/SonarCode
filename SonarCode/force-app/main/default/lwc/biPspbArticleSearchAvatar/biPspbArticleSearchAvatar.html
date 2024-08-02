@@ -1,0 +1,25 @@
+<!--This lightning web component is used to display the avatar message in the Information Center search article Page-->
+<template>
+	<div class="contain" data-it-uid={userid}>
+		<div>
+			<!--Display the Selected avatar of patient-->
+			<img src={cardImage} alt="selected Avatar" class="image" />
+		</div>
+		<!--Display the message content-->
+		<div class="message-container">
+			<div class="message-container">
+				<p class="para">
+					<span class="mbmess" onclick={displayExpandedMessage} >
+						{acuteMessage}
+						</span>
+					<span class="dkmess">This is your information center. Find all the information you need
+						to understand GPP. Learn the tips and tricks to better manage your
+						condition.</span>
+				</p>
+			</div>
+		</div>
+		<div class="mbintm">
+			<a><span class="intmark" onclick={displayMessage}> X</span></a>
+		</div>
+	</div>
+</template>

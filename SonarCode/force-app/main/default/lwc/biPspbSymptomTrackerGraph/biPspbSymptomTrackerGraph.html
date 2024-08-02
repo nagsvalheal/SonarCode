@@ -1,0 +1,173 @@
+<!-- This LWC is used User Fatiguesymptoms insert values  - biPspbSymptomTrackerMainCmp -->
+<template>
+	<div data-it-uid={userId}>
+		<template if:true={showDiv}>
+			<div class="toast">
+				<img  class="img4" src={rightImg}>
+				<p class="para">
+					Symptom tracker declaration entered successfully! </p>
+				<p class="para2"> Be sure to come back tomorrow to complete another entry.</p>
+				<div class="notify">
+					<button class="buttonclass btncls" type="button" onclick={handleclose}>&#x2715; </button>
+				</div>
+			</div>
+		</template>
+		<template if:true={updateValue}>
+			<div class="custom3">
+				<c-bi-Pspb-Primary-Page-Symptom symptomrecord={symptomIdGet}></c-bi-Pspb-Primary-Page-Symptom>
+			</div>
+		</template>
+		<lightning-layout class="myComponentClass" multiple-rows>
+			<lightning-layout-item class="lli" size="12" padding="around-small" small-device-size="12"
+				medium-device-size="6" large-device-size="6">
+				<div class="grid-containerHeadingsSingle">
+					<p class="past">Symptom Tracker</p>
+					<p class="past past1">Past Entries</p>
+					<div class="Nosymptoms-errormsg" if:true={throwErrorMessage}>No symptoms logged for this month.
+					</div>
+
+				</div>
+			</lightning-layout-item>
+
+			<lightning-layout-item size="12" padding="around-small" small-device-size="12" medium-device-size="6"
+				large-device-size="6">
+				<div class="grid-containerButtons">
+					<div><button onclick={updatesymptom} class="downbtn">Update Symptoms</button></div>
+					<div class="grid-containerDoubleSlide">
+						<div><select onchange={handleCategoryChange} class="selectWidth">
+								<option value="" disabled selected>{placeholder}</option>
+								<template for:each={picklistOptions} for:item="option">
+									<option key={option.value} value={option.value}>{option.label}</option>
+								</template>
+							</select></div>
+						<div><template if:true={showChart}><button class="downbtn1"
+									onclick={openShowPopUp}>Download</button></template></div>
+
+
+
+					</div>
+				</div>
+			</lightning-layout-item>
+		</lightning-layout>
+		<template if:true={showChart}>
+			<lightning-layout multiple-rows class="slds-size_12-of-12 slds-small-size_12-of-12 slds-medium-size_12-of-12 slds-large-size_12-of-12">
+				<lightning-layout-item size="12" small-device-size="12" medium-device-size="12" large-device-size="12">
+					<template if:true={showLine}>
+						<div class="chart-container">
+							<div class="chart">
+								<template if:true={leftLess}>
+									<div class="showEnd"><a onclick={changePreviousSeven}>&#10094;</a></div>
+								</template>
+								<template for:each={bars} for:item="bar">
+									<div key={bar.dates} data-item={bar.dates} class="bar">
+										<div class="container-bottom">
+											<div class="label">
+												<div class="pad10"><a class="month" data-item={bar.dates}
+														onclick={showHighlighter}>{bar.dates}</a></div>
+											</div>
+											<hr>
+											<div class="image-container"><img class="lineimg" src={verticalLine}>
+												<template for:each={bar.imageUrls} for:item="imageUrl">
+													<div class="pad10" key={imageUrl}><img src={imageUrl}
+																alt="Allergy Image" class="chart-image" /></div>
+												</template>
+											</div>
+										</div>
+									</div>
+								</template>
+								<template if:true={rightLess}>
+									<div class="showEnd"><a onclick={changeNextSeven}>&#10095;</a></div>
+								</template>
+							</div>
+						</div>
+						<div class="slds-p-top_large grid-containerColorNotification  slds-align_absolute-center">
+							<div class="grid-containerinline">
+								<div class="height40"><img src={darkYellowEllipse} ></div>
+									<div>
+										<p class="FlexCircleCenter" data-name='itchines'>Itchiness</p>
+									</div>
+								</div>
+								<div class="grid-containerinline">
+									<div class="height40"><img src={redEllipse} ></div>
+										<div>
+											<p class="FlexCircleCenter">Redness</p>
+										</div>
+									</div>
+									<div class="grid-containerinline">
+										<div class="height40"><img src={violetEllipse} ></div>
+											<div>
+												<p class="FlexCircleCenter">Pain</p>
+											</div>
+										</div>
+										<div class="grid-containerinline">
+											<div class="height40"><img src={greenEllipse} ></div>
+												<div>
+													<p class="FlexCircleCenter">Pustules</p>
+												</div>
+											</div>
+											<div class="grid-containerinline">
+												<div class="height40"><img src={blueEllipse} ></div>
+													<div>
+														<p class="FlexCircleCenter">Fatigue</p>
+													</div>
+												</div>
+												<div class="grid-containerinline">
+													<div class="height40"><img src={darkRedEllipse} ></div>
+														<div>
+															<p class="FlexCircleCenter">Temperature</p>
+														</div>
+													</div>
+													<div class="grid-containerinline">
+														<div class="height40"><img src={yellowEllipse} ></div>
+															<div>
+																<p class="FlexCircleCenter">Mood</p>
+															</div>
+														</div>
+													</div>
+					</template>
+				</lightning-layout-item>
+				<lightning-layout-item size="12" small-device-size="12" medium-device-size="12" large-device-size="12">
+				</lightning-layout-item>
+			</lightning-layout>
+		</template>
+		<template if:true={checkValue}>
+			<c-bi-Pspb-Primary-Page-Symptom symptomrecord={symptomIdGet}></c-bi-Pspb-Primary-Page-Symptom>
+		</template>
+		<template if:true={understand}>
+			<div class="modal-background">
+				<div class="modal-content">
+					<span class="close" onclick={closeundersatand}>&times;</span>
+					<h3>Confirm submission</h3>
+					<p>I Understand that the above information provided by me is correct</p>
+					<div class="confirm-btn-head">
+						<button class="confirm-btn-understand" onclick={openundersatand}>I Understand</button>
+					</div>
+				</div>
+			</div>
+		</template>
+		<template if:true={showPopup}>
+			<div class="modal-backdrop"></div>
+			<div class="modal-visible">
+				<div class="modal-close" onclick={doNotLogout}>
+					<a onclick={doNotLogout}><span
+							class="timescss">&times;</span></a>
+				</div>
+				<div class="modal-content">
+					<p class="modalHead">Confirm Submission</p>
+					<p class="modalPara">Are you sure you want to download the Self-Symptom tracker Entry for the
+						selected month?</p>
+					<div class="width100">
+						<div class="grid-containermodals">
+							<button class="buttonLogoutCancel" onclick={doNotLogout}>No</button>
+							<button class="ButtonLogoutYes" onclick={captureComponent}>Yes</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</template>
+	</div>
+	<!-- Loadig spinner if there is any delay for getting Records -->
+	<!-- <div class="spinner-wrapper" if:true={isLoading}>
+                  <div class="loader"></div>
+                </div> -->
+</template>

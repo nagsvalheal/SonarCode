@@ -1,0 +1,165 @@
+<!-- This components using user body parts and intencity itchiness values store this lwc-->
+<template>
+	<div class="main" data-it-uid={userid}>
+		<template if:true={error}>
+			<p>Error retrieving Allergy Intolerance data: {error}</p>
+		</template>
+		{allergyIntoleranceDatademo}
+		<div class="Symptomdata-rows">
+			<div class="Symptomdata-date">
+				<img src={calenderImg} class="calender-img" />
+				<p class="Symptomdata-value"> <span class="span">Date</span><br>{symptomData}</p>
+			</div>
+			<div class="Symptomdata-GPp">
+				<img src={vectorImg} class="calender-img" />
+				<p class="Symptomdata-value"><span class="span">GPP Symptoms</span><br>{valueSymptom}</p>
+			</div>
+			{symptomdate}
+		</div>
+		<div class="slds-grid slds-wrap">
+			<div class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12">
+				<div class="white">
+					<div class="align">
+						<h1 class="head">Symptoms</h1>
+						<template if:true={allergyIntoleranceData}>
+							<ul style="list-style: none; padding: 0; display: flex; flex-wrap: wrap;">
+								<template for:each={allergyIntoleranceData} for:item="item">
+									<li key={item.Id} class="key">
+										<div class="primary-symptoms">
+											<div class="itchiness-page-primary">
+												<div>
+													<div>
+														<img if:true={item.itchness} src={itchnessImg}
+															class="list">
+														<img if:true={item.redness} src={rednessImg}
+														class="list">
+														<img if:true={item.pustules} src={pustulesImg}
+														class="list">
+														<img if:true={item.fatigue} src={fatigueImg}
+														class="list">
+														<img if:true={item.pain} src={painImg}
+														class="list">
+														<img if:true={item.temperature} src={temperatureImg}
+															class="list">
+
+															<img if:true={item.sadImage} src={worried}
+														class="list">
+															<img if:true={item.speechless} src={speechless}
+														class="list">
+																<img if:true={item.happy} src={happy}
+														class="list">
+																<img if:true={item.worried} src={sadImage}
+														class="list">
+																<img if:true={item.joyfull} src={joyfull}
+														class="list">
+														
+													</div>
+													<div class="Name">
+														<template if:true={item.BI_PSP_Intensity__c}>
+															{item.BI_PSP_Intensity__c} /10
+														</template>
+																<template if:true={item.BI_PSP_Temperature__c}>
+														{item.BI_PSP_Temperature__c}°C
+														</template>
+														<div>
+														</div>
+													<div if:true={item.BI_PSP_Mood__c}>{item.BI_PSP_Mood__c}</div>
+                                <template if:false={item.BI_PSP_Mood__c}>
+                                    <div class="careName">
+                                        {item.BI_PSP_Symptoms__r.HealthCloudGA__CarePlanTemplate__r.Name}
+                                    </div>
+                                </template>
+													</div>
+												</div>
+											</div>
+										</div>
+									</li>
+								</template>
+							</ul>
+						</template>
+						<div class="boximg">
+						</div>
+
+						<br>
+						<br>
+						<hr class="hr">
+						<h1 class="head">Triggers</h1>
+						<template if:true={symptomRecordData}>
+							<ul class="ul">
+								<template for:each={symptomRecordData} for:item="word">
+									<li key={word}>
+										<button class="button">{word}</button>
+									</li>
+								</template>
+							</ul>
+						</template>
+						<template if:false={symptomRecordData}>
+							<p>No records to display</p>
+						</template>
+						<hr class="hr1">
+						<h1 class="head">Photos</h1>
+						<div if:true={hasImage} class="image-container">
+							<!-- <div if:true={imageUrls} class="image-container"> -->
+							<template for:each={imageUrls} for:item="url" for:index="index">
+								<div key={url} class="image-file-set">
+									<img src={url} alt="Uploaded Image" class="uploaded-image" />
+								</div>
+							</template>
+							<!-- </div> -->
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<template if:true={showeditbtnShow}>
+			<div class="btnclass">
+				<p class="p1">Did you make a mistake? It's ok! You can modify or delete this entry.</p>
+				<div class="btns"> <button onclick={navigateToSymptom} class="btn">Edit</button>
+					<div>
+						<button class="btn" onclick={handleDeleteClick}>Delete</button>
+					</div>
+				</div>
+				<p class="p1">You can only modify a Self Symptom Tracker if there are none currently being
+					created. <span class="final">&nbsp;Finalise the current entry first!</span></p>
+			</div>
+			<template if:true={edit}>
+				<div class="modal-background">
+					<div class="modal-content">
+						<span class="close" onclick={closeEdit}>&times;</span>
+						<h3 class="lastedit">Edit Latest Entry</h3>
+						<p class="edit">Are you sure you want to edit current/latest entry?</p>
+						<div class="confirm-btn-head">
+							<button class="confirm-btn-understand-1" onclick={handleLastEditDate}>Yes</button>
+							<button class="confirm-btn-understand" onclick={closeEdit}>No</button>
+						</div>
+					</div>
+				</div>
+			</template>
+			<template if:true={deleteButton}>
+				<div class="modal-background">
+					<div class="modal-content">
+						<span class="close" onclick={closeDeletePopup}>&times;</span>
+						<h3 class="lastedit">Confirm Submission</h3>
+						<p class="edit">Are you sure you want to delete current/latest entry?</p>
+						<div class="confirm-btn-head">
+							<button class="confirm-btn-understand-1" onclick={closeDeleteModal}>Yes</button>
+							<button class="confirm-btn-understand" onclick={closeEdit}>No</button>
+						</div>
+					</div>
+				</div>
+			</template>
+			<template if:true={lastEdit}>
+				<div class="modal-background">
+					<div class="modal-content">
+						<span class="close" onclick={closeLastEdit}>&times;</span>
+						<h3 class="lastedit">Unable to Edit</h3>
+						<p>Only current/latest entry can be edited.</p>
+						<div class="confirm-btn-head">
+							<button class="confirm-btn-understand-1" onclick={handleLastEditDate}>OK</button>
+						</div>
+					</div>
+				</div>
+			</template>
+		</template>
+	</div>
+</template>
