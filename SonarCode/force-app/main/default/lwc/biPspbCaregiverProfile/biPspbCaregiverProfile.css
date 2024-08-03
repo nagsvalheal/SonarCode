@@ -95,7 +95,7 @@
 	z-index: 1;
 }
 
-.img4 {
+.TicImage {
 	background-color: rgb(37 156 37);
 	margin-left: -35px;
 	border-radius: 50px;
@@ -140,7 +140,7 @@
 	.toast{
 		top: 208px;
 	}
-	.img4{
+	.TicImage{
 		margin-left: -102px;
 	}
 	.btncls{
@@ -182,7 +182,7 @@
 	.toast{
 		top: 207px;
 	}
-	.img4{
+	.TicImage{
 		margin-left: -102px;
 	}
 	.btncls{

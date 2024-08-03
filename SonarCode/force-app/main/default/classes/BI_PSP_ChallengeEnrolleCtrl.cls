@@ -10,12 +10,14 @@ Version    Author      Date              Detail         Description
  
 */
 public with sharing class BI_PSP_ChallengeEnrolleCtrl {
- /*
-    @description Method to retrieve information about a patient enrollee based on the provided user Id.
-    Returns a list of EnrollWrapper objects containing patient enrollee information and any error messages.
-    This method is exposed to Aura-enabled components and is cacheable.
-    @return List of EnrollWrapper objects containing patient enrollee information and any error messages.
-    */
+/**
+ * @description Method to retrieve information about enrollees based on the current user's details.
+ * This method returns a list of EnrollWrapper objects containing information about the enrollees,
+ * including whether the user is a caregiver or a non-caregiver. It is exposed to Aura-enabled components 
+ * and is cacheable for better performance.
+ * 
+ * @return List of EnrollWrapper objects containing enrollee information and any error messages.
+ */
 
 @AuraEnabled(cacheable=true)
 public static List<EnrollWrapper> getEnrolle() {
@@ -50,13 +52,16 @@ public static List<EnrollWrapper> getEnrolle() {
 
     return successList;
 }
- /*
-    @description Helper method to process non-caregiver users and retrieve patient enrollee information.
-    @param userRecord The User object representing the current user.
-    @param recName The name of the current user.
-    @param email The email of the current user.
-    @param successMessage The EnrollWrapper object to store the retrieved information and any error messages.
-    */
+/**
+ * @description Processes information for a user who is not a caregiver. This method retrieves the associated
+ * Account record and Care Program Enrollee information based on the user's name and email. It updates the 
+ * provided EnrollWrapper object with the patient enrollee details or an error message if not found.
+ *
+ * @param userRecord The User object containing the current user's details.
+ * @param recName The name of the user, used to match the PersonAccount record.
+ * @param email The email of the user, used to match the PersonAccount record.
+ * @param successMessage The EnrollWrapper object to be updated with enrollee details or error information.
+ */
 private static void processNonCaregiver(User userRecord, String recName, String email, EnrollWrapper successMessage) {
    
     String accountFields = 'Id, Name, PersonEmail';
@@ -137,9 +142,10 @@ private static void processCaregiver(User userRecord, String recName, String ema
         successMessage.error = BI_PSP_ChallengeConstantCtrl.enrolleeNf;
     }
 }
-/*
-@description Wrapper class to hold information about a patient enrollee and any error messages.
-*/
+/**
+ * @description Wrapper class used to encapsulate information about a patient enrollee and any associated error messages.
+ * This class is designed to be used in Aura-enabled components for transferring data between the server and client.
+ */
 public class EnrollWrapper {
 /* The patient enrollee information.*/
 @AuraEnabled

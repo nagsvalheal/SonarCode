@@ -19,63 +19,22 @@ import DLQIMAGE from '@salesforce/resourceUrl/BI_PSP_DlqiImage';
 import WPAIIMAGE from '@salesforce/resourceUrl/BI_PSP_WpaiImage';
 import QUALITATIVE_IMAGE from '@salesforce/resourceUrl/BI_PSP_QualitativeImage';
 //To import Custom labels
-import INTRODUCTION_CATEGORY from '@salesforce/label/c.BI_PSP_IntroductionTxt';
-import PSS_CATEGORY from '@salesforce/label/c.BI_PSP_PssCategory';
-import WAPI_CATEGORY from '@salesforce/label/c.BI_PSP_WapiCategory';
-import DLQI_CATEGORY from '@salesforce/label/c.BI_PSP_DlqiCategory';
-import QUALITATIVE_CATEGORY from '@salesforce/label/c.BI_PSP_QualitativeCategory';
-import WPAI from '@salesforce/label/c.BI_PSP_WpaiQstnrTxt';
-import OUTSTANDING_QUESTIONNAIRE from '@salesforce/label/c.BI_PSP_OutstndngPageTxt';
-import VERY_SEVERE from '@salesforce/label/c.BI_PSP_RbVerySevere';
-import SEVERE from '@salesforce/label/c.BI_PSP_RbSevere';
-import MODERATE from '@salesforce/label/c.BI_PSP_RbModerate';
-import MILD from '@salesforce/label/c.BI_PSP_RbMild';
-import NONE from '@salesforce/label/c.BI_PSP_RbNone';
-import NUM_OF_ANSWERED_QUESTION from '@salesforce/label/c.BI_PSP_NumOfAnsrdQstn';
-import BUTTON_SUBMIT from '@salesforce/label/c.BI_PSP_ButtonSubmit';
-import DRAFT_BUTTON from '@salesforce/label/c.BI_PSP_DraftButton';
-import ROLLOUT_DATE from '@salesforce/label/c.BI_PSP_QuestnrRollOutDate';
-import EXPIRES_ON from '@salesforce/label/c.BI_PSP_QuestnrExpiresOn';
-import BUTTON_RETURN_BACK from '@salesforce/label/c.BI_PSP_ButtonReturnback';
-import CONFIRM_SUBMISSION from '@salesforce/label/c.BI_PSP_ButtonConfirmSub';
-import CANCEL from '@salesforce/label/c.BI_PSP_CancelButton';
-import CONFIRM_BUTTON from '@salesforce/label/c.BI_PSP_ConfirmButton';
-import PSS_TITLE from '@salesforce/label/c.BI_PSP_PssCategory';
-import PSS_BOTTOM_TEXT from '@salesforce/label/c.BI_PSP_PssBottomMsg';
-import PSS_BOTTOM_SEC_MSG from '@salesforce/label/c.BI_PSP_PssBottomSecndMsg';
-import BRANDED_URL from '@salesforce/label/c.BI_PSPB_SiteLabel';
-import UNASSIGNED_URL from '@salesforce/label/c.BI_PSPB_UnAssignedLabel';
-import SUBMIT_MESSAGE from '@salesforce/label/c.BI_PSP_SubmitLabel';
-import BRANDED_URL_NAVI from '@salesforce/label/c.BI_PSPB_BrandedSiteNaviUrl';
-import UNASSIGNED_URL_NAVI from '@salesforce/label/c.BI_PSPB_UnAssignedNaviUrl';
-import QUALITATIVE_TWO_MONTHS from '@salesforce/label/c.BI_PSPB_QualitativeTwoMonths';
-import QUALITATIVE_FOURTEEN_MONTHS from '@salesforce/label/c.BI_PSPB_QualitativeFourteenWeeks';
-import DLQI_URL from '@salesforce/label/c.BI_PSPB_DlqiQuestionnaireUrl';
-import WAPI_QUESTIONNAIRE from '@salesforce/label/c.BI_PSPB_WapiQuestionnaire';
 import ERROR_VARIANT from '@salesforce/label/c.BI_PSP_ErrorVariantToast';
-import PSS_QUESTIONNAIRE_URL from '@salesforce/label/c.BI_PSPB_PsoriasisQuesUrl';
-import OUTSTANDING_PAGE from '@salesforce/label/c.BI_PSPB_OutstndngPageUrl';
 import CONSOLE_ERROR_MESSAGE from '@salesforce/label/c.BI_PSP_ConsoleError';
-import IN_PROGRESS from '@salesforce/label/c.BI_PSP_InProgressTxt';
-import EXPIRED from '@salesforce/label/c.BI_PSP_Expired';
-import COMPLETED_LABEL from '@salesforce/label/c.BI_PSP_Completed';
-import CONFIRM_MESSAGE from '@salesforce/label/c.BI_PSP_CannotEditMsg';
-import COMPLETED_ALL from '@salesforce/label/c.BI_PSP_CompleteAll';
-import POPUP_MESSAGE from '@salesforce/label/c.BI_PSP_MsgPopupTxt';
+import * as labels from 'c/biPspbLabelAndResourceForQuestionnaire';
 export default class BiPspbPssQuestionnaire extends LightningElement {
-	//Proper naming conventions with camel case for all the variable will be followed in the future releases
-	//Track variable Declarations(re-render variables)
+	//Global variables
 	twoMonthsTrueFalse = false;
 	isBarRadioChecked = false;
 	isNoneChecked = false;
 	isDesktop = false;
 	isConfirmationDialogOpen = false;
 	customFormModal = false;
-	message = COMPLETED_ALL;
-	saveAsDrfatContent = SUBMIT_MESSAGE;
+	message = labels.COMPLETED_ALL;
+	saveAsDrfatContent = labels.SUBMIT_LABEL;
 	// Add a new boolean property to track if the draft saved popup is open
 	isDraftSavedPopupOpen = false;
-	draftSavedMessage = POPUP_MESSAGE;
+	draftSavedMessage = labels.POPUP_MESSAGE;
 	isMildChecked = false;
 	isModerateChecked = false;
 	isSevereChecked = false;
@@ -128,7 +87,6 @@ export default class BiPspbPssQuestionnaire extends LightningElement {
 	thirdResponseVersinId;
 	fourthResponseText;
 	fourthResponseVersinId;
-	//Global variables(without  does not trigger automatic re-renders)
 	drfatRecords = [];
 	firstDraftResp;
 	firstDraftVerionId;
@@ -143,8 +101,8 @@ export default class BiPspbPssQuestionnaire extends LightningElement {
 	thirdModerate = false;
 	thirdSevere = false;
 	thirdVerySever = false;
-	pssbottom1 = PSS_BOTTOM_TEXT;
-	pssbottom2 = PSS_BOTTOM_SEC_MSG;
+	pssbottom1 = labels.PSS_BOTTOM_TXT;
+	pssbottom2 = labels.PSS_BOTTOM_SEC_MSG;
 	fourthNone = false;
 	fourthMild = false;
 	fourthModerte = false;
@@ -154,33 +112,33 @@ export default class BiPspbPssQuestionnaire extends LightningElement {
 	pssImage = PSSIMAGE;
 	wpaiImage = WPAIIMAGE;
 	qualitativeImage = QUALITATIVE_IMAGE;
-	introduction = INTRODUCTION_CATEGORY;
-	pss = PSS_CATEGORY;
-	dlqi = DLQI_CATEGORY;
-	wapi = WAPI_CATEGORY;
-	qsq = QUALITATIVE_CATEGORY;
-	workAndActivity = WPAI;
-	outStandingQue = OUTSTANDING_QUESTIONNAIRE;
-	verySevere = VERY_SEVERE;
-	severe = SEVERE;
-	moderate = MODERATE;
-	mild = MILD;
-	none = NONE;
-	answered = NUM_OF_ANSWERED_QUESTION;
-	submit = BUTTON_SUBMIT;
-	draftLabel = DRAFT_BUTTON;
-	returnBackc = BUTTON_RETURN_BACK;
-	rolloutWithoutSpaceDate = ROLLOUT_DATE;
-	expiresOn = EXPIRES_ON;
-	confirmSub = CONFIRM_SUBMISSION;
-	cannotEdit = CONFIRM_MESSAGE;
-	cancelbt = CANCEL;
-	confirmbt = CONFIRM_BUTTON;
+	introduction = labels.INTRODUCTION_CATEGORY;
+	pss = labels.PSS_CATEGORY;
+	dlqi = labels.DLQI_CATEGORY;
+	wapi = labels.WPAI_CATEGORY;
+	qsq = labels.QUALITATIVE_LABEL;
+	workAndActivity = labels.WPAI_TXT;
+	outStandingQue = labels.OUTSTANDING_QUESTIONNAIRE;
+	verySevere = labels.VERY_SEVERE;
+	severe = labels.SEVERE;
+	moderate = labels.MODERATE;
+	mild = labels.MILD;
+	none = labels.NONE;
+	answered = labels.ANSWERED;
+	submit = labels.SUBMIT;
+	draftLabel = labels.SAVE_AS_DRAFT;
+	returnBackc = labels.BUTTON_RETURN_BACK;
+	rolloutWithoutSpaceDate = labels.ROLLOUT_DATE;
+	expiresOn = labels.EXPIRES_ON;
+	confirmSub = labels.BUTTON_CONFIRM_SUB;
+	cannotEdit = labels.CANNOT_EDIT_MSG;
+	cancelbt = labels.CANCEL_BUTTON;
+	confirmbt = labels.CONFIRM_BUTTON;
 	disablecmp;
 	questionData = [];
 	userid = Id;
 	urlq;
-	categoryName = PSS_TITLE;
+	categoryName = labels.PSS_CATEGORY;
 	pssRollOutDate;
 	expireDate;
 	rolloutDate;
@@ -209,15 +167,15 @@ export default class BiPspbPssQuestionnaire extends LightningElement {
 			let pathComponents = path.split('/');
 			// Find the component you need (in this case, 'Branded')
 			let desiredComponent = pathComponents.find((component) =>
-				[BRANDED_URL.toLowerCase(), UNASSIGNED_URL.toLowerCase()].includes(
+				[labels.BRANDED_URL.toLowerCase(), labels.UN_ASSIGNED_URL.toLowerCase()].includes(
 					component.toLowerCase()
 				)
 			);
 
-			if (desiredComponent.toLowerCase() === BRANDED_URL.toLowerCase()) {
-				this.urlq = BRANDED_URL_NAVI;
+			if (desiredComponent.toLowerCase() === labels.BRANDED_URL.toLowerCase()) {
+				this.urlq = labels.BRANDED_NAVI_URL;
 			} else {
-				this.urlq = UNASSIGNED_URL_NAVI;
+				this.urlq = labels.UN_ASSIGNED_URL_NAVI;
 			}
 
 			this.isDesktop = this.isDesktopView();
@@ -334,10 +292,10 @@ export default class BiPspbPssQuestionnaire extends LightningElement {
 		this.assessmentId = data.length > 0 ? data[0].Id : null;
 		this.status = data.length > 0 ? data[0].AssessmentStatus : null;
 
-		if (this.status === EXPIRED) {
+		if (this.status === labels.EXPIRED) {
 			this.calculateDates(data[0].ExpirationDateTime);
 		}
-		else if (this.status === IN_PROGRESS || this.status === COMPLETED_LABEL) {
+		else if (this.status === labels.IN_PROGRESS || this.status === labels.COMPLETED_LABEL) {
 			this.calculateDates(data[0].BI_PSP_RolloutforCompletedQuestionnarie__c)
 		}
 	}
@@ -859,23 +817,23 @@ export default class BiPspbPssQuestionnaire extends LightningElement {
 
 	// Methods to navigate to different questionnaire categories
 	navigateToCategory2() {
-		window.location.assign(this.urlq + DLQI_URL);
+		window.location.assign(this.urlq + labels.DLQI_URL);
 	}
 
 	navigateToCategory3() {
-		window.location.assign(this.urlq + PSS_QUESTIONNAIRE_URL);
+		window.location.assign(this.urlq + labels.PSS_QUESTIONNAIRE_URL);
 	}
 
 	navigateToCategory4() {
-		window.location.assign(this.urlq + WAPI_QUESTIONNAIRE);
+		window.location.assign(this.urlq + labels.WPAI_QUESTIONAIRE);
 	}
 
 	navigateToCategory5() {
 		// Navigate to different questionnaire pages based on the target date
 		if (this.targetDateFourteenWks !== null) {
-			window.location.assign(this.urlq + QUALITATIVE_FOURTEEN_MONTHS); // Navigate to page 2
+			window.location.assign(this.urlq + labels.QUALITATIVE_FOURTEENWEEKS); // Navigate to page 2
 		} else {
-			window.location.assign(this.urlq + QUALITATIVE_TWO_MONTHS); // Navigate to page 1
+			window.location.assign(this.urlq + labels.QUALITATIVE_TWO_MONTHS); // Navigate to page 1
 		}
 	}
 	//when you click on the cancel button in the confirm popup Message this mehtod will get invoked and enable all the radio buttons if the provided values in the if condition are matched.
@@ -1096,7 +1054,8 @@ export default class BiPspbPssQuestionnaire extends LightningElement {
 			DRAFT_RESPONSE_SUBMISSION({
 				darftQuestionIds: this.realAssesVerArra,
 				draftResponseTexts: this.realrespArray,
-				isItDraftOrSubmit:trflse
+				isItDraftOrSubmit:trflse,
+				isQsqAfterTwoMonths:false
 			})
 				.then(() => {
 					// Close popups and call custom method
@@ -1110,7 +1069,7 @@ export default class BiPspbPssQuestionnaire extends LightningElement {
 				});
 		} else {
 			// Redirect if no responses
-			window.location.assign(this.urlq + OUTSTANDING_PAGE);
+			window.location.assign(this.urlq + labels.OUT_STANDING_URL);
 		}
 	}
 	//custom pop up method as per requirement it should be deplay for certain ms 
@@ -1146,7 +1105,7 @@ export default class BiPspbPssQuestionnaire extends LightningElement {
 	//this will close the custom save as draft popup Message
 	closeDraftSavedPopup() {
 		this.isDraftSavedPopupOpen = false;
-		window.location.assign(this.urlq + OUTSTANDING_PAGE);
+		window.location.assign(this.urlq + labels.OUTSTANDING_PAGE);
 	}
 	//this method is for Confirm Submission pop up Message, when you click on the confim button this will get invoked.
 
@@ -1194,7 +1153,7 @@ export default class BiPspbPssQuestionnaire extends LightningElement {
 			})
 				.then(() => {
 					// Redirect to outstanding page upon successful submission
-					window.location.assign(this.urlq + OUTSTANDING_PAGE);
+					window.location.assign(this.urlq + labels.OUTSTANDING_PAGE);
 				})
 				.catch((error) => {
 					// Show error toast if there's an error

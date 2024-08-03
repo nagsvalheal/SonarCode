@@ -1,7 +1,6 @@
 //This component is used to Display the Read,Complete,Expired notification based on  both General and Action Notification
 //To import the Libraries
 import { LightningElement} from 'lwc';
-import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 //To import the Apex class
 import HISTORY_TASK from '@salesforce/apex/BI_PSPB_MessageCenterCtrl.getHistoryNotifyRecords';
 import ENROLLE from '@salesforce/apex/BI_PSP_ChallengeEnrolleCtrl.getEnrolle';
@@ -30,14 +29,12 @@ export default class BiPspbNotificationHistoryForm extends LightningElement {
 	disableCategory = true;
 	disableStatus = true;
 	selectedContentCategory = resources.ALL;
-	// Declaration of variables
-	contentImg = resources.TREATMENT_IMG;
+	contentImg = resources.TREATMENT_IMAGE;
 	dotImg = resources.DOT_IMG;
-	symptomImg = resources.AVATAR_IMG;
+	symptomImg = resources.AVATAR_IMAGE;
 	challengeImg = resources.CHALLENGES_IMG;
-	treatmentImg = resources.TREATMENT_IMG;
-	avatarImg = resources.AVATAR_IMG;
-	chatterImg = resources.COMMUNITY_IMG;
+	treatmentImg = resources.TREATMENT_IMAGE;
+	chatterImg = resources.COMMUNITY_IMAGE;
 	questionnaireImg = resources.QUESTIONNAIRE_IMAGE;
 	notifyTypeOptions = [
 		{ label: resources.ALL, value: resources.ALL },
@@ -58,47 +55,59 @@ export default class BiPspbNotificationHistoryForm extends LightningElement {
 	connectedCallback() {
 		try {
 			this.initializeComponent();
-		} catch (err) {
-			this.showToast(resources.ERROR_MESSAGE, err.message, resources.ERROR_VARIANT);
+		} catch {
+			let globalThis=window;
+			globalThis.location.href = resources.ERROR_PAGE;
+			globalThis.sessionStorage.setItem('errorMessage', resources.ERROR_FOR_HISTORY);
 		}
 	}
 	// Initialize component by fetching enrollee data and history records
 	initializeComponent() {
-		ENROLLE({ userId: this.userId })
-			.then(result => {
-				if (result && result[0].patientEnrolle) {
-					this.accountName = result[0].patientEnrolle.Id;
-					this.determineSiteUrlAndHistory();
-					this.historyAllRecords(this.accountName);
-				} else {
-					this.showToast(resources.ERROR_MESSAGE, resources.NO_RECORDS, resources.ERROR_VARIANT);
-				}
-			})
-			.catch(error => {
-				this.showToast(resources.ERROR_MESSAGE, error.message, resources.ERROR_VARIANT);
-			});
+			ENROLLE({ userId: this.userId })
+				.then(result => {
+					if (result && result[0].patientEnrolle) {
+						this.accountName = result[0].patientEnrolle.Id;
+						this.determineSiteUrlAndHistory();
+						this.historyAllRecords(this.accountName);
+					} else {
+						let globalThis=window;
+						globalThis.location.href = resources.ERROR_PAGE;
+						globalThis.sessionStorage.setItem('errorMessage', resources.ENROLLEE_NOT_FOUND);
+					}
+				})
+				.catch(() => {
+					let globalThis=window;
+					globalThis.location.href = resources.ERROR_PAGE;
+					globalThis.sessionStorage.setItem('errorMessage', resources.FETCHING_ENROLLEE_ERROR);
+				});
 	}
 	// Determine the site URL and history records
 	determineSiteUrlAndHistory() {
-		const { siteUrl} = this.getSiteUrlAndType();
-		this.urlq = siteUrl;
+			const { siteUrl} = this.getSiteUrlAndType();
+			this.urlq = siteUrl;		
 	}
 	// Determine the url type
 	getSiteUrlAndType() {
-		let globalThis = window;
-		const CURRENT_URL = globalThis.location.href;
-		const URL_OBJECT = new URL(CURRENT_URL);
-		const PATH = URL_OBJECT.pathname;
-		const PATH_COMPONENTS = PATH.split('/');
-		const DESIRED_COMPONENT = PATH_COMPONENTS.find(component =>
-			[BRANDED_URL.toLowerCase(), UNASSIGNED_URL.toLowerCase()].includes(component.toLowerCase())
-		);
-	
-		if (DESIRED_COMPONENT?.toLowerCase() === BRANDED_URL.toLowerCase()) {
-			return {type: 'branded' };
+		try{
+			let globalThis = window;
+			const CURRENT_URL = globalThis.location.href;
+			const URL_OBJECT = new URL(CURRENT_URL);
+			const PATH = URL_OBJECT.pathname;
+			const PATH_COMPONENTS = PATH.split('/');
+			const DESIRED_COMPONENT = PATH_COMPONENTS.find(component =>
+				[BRANDED_URL.toLowerCase(), UNASSIGNED_URL.toLowerCase()].includes(component.toLowerCase())
+			);		
+			if (DESIRED_COMPONENT?.toLowerCase() === BRANDED_URL.toLowerCase()) {
+				return {type: 'branded' };
+			}
+			return { type: 'unassigned' }; 
+		} catch {
+			let globalThis=window;
+			globalThis.location.href = resources.ERROR_PAGE;
+			globalThis.sessionStorage.setItem('errorMessage', resources.URL_TYPE_ERROR);
 		}
-		return { type: 'unassigned' };
-	}	
+		return { type : 'unknown' };
+	}
 	// To display recent 3 records, on clicking Load More, shows all the records
 	get displayedHistoryValue() {
 		return this.historyRecords.slice(0, this.recordsToDisplay);
@@ -122,8 +131,7 @@ export default class BiPspbNotificationHistoryForm extends LightningElement {
 		this.typeOfStatus = [];
 		this.typeOfNotification = event.target.value;
 		this.disableCategory = false;
-		this.disableStatus = true;
-		
+		this.disableStatus = true;		
 		if (this.typeOfNotification === resources.GENERAL) {
 			this.setGeneralOptions();
 			this.handleGeneralCategoryChange(resources.ALL);
@@ -138,8 +146,7 @@ export default class BiPspbNotificationHistoryForm extends LightningElement {
 	// Set options for General notifications
 	setGeneralOptions() {
 		const { siteUrl, type } = this.getSiteUrlAndType();
-		this.urlq = siteUrl;
-	
+		this.urlq = siteUrl;	
 		if (type === 'branded') {
 			this.notificationOptions = [
 				{ label: resources.ALL, value: resources.ALL },
@@ -154,7 +161,7 @@ export default class BiPspbNotificationHistoryForm extends LightningElement {
 				{ label: resources.STATUS_EXPIRED, value: resources.STATUS_EXPIRED },
 				{ label: resources.READ, value: resources.READ }
 			];
-		} else {
+		} else if (type === 'unassigned') {
 			this.notificationOptions = [
 				{ label: resources.ALL, value: resources.ALL },
 				{ label: resources.CHALLENGES, value: resources.CHALLENGES },
@@ -168,13 +175,16 @@ export default class BiPspbNotificationHistoryForm extends LightningElement {
 				{ label: resources.STATUS_EXPIRED, value: resources.STATUS_EXPIRED },
 				{ label: resources.READ, value: resources.READ }
 			];
+		} else {
+			let globalThis=window;
+			globalThis.location.href = resources.ERROR_PAGE;
+			globalThis.sessionStorage.setItem('errorMessage', resources.URL_TYPE_ERROR);
 		}
 	}
 	// Set options for Action notifications
 	setActionOptions() {
 		const { siteUrl, type } = this.getSiteUrlAndType();
-		this.urlq = siteUrl;
-	
+		this.urlq = siteUrl;	
 		if (type === 'branded') {
 			this.notificationOptions = [
 				{ label: resources.ALL, value: resources.ALL },
@@ -188,7 +198,7 @@ export default class BiPspbNotificationHistoryForm extends LightningElement {
 				{ label: resources.COMPLETED, value: resources.COMPLETED },
 				{ label: resources.STATUS_EXPIRED, value: resources.STATUS_EXPIRED }
 			];
-		} else {
+		} else if (type === 'unassigned'){
 			this.notificationOptions = [
 				{ label: resources.ALL, value: resources.ALL },
 				{ label: resources.SYMPTOM, value: resources.SYMPTOM },
@@ -200,52 +210,58 @@ export default class BiPspbNotificationHistoryForm extends LightningElement {
 				{ label: resources.COMPLETED, value: resources.COMPLETED },
 				{ label: resources.STATUS_EXPIRED, value: resources.STATUS_EXPIRED }
 			];
+		}  else {
+			let globalThis=window;
+			globalThis.location.href = resources.ERROR_PAGE;
+			globalThis.sessionStorage.setItem('errorMessage', resources.URL_TYPE_ERROR);
 		}
 	}
 	// Fetch and format all history records
 	historyAllRecords(enrolleeId){
 		HISTORY_TASK({ enroleeId: enrolleeId})
-				.then((result) => {
-					if (result) {
-						if (result && result.length > 6) {
-							this.showLoadMoreButton = true;
-						}
-						else {
-							this.showLoadMoreButton = false;
-						}
-						if (result && result.length > 0) {
-							this.hasNoRecords = false;
-						}
-						else {
-							this.hasNoRecords = true;
-						}
+					.then((result) => {
+						if (result) {
+							if (result && result.length > 6) {
+								this.showLoadMoreButton = true;
+							}
+							else {
+								this.showLoadMoreButton = false;
+							}
+							if (result && result.length > 0) {
+								this.hasNoRecords = false;
+							}
+							else {
+								this.hasNoRecords = true;
+							}
 
-						this.historyRecords = result.map((obj) => ({
-							...obj,
-							sympimg: obj.BI_PSP_Category__c === resources.SYMPTOM,
-							quesImg: obj.BI_PSP_Category__c === resources.MY_QUESTIONNAIRES,
-							pssImg: obj.BI_PSP_Category__c === resources.PSS_QUESTIONNAIRES,
-							qsqImg: obj.BI_PSP_Category__c === resources.QSQ_QUESTIONNAIRES,
-							wpaiImg: obj.BI_PSP_Category__c === resources.WPAI_QUESTIONNAIRES,
-							dlqiImg: obj.BI_PSP_Category__c === resources.DLQI_QUESTIONNAIRES,
-							contentsimg: obj.BI_PSP_Category__c === resources.NEW_CONTENT,
-							treatimg:
-							obj.BI_PSP_Category__c === resources.TREATMENT ||
-							obj.BI_PSP_Category__c === resources.DATE_OF_TREATMENT ||
-							obj.BI_PSP_Category__c === resources.TREATMENT_VIDEO ||
-							obj.BI_PSP_Category__c === resources.PRESCRIPTION,
-							challimg: obj.BI_PSP_Category__c === resources.CHALLENGES,
-							chatterImg: obj.BI_PSP_Category__c === resources.COMMUNITY,
-							FormattedDate: this.formatDate(obj.CreatedDate)
-						}));
-						if(this.historyRecords.length < 6){
-							this.showLoadMoreButton = false;
+							this.historyRecords = result.map((obj) => ({
+								...obj,
+								sympimg: obj.BI_PSP_Category__c === resources.SYMPTOM,
+								quesImg: obj.BI_PSP_Category__c === resources.MY_QUESTIONNAIRES,
+								pssImg: obj.BI_PSP_Category__c === resources.PSS_QUESTIONNAIRES,
+								qsqImg: obj.BI_PSP_Category__c === resources.QSQ_QUESTIONNAIRES,
+								wpaiImg: obj.BI_PSP_Category__c === resources.WPAI_QUESTIONNAIRES,
+								dlqiImg: obj.BI_PSP_Category__c === resources.DLQI_QUESTIONNAIRES,
+								contentsimg: obj.BI_PSP_Category__c === resources.NEW_CONTENT,
+								treatimg:
+								obj.BI_PSP_Category__c === resources.TREATMENT ||
+								obj.BI_PSP_Category__c === resources.DATE_OF_TREATMENT ||
+								obj.BI_PSP_Category__c === resources.TREATMENT_VIDEO ||
+								obj.BI_PSP_Category__c === resources.PRESCRIPTION_LABEL,
+								challimg: obj.BI_PSP_Category__c === resources.CHALLENGES,
+								chatterImg: obj.BI_PSP_Category__c === resources.COMMUNITY,
+								FormattedDate: this.formatDate(obj.CreatedDate)
+							}));
+							if(this.historyRecords.length < 6){
+								this.showLoadMoreButton = false;
+							}
 						}
-					}
-				})
-				.catch((errors) => {
-					this.showToast(resources.ERROR_MESSAGE, errors.message, resources.ERROR_VARIANT);
-				});
+					})
+					.catch(() => {
+						let globalThis=window;
+						globalThis.location.href = resources.ERROR_PAGE;    
+						globalThis.sessionStorage.setItem('errorMessage', resources.ERROR_FOR_HISTORY);
+					});
 	}
 	// Handle changes in notification category
 	handleCategoryChange(event) {
@@ -320,26 +336,28 @@ export default class BiPspbNotificationHistoryForm extends LightningElement {
 	}
 	// Fetch and process history data based on criteria
 	fetchAndProcessHistoryData(criteria) {
-		this.categoryType = criteria.category;
-		HISTORY_TASK({ enroleeId: this.accountName })
-			.then((result) => {
-				// Filter and map the result based on the criteria
-				this.historyRecords = result
-					.filter(notification => 
-						(!criteria.category || notification.BI_PSP_Category__c === criteria.category) &&
-						notification.BI_PSP_Notification_Type__c === criteria.type
-					)
-					.map(notification => ({
-						...notification,
-						...this.getMappingProperties(notification, criteria.mapProps),
-						FormattedDate: this.formatDate(notification.CreatedDate)
-					}));
-	
-				this.showLoadMoreButton = this.historyRecords.length >= 6;
-			})
-			.catch((errors) => {
-				this.showToast(resources.ERROR_MESSAGE, errors.message, resources.ERROR_VARIANT);
-			});
+			this.categoryType = criteria.category;
+			HISTORY_TASK({ enroleeId: this.accountName })
+				.then((result) => {
+					// Filter and map the result based on the criteria
+					this.historyRecords = result
+						.filter(notification => 
+							(!criteria.category || notification.BI_PSP_Category__c === criteria.category) &&
+							notification.BI_PSP_Notification_Type__c === criteria.type
+						)
+						.map(notification => ({
+							...notification,
+							...this.getMappingProperties(notification, criteria.mapProps),
+							FormattedDate: this.formatDate(notification.CreatedDate)
+						}));
+		
+					this.showLoadMoreButton = this.historyRecords.length >= 6;
+				})
+				.catch(() => {
+					let globalThis=window;
+					globalThis.location.href = resources.ERROR_PAGE;
+					globalThis.sessionStorage.setItem('errorMessage', resources.ERROR_FOR_HISTORY);
+				});
 	}
 	// Get mapping properties for notifications
 	getMappingProperties(notification, mapProps) {
@@ -367,8 +385,8 @@ export default class BiPspbNotificationHistoryForm extends LightningElement {
 					mapProps: {
 						sympimg: resources.SYMPTOM,
 						contentsimg: resources.NEW_CONTENT,
-						treatimg: [resources.TREATMENT , resources.PRESCRIPTION , resources.DATE_OF_TREATMENT],
-						pssImg: [resources.MY_QUESTIONNAIRES, resources.PSS, resources.QSQ, resources.WPAI, resources.DLQI]
+						treatimg: [resources.TREATMENT , resources.PRESCRIPTION_LABEL , resources.DATE_OF_TREATMENT],
+						pssImg: [resources.MY_QUESTIONNAIRES, resources.PSS_QUESTIONNAIRES, resources.QSQ_QUESTIONNAIRES, resources.WPAI_QUESTIONNAIRES, resources.DLQI_QUESTIONNAIRES]
 					}
 				};
 			case resources.SYMPTOM:
@@ -387,13 +405,13 @@ export default class BiPspbNotificationHistoryForm extends LightningElement {
 				return { 
 					type: resources.ACTION,
 					category: resources.PRESCRIPTION_LABEL,
-					mapProps: { treatimg: resources.PRESCRIPTION }
+					mapProps: { treatimg: resources.PRESCRIPTION_LABEL }
 				};
 			case resources.MY_QUESTIONNAIRES:
 				return { 
 					type: resources.ACTION, 
-					category: [resources.MY_QUESTIONNAIRES, resources.PSS, resources.QSQ, resources.WPAI, resources.DLQI], 
-					mapProps: { pssImg: [resources.MY_QUESTIONNAIRES, resources.PSS, resources.QSQ, resources.WPAI, resources.DLQI] }
+					category: [resources.MY_QUESTIONNAIRES, resources.PSS_QUESTIONNAIRES, resources.QSQ_QUESTIONNAIRES, resources.WPAI_QUESTIONNAIRES, resources.DLQI_QUESTIONNAIRES], 
+					mapProps: { pssImg: [resources.MY_QUESTIONNAIRES, resources.PSS_QUESTIONNAIRES, resources.QSQ_QUESTIONNAIRES, resources.WPAI_QUESTIONNAIRES, resources.DLQI_QUESTIONNAIRES] }
 				};
 			default:
 				return { 
@@ -405,7 +423,7 @@ export default class BiPspbNotificationHistoryForm extends LightningElement {
 	}
 	// Fetch and process history data based on criteria for action notification
 	fetchAndProcessHistoryAction(criteria) {
-		HISTORY_TASK({ enroleeId: this.accountName })
+			HISTORY_TASK({ enroleeId: this.accountName })
 			.then((result) => {
 				this.historyRecords = result
 					.filter(notification => 
@@ -422,8 +440,10 @@ export default class BiPspbNotificationHistoryForm extends LightningElement {
 					}));
 				this.showLoadMoreButton = this.historyRecords.length >= 6;
 			})
-			.catch((errors) => {
-				this.showToast(resources.ERROR_MESSAGE, errors.message, resources.ERROR_VARIANT);
+			.catch(() => {
+				let globalThis=window;
+				globalThis.location.href = resources.ERROR_PAGE;
+				globalThis.sessionStorage.setItem('errorMessage', resources.ERROR_FOR_HISTORY);
 			});
 	}
 	// Get mapping properties for action notifications
@@ -546,19 +566,50 @@ export default class BiPspbNotificationHistoryForm extends LightningElement {
 				};
 		}
 	}
-	// Fetch all the action and filter it by status
-	getHistoryStatusAction(statusValue, categoryType) {
+	// Fetches all the action and filter it by status
+	getHistoryStatusAction(statusValue, categoryType) {		
+		let treatimg = [resources.TREATMENT, resources.PRESCRIPTION_LABEL];
+		// Adding resources.DATE_OF_TREATMENT if the categoryType is Treatment
+		if (categoryType === 'Treatment') {
+			treatimg.push(resources.DATE_OF_TREATMENT);
+		}
+		// Defining the pssImg array
+		let pssImg = [resources.MY_QUESTIONNAIRES];
+		// Adding additional questionnaire types if the categoryType is MY_QUESTIONNAIRES
+		if (categoryType === resources.MY_QUESTIONNAIRES) {
+			pssImg.push(
+				resources.PSS_QUESTIONNAIRES, 
+				resources.QSQ_QUESTIONNAIRES, 
+				resources.WPAI_QUESTIONNAIRES, 
+				resources.DLQI_QUESTIONNAIRES
+			);
+		}
+		// Adding categoryType to the category array
+		let categoryArray = [categoryType];
+		// Adding resources.DATE_OF_TREATMENT if categoryType is Treatment
+		if (categoryType === 'Treatment') {
+			categoryArray.push(resources.DATE_OF_TREATMENT);
+		}
+		// Add additional questionnaire types if categoryType is MY_QUESTIONNAIRES
+		if (categoryType === resources.MY_QUESTIONNAIRES) {
+			categoryArray.push(
+				resources.PSS_QUESTIONNAIRES, 
+				resources.QSQ_QUESTIONNAIRES, 
+				resources.WPAI_QUESTIONNAIRES, 
+				resources.DLQI_QUESTIONNAIRES
+			);
+		}
 		switch (statusValue) {
 			case resources.ALL:
 				return {
 					type: resources.ACTION,
 					status: resources.ALL, 
-					category: categoryType, 
+					category: categoryArray,
 					mapProps: {
 						sympimg: resources.SYMPTOM,
 						contentsimg: resources.NEW_CONTENT,
-						treatimg: [resources.TREATMENT, resources.PRESCRIPTION],
-						pssImg: [resources.MY_QUESTIONNAIRES, resources.PSS, resources.QSQ, resources.WPAI, resources.DLQI]
+						treatimg: treatimg,
+						pssImg: pssImg
 					}
 				};
 			case resources.STATUS_EXPIRED:
@@ -566,12 +617,12 @@ export default class BiPspbNotificationHistoryForm extends LightningElement {
 				return {
 					type: resources.ACTION,
 					status: statusValue,
-					category: categoryType,
+					category: categoryArray,
 					mapProps: {
 						sympimg: resources.SYMPTOM,
 						contentsimg: resources.NEW_CONTENT,
-						treatimg: [resources.TREATMENT, resources.PRESCRIPTION],
-						pssImg: [resources.MY_QUESTIONNAIRES, resources.PSS, resources.QSQ, resources.WPAI, resources.DLQI]
+						treatimg: treatimg,
+						pssImg: pssImg
 					}
 				};
 			default:
@@ -584,7 +635,7 @@ export default class BiPspbNotificationHistoryForm extends LightningElement {
 		}
 	}
 	// Filtering the history data based on status
-	fetchAndProcessStatusHistory(criteria) {	
+	fetchAndProcessStatusHistory(criteria) {
 		HISTORY_TASK({ enroleeId: this.accountName })
 			.then((result) => {
 				this.historyRecords = result.filter(notification => {
@@ -608,17 +659,19 @@ export default class BiPspbNotificationHistoryForm extends LightningElement {
 				this.showLoadMoreButton = this.historyRecords.length >= 6;
 				this.hasNoRecords = this.historyRecords.length === 0;
 			})
-			.catch((errors) => {
-				this.showToast(resources.ERROR_MESSAGE, errors.message, resources.ERROR_VARIANT);
+			.catch(() => {
+				let globalThis=window;
+				globalThis.location.href = resources.ERROR_PAGE;
+				globalThis.sessionStorage.setItem('errorMessage', resources.ERROR_FOR_HISTORY);
 			});
-	}	
+	}
 	// Mapping notification and contents to display
 	getMappingPropertiesHistory(notification, mapProps) {
 		return {
 			sympimg: notification.BI_PSP_Category__c === mapProps.sympimg,
 			contentsimg: notification.BI_PSP_Category__c === mapProps.contentsimg,
-			treatimg: Array.isArray(mapProps.treatimg) 
-				? mapProps.treatimg.includes(notification.BI_PSP_Category__c) 
+			treatimg: Array.isArray(mapProps.treatimg)
+				? mapProps.treatimg.includes(notification.BI_PSP_Category__c)
 				: notification.BI_PSP_Category__c === mapProps.treatimg,
 			challimg: notification.BI_PSP_Category__c === mapProps.challimg,
 			chatterImg: notification.BI_PSP_Category__c === mapProps.chatterImg,
@@ -626,16 +679,5 @@ export default class BiPspbNotificationHistoryForm extends LightningElement {
 				? mapProps.pssImg.includes(notification.BI_PSP_Category__c) 
 				: notification.BI_PSP_Category__c === mapProps.pssImg
 		};
-	}
-	//This ShowToast message is used for get error
-	showToast(title, message, variant) {
-		if (typeof window !== 'undefined') {
-			const event = new ShowToastEvent({
-				title: title,
-				message: message,
-				variant: variant
-			});
-			this.dispatchEvent(event);
-		}
 	}
 }

@@ -19,91 +19,7 @@ import STATES from "@salesforce/apex/BI_PSPB_EnrollmentUtilities.getStates";
 
 import { resource } from 'c/biPspbEnrollmentFormResource';
 
-import FIELD_WIDTH from '@salesforce/label/c.BI_PSPB_FieldWith';
-import ARE_MANDOTORY from '@salesforce/label/c.BI_PSPB_AreMandatory';
-import PATIENT_ENROLL from '@salesforce/label/c.BI_PSPB_PatientEnrollHead';
-import PATIENT_INFO from '@salesforce/label/c.BI_PSPB_PatientInformation';
-import FIRST_NAME_LABEL from '@salesforce/label/c.BI_PSPB_FirstNameLabel';
-import FIRSTNAME_VALIDE from '@salesforce/label/c.BI_PSPB_ValidFirstNameErrMsg';
-import LASTNAME_VALIDE from '@salesforce/label/c.BI_PSPB_ValidLastNameErrMsg';
-import LASTNAME_LABEL from '@salesforce/label/c.BI_PSPB_LastNameLabel';
-import DOB_LABEL from '@salesforce/label/c.BI_PSPB_DobLabel';
-import BEFORE_EIGHTINE from '@salesforce/label/c.BI_PSPB_PatientLastMsgOne';
-import YEAR_OLDER from '@salesforce/label/c.BI_PSPB_YearOlderErrMsg';
-import GENDER_LABEL from '@salesforce/label/c.BI_PSPB_Gender';
-import EMAIL_LABEL_STAR from '@salesforce/label/c.BI_PSPB_EmailLabel';
-import VALIDE_EMAIL from '@salesforce/label/c.BI_PSPB_ValidEmail';
-import EXISTING_EMAIL from '@salesforce/label/c.BI_PSPB_AlreadyExistEmail';
-import CANCEL from '@salesforce/label/c.BI_PSP_CancelButton';
-import NEXT from '@salesforce/label/c.BI_PSPB_Next';
-import PHYSICIAN_DETAILS from '@salesforce/label/c.BI_PSPB_PhysicianDetailsErrMsg';
-import NUM_TWO from '@salesforce/label/c.BI_PSPB_NumTwo';
-import NUM_ONE from '@salesforce/label/c.BI_PSPB_NumOne';
-import PHYSICIAN_INFO from '@salesforce/label/c.BI_PSPB_PhysicianInformation';
-import PHYSICIAN_INFO_MANDOTORY from '@salesforce/label/c.BI_PSPB_PhysicianInfoMandatory';
-import ACCESS_CODE_MSG from '@salesforce/label/c.BI_PSPB_AccessCodeMsg';
-import HCP_ACCESS_CODE from '@salesforce/label/c.BI_PSPB_HcpAccessCode';
-import YES_VALUE from '@salesforce/label/c.BI_PSPB_Yes';
-import NO_VALUE from '@salesforce/label/c.BI_PSP_OptionValueNo';
-import SEARCH_PHYSICIAN from '@salesforce/label/c.BI_PSPB_SearchPhysician';
-import PHYSICIAN_INFO_VALID from '@salesforce/label/c.BI_PSPB_PhysicianInfoValid';
-import UNABLE_TO_FIND from '@salesforce/label/c.BI_PSPB_UnableToFind';
-import ACCESS_CODE from '@salesforce/label/c.BI_PSPB_AccessCode';
-import VALID_ACCESS_CODE from '@salesforce/label/c.BI_PSPB_ValidAccessCode';
-import ACCESS_CODE_KIT from '@salesforce/label/c.BI_PSPB_AccessCodeKit';
-import ADD_PHYSICIAN from '@salesforce/label/c.BI_PSPB_AddPhysician';
-import CONTACT_INFO from '@salesforce/label/c.BI_PSPB_ContactInformation';
-import PHONE_NUM from '@salesforce/label/c.BI_PSPB_PhoneNumberLabel';
-import PHONE_NUM_MANDOTORY from '@salesforce/label/c.BI_PSPB_PhoneNumberMandatory';
-import VALID_PHONE from '@salesforce/label/c.BI_PSPB_PhysicianPhoneErrMsg';
-import OR from '@salesforce/label/c.BI_PSPB_Or';
-import EMAIL_LABEL from '@salesforce/label/c.BI_PSP_NotificationEmail';
-import ADDRESS_LINE from '@salesforce/label/c.BI_PSPB_AddressLine';
-import ADDRESS_LINE_REQUIRED from '@salesforce/label/c.BI_PSPB_AddressLineRequired';
-import PREVIOS from '@salesforce/label/c.BI_PSPB_Previous';
-import NUM_FOUR from '@salesforce/label/c.BI_PSPB_NumFour';
-import NUM_THREE from '@salesforce/label/c.BI_PSPB_NumThree';
-import PMC_LABEL from '@salesforce/label/c.BI_PSPB_PrefferedLabel';
-import COUNTRY_LABEL from '@salesforce/label/c.BI_PSPB_CountryLabel';
-import STATE_LABEL from '@salesforce/label/c.BI_PSPB_StateLabel';
-import STREET_LABEL from '@salesforce/label/c.BI_PSPB_StreetAddress';
-import ZIP_CODE_LABEL from '@salesforce/label/c.BI_PSPB_ZipCodelabel';
-import VALID_ZIP_CODE from '@salesforce/label/c.BI_PSPB_CaregiverValidPinCodeErrMsg';
-import CITY_LABEL from '@salesforce/label/c.BI_PSPB_CityLabel';
-import VALID_CITY from '@salesforce/label/c.BI_PSPB_ValidCityMsg';
-import CITYLABEL from '@salesforce/label/c.BI_PSPB_City';
-import CONSENT_INFO from '@salesforce/label/c.BI_PSPB_ConsentInformation';
-import TERMS from '@salesforce/label/c.BI_PSPB_Terms';
-import AGREE from '@salesforce/label/c.BI_PSPB_Agree';
-import CONDITION from '@salesforce/label/c.BI_PSPB_Conditions';
-import AGREE_MSG from '@salesforce/label/c.BI_PSPB_AgreeErrMsg';
-import TERMS_AND_CONDITION from '@salesforce/label/c.BI_PSPB_TermsAndCondition';
-import SUBMIT from '@salesforce/label/c.BI_PSP_ButtonSubmit';
-import PROGRESS_LABEL from '@salesforce/label/c.BI_PSPB_ProgressLabel';
-import ACCOUNT_EXIST from '@salesforce/label/c.BI_PSPB_AccountExist';
-import ACCOUNT_EXIST_MSG from '@salesforce/label/c.BI_PSPB_AccountExistMsg';
-import GO_TO_LOGIN from '@salesforce/label/c.BI_PSPB_GoToLogin';
-import CONTENT_ONE from '@salesforce/label/c.BI_PSPB_ContentOne';
-import CONTENT_TWO from '@salesforce/label/c.BI_PSPB_ContentTwo';
-import CONTENT_THREE from '@salesforce/label/c.BI_PSPB_ContentThree';
-import CONTENT_FOUR from '@salesforce/label/c.BI_PSPB_ContentFour';
-import CONTENT_FIVE from '@salesforce/label/c.BI_PSPB_ContentFive';
-import CONTENT_SIX from '@salesforce/label/c.BI_PSPB_ContentSix';
-import PLACE_FIRST from '@salesforce/label/c.BI_PSPB_EnterFirstName';
-import PLACE_LAST from '@salesforce/label/c.BI_PSPB_EnterLastName';
-import PLACE_DOB from '@salesforce/label/c.BI_PSPB_DobPlaceHolder';
-import PLACE_SELECT from '@salesforce/label/c.BI_PSP_Select';
-import PLACE_EMAIL from '@salesforce/label/c.BI_PSPB_EnterEmail';
-import PLACE_PHYSICIAN from '@salesforce/label/c.BI_PSPB_EnterPhysicianName';
-import PLACE_ACCESS from '@salesforce/label/c.BI_PSPB_EnterAccessCode';
-import PLACE_PHONE from '@salesforce/label/c.BI_PSPB_EnterPhoneNumber';
-import PLACE_ADDRESS from '@salesforce/label/c.BI_PSPB_EnterAdress';
-import PLACE_COUNTRY from '@salesforce/label/c.BI_PSPB_SelectCountry';
-import PLACE_STATE from '@salesforce/label/c.BI_PSPB_SelectState';
-import PLACE_CITY from '@salesforce/label/c.BI_PSPB_EnterCity';
-import PLACE_STREET from '@salesforce/label/c.BI_PSPB_EnterStreet';
-import PLACE_ZIPCODE from '@salesforce/label/c.BI_PSPB_EnterZipCode';
-import LEAD from '@salesforce/label/c.BI_PSPB_Lead';
+
 // Imports scheme to define structured data exchange protocol within component for consistency and interoperability.
 
 
@@ -117,91 +33,90 @@ export default class BiPspbPatientEnrollmentForm extends NavigationMixin(
 	get selectedValues() {
 		return this.selectedSearchResult ? this.selectedSearchResult.label : null;
 	}
-	placeFirst = PLACE_FIRST;
-	placeLast = PLACE_LAST;
-	placeDob = PLACE_DOB;
-	placeSelect = PLACE_SELECT;
-	placeEmail = PLACE_EMAIL;
-	placePhysician = PLACE_PHYSICIAN;
-	placeAccess = PLACE_ACCESS;
-	placePhone = PLACE_PHONE;
-	placeAddress = PLACE_ADDRESS;
-	placeCountry = PLACE_COUNTRY;
-	placeCity = PLACE_CITY;
-	placeState = PLACE_STATE;
-	placeStreet = PLACE_STREET;
-	placeZip = PLACE_ZIPCODE;
-	contentSix = CONTENT_SIX;
-	contentOne = CONTENT_ONE;
-	contentTwo = CONTENT_TWO;
-	contentThree = CONTENT_THREE;
-	contentFour = CONTENT_FOUR;
-	contentFive = CONTENT_FIVE;
-	consentInfo = CONSENT_INFO;
+	placeFirst = resource.PLACE_FIRST;
+	placeLast = resource.PLACE_LAST;
+	placeDob = resource.PLACE_DOB;
+	placeSelect = resource.PLACE_SELECT;
+	placeEmail = resource.PLACE_EMAIL;
+	placePhysician = resource.PLACE_PHYSICIAN;
+	placeAccess = resource.PLACE_ACCESS;
+	placePhone = resource.PLACE_PHONE;
+	placeAddress = resource.PLACE_ADDRESS;
+	placeCountry = resource.PLACE_COUNTRY;
+	placeCity = resource.PLACE_CITY;
+	placeState = resource.PLACE_STATE;
+	placeStreet = resource.PLACE_STREET;
+	placeZip = resource.PLACE_ZIPCODE;
+	contentSix = resource.CONTENT_SIX;
+	contentOne = resource.CONTENT_ONE;
+	contentTwo = resource.CONTENT_TWO;
+	contentThree = resource.CONTENT_THREE;
+	contentFour = resource.CONTENT_FOUR;
+	contentFive = resource.CONTENT_FIVE;
+	consentInfo = resource.CONSENT_INFO;
 
-terms = TERMS;
-agree = AGREE;
-condition = CONDITION;
-agreeMsg = AGREE_MSG;
-termsAndCondition = TERMS_AND_CONDITION;
-submit = SUBMIT;
-progressLabel = PROGRESS_LABEL;
-accountExit = ACCOUNT_EXIST;
-accountExistMsg = ACCOUNT_EXIST_MSG;
-goToLogin = GO_TO_LOGIN;
-	labelCity = CITYLABEL;
-fieldWidth = FIELD_WIDTH;
-areMandotory = ARE_MANDOTORY ;
-patientEnrollHead = PATIENT_ENROLL;
-patientinfo = PATIENT_INFO ;
-firstNameLabel = FIRST_NAME_LABEL ;
-firstNameValid = FIRSTNAME_VALIDE ;
-lastNameValid = LASTNAME_VALIDE ;
-lastNameLabel = LASTNAME_LABEL ;
-dobLabel = DOB_LABEL;
-beforeAge = BEFORE_EIGHTINE ;
-yearOlder = YEAR_OLDER ;
-generalLabel = GENDER_LABEL;
-emailLabelMand = EMAIL_LABEL_STAR ;
-validEmail = VALIDE_EMAIL ;
-existingEmail = EXISTING_EMAIL ;
-cancelLabel = CANCEL ;
-nextLabel = NEXT ;
-physicianDetails = PHYSICIAN_DETAILS ;
-numTwo = NUM_TWO;
-numOne = NUM_ONE;
-physicianInfo = PHYSICIAN_INFO ;
-physicianInfoMand = PHYSICIAN_INFO_MANDOTORY ;
-accessCodeMsg = ACCESS_CODE_MSG;
-hcpAccessCode = HCP_ACCESS_CODE ;
-yesValue = YES_VALUE ;
-noValue = NO_VALUE ;
-searchPhysician = SEARCH_PHYSICIAN ;
-physicainInfoValid = PHYSICIAN_INFO_VALID ;
-unableToFind = UNABLE_TO_FIND ;
-accessCodeLabel = ACCESS_CODE ;
-validAccessCode = VALID_ACCESS_CODE ;
-accessCodeKit = ACCESS_CODE_KIT ;
-addPhysician = ADD_PHYSICIAN ;
-contactInfo = CONTACT_INFO ;
-phoneNum = PHONE_NUM ;
-phoneNumMandotory = PHONE_NUM_MANDOTORY;
-validPhone = VALID_PHONE ;
-or = OR ;
-emailLabel = EMAIL_LABEL ;
-addressLineLabel = ADDRESS_LINE ;
-addressLineRequired = ADDRESS_LINE_REQUIRED ;
-previousValue = PREVIOS ;
-numFour = NUM_FOUR ;
-numThree = NUM_THREE ;
-pmcLabel = PMC_LABEL ;
-countryLabel = COUNTRY_LABEL;
-stateLabel = STATE_LABEL ;
-streetLabel = STREET_LABEL ;
-zipCodeValue = ZIP_CODE_LABEL ;
-validZipCode = VALID_ZIP_CODE ;
-cityLabel = CITY_LABEL ;
-validCity = VALID_CITY ;
+terms = resource.TERMS;
+agree = resource.AGREE;
+condition = resource.CONDITION;
+agreeMsg = resource.AGREE_MSG;
+submit = resource.SUBMIT;
+progressLabel = resource.PROGRESS_LABEL;
+accountExit = resource.ACCOUNT_EXIST;
+accountExistMsg = resource.ACCOUNT_EXIST_MSG;
+goToLogin = resource.GO_TO_LOGIN;
+	labelCity = resource.CITYLABEL;
+fieldWidth = resource.FIELD_WIDTH;
+areMandotory = resource.ARE_MANDOTORY ;
+patientEnrollHead = resource.PATIENT_ENROLL;
+patientinfo = resource.PATIENT_INFO ;
+firstNameLabel = resource.FIRST_NAME_LABEL ;
+firstNameValid = resource.FIRSTNAME_VALIDE ;
+lastNameValid = resource.LASTNAME_VALIDE ;
+lastNameLabel = resource.LASTNAME_LABEL ;
+dobLabel = resource.DOB_LABEL;
+beforeAge = resource.BEFORE_EIGHTINE ;
+yearOlder = resource.YEAR_OLDER ;
+generalLabel = resource.GENDER_LABEL;
+emailLabelMand = resource.EMAIL_LABEL_STAR ;
+validEmail = resource.VALIDE_EMAIL ;
+existingEmail = resource.EXISTING_EMAIL ;
+cancelLabel = resource.CANCEL ;
+nextLabel = resource.NEXT ;
+physicianDetails = resource.PHYSICIAN_DETAILS ;
+numTwo = resource.NUM_TWO;
+numOne = resource.NUM_ONE;
+physicianInfo = resource.PHYSICIAN_INFO ;
+physicianInfoMand = resource.PHYSICIAN_INFO_MANDOTORY ;
+accessCodeMsg = resource.ACCESS_CODE_MSG;
+hcpAccessCode = resource.HCP_ACCESS_CODE ;
+yesValue = resource.YES_VALUE ;
+noValue = resource.NO_VALUE ;
+searchPhysician = resource.SEARCH_PHYSICIAN ;
+physicainInfoValid = resource.PHYSICIAN_INFO_VALID ;
+unableToFind = resource.UNABLE_TO_FIND ;
+accessCodeLabel = resource.ACCESS_CODE ;
+validAccessCode = resource.VALID_ACCESS_CODE ;
+accessCodeKit = resource.ACCESS_CODE_KIT ;
+addPhysician = resource.ADD_PHYSICIAN ;
+contactInfo = resource.CONTACT_INFO ;
+phoneNum = resource.PHONE_NUM ;
+phoneNumMandotory = resource.PHONE_NUM_MANDOTORY;
+validPhone = resource.VALID_PHONE ;
+or = resource.OR ;
+emailLabel = resource.EMAIL_LABEL ;
+addressLineLabel = resource.ADDRESS_LINE ;
+addressLineRequired = resource.ADDRESS_LINE_REQUIRED ;
+previousValue = resource.PREVIOS ;
+numFour = resource.NUM_FOUR ;
+numThree = resource.NUM_THREE ;
+pmcLabel = resource.PMC_LABEL ;
+countryLabel = resource.COUNTRY_LABEL;
+stateLabel = resource.STATE_LABEL ;
+streetLabel = resource.STREET_LABEL ;
+zipCodeValue = resource.ZIP_CODE_LABEL ;
+validZipCode = resource.VALID_ZIP_CODE ;
+cityLabel = resource.CITY_LABEL ;
+validCity = resource.VALID_CITY ;
 	avatarContentTop = resource.P_AVATAR_MSG_ONE;
 	avatarContentMid = resource.P_AVATAR_MID_MSG_ONE;
 	avatarContentLast = resource.P_AVATAR_LAST_MSG_ONE;
@@ -362,7 +277,7 @@ validCity = VALID_CITY ;
 
 	// Fetches Lead object info and country picklist values, handles errors.
 
-	@wire(getObjectInfo, { objectApiName: LEAD })
+	@wire(getObjectInfo, { objectApiName: resource.LEAD_LABEL })
 	objectInfo;
 	@wire(COUNTRYS)
 	wiredCountries({ error, data }) {
@@ -415,7 +330,7 @@ validCity = VALID_CITY ;
 		this.showToast(resource.ERROR_MESSAGE, error.message, resource.ERROR_VARIANT);
 	}
 	// Call an Apex method to retrieve lead PicklistValues
-	@wire(getObjectInfo, { objectApiName: resource.LEAD })
+	@wire(getObjectInfo, { objectApiName: 'Lead' })
 	objectsInfo;
 	@wire(getPicklistValues, {
 		recordTypeId: "$objectInfo.data.defaultRecordTypeId",
@@ -483,7 +398,7 @@ validCity = VALID_CITY ;
 		const HCP_ACCESS_CODE_FIELD = this.template.querySelector(
 			'lightning-input[data-field="hcpaccesscode"]'
 		);
-		this.currentStep = "1";
+		this.currentStep = resource.ONE;
 		this.handleBackProgressBar(2, 1);
 		//To achieve the mobile responsiveness, the following strings are hard coded. Custom Labels can't be used, since they truncate the strings.
 		//To achieve mobile responsiveness, we are using innerHTML. However, when attempting to use textContent, it does not meet the design requirements
@@ -508,7 +423,7 @@ validCity = VALID_CITY ;
 		this.avatarContMid = true;
 	}
 	goBackToStepTwo() {
-		this.currentStep = "2";
+		this.currentStep = resource.TWO;
 		this.handleBackProgressBar(3, 2);
 		//To achieve the mobile responsiveness, the following strings are hard coded. Custom Labels can't be used, since they truncate the strings.
 		//To achieve mobile responsiveness, we are using innerHTML. However, when attempting to use textContent, it does not meet the design requirements
@@ -527,7 +442,7 @@ validCity = VALID_CITY ;
 		this.mobileViewSub = resource.P_AVATAR_MOB_MSG_SIX;
 	}
 	goBackToStepThree() {
-		this.currentStep = "3";
+		this.currentStep = resource.THREE;
 		this.handleBackProgressBar(4, 3);
 		//To achieve the mobile responsiveness, the following strings are hard coded. Custom Labels can't be used, since they truncate the strings.
 		//To achieve mobile responsiveness, we are using innerHTML. However, when attempting to use textContent, it does not meet the design requirements
@@ -541,7 +456,7 @@ validCity = VALID_CITY ;
 		this.AvatarMobConent();
 	}
 	goBackToStepThreeOne() {
-		this.currentStep = "2";
+		this.currentStep = resource.TWO;
 		this.handleBackProgressBar(4, 2);
 		//To achieve the mobile responsiveness, the following strings are hard coded. Custom Labels can't be used, since they truncate the strings.
 		//To achieve mobile responsiveness, we are using innerHTML. However, when attempting to use textContent, it does not meet the design requirements
@@ -555,30 +470,30 @@ validCity = VALID_CITY ;
 		this.AvatarMobConent();
 	}
 	goBackToStepOnes() {
-		this.currentStep = "1";
+		this.currentStep = resource.ONE;
 		this.template.querySelector("div.stepFour").classList.add("slds-hide");
 		this.template.querySelector("div.stepOne").classList.remove("slds-hide");
 	}
 	goBackToStepFour() {
-		this.currentStep = "4";
+		this.currentStep = resource.FOUR;
 		this.template.querySelector("div.stepFive").classList.add("slds-hide");
 		this.template.querySelector("div.stepFour").classList.remove("slds-hide");
 	}
-	goBackToStepFive() {
-		this.currentStep = "5";
-		this.template.querySelector("div.stepSix").classList.add("slds-hide");
-		this.template.querySelector("div.stepFive").classList.remove("slds-hide");
-	}
-	goBackToStepSix() {
-		this.currentStep = "6";
-		this.template.querySelector("div.stepSeven").classList.add("slds-hide");
-		this.template.querySelector("div.stepSix").classList.remove("slds-hide");
-	}
-	goBackToStepSeven() {
-		this.currentStep = "7";
-		this.template.querySelector("div.stepEight").classList.add("slds-hide");
-		this.template.querySelector("div.stepSeven").classList.remove("slds-hide");
-	}
+	// goBackToStepFive() {
+	// 	this.currentStep = "5";
+	// 	this.template.querySelector("div.stepSix").classList.add("slds-hide");
+	// 	this.template.querySelector("div.stepFive").classList.remove("slds-hide");
+	// }
+	// goBackToStepSix() {
+	// 	this.currentStep = "6";
+	// 	this.template.querySelector("div.stepSeven").classList.add("slds-hide");
+	// 	this.template.querySelector("div.stepSix").classList.remove("slds-hide");
+	// }
+	// goBackToStepSeven() {
+	// 	this.currentStep = "7";
+	// 	this.template.querySelector("div.stepEight").classList.add("slds-hide");
+	// 	this.template.querySelector("div.stepSeven").classList.remove("slds-hide");
+	// }
 
 	handleProgressBar(from, to) {
 		this.template
@@ -622,7 +537,7 @@ validCity = VALID_CITY ;
 		this.isUnbranded = false;
 		this.matchEmail = false;
 		this.handleProgressBar(1, 2);
-		this.currentStep = "2";
+		this.currentStep = resource.TWO;
 		//To achieve the mobile responsiveness, the following strings are hard coded. Custom Labels can't be used, since they truncate the strings.
 		//To achieve mobile responsiveness, we are using innerHTML. However, when attempting to use textContent, it does not meet the design requirements
 		this.AvatarConentTwo();
@@ -713,7 +628,7 @@ validCity = VALID_CITY ;
 				}
 
 				if (success) {
-					this.currentStep = "4";
+					this.currentStep = resource.FOUR;
 					this.handleProgressBar(2, 4);
 					this.avatarContentTop = resource.P_AVATAR_MSG_FOUR;
 					this.avatarContentMid = ``;
@@ -1148,7 +1063,7 @@ validCity = VALID_CITY ;
 	// }
 
 	showToast(title, message, variant) {
-		if (typeof window !== "undefined") {
+		if (typeof window !== resource.UNDIFINED) {
 			const event = new ShowToastEvent({
 				title: title,
 				message: message,
@@ -1723,12 +1638,12 @@ validCity = VALID_CITY ;
 		);
 		regForm.submit();
 		this.popUpClass = "popup-hidden";
-		if (typeof window !== "undefined") {
+		if (typeof window !== resource.UNDIFINED) {
 			this.dispatchEvent(
 				new ShowToastEvent({
-					title: "New Practitioner Submitted",
-					message: "You have successfully Submitted!",
-					variant: "success"
+					title: resource.NEWPRACTITIONER,
+					message: resource.SUBMIT_SUCCESS,
+					variant: resource.LOGIN_SUCCESS
 				})
 			);
 		}
@@ -1859,12 +1774,12 @@ validCity = VALID_CITY ;
 		this.selectedSearchResult = this.picklistOrdered.find(
 			(picklistOption) => picklistOption.value === SELECTED_VALUE
 		);
-		const MESSAGE_EVENT = new CustomEvent("change", {
+		const MESSAGE_EVENT = new CustomEvent(resource.CHANGE, {
 			detail: {
 				SELECTED_VALUE: this.SELECTED_VALUE
 			}
 		});
-		if (typeof window !== "undefined") {
+		if (typeof window !== resource.UNDIFINED) {
 			this.dispatchEvent(MESSAGE_EVENT);
 			this.clearSearchResults();
 		}
@@ -1883,13 +1798,13 @@ validCity = VALID_CITY ;
 			(picklistOption1) => picklistOption1.value === SELECTED_VALUE_ONE
 		);
 
-		const MESSAGE_EVENT = new CustomEvent("changes", {
+		const MESSAGE_EVENT = new CustomEvent(resource.CHANGE, {
 			detail: {
 				SELECTED_VALUE_ONE: SELECTED_VALUE_ONE
 			}
 		});
 		this.addNewHcpSectionClass = "addNewHcpSection-disable";
-		if (typeof window !== "undefined") {
+		if (typeof window !== resource.UNDIFINED) {
 			this.dispatchEvent(MESSAGE_EVENT);
 			this.clearSearchResultsOne();
 		}

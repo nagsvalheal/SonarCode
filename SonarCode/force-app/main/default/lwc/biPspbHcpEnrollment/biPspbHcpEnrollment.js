@@ -1632,16 +1632,18 @@ handleFutureDate() {
 }
 
 handleValidDate(SELECTED_DATE_OBJ, CURRENT_DATE) {
-    this.resetFieldStyles();
+    
     const AGE = this.calculateAge(SELECTED_DATE_OBJ, CURRENT_DATE);
     if (AGE >= resource.Minorvalue && this.leadFields.dob) {
         this.isAdult = true;
         this.oneNineZeroZeroErrors = false;
+		this.resetFieldStyles();
     } else {
         this.isAdult = false;
         this.unique = false;
         this.leadFields.Email = '';
         this.oneNineZeroZeroErrors = false;
+		this.resetFieldStyles();
     }
 }
 

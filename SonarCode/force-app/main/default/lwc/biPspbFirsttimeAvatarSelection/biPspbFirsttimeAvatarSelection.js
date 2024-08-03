@@ -16,6 +16,8 @@ export default class BiPspbFirsttimeAvatarSelection extends LightningElement {
 	showSpinner = false;
 	loginValue;
 	loggedPatient;
+	chooseAvatar = label.CHOOSE_AVATAR;
+	next = label.Next;
 	@track imageClass = [
 		{ avatarclass: 'avatar', avatarname: 'avatarName', image: label.ADULT_AFRO_MAN, dataid: 1 },
 		{ avatarclass: 'avatar', avatarname: 'avatarName', image: label.ADULT_AFRO_WOMAN, dataid: 2 },

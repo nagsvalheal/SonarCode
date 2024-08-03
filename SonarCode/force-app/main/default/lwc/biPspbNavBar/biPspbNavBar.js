@@ -312,7 +312,7 @@ export default class BiPspbNavBar extends LightningElement {
 								}
 							})
 							.catch(error => {
-								globalThis.sessionStorage.setItem('errorMessage',error.body.message);
+								globalThis.sessionStorage.setItem('errorMessage',error);
 								globalThis.location?.assign(this.baseUrl + this.siteUrlBranded + this.displayErrorPage);
 							})
 					})
@@ -472,7 +472,7 @@ export default class BiPspbNavBar extends LightningElement {
 
 	openCommunity() {
 		let globalThis = window;
-		try{
+		
 			CHECK_COMMUNITY_USERNAME()
 				.then((result) => {// Null check for user record has been handled in its respective apex method.
 					if (result === true) {
@@ -486,12 +486,7 @@ export default class BiPspbNavBar extends LightningElement {
 					globalThis.sessionStorage.setItem('errorMessage',error.body.message);
 					globalThis.location?.assign(this.baseUrl + this.siteUrlBranded + this.displayErrorPage);
 				})
-		}
-		catch (err) {
-			//navigate to error page
-			globalThis.sessionStorage.setItem('errorMessage',err.body.message);
-			globalThis.location?.assign(this.baseUrl + this.siteUrlBranded + this.displayErrorPage);
-		}
+		
 	}
 	//Navigation for Caregiver/Patient
 
@@ -708,7 +703,7 @@ export default class BiPspbNavBar extends LightningElement {
 
 	openAllPosts() {
 		let globalThis = window;
-		try{
+		
 			CHECK_COMMUNITY_USERNAME()
 				.then((result) => {// Null check for user record has been handled in its respective apex method.
 					if (result === true) {
@@ -722,17 +717,12 @@ export default class BiPspbNavBar extends LightningElement {
 					globalThis.sessionStorage.setItem('errorMessage',error.body.message);
 					globalThis.location?.assign(this.baseUrl + this.siteUrlBranded + this.displayErrorPage);
 				});
-		}
-		catch (err) {
-			//navigate to error page
-			globalThis.sessionStorage.setItem('errorMessage',err.body.message);
-			globalThis.location?.assign(this.baseUrl + this.siteUrlBranded + this.displayErrorPage);
-		}
+		
 	}
 
 	openMyPosts() {
 		let globalThis = window;
-		try{
+		
 			CHECK_COMMUNITY_USERNAME()
 				.then((result) => {// Null check for user record has been handled in its respective apex method.
 					if (result === true) {
@@ -746,17 +736,12 @@ export default class BiPspbNavBar extends LightningElement {
 					globalThis.sessionStorage.setItem('errorMessage',error.body.message);
 					globalThis.location?.assign(this.baseUrl + this.siteUrlBranded + this.displayErrorPage);
 				});
-		}
-		catch (error) {
-			//navigate to error page
-			globalThis.sessionStorage.setItem('errorMessage',error.body.message);
-			globalThis.location?.assign(this.baseUrl + this.siteUrlBranded + this.displayErrorPage);
-		}
+		
 	}
 
 	openMyFollowers() {
 		let globalThis = window;
-		try{
+		
 			CHECK_COMMUNITY_USERNAME()
 				.then((result) => {// Null check for user record has been handled in its respective apex method.
 					if (result === true) {
@@ -770,17 +755,12 @@ export default class BiPspbNavBar extends LightningElement {
 					globalThis.sessionStorage.setItem('errorMessage',error.body.message);
 					globalThis.location?.assign(this.baseUrl + this.siteUrlBranded + this.displayErrorPage);
 				});
-		}
-		catch (error) {
-			//navigate to error page
-			globalThis.sessionStorage.setItem('errorMessage',error.body.message);
-			globalThis.location?.assign(this.baseUrl + this.siteUrlBranded + this.displayErrorPage);
-		}
+		
 	}
 
 	openFollowing() {
 		let globalThis = window;
-		try{
+		
 			CHECK_COMMUNITY_USERNAME()
 				.then((result) => {// Null check for user record has been handled in its respective apex method.
 					if (result === true) {
@@ -794,12 +774,7 @@ export default class BiPspbNavBar extends LightningElement {
 					globalThis.sessionStorage.setItem('errorMessage',error.body.message);
 					globalThis.location?.assign(this.baseUrl + this.siteUrlBranded + this.displayErrorPage);
 				});
-		}
-		catch (err) {
-			//navigate to error page
-			globalThis.sessionStorage.setItem('errorMessage',err.body.message);
-			globalThis.location?.assign(this.baseUrl + this.siteUrlBranded + this.displayErrorPage);
-		}
+		
 	}
 	/*showQuestionnaireMenu links*/
 

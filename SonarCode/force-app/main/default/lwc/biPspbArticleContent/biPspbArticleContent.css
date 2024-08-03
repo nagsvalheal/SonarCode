@@ -278,13 +278,11 @@ li {
 }
 
 .minstag {
-	/* margin-left: 88%;
-	margin-top: -38px; */
 	margin-left: auto;
     float: inline-end;
 }
 
-/*   ++++++++++++++++++ Spinner for loading ++++++++++++++++++++++++++++++++++++ */
+/* Spinner for loading  */
 .spinner-wrapper {
 	position: fixed;
 	top: 0;

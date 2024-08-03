@@ -10,11 +10,18 @@ Version    Author      Date              Detail         Description
  
 */
 public without sharing class BI_PSP_LastActiveChallengesCtrl {
- /*
-    @description Method to retrieve the last active challenge for a given enrollee.
-    @param enrolleId The ID of the enrollee for whom to retrieve the last active challenge.
-    @return HealthCloudGA__CarePlanTemplate__c The last active challenge.
-    */
+ /**
+ * @description Retrieves the last active challenges associated with the given enrollee ID.
+ * This method returns a `HealthCloudGA__CarePlanTemplate__c` object that represents the most recent care plan template
+ * for the specified enrollee, based on their last active award. If no active challenges or care plans are found, it returns `null`.
+ * 
+ * This method is AuraEnabled and cacheable, allowing it to be used in Lightning components with server-side caching.
+ * 
+ * @param enrolleId The ID of the enrollee whose last active challenges are to be retrieved.
+ * @return The `HealthCloudGA__CarePlanTemplate__c` object representing the last active care plan template, or `null` if not found.
+ * 
+ * @throws AuraHandledException if there is an issue retrieving the care program plan template.
+ */
 
 
 @AuraEnabled(cacheable=true)

@@ -2,7 +2,7 @@
 	<!-- This component purpose is First time Selecting the avatar -->
 	<div class="main" if:false={isLoading}>
 		<div>
-			<h3 class="avatarchoose">Choose the avatar that best suits you</h3>
+			<h3 class="avatarchoose">{chooseAvatar}</h3>
 		</div>
 		<div class="avatar-container">
 
@@ -23,7 +23,7 @@
 
 
 			<div class="buttondiv">
-				<button onclick={handleSave} class="custom-save-button">Next</button>
+				<button onclick={handleSave} class="custom-save-button">{next}</button>
 				<div class="line"></div>
 			</div>
 		</div>

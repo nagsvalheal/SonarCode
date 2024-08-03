@@ -65,7 +65,7 @@
 	font-weight: 800;
 }
 
-/*--CSS Media Queries---*/
+/*CSS Media Queries*/
 @media only screen and (max-width: 400px) {
 	.flexi {
 		flex-direction: column;

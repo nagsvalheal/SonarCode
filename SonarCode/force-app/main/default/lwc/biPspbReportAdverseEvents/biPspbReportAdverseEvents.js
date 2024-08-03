@@ -186,7 +186,7 @@ export default class BiPspbReportAdverseEvents extends NavigationMixin(Lightning
 			.catch(error => {
 				this.showToast(support.ERROR_MESSAGE, error.message, support.ERROR_VARIANT);
 				//toast messages not needed as we visit the page for the first time 
-				this.navigateToAnotherPage();
+				this.navigateToAnotherPage(error.message);
 			});
 	}
 navigateToAnotherPage(){

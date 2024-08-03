@@ -18,8 +18,6 @@ public inherited sharing class BI_PSP_CommonQueryUtility {
         if (withUserMode) {
             query += ' WITH USER_MODE';
         }
-        
-        System.debug('Generated Query: ' + query);
 
         // Execute the query and return the results
         return Database.query(query);
@@ -94,8 +92,6 @@ public inherited sharing class BI_PSP_CommonQueryUtility {
             Id recordTypeId = recordTypeInfos.get(developerName).getRecordTypeId();
             return recordTypeId;
         } catch (Exception ex) {
-            // Log exception or handle as necessary
-            System.debug('Error retrieving Record Type Id: ' + ex.getMessage());
             throw ex;
         }
     }

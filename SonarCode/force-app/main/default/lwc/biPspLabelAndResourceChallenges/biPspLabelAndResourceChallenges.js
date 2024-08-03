@@ -52,6 +52,18 @@ import SLASH_URL from '@salesforce/label/c.BI_PSP_ChatterSlash';
 import SLASH_SITEURL from '@salesforce/label/c.BI_PSP_SlashSiteUrl';
 import BRANDED_CHALLENGES_SITEURL from '@salesforce/label/c.BI_PSP_ChallengesNaviUrl';
 import TOTAL_XP from '@salesforce/label/c.BI_PSP_TotalXp';
+
+
+import BEING_ACTIVE from '@salesforce/label/c.BI_PSPB_BeingActive';
+import TRACK_YOUR_ANSWER from '@salesforce/label/c.BI_PSPB_TrackYourAnswer';
+import LINKARTICLE from '@salesforce/label/c.BI_PSPB_LinkArticle';
+import GPPWORKLIFELINK from '@salesforce/label/c.BI_PSPB_GppWorkLifeLink';
+import GPPSYMPTOMSLINK from '@salesforce/label/c.BI_PSPB_GPP_symptoms_Link';
+import GPPQUALITYLIFELINK from '@salesforce/label/c.BI_PSPB_GppQualityLife';
+import QUESTONNAIREVAL from '@salesforce/label/c.BI_PSPB_QuestionnaireLink';
+import ACCEPTCHALLENGEBUTTON from '@salesforce/label/c.BI_PSPB_AcceptChallengeButton';
+import COMPLETECHALLENGEBUTTON from '@salesforce/label/c.BI_PSPB_CompleteChallengeButton';
+
 // Exporting all resources in an organized object
 export const resources = {
 	
@@ -109,6 +121,15 @@ export const resources = {
     SLASH_URL,
     SLASH_SITEURL,
     BRANDED_CHALLENGES_SITEURL,
-    TOTAL_XP
+    TOTAL_XP,
+    BEING_ACTIVE,
+    TRACK_YOUR_ANSWER,
+    LINKARTICLE,
+    GPPWORKLIFELINK,
+    GPPSYMPTOMSLINK,
+    GPPQUALITYLIFELINK,
+    QUESTONNAIREVAL,
+    ACCEPTCHALLENGEBUTTON,
+    COMPLETECHALLENGEBUTTON
 
 };

@@ -26,7 +26,6 @@
 .displayHeader {
 	display: flex;
 	justify-content: space-between;
-	/* position: sticky; */
 	top: 0px;
 	margin-left: -1px;
 	z-index: 1001;
@@ -36,7 +35,6 @@
 	width: 210px;
 	position: relative;
 	bottom: 62px;
-	/* right: 80px; */
 	left: 124%;
 }
 
@@ -80,7 +78,6 @@
 	display: flex;
 	justify-content: space-between;
 	align-items: flex-end;
-	/* position: sticky; */
 	bottom: 0;
 }
 
@@ -119,7 +116,6 @@
 		width: 210px;
 		position: relative;
 		bottom: 62px;
-		/* right: 80px; */
 		left: 124%;
 	}
 

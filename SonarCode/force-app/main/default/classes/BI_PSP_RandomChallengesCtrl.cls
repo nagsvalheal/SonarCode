@@ -10,13 +10,15 @@ Version    Author      Date              Detail         Description
  
 */
 public without sharing class BI_PSP_RandomChallengesCtrl {
- /*
-    @description Method to retrieve random challenges based on the given person account ID and status.
-    @param personAccountId The ID of the care program enrollee.
-    @param status The status of the challenges to retrieve (e.g., Active, Completed).
-    @return List of ChallengeWrapperCommon containing available challenges and their details, or an empty list if no challenges found.
-    */
-
+/**
+ * @description Retrieves a list of random challenges associated with the given person account ID and status.
+ * This method returns a list of `ChallengeWrapperCommon` objects, each representing a challenge related to the enrollee.
+ * The method is cacheable and can be used in Lightning components for efficient data retrieval.
+ * 
+ * @param personAccountId The ID of the person account for which to retrieve challenges.
+ * @param status The status of the challenges to filter by.
+ * @return A list of `ChallengeWrapperCommon` objects containing challenge information. Returns an empty list if no challenges are found or if inputs are invalid.
+ */
 
  @AuraEnabled(cacheable=true)
     public static List<ChallengeWrapperCommon> getRandomChallenges(String personAccountId, String status) {
@@ -113,9 +115,11 @@ public without sharing class BI_PSP_RandomChallengesCtrl {
         successList.add(successMessage);
     }
     
-     /*
-    @description Class representing a wrapper for challenge-related information.
-    */
+   /**
+ * @description A wrapper class that represents common properties for challenges.
+ * It includes information about the available challenge, the challenge ID to update,
+ * and the rank of the challenge image.
+ */
     public class ChallengeWrapperCommon {
 // Represents the available challenge Id
 @AuraEnabled

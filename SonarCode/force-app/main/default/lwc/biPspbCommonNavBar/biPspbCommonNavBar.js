@@ -1,7 +1,6 @@
 //This LWC is designed for Account Manager which contains the profile details, avatar settings, notification settings and for logout functinality
 //To import Libraries
 import { LightningElement,wire } from 'lwc';
-import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import { resources } from 'c/biPspLabelAndResourceGeneral';
 
 //To get Current UserId
@@ -47,11 +46,12 @@ export default class BiPspbCommonNavBar extends LightningElement {
 	logOut = resources.LOGOUT;
 	logoutWarning = resources.LOGOUT_WARNING;
 	logoutContent = resources.LOGOUT_CONTENT;
+	displayErrorPage = resources.BI_PSP_DISPLAYERRORPAGE;
 	yes = resources.YES;
 	cancel = resources.CANCEL;
 	connectedCallback() {
+		let globalThis = window;
 		try {
-			let globalThis = window;
 			this.currentPageUrl = globalThis.location?.href;
 			this.urlSegments = this.currentPageUrl.split('/');
 			this.baseUrl = `${this.urlSegments[0]}//${this.urlSegments[2]}`;
@@ -80,11 +80,13 @@ export default class BiPspbCommonNavBar extends LightningElement {
 								}
 							})
 							.catch((error) => {
-								this.showToast(this.errorMsg, error.message, this.errorVariant);
+								globalThis.sessionStorage.setItem('errorMessage',error.body.message);
+								globalThis.location?.assign(this.baseUrl + this.siteUrlBranded + this.displayErrorPage);
 							});
 					})
 					.catch((error) => {
-						this.showToast(this.errorMsg, error.message, this.errorVariant);
+						globalThis.sessionStorage.setItem('errorMessage',error.body.message);
+						globalThis.location?.assign(this.baseUrl + this.siteUrlBranded + this.displayErrorPage);
 					});
 			} else {
 				this.showNavDetails = false;
@@ -92,14 +94,16 @@ export default class BiPspbCommonNavBar extends LightningElement {
 				this.showWithoutMenu = false;
 				this.showforNotLoggedIn = true;
 			}
-		}catch (error) {
-			this.showToast(this.errorMsg, error.message, this.errorVariant);
+		}catch (err) {
+			globalThis.sessionStorage.setItem('errorMessage',err.body.message);
+			globalThis.location?.assign(this.baseUrl + this.siteUrlBranded + this.displayErrorPage);
 		}
 	}
 
 	
 	@wire(USER_CAREGIVER)
 	wiredavtList({ data }) {
+		let globalThis = window;
 		try {
 			const CURRENT_TAB_NAME = window.location.pathname.split('/').pop();
 			if (data && data.length > 0) {
@@ -120,13 +124,15 @@ export default class BiPspbCommonNavBar extends LightningElement {
 				}
 			}
 		} catch (err) {
-			this.showToast(this.errorMsg, err.message, this.errorVariant);
+			globalThis.sessionStorage.setItem('errorMessage',err.body.message);
+			globalThis.location?.assign(this.baseUrl + this.siteUrlBranded + this.displayErrorPage);
 		}
 	}
 
 	// To fetch the Patient data from  Account object    
 	@wire(GET_LOGGED_IN_USER_ACCOUNT)
 	wiredUserAccounts({ data }) {
+		let globalThis = window;
 		try {
 			const CURRENT_TAB_NAME = window.location.pathname.split('/').pop();
 		// Null data is checked and AuraHandledException is thrown from the Apex
@@ -146,7 +152,8 @@ export default class BiPspbCommonNavBar extends LightningElement {
 				}
 			}
 		} catch (error) {
-			this.showToast(this.errorMsg, error.message, this.errorVariant);
+			globalThis.sessionStorage.setItem('errorMessage',error.body.message);
+			globalThis.location?.assign(this.baseUrl + this.siteUrlBranded + this.displayErrorPage);
 		}
 	}
 
@@ -175,6 +182,7 @@ export default class BiPspbCommonNavBar extends LightningElement {
 	//This method is used for logout functionality
 
 	logoutFromSite() {
+		let globalThis = window;
 		try{
 			this.showPopup = false;
 			let currentUrl = window.location.href;
@@ -186,7 +194,8 @@ export default class BiPspbCommonNavBar extends LightningElement {
 			window.location.assign(this.desiredUrl.replace(/\/s/gu, '/') + this.secureLogout + this.baseUrl + this.siteUrlBranded +this.siteLoginBranded);
 		}catch (error) {
 			//navigate to error page
-			this.showToast(this.errorMessages, error.message, this.errorVariant);
+			globalThis.sessionStorage.setItem('errorMessage',error.body.message);
+			globalThis.location?.assign(this.baseUrl + this.siteUrlBranded + this.displayErrorPage);
 		}
 	}
 	
@@ -199,18 +208,5 @@ export default class BiPspbCommonNavBar extends LightningElement {
 	closeMobMenu() {
 		
 		this.openWithoutMenu = false;
-	}
-
-	// showToast used for all the error messages caught
-
-	showToast(title, message, variant) {
-		if (typeof window !== 'undefined') {
-			const event = new ShowToastEvent({
-				title: title,
-				message: message,
-				variant: variant
-			});
-			this.dispatchEvent(event);
-		}
 	}
 }

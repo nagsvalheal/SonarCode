@@ -107,7 +107,7 @@
 	font-family: Eina-SemiBold;
 	margin-left: 40%;
 	display: flex;
-	/* cursor: not-allowed; */
+	
 }
 
 .borderless-button {
@@ -152,7 +152,6 @@
 	font-weight: bold;
 	font-size: 18px;
 	border-radius: 50%;
-	/* height: 10vh; */
 	border: 1px solid black;
 	margin-left: 10px;
 	padding: 8px;
@@ -166,7 +165,6 @@
 	font-weight: bold;
 	font-size: 18px;
 	border-radius: 50%;
-	/* height: 10vh; */
 	border: 1px solid black;
 	margin-right: 10px;
 	padding: 8px;

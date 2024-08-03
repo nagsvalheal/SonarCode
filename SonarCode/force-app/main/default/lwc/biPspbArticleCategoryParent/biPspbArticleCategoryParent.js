@@ -346,10 +346,15 @@ export default class BiPspbArticleCategoryParent extends LightningElement {
 		}
 	}
 
+	secureRandom() {
+		const array = new Uint32Array(1);
+		window.crypto.getRandomValues(array); // Generate a random value
+		return array[0] / (0xFFFFFFFF + 1); // Normalize to 0 to 1
+	}
 	// Filter the articles without repetition
 	getRandomElementsWithoutRepetition(arr, count, selectedTopics) {
 		// Shuffle array
-		let shuffled = arr.sort(() => 0.5 - Math.random());
+		let shuffled = arr.sort(() => 0.5 - this.secureRandom());
 		let selectedArticleCategory = [];
 	
 		// Select questions without repetition
@@ -410,14 +415,18 @@ export default class BiPspbArticleCategoryParent extends LightningElement {
 		return filteredResults;
 	}
 
-	shuffleArray(array) {
+	 shuffleArray(array) {
 		let shuffled = array.slice(); // Create a copy of the original array
+		const crypto = window.crypto || window.msCrypto; // Ensure compatibility for older browsers
 		for (let i = shuffled.length - 1; i > 0; i--) {
-			let j = Math.floor(Math.random() * (i + 1));
+			const randomArray = new Uint32Array(1);
+			crypto.getRandomValues(randomArray); // Generate a random value
+			let j = randomArray[0] % (i + 1); // Calculate a random index
 			[shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]]; // Swap elements
 		}
 		return shuffled;
 	}
+	
 
 	mapTags(finaltitle){
 			if (finaltitle === LABELS.WHAT_IS_GPP_CATEGORY) {

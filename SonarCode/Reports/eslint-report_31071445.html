@@ -1,0 +1,1433 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>ESLint Results</title>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <style type="text/css">
+    body {
+      margin: 0;
+    }
+  
+    .eslint-report {
+      font-family: "Helvetica Neue", sans-serif;
+      font-size: 14px;
+      padding: 20px 40px;
+    }
+  
+    .eslint-report h1 {
+      border-bottom: 1px solid #ddd;
+      line-height: 1;
+      padding-bottom: 12px;
+    }
+  
+    .eslint-report h2 {
+      padding-bottom: 9px;
+      line-height: 1;
+      margin-top: 24px;
+      margin-bottom: 9px;
+    }
+  
+    .eslint-report h3 {
+      line-height: 1;
+      margin-top: 0;
+    }
+  
+    .eslint-report a {
+      text-decoration: none;
+    }
+  
+    .eslint-report table {
+      border-spacing: 0;
+      border-collapse: collapse;
+    }
+  
+    .toggle-all-link {
+      font-size: 14px;
+    }
+  
+    .report-table {
+      font-size: 14px;
+      min-width: 800px;
+      border: 1px solid #e6e6e6;
+      margin: 10px;
+    }
+  
+    .report-table thead {
+      background-color: #eee;
+    }
+  
+    .report-table th {
+      text-align: left;
+      vertical-align: middle;
+    }
+  
+    .report-table th,
+    .report-table td {
+      padding: 4px 9px;
+      border: 1px solid #ccc;
+    }
+  
+    .report-table td {
+      line-height: 1.5;
+      vertical-align: top;
+    }
+  
+    .report-table .error-col {
+      width: 41px;
+    }
+  
+    .report-table .warning-col {
+      width: 63px;
+    }
+  
+    .report-table .toggle-link {
+      display: block;
+    }
+  
+    .report-table .danger td {
+      background-color: rgba(242, 222, 222, 0.8);
+    }
+  
+    .report-table .danger:hover td {
+      background-color: rgba(242, 222, 222, 1);
+    }
+  
+    .report-table .warning td {
+      background-color: rgba(252, 248, 227, 0.8);
+    }
+  
+    .report-table .warning:hover td {
+      background-color: rgba(252, 248, 227, 1);
+    }
+  
+    .report-table .success td {
+      background-color: rgba(223, 240, 216, 0.8);
+    }
+  
+    .report-table .success:hover td {
+      background-color: rgba(223, 240, 216, 1);
+    }
+  
+    .table-wrapper {
+      display: flex;
+      justify-content: flex-start;
+      width: 600px;
+      align-items: flex-end;
+    }
+  
+    .table-wrapper.occurrences {
+      align-items: flex-start;
+    }
+  
+    .table-wrapper.occurrences .table-column {
+      height: 180px;
+      overflow-y: auto;
+    }
+  
+    .table-column {
+      flex: 1;
+      margin: 10px;
+    }
+  
+    .summary-table {
+      width: 100%;
+    }
+  
+    .summary-table a {
+      display: block;
+    }
+  
+    .summary-table td {
+      padding: 4px 0;
+    }
+  
+    .summary-table td:last-child {
+      text-align: right;
+    }
+  
+    .summary-table tfoot td {
+      border-top: 2px solid #666;
+      font-weight: bold;
+    }
+  
+    .details-row.hidden {
+      display: none;
+    }
+  
+    .details-table {
+      font-size: 12px;
+      width: 100%;
+      margin-bottom: 15px;
+    }
+  
+    .details-table td {
+      border: 0;
+      padding: 1px 6px;
+    }
+  
+    .details-table td:first-child {
+      padding-left: 0;
+    }
+  
+    .details-table .location-col {
+      width: 25px;
+    }
+  
+    .details-table .rule-col {
+      white-space: nowrap;
+      width: 100px;
+    }
+  
+    .details-table .rule-col a {
+      display: block;
+    }
+  
+    .details-table .rule-col a:hover {
+      text-decoration: underline;
+    }
+  
+    .details-table .severity-col {
+      width: 45px;
+    }
+  
+    .details-table .msg-danger .severity-col {
+      color: #900;
+    }
+  
+    .details-table .msg-warning .severity-col {
+      color: #f90;
+    }
+  </style>
+
+    <script>
+      // yolo
+      function toggleAllDetails(node) {
+        var rows = document.querySelectorAll("tr.details-row");
+    
+        if (node.innerHTML === "(expand all)") {
+          node.innerHTML = "(collapse all)";
+    
+          for (var x = 0; x < rows.length; x++) {
+            var row = rows[x];
+            row.className = "details-row";
+          }
+        } else {
+          node.innerHTML = "(expand all)";
+    
+          for (var x = 0; x < rows.length; x++) {
+            var row = rows[x];
+            row.className = "details-row hidden";
+          }
+        }
+      }
+    
+      function toggleDetails(node) {
+        var parentRow = node.parentNode.parentNode;
+        var detailsRow = parentRow.nextSibling;
+    
+        if (detailsRow.className === "details-row hidden") {
+          detailsRow.className = "details-row";
+        } else {
+          detailsRow.className = "details-row hidden";
+        }
+      }
+    </script>
+</head>
+<body>
+  <div class="eslint-report">
+    <h1>ESLint Results</h1>
+
+      <h2>Summary</h2>
+      
+      <div class="table-wrapper">
+        <div class="table-column">
+          <table class="summary-table">
+              <tbody>
+                <tr>
+                  <td>Errors</td>
+                  <td>97</td>
+                </tr>
+                <tr>
+                  <td>Warnings</td>
+                  <td>0</td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <td>Total alerts</td>
+                  <td>97</td>
+                </tr>
+              </tfoot>
+          </table>
+        </div>
+        <div class="table-column">
+          <table class="summary-table">
+              <tbody>
+                <tr>
+                  <td>Files with errors</td>
+                  <td>26</td>
+                </tr>
+                <tr>
+                  <td>Files with only warnings</td>
+                  <td>0</td>
+                </tr>
+                <tr>
+                  <td>Clean files</td>
+                  <td>143</td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <td>Total files linted</td>
+                  <td>169</td>
+                </tr>
+              </tfoot>
+          </table>
+        </div>
+      </div>
+
+        <h2>Most-Common Errors and Warnings</h2>
+        
+        <div class="table-wrapper occurrences">
+          <div class="table-column">
+            <h3>Errors</h3>
+        
+              <table class="summary-table">
+                <tbody>
+                    <tr class="occurrence row-0">
+                        <td><a href="http://eslint.org/docs/rules/no-console">no-console</a></td>
+                      <td>40</td>
+                    </tr>
+                    <tr class="occurrence row-1">
+                        <td><a href="http://eslint.org/docs/rules/no-mixed-spaces-and-tabs">no-mixed-spaces-and-tabs</a></td>
+                      <td>16</td>
+                    </tr>
+                    <tr class="occurrence row-2">
+                        <td><a href="http://eslint.org/docs/rules/@lwc/lwc/no-for-of">@lwc/lwc/no-for-of</a></td>
+                      <td>12</td>
+                    </tr>
+                    <tr class="occurrence row-3">
+                        <td><a href="http://eslint.org/docs/rules/complexity">complexity</a></td>
+                      <td>9</td>
+                    </tr>
+                    <tr class="occurrence row-4">
+                        <td><a href="http://eslint.org/docs/rules/no-undef">no-undef</a></td>
+                      <td>6</td>
+                    </tr>
+                    <tr class="occurrence row-5">
+                        <td><a href="http://eslint.org/docs/rules/@lwc/lwc/no-async-operation">@lwc/lwc/no-async-operation</a></td>
+                      <td>6</td>
+                    </tr>
+                    <tr class="occurrence row-6">
+                        <td><a href="http://eslint.org/docs/rules/no-unused-vars">no-unused-vars</a></td>
+                      <td>6</td>
+                    </tr>
+                    <tr class="occurrence row-7">
+                        <td><a href="http://eslint.org/docs/rules/@lwc/lwc/no-async-await">@lwc/lwc/no-async-await</a></td>
+                      <td>2</td>
+                    </tr>
+                </tbody>
+              </table>
+          </div>
+          <div class="table-column">
+            <h3>Warnings</h3>
+        
+              <p>No warnings were found!</p>
+          </div>
+        </div>
+
+      <h2>File Breakdown
+          <a id="toggle" href="javascript:;" onclick="toggleAllDetails(this)" class="toggle-all-link">(expand all)</a></h2>
+      
+      <table class="report-table">
+        <thead>
+          <tr>
+            <th>File</th>
+            <th class="error-col">Errors</th>
+            <th class="warning-col">Warnings</th>
+          </tr>
+        </thead>
+        <tbody><tr class="danger"><td>            <a class="toggle-link" href="javascript:;" onclick="toggleDetails(this)">C:\Users\CVHS\SF_Projects\SonarCode\SonarCode\force-app\main\default\lwc\biPspbSymptomTracker\biPspbSymptomTracker.js</a></td>
+              <td>31</td>
+              <td>0</td></tr><tr class="details-row hidden">
+                <td colspan="3">
+                  <table class="details-table">
+                    <tbody><tr class="msg-danger"><td class="location-col">
+                              267:17
+                          </td>
+                          <td class="severity-col">Error</td>
+                          <td class="message-col">Unexpected console statement.</td>
+                            <td class="rule-col"><a href="http://eslint.org/docs/rules/no-console">no-console</a></td>
+      </tr><tr class="msg-danger"><td class="location-col">
+                              279:20
+                          </td>
+                          <td class="severity-col">Error</td>
+                          <td class="message-col">Unexpected console statement.</td>
+                            <td class="rule-col"><a href="http://eslint.org/docs/rules/no-console">no-console</a></td>
+      </tr><tr class="msg-danger"><td class="location-col">
+                              284:28
+                          </td>
+                          <td class="severity-col">Error</td>
+                          <td class="message-col">Unexpected console statement.</td>
+                            <td class="rule-col"><a href="http://eslint.org/docs/rules/no-console">no-console</a></td>
+      </tr><tr class="msg-danger"><td class="location-col">
+                              390:21
+                          </td>
+                          <td class="severity-col">Error</td>
+                          <td class="message-col">Unexpected console statement.</td>
+                            <td class="rule-col"><a href="http://eslint.org/docs/rules/no-console">no-console</a></td>
+      </tr><tr class="msg-danger"><td class="location-col">
+                              456:21
+                          </td>
+                          <td class="severity-col">Error</td>
+                          <td class="message-col">Unexpected console statement.</td>
+                            <td class="rule-col"><a href="http://eslint.org/docs/rules/no-console">no-console</a></td>
+      </tr><tr class="msg-danger"><td class="location-col">
+                              520:24
+                          </td>
+                          <td class="severity-col">Error</td>
+                          <td class="message-col">Unexpected console statement.</td>
+                            <td class="rule-col"><a href="http://eslint.org/docs/rules/no-console">no-console</a></td>
+      </tr><tr class="msg-danger"><td class="location-col">
+                              525:13
+                          </td>
+                          <td class="severity-col">Error</td>
+                          <td class="message-col">Unexpected console statement.</td>
+                            <td class="rule-col"><a href="http://eslint.org/docs/rules/no-console">no-console</a></td>
+      </tr><tr class="msg-danger"><td class="location-col">
+                              881:9
+                          </td>
+                          <td class="severity-col">Error</td>
+                          <td class="message-col">Unexpected console statement.</td>
+                            <td class="rule-col"><a href="http://eslint.org/docs/rules/no-console">no-console</a></td>
+      </tr><tr class="msg-danger"><td class="location-col">
+                              911:17
+                          </td>
+                          <td class="severity-col">Error</td>
+                          <td class="message-col">Unexpected console statement.</td>
+                            <td class="rule-col"><a href="http://eslint.org/docs/rules/no-console">no-console</a></td>
+      </tr><tr class="msg-danger"><td class="location-col">
+                              1009:33
+                          </td>
+                          <td class="severity-col">Error</td>
+                          <td class="message-col">Unexpected console statement.</td>
+                            <td class="rule-col"><a href="http://eslint.org/docs/rules/no-console">no-console</a></td>
+      </tr><tr class="msg-danger"><td class="location-col">
+                              1015:29
+                          </td>
+                          <td class="severity-col">Error</td>
+                          <td class="message-col">Unexpected console statement.</td>
+                            <td class="rule-col"><a href="http://eslint.org/docs/rules/no-console">no-console</a></td>
+      </tr><tr class="msg-danger"><td class="location-col">
+                              1020:21
+                          </td>
+                          <td class="severity-col">Error</td>
+                          <td class="message-col">Unexpected console statement.</td>
+                            <td class="rule-col"><a href="http://eslint.org/docs/rules/no-console">no-console</a></td>
+      </tr><tr class="msg-danger"><td class="location-col">
+                              1042:33
+                          </td>
+                          <td class="severity-col">Error</td>
+                          <td class="message-col">Unexpected console statement.</td>
+                            <td class="rule-col"><a href="http://eslint.org/docs/rules/no-console">no-console</a></td>
+      </tr><tr class="msg-danger"><td class="location-col">
+                              1048:29
+                          </td>
+                          <td class="severity-col">Error</td>
+                          <td class="message-col">Unexpected console statement.</td>
+                            <td class="rule-col"><a href="http://eslint.org/docs/rules/no-console">no-console</a></td>
+      </tr><tr class="msg-danger"><td class="location-col">
+                              1053:21
+                          </td>
+                          <td class="severity-col">Error</td>
+                          <td class="message-col">Unexpected console statement.</td>
+                            <td class="rule-col"><a href="http://eslint.org/docs/rules/no-console">no-console</a></td>
+      </tr><tr class="msg-danger"><td class="location-col">
+                              1058:22
+                          </td>
+                          <td class="severity-col">Error</td>
+                          <td class="message-col">Invalid usage of async-await.</td>
+                            <td class="rule-col"><a href="http://eslint.org/docs/rules/@lwc/lwc/no-async-await">@lwc/lwc/no-async-await</a></td>
+      </tr><tr class="msg-danger"><td class="location-col">
+                              1073:13
+                          </td>
+                          <td class="severity-col">Error</td>
+                          <td class="message-col">Unexpected console statement.</td>
+                            <td class="rule-col"><a href="http://eslint.org/docs/rules/no-console">no-console</a></td>
+      </tr><tr class="msg-danger"><td class="location-col">
+                              1081:25
+                          </td>
+                          <td class="severity-col">Error</td>
+                          <td class="message-col">Invalid usage of async-await.</td>
+                            <td class="rule-col"><a href="http://eslint.org/docs/rules/@lwc/lwc/no-async-await">@lwc/lwc/no-async-await</a></td>
+      </tr><tr class="msg-danger"><td class="location-col">
+                              1129:25
+                          </td>
+                          <td class="severity-col">Error</td>
+                          <td class="message-col">Unexpected console statement.</td>
+                            <td class="rule-col"><a href="http://eslint.org/docs/rules/no-console">no-console</a></td>
+      </tr><tr class="msg-danger"><td class="location-col">
+                              1204:25
+                          </td>
+                          <td class="severity-col">Error</td>
+                          <td class="message-col">Unexpected console statement.</td>
+                            <td class="rule-col"><a href="http://eslint.org/docs/rules/no-console">no-console</a></td>
+      </tr><tr class="msg-danger"><td class="location-col">
+                              1207:29
+                          </td>
+                          <td class="severity-col">Error</td>
+                          <td class="message-col">Unexpected console statement.</td>
+                            <td class="rule-col"><a href="http://eslint.org/docs/rules/no-console">no-console</a></td>
+      </tr><tr class="msg-danger"><td class="location-col">
+                              1236:21
+                          </td>
+                          <td class="severity-col">Error</td>
+                          <td class="message-col">Unexpected console statement.</td>
+                            <td class="rule-col"><a href="http://eslint.org/docs/rules/no-console">no-console</a></td>
+      </tr><tr class="msg-danger"><td class="location-col">
+                              1253:13
+                          </td>
+                          <td class="severity-col">Error</td>
+                          <td class="message-col">Unexpected console statement.</td>
+                            <td class="rule-col"><a href="http://eslint.org/docs/rules/no-console">no-console</a></td>
+      </tr><tr class="msg-danger"><td class="location-col">
+                              1255:17
+                          </td>
+                          <td class="severity-col">Error</td>
+                          <td class="message-col">Invalid usage of for-of.</td>
+                            <td class="rule-col"><a href="http://eslint.org/docs/rules/@lwc/lwc/no-for-of">@lwc/lwc/no-for-of</a></td>
+      </tr><tr class="msg-danger"><td class="location-col">
+                              1291:17
+                          </td>
+                          <td class="severity-col">Error</td>
+                          <td class="message-col">Unexpected console statement.</td>
+                            <td class="rule-col"><a href="http://eslint.org/docs/rules/no-console">no-console</a></td>
+      </tr><tr class="msg-danger"><td class="location-col">
+                              1296:13
+                          </td>
+                          <td class="severity-col">Error</td>
+                          <td class="message-col">Unexpected console statement.</td>
+                            <td class="rule-col"><a href="http://eslint.org/docs/rules/no-console">no-console</a></td>
+      </tr><tr class="msg-danger"><td class="location-col">
+                              1337:17
+                          </td>
+                          <td class="severity-col">Error</td>
+                          <td class="message-col">Invalid usage of for-of.</td>
+                            <td class="rule-col"><a href="http://eslint.org/docs/rules/@lwc/lwc/no-for-of">@lwc/lwc/no-for-of</a></td>
+      </tr><tr class="msg-danger"><td class="location-col">
+                              1379:21
+                          </td>
+                          <td class="severity-col">Error</td>
+                          <td class="message-col">Invalid usage of for-of.</td>
+                            <td class="rule-col"><a href="http://eslint.org/docs/rules/@lwc/lwc/no-for-of">@lwc/lwc/no-for-of</a></td>
+      </tr><tr class="msg-danger"><td class="location-col">
+                              1430:17
+                          </td>
+                          <td class="severity-col">Error</td>
+                          <td class="message-col">Invalid usage of for-of.</td>
+                            <td class="rule-col"><a href="http://eslint.org/docs/rules/@lwc/lwc/no-for-of">@lwc/lwc/no-for-of</a></td>
+      </tr><tr class="msg-danger"><td class="location-col">
+                              1481:17
+                          </td>
+                          <td class="severity-col">Error</td>
+                          <td class="message-col">Unexpected console statement.</td>
+                            <td class="rule-col"><a href="http://eslint.org/docs/rules/no-console">no-console</a></td>
+      </tr><tr class="msg-danger"><td class="location-col">
+                              1485:14
+                          </td>
+                          <td class="severity-col">Error</td>
+                          <td class="message-col">Unexpected console statement.</td>
+                            <td class="rule-col"><a href="http://eslint.org/docs/rules/no-console">no-console</a></td>
+      </tr></tbody>
+                  </table>
+                </td>
+              </tr><tr class="danger"><td>            <a class="toggle-link" href="javascript:;" onclick="toggleDetails(this)">C:\Users\CVHS\SF_Projects\SonarCode\SonarCode\force-app\main\default\lwc\biPspbSymptomTrackerPdf\biPspbSymptomTrackerPdf.js</a></td>
+              <td>18</td>
+              <td>0</td></tr><tr class="details-row hidden">
+                <td colspan="3">
+                  <table class="details-table">
+                    <tbody><tr class="msg-danger"><td class="location-col">
+                              3:28
+                          </td>
+                          <td class="severity-col">Error</td>
+                          <td class="message-col">&#x27;track&#x27; is defined but never used.</td>
+                            <td class="rule-col"><a href="http://eslint.org/docs/rules/no-unused-vars">no-unused-vars</a></td>
+      </tr><tr class="msg-danger"><td class="location-col">
+                              56:1
+                          </td>
+                          <td class="severity-col">Error</td>
+                          <td class="message-col">Mixed spaces and tabs.</td>
+                            <td class="rule-col"><a href="http://eslint.org/docs/rules/no-mixed-spaces-and-tabs">no-mixed-spaces-and-tabs</a></td>
+      </tr><tr class="msg-danger"><td class="location-col">
+                              57:1
+                          </td>
+                          <td class="severity-col">Error</td>
+                          <td class="message-col">Mixed spaces and tabs.</td>
+                            <td class="rule-col"><a href="http://eslint.org/docs/rules/no-mixed-spaces-and-tabs">no-mixed-spaces-and-tabs</a></td>
+      </tr><tr class="msg-danger"><td class="location-col">
+                              58:1
+                          </td>
+                          <td class="severity-col">Error</td>
+                          <td class="message-col">Mixed spaces and tabs.</td>
+                            <td class="rule-col"><a href="http://eslint.org/docs/rules/no-mixed-spaces-and-tabs">no-mixed-spaces-and-tabs</a></td>
+      </tr><tr class="msg-danger"><td class="location-col">
+                              59:1
+                          </td>
+                          <td class="severity-col">Error</td>
+                          <td class="message-col">Mixed spaces and tabs.</td>
+                            <td class="rule-col"><a href="http://eslint.org/docs/rules/no-mixed-spaces-and-tabs">no-mixed-spaces-and-tabs</a></td>
+      </tr><tr class="msg-danger"><td class="location-col">
+                              60:1
+                          </td>
+                          <td class="severity-col">Error</td>
+                          <td class="message-col">Mixed spaces and tabs.</td>
+                            <td class="rule-col"><a href="http://eslint.org/docs/rules/no-mixed-spaces-and-tabs">no-mixed-spaces-and-tabs</a></td>
+      </tr><tr class="msg-danger"><td class="location-col">
+                              61:1
+                          </td>
+                          <td class="severity-col">Error</td>
+                          <td class="message-col">Mixed spaces and tabs.</td>
+                            <td class="rule-col"><a href="http://eslint.org/docs/rules/no-mixed-spaces-and-tabs">no-mixed-spaces-and-tabs</a></td>
+      </tr><tr class="msg-danger"><td class="location-col">
+                              62:1
+                          </td>
+                          <td class="severity-col">Error</td>
+                          <td class="message-col">Mixed spaces and tabs.</td>
+                            <td class="rule-col"><a href="http://eslint.org/docs/rules/no-mixed-spaces-and-tabs">no-mixed-spaces-and-tabs</a></td>
+      </tr><tr class="msg-danger"><td class="location-col">
+                              63:1
+                          </td>
+                          <td class="severity-col">Error</td>
+                          <td class="message-col">Mixed spaces and tabs.</td>
+                            <td class="rule-col"><a href="http://eslint.org/docs/rules/no-mixed-spaces-and-tabs">no-mixed-spaces-and-tabs</a></td>
+      </tr><tr class="msg-danger"><td class="location-col">
+                              64:1
+                          </td>
+                          <td class="severity-col">Error</td>
+                          <td class="message-col">Mixed spaces and tabs.</td>
+                            <td class="rule-col"><a href="http://eslint.org/docs/rules/no-mixed-spaces-and-tabs">no-mixed-spaces-and-tabs</a></td>
+      </tr><tr class="msg-danger"><td class="location-col">
+                              65:1
+                          </td>
+                          <td class="severity-col">Error</td>
+                          <td class="message-col">Mixed spaces and tabs.</td>
+                            <td class="rule-col"><a href="http://eslint.org/docs/rules/no-mixed-spaces-and-tabs">no-mixed-spaces-and-tabs</a></td>
+      </tr><tr class="msg-danger"><td class="location-col">
+                              66:1
+                          </td>
+                          <td class="severity-col">Error</td>
+                          <td class="message-col">Mixed spaces and tabs.</td>
+                            <td class="rule-col"><a href="http://eslint.org/docs/rules/no-mixed-spaces-and-tabs">no-mixed-spaces-and-tabs</a></td>
+      </tr><tr class="msg-danger"><td class="location-col">
+                              67:1
+                          </td>
+                          <td class="severity-col">Error</td>
+                          <td class="message-col">Mixed spaces and tabs.</td>
+                            <td class="rule-col"><a href="http://eslint.org/docs/rules/no-mixed-spaces-and-tabs">no-mixed-spaces-and-tabs</a></td>
+      </tr><tr class="msg-danger"><td class="location-col">
+                              68:1
+                          </td>
+                          <td class="severity-col">Error</td>
+                          <td class="message-col">Mixed spaces and tabs.</td>
+                            <td class="rule-col"><a href="http://eslint.org/docs/rules/no-mixed-spaces-and-tabs">no-mixed-spaces-and-tabs</a></td>
+      </tr><tr class="msg-danger"><td class="location-col">
+                              69:1
+                          </td>
+                          <td class="severity-col">Error</td>
+                          <td class="message-col">Mixed spaces and tabs.</td>
+                            <td class="rule-col"><a href="http://eslint.org/docs/rules/no-mixed-spaces-and-tabs">no-mixed-spaces-and-tabs</a></td>
+      </tr><tr class="msg-danger"><td class="location-col">
+                              71:1
+                          </td>
+                          <td class="severity-col">Error</td>
+                          <td class="message-col">Mixed spaces and tabs.</td>
+                            <td class="rule-col"><a href="http://eslint.org/docs/rules/no-mixed-spaces-and-tabs">no-mixed-spaces-and-tabs</a></td>
+      </tr><tr class="msg-danger"><td class="location-col">
+                              173:9
+                          </td>
+                          <td class="severity-col">Error</td>
+                          <td class="message-col">Unexpected console statement.</td>
+                            <td class="rule-col"><a href="http://eslint.org/docs/rules/no-console">no-console</a></td>
+      </tr><tr class="msg-danger"><td class="location-col">
+                              290:9
+                          </td>
+                          <td class="severity-col">Error</td>
+                          <td class="message-col">Restricted async operation &quot;setTimeout&quot;</td>
+                            <td class="rule-col"><a href="http://eslint.org/docs/rules/@lwc/lwc/no-async-operation">@lwc/lwc/no-async-operation</a></td>
+      </tr></tbody>
+                  </table>
+                </td>
+              </tr><tr class="danger"><td>            <a class="toggle-link" href="javascript:;" onclick="toggleDetails(this)">C:\Users\CVHS\SF_Projects\SonarCode\SonarCode\force-app\main\default\lwc\biPspbQuestionnarieSumChart\biPspbQuestionnarieSumChart.js</a></td>
+              <td>8</td>
+              <td>0</td></tr><tr class="details-row hidden">
+                <td colspan="3">
+                  <table class="details-table">
+                    <tbody><tr class="msg-danger"><td class="location-col">
+                              1122:5
+                          </td>
+                          <td class="severity-col">Error</td>
+                          <td class="message-col">Unexpected console statement.</td>
+                            <td class="rule-col"><a href="http://eslint.org/docs/rules/no-console">no-console</a></td>
+      </tr><tr class="msg-danger"><td class="location-col">
+                              1125:5
+                          </td>
+                          <td class="severity-col">Error</td>
+                          <td class="message-col">Unexpected console statement.</td>
+                            <td class="rule-col"><a href="http://eslint.org/docs/rules/no-console">no-console</a></td>
+      </tr><tr class="msg-danger"><td class="location-col">
+                              1129:5
+                          </td>
+                          <td class="severity-col">Error</td>
+                          <td class="message-col">Unexpected console statement.</td>
+                            <td class="rule-col"><a href="http://eslint.org/docs/rules/no-console">no-console</a></td>
+      </tr><tr class="msg-danger"><td class="location-col">
+                              1132:5
+                          </td>
+                          <td class="severity-col">Error</td>
+                          <td class="message-col">Unexpected console statement.</td>
+                            <td class="rule-col"><a href="http://eslint.org/docs/rules/no-console">no-console</a></td>
+      </tr><tr class="msg-danger"><td class="location-col">
+                              1140:3
+                          </td>
+                          <td class="severity-col">Error</td>
+                          <td class="message-col">Unexpected console statement.</td>
+                            <td class="rule-col"><a href="http://eslint.org/docs/rules/no-console">no-console</a></td>
+      </tr><tr class="msg-danger"><td class="location-col">
+                              1142:3
+                          </td>
+                          <td class="severity-col">Error</td>
+                          <td class="message-col">Unexpected console statement.</td>
+                            <td class="rule-col"><a href="http://eslint.org/docs/rules/no-console">no-console</a></td>
+      </tr><tr class="msg-danger"><td class="location-col">
+                              1158:4
+                          </td>
+                          <td class="severity-col">Error</td>
+                          <td class="message-col">Unexpected console statement.</td>
+                            <td class="rule-col"><a href="http://eslint.org/docs/rules/no-console">no-console</a></td>
+      </tr><tr class="msg-danger"><td class="location-col">
+                              1159:4
+                          </td>
+                          <td class="severity-col">Error</td>
+                          <td class="message-col">Unexpected console statement.</td>
+                            <td class="rule-col"><a href="http://eslint.org/docs/rules/no-console">no-console</a></td>
+      </tr></tbody>
+                  </table>
+                </td>
+              </tr><tr class="danger"><td>            <a class="toggle-link" href="javascript:;" onclick="toggleDetails(this)">C:\Users\CVHS\SF_Projects\SonarCode\SonarCode\force-app\main\default\lwc\biPspbCaseComponent\biPspbCaseComponent.js</a></td>
+              <td>5</td>
+              <td>0</td></tr><tr class="details-row hidden">
+                <td colspan="3">
+                  <table class="details-table">
+                    <tbody><tr class="msg-danger"><td class="location-col">
+                              182:1
+                          </td>
+                          <td class="severity-col">Error</td>
+                          <td class="message-col">Mixed spaces and tabs.</td>
+                            <td class="rule-col"><a href="http://eslint.org/docs/rules/no-mixed-spaces-and-tabs">no-mixed-spaces-and-tabs</a></td>
+      </tr><tr class="msg-danger"><td class="location-col">
+                              194:6
+                          </td>
+                          <td class="severity-col">Error</td>
+                          <td class="message-col">Unexpected console statement.</td>
+                            <td class="rule-col"><a href="http://eslint.org/docs/rules/no-console">no-console</a></td>
+      </tr><tr class="msg-danger"><td class="location-col">
+                              209:3
+                          </td>
+                          <td class="severity-col">Error</td>
+                          <td class="message-col">Unexpected console statement.</td>
+                            <td class="rule-col"><a href="http://eslint.org/docs/rules/no-console">no-console</a></td>
+      </tr><tr class="msg-danger"><td class="location-col">
+                              239:3
+                          </td>
+                          <td class="severity-col">Error</td>
+                          <td class="message-col">Unexpected console statement.</td>
+                            <td class="rule-col"><a href="http://eslint.org/docs/rules/no-console">no-console</a></td>
+      </tr><tr class="msg-danger"><td class="location-col">
+                              425:3
+                          </td>
+                          <td class="severity-col">Error</td>
+                          <td class="message-col">Unexpected console statement.</td>
+                            <td class="rule-col"><a href="http://eslint.org/docs/rules/no-console">no-console</a></td>
+      </tr></tbody>
+                  </table>
+                </td>
+              </tr><tr class="danger"><td>            <a class="toggle-link" href="javascript:;" onclick="toggleDetails(this)">C:\Users\CVHS\SF_Projects\SonarCode\SonarCode\force-app\main\default\lwc\biPspbNotificationActionForm\biPspbNotificationActionForm.js</a></td>
+              <td>5</td>
+              <td>0</td></tr><tr class="details-row hidden">
+                <td colspan="3">
+                  <table class="details-table">
+                    <tbody><tr class="msg-danger"><td class="location-col">
+                              37:8
+                          </td>
+                          <td class="severity-col">Error</td>
+                          <td class="message-col">&#x27;BI_PSPB_ACTION_REQUIRED&#x27; is defined but never used.</td>
+                            <td class="rule-col"><a href="http://eslint.org/docs/rules/no-unused-vars">no-unused-vars</a></td>
+      </tr><tr class="msg-danger"><td class="location-col">
+                              38:8
+                          </td>
+                          <td class="severity-col">Error</td>
+                          <td class="message-col">&#x27;BI_PSPB_DATE_OF_TREATMENT&#x27; is defined but never used.</td>
+                            <td class="rule-col"><a href="http://eslint.org/docs/rules/no-unused-vars">no-unused-vars</a></td>
+      </tr><tr class="msg-danger"><td class="location-col">
+                              166:7
+                          </td>
+                          <td class="severity-col">Error</td>
+                          <td class="message-col">Unexpected console statement.</td>
+                            <td class="rule-col"><a href="http://eslint.org/docs/rules/no-console">no-console</a></td>
+      </tr><tr class="msg-danger"><td class="location-col">
+                              170:8
+                          </td>
+                          <td class="severity-col">Error</td>
+                          <td class="message-col">Unexpected console statement.</td>
+                            <td class="rule-col"><a href="http://eslint.org/docs/rules/no-console">no-console</a></td>
+      </tr><tr class="msg-danger"><td class="location-col">
+                              526:35
+                          </td>
+                          <td class="severity-col">Error</td>
+                          <td class="message-col">Restricted async operation &quot;setTimeout&quot;</td>
+                            <td class="rule-col"><a href="http://eslint.org/docs/rules/@lwc/lwc/no-async-operation">@lwc/lwc/no-async-operation</a></td>
+      </tr></tbody>
+                  </table>
+                </td>
+              </tr><tr class="danger"><td>            <a class="toggle-link" href="javascript:;" onclick="toggleDetails(this)">C:\Users\CVHS\SF_Projects\SonarCode\SonarCode\force-app\main\default\lwc\biPspbIntroductionQuestionnaire\biPspbIntroductionQuestionnaire.js</a></td>
+              <td>4</td>
+              <td>0</td></tr><tr class="details-row hidden">
+                <td colspan="3">
+                  <table class="details-table">
+                    <tbody><tr class="msg-danger"><td class="location-col">
+                              691:24
+                          </td>
+                          <td class="severity-col">Error</td>
+                          <td class="message-col">Arrow function has a complexity of 133. Maximum allowed is 20.</td>
+                            <td class="rule-col"><a href="http://eslint.org/docs/rules/complexity">complexity</a></td>
+      </tr><tr class="msg-danger"><td class="location-col">
+                              2234:17
+                          </td>
+                          <td class="severity-col">Error</td>
+                          <td class="message-col">Method &#x27;submitResponses&#x27; has a complexity of 124. Maximum allowed is 20.</td>
+                            <td class="rule-col"><a href="http://eslint.org/docs/rules/complexity">complexity</a></td>
+      </tr><tr class="msg-danger"><td class="location-col">
+                              2572:13
+                          </td>
+                          <td class="severity-col">Error</td>
+                          <td class="message-col">Method &#x27;saveAsDraft&#x27; has a complexity of 52. Maximum allowed is 20.</td>
+                            <td class="rule-col"><a href="http://eslint.org/docs/rules/complexity">complexity</a></td>
+      </tr><tr class="msg-danger"><td class="location-col">
+                              2931:19
+                          </td>
+                          <td class="severity-col">Error</td>
+                          <td class="message-col">Method &#x27;confirmSubmission&#x27; has a complexity of 51. Maximum allowed is 20.</td>
+                            <td class="rule-col"><a href="http://eslint.org/docs/rules/complexity">complexity</a></td>
+      </tr></tbody>
+                  </table>
+                </td>
+              </tr><tr class="danger"><td>            <a class="toggle-link" href="javascript:;" onclick="toggleDetails(this)">C:\Users\CVHS\SF_Projects\SonarCode\SonarCode\force-app\main\default\lwc\biPspbAboutMySelfQuestionnaire\biPspbAboutMySelfQuestionnaire.js</a></td>
+              <td>3</td>
+              <td>0</td></tr><tr class="details-row hidden">
+                <td colspan="3">
+                  <table class="details-table">
+                    <tbody><tr class="msg-danger"><td class="location-col">
+                              638:24
+                          </td>
+                          <td class="severity-col">Error</td>
+                          <td class="message-col">Arrow function has a complexity of 133. Maximum allowed is 20.</td>
+                            <td class="rule-col"><a href="http://eslint.org/docs/rules/complexity">complexity</a></td>
+      </tr><tr class="msg-danger"><td class="location-col">
+                              2199:17
+                          </td>
+                          <td class="severity-col">Error</td>
+                          <td class="message-col">Method &#x27;submitResponses&#x27; has a complexity of 85. Maximum allowed is 20.</td>
+                            <td class="rule-col"><a href="http://eslint.org/docs/rules/complexity">complexity</a></td>
+      </tr><tr class="msg-danger"><td class="location-col">
+                              2475:4
+                          </td>
+                          <td class="severity-col">Error</td>
+                          <td class="message-col">&#x27;CREATE_TASK&#x27; is not defined.</td>
+                            <td class="rule-col"><a href="http://eslint.org/docs/rules/no-undef">no-undef</a></td>
+      </tr></tbody>
+                  </table>
+                </td>
+              </tr><tr class="danger"><td>            <a class="toggle-link" href="javascript:;" onclick="toggleDetails(this)">C:\Users\CVHS\SF_Projects\SonarCode\SonarCode\force-app\main\default\lwc\biPspbMeAndMyGppQuestionnaire\biPspbMeAndMyGppQuestionnaire.js</a></td>
+              <td>3</td>
+              <td>0</td></tr><tr class="details-row hidden">
+                <td colspan="3">
+                  <table class="details-table">
+                    <tbody><tr class="msg-danger"><td class="location-col">
+                              571:24
+                          </td>
+                          <td class="severity-col">Error</td>
+                          <td class="message-col">Arrow function has a complexity of 132. Maximum allowed is 20.</td>
+                            <td class="rule-col"><a href="http://eslint.org/docs/rules/complexity">complexity</a></td>
+      </tr><tr class="msg-danger"><td class="location-col">
+                              2072:17
+                          </td>
+                          <td class="severity-col">Error</td>
+                          <td class="message-col">Method &#x27;submitResponses&#x27; has a complexity of 44. Maximum allowed is 20.</td>
+                            <td class="rule-col"><a href="http://eslint.org/docs/rules/complexity">complexity</a></td>
+      </tr><tr class="msg-danger"><td class="location-col">
+                              2200:4
+                          </td>
+                          <td class="severity-col">Error</td>
+                          <td class="message-col">&#x27;CREATE_TASK&#x27; is not defined.</td>
+                            <td class="rule-col"><a href="http://eslint.org/docs/rules/no-undef">no-undef</a></td>
+      </tr></tbody>
+                  </table>
+                </td>
+              </tr><tr class="danger"><td>            <a class="toggle-link" href="javascript:;" onclick="toggleDetails(this)">C:\Users\CVHS\SF_Projects\SonarCode\SonarCode\force-app\main\default\lwc\biPspbActiveChallenges\biPspbActiveChallenges.js</a></td>
+              <td>2</td>
+              <td>0</td></tr><tr class="details-row hidden">
+                <td colspan="3">
+                  <table class="details-table">
+                    <tbody><tr class="msg-danger"><td class="location-col">
+                              141:20
+                          </td>
+                          <td class="severity-col">Error</td>
+                          <td class="message-col">&#x27;consoleErrorMessage&#x27; is not defined.</td>
+                            <td class="rule-col"><a href="http://eslint.org/docs/rules/no-undef">no-undef</a></td>
+      </tr><tr class="msg-danger"><td class="location-col">
+                              148:19
+                          </td>
+                          <td class="severity-col">Error</td>
+                          <td class="message-col">&#x27;consoleErrorMessage&#x27; is not defined.</td>
+                            <td class="rule-col"><a href="http://eslint.org/docs/rules/no-undef">no-undef</a></td>
+      </tr></tbody>
+                  </table>
+                </td>
+              </tr><tr class="danger"><td>            <a class="toggle-link" href="javascript:;" onclick="toggleDetails(this)">C:\Users\CVHS\SF_Projects\SonarCode\SonarCode\force-app\main\default\lwc\biPspbItchinessSymptom\biPspbItchinessSymptom.js</a></td>
+              <td>2</td>
+              <td>0</td></tr><tr class="details-row hidden">
+                <td colspan="3">
+                  <table class="details-table">
+                    <tbody><tr class="msg-danger"><td class="location-col">
+                              49:5
+                          </td>
+                          <td class="severity-col">Error</td>
+                          <td class="message-col">Invalid usage of for-of.</td>
+                            <td class="rule-col"><a href="http://eslint.org/docs/rules/@lwc/lwc/no-for-of">@lwc/lwc/no-for-of</a></td>
+      </tr><tr class="msg-danger"><td class="location-col">
+                              79:28
+                          </td>
+                          <td class="severity-col">Error</td>
+                          <td class="message-col">&#x27;BODY_PARTS_REMOVE&#x27; is not defined.</td>
+                            <td class="rule-col"><a href="http://eslint.org/docs/rules/no-undef">no-undef</a></td>
+      </tr></tbody>
+                  </table>
+                </td>
+              </tr><tr class="danger"><td>            <a class="toggle-link" href="javascript:;" onclick="toggleDetails(this)">C:\Users\CVHS\SF_Projects\SonarCode\SonarCode\force-app\main\default\lwc\biPspbAllPost\biPspbAllPost.js</a></td>
+              <td>1</td>
+              <td>0</td></tr><tr class="details-row hidden">
+                <td colspan="3">
+                  <table class="details-table">
+                    <tbody><tr class="msg-danger"><td class="location-col">
+                              196:35
+                          </td>
+                          <td class="severity-col">Error</td>
+                          <td class="message-col">Restricted async operation &quot;setTimeout&quot;</td>
+                            <td class="rule-col"><a href="http://eslint.org/docs/rules/@lwc/lwc/no-async-operation">@lwc/lwc/no-async-operation</a></td>
+      </tr></tbody>
+                  </table>
+                </td>
+              </tr><tr class="danger"><td>            <a class="toggle-link" href="javascript:;" onclick="toggleDetails(this)">C:\Users\CVHS\SF_Projects\SonarCode\SonarCode\force-app\main\default\lwc\biPspbDashboardParent\biPspbDashboardParent.js</a></td>
+              <td>1</td>
+              <td>0</td></tr><tr class="details-row hidden">
+                <td colspan="3">
+                  <table class="details-table">
+                    <tbody><tr class="msg-danger"><td class="location-col">
+                              2:27
+                          </td>
+                          <td class="severity-col">Error</td>
+                          <td class="message-col">&#x27;track&#x27; is defined but never used.</td>
+                            <td class="rule-col"><a href="http://eslint.org/docs/rules/no-unused-vars">no-unused-vars</a></td>
+      </tr></tbody>
+                  </table>
+                </td>
+              </tr><tr class="danger"><td>            <a class="toggle-link" href="javascript:;" onclick="toggleDetails(this)">C:\Users\CVHS\SF_Projects\SonarCode\SonarCode\force-app\main\default\lwc\biPspbDashboardUaParent\biPspbDashboardUaParent.js</a></td>
+              <td>1</td>
+              <td>0</td></tr><tr class="details-row hidden">
+                <td colspan="3">
+                  <table class="details-table">
+                    <tbody><tr class="msg-danger"><td class="location-col">
+                              3:27
+                          </td>
+                          <td class="severity-col">Error</td>
+                          <td class="message-col">&#x27;track&#x27; is defined but never used.</td>
+                            <td class="rule-col"><a href="http://eslint.org/docs/rules/no-unused-vars">no-unused-vars</a></td>
+      </tr></tbody>
+                  </table>
+                </td>
+              </tr><tr class="danger"><td>            <a class="toggle-link" href="javascript:;" onclick="toggleDetails(this)">C:\Users\CVHS\SF_Projects\SonarCode\SonarCode\force-app\main\default\lwc\biPspbDlqiQuestionnaire\biPspbDlqiQuestionnaire.js</a></td>
+              <td>1</td>
+              <td>0</td></tr><tr class="details-row hidden">
+                <td colspan="3">
+                  <table class="details-table">
+                    <tbody><tr class="msg-danger"><td class="location-col">
+                              1570:17
+                          </td>
+                          <td class="severity-col">Error</td>
+                          <td class="message-col">Method &#x27;submitResponses&#x27; has a complexity of 44. Maximum allowed is 20.</td>
+                            <td class="rule-col"><a href="http://eslint.org/docs/rules/complexity">complexity</a></td>
+      </tr></tbody>
+                  </table>
+                </td>
+              </tr><tr class="danger"><td>            <a class="toggle-link" href="javascript:;" onclick="toggleDetails(this)">C:\Users\CVHS\SF_Projects\SonarCode\SonarCode\force-app\main\default\lwc\biPspbFatigueSymptoms\biPspbFatigueSymptoms.js</a></td>
+              <td>1</td>
+              <td>0</td></tr><tr class="details-row hidden">
+                <td colspan="3">
+                  <table class="details-table">
+                    <tbody><tr class="msg-danger"><td class="location-col">
+                              45:5
+                          </td>
+                          <td class="severity-col">Error</td>
+                          <td class="message-col">Invalid usage of for-of.</td>
+                            <td class="rule-col"><a href="http://eslint.org/docs/rules/@lwc/lwc/no-for-of">@lwc/lwc/no-for-of</a></td>
+      </tr></tbody>
+                  </table>
+                </td>
+              </tr><tr class="danger"><td>            <a class="toggle-link" href="javascript:;" onclick="toggleDetails(this)">C:\Users\CVHS\SF_Projects\SonarCode\SonarCode\force-app\main\default\lwc\biPspbMoodSymptom\biPspbMoodSymptom.js</a></td>
+              <td>1</td>
+              <td>0</td></tr><tr class="details-row hidden">
+                <td colspan="3">
+                  <table class="details-table">
+                    <tbody><tr class="msg-danger"><td class="location-col">
+                              129:7
+                          </td>
+                          <td class="severity-col">Error</td>
+                          <td class="message-col">Invalid usage of for-of.</td>
+                            <td class="rule-col"><a href="http://eslint.org/docs/rules/@lwc/lwc/no-for-of">@lwc/lwc/no-for-of</a></td>
+      </tr></tbody>
+                  </table>
+                </td>
+              </tr><tr class="danger"><td>            <a class="toggle-link" href="javascript:;" onclick="toggleDetails(this)">C:\Users\CVHS\SF_Projects\SonarCode\SonarCode\force-app\main\default\lwc\biPspbMyFollowers\biPspbMyFollowers.js</a></td>
+              <td>1</td>
+              <td>0</td></tr><tr class="details-row hidden">
+                <td colspan="3">
+                  <table class="details-table">
+                    <tbody><tr class="msg-danger"><td class="location-col">
+                              77:37
+                          </td>
+                          <td class="severity-col">Error</td>
+                          <td class="message-col">Restricted async operation &quot;setTimeout&quot;</td>
+                            <td class="rule-col"><a href="http://eslint.org/docs/rules/@lwc/lwc/no-async-operation">@lwc/lwc/no-async-operation</a></td>
+      </tr></tbody>
+                  </table>
+                </td>
+              </tr><tr class="danger"><td>            <a class="toggle-link" href="javascript:;" onclick="toggleDetails(this)">C:\Users\CVHS\SF_Projects\SonarCode\SonarCode\force-app\main\default\lwc\biPspbMyFollowing\biPspbMyFollowing.js</a></td>
+              <td>1</td>
+              <td>0</td></tr><tr class="details-row hidden">
+                <td colspan="3">
+                  <table class="details-table">
+                    <tbody><tr class="msg-danger"><td class="location-col">
+                              125:9
+                          </td>
+                          <td class="severity-col">Error</td>
+                          <td class="message-col">Restricted async operation &quot;setTimeout&quot;</td>
+                            <td class="rule-col"><a href="http://eslint.org/docs/rules/@lwc/lwc/no-async-operation">@lwc/lwc/no-async-operation</a></td>
+      </tr></tbody>
+                  </table>
+                </td>
+              </tr><tr class="danger"><td>            <a class="toggle-link" href="javascript:;" onclick="toggleDetails(this)">C:\Users\CVHS\SF_Projects\SonarCode\SonarCode\force-app\main\default\lwc\biPspbMyPost\biPspbMyPost.js</a></td>
+              <td>1</td>
+              <td>0</td></tr><tr class="details-row hidden">
+                <td colspan="3">
+                  <table class="details-table">
+                    <tbody><tr class="msg-danger"><td class="location-col">
+                              257:35
+                          </td>
+                          <td class="severity-col">Error</td>
+                          <td class="message-col">Restricted async operation &quot;setTimeout&quot;</td>
+                            <td class="rule-col"><a href="http://eslint.org/docs/rules/@lwc/lwc/no-async-operation">@lwc/lwc/no-async-operation</a></td>
+      </tr></tbody>
+                  </table>
+                </td>
+              </tr><tr class="danger"><td>            <a class="toggle-link" href="javascript:;" onclick="toggleDetails(this)">C:\Users\CVHS\SF_Projects\SonarCode\SonarCode\force-app\main\default\lwc\biPspbPainSymptoms\biPspbPainSymptoms.js</a></td>
+              <td>1</td>
+              <td>0</td></tr><tr class="details-row hidden">
+                <td colspan="3">
+                  <table class="details-table">
+                    <tbody><tr class="msg-danger"><td class="location-col">
+                              50:5
+                          </td>
+                          <td class="severity-col">Error</td>
+                          <td class="message-col">Invalid usage of for-of.</td>
+                            <td class="rule-col"><a href="http://eslint.org/docs/rules/@lwc/lwc/no-for-of">@lwc/lwc/no-for-of</a></td>
+      </tr></tbody>
+                  </table>
+                </td>
+              </tr><tr class="danger"><td>            <a class="toggle-link" href="javascript:;" onclick="toggleDetails(this)">C:\Users\CVHS\SF_Projects\SonarCode\SonarCode\force-app\main\default\lwc\biPspbPrimaryPageSymptom\biPspbPrimaryPageSymptom.js</a></td>
+              <td>1</td>
+              <td>0</td></tr><tr class="details-row hidden">
+                <td colspan="3">
+                  <table class="details-table">
+                    <tbody><tr class="msg-danger"><td class="location-col">
+                              138:6
+                          </td>
+                          <td class="severity-col">Error</td>
+                          <td class="message-col">Invalid usage of for-of.</td>
+                            <td class="rule-col"><a href="http://eslint.org/docs/rules/@lwc/lwc/no-for-of">@lwc/lwc/no-for-of</a></td>
+      </tr></tbody>
+                  </table>
+                </td>
+              </tr><tr class="danger"><td>            <a class="toggle-link" href="javascript:;" onclick="toggleDetails(this)">C:\Users\CVHS\SF_Projects\SonarCode\SonarCode\force-app\main\default\lwc\biPspbPustulesSymptoms\biPspbPustulesSymptoms.js</a></td>
+              <td>1</td>
+              <td>0</td></tr><tr class="details-row hidden">
+                <td colspan="3">
+                  <table class="details-table">
+                    <tbody><tr class="msg-danger"><td class="location-col">
+                              50:5
+                          </td>
+                          <td class="severity-col">Error</td>
+                          <td class="message-col">Invalid usage of for-of.</td>
+                            <td class="rule-col"><a href="http://eslint.org/docs/rules/@lwc/lwc/no-for-of">@lwc/lwc/no-for-of</a></td>
+      </tr></tbody>
+                  </table>
+                </td>
+              </tr><tr class="danger"><td>            <a class="toggle-link" href="javascript:;" onclick="toggleDetails(this)">C:\Users\CVHS\SF_Projects\SonarCode\SonarCode\force-app\main\default\lwc\biPspbRednessSymptoms\biPspbRednessSymptoms.js</a></td>
+              <td>1</td>
+              <td>0</td></tr><tr class="details-row hidden">
+                <td colspan="3">
+                  <table class="details-table">
+                    <tbody><tr class="msg-danger"><td class="location-col">
+                              51:5
+                          </td>
+                          <td class="severity-col">Error</td>
+                          <td class="message-col">Invalid usage of for-of.</td>
+                            <td class="rule-col"><a href="http://eslint.org/docs/rules/@lwc/lwc/no-for-of">@lwc/lwc/no-for-of</a></td>
+      </tr></tbody>
+                  </table>
+                </td>
+              </tr><tr class="danger"><td>            <a class="toggle-link" href="javascript:;" onclick="toggleDetails(this)">C:\Users\CVHS\SF_Projects\SonarCode\SonarCode\force-app\main\default\lwc\biPspbReminderSetup\biPspbReminderSetup.js</a></td>
+              <td>1</td>
+              <td>0</td></tr><tr class="details-row hidden">
+                <td colspan="3">
+                  <table class="details-table">
+                    <tbody><tr class="msg-danger"><td class="location-col">
+                              100:28
+                          </td>
+                          <td class="severity-col">Error</td>
+                          <td class="message-col">&#x27;error&#x27; is defined but never used.</td>
+                            <td class="rule-col"><a href="http://eslint.org/docs/rules/no-unused-vars">no-unused-vars</a></td>
+      </tr></tbody>
+                  </table>
+                </td>
+              </tr><tr class="danger"><td>            <a class="toggle-link" href="javascript:;" onclick="toggleDetails(this)">C:\Users\CVHS\SF_Projects\SonarCode\SonarCode\force-app\main\default\lwc\biPspbTemperatureSymptoms\biPspbTemperatureSymptoms.js</a></td>
+              <td>1</td>
+              <td>0</td></tr><tr class="details-row hidden">
+                <td colspan="3">
+                  <table class="details-table">
+                    <tbody><tr class="msg-danger"><td class="location-col">
+                              51:5
+                          </td>
+                          <td class="severity-col">Error</td>
+                          <td class="message-col">Invalid usage of for-of.</td>
+                            <td class="rule-col"><a href="http://eslint.org/docs/rules/@lwc/lwc/no-for-of">@lwc/lwc/no-for-of</a></td>
+      </tr></tbody>
+                  </table>
+                </td>
+              </tr><tr class="danger"><td>            <a class="toggle-link" href="javascript:;" onclick="toggleDetails(this)">C:\Users\CVHS\SF_Projects\SonarCode\SonarCode\jest.config.js</a></td>
+              <td>1</td>
+              <td>0</td></tr><tr class="details-row hidden">
+                <td colspan="3">
+                  <table class="details-table">
+                    <tbody><tr class="msg-danger"><td class="location-col">
+                              3:1
+                          </td>
+                          <td class="severity-col">Error</td>
+                          <td class="message-col">&#x27;module&#x27; is not defined.</td>
+                            <td class="rule-col"><a href="http://eslint.org/docs/rules/no-undef">no-undef</a></td>
+      </tr></tbody>
+                  </table>
+                </td>
+              </tr><tr class="success"><td>C:\Users\CVHS\SF_Projects\SonarCode\SonarCode\force-app\main\default\lwc\biPspLabelAndResourceChallenges\biPspLabelAndResourceChallenges.js</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\CVHS\SF_Projects\SonarCode\SonarCode\force-app\main\default\lwc\biPspLabelAndResourceGeneral\biPspLabelAndResourceGeneral.js</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\CVHS\SF_Projects\SonarCode\SonarCode\force-app\main\default\lwc\biPspbAboutMyselfParent\biPspbAboutMyselfParent.js</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\CVHS\SF_Projects\SonarCode\SonarCode\force-app\main\default\lwc\biPspbActionNotificationFormParent\biPspbActionNotificationFormParent.js</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\CVHS\SF_Projects\SonarCode\SonarCode\force-app\main\default\lwc\biPspbAcuteDashboardParent\biPspbAcuteDashboardParent.js</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\CVHS\SF_Projects\SonarCode\SonarCode\force-app\main\default\lwc\biPspbAcuteVideoAvatar\biPspbAcuteVideoAvatar.js</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\CVHS\SF_Projects\SonarCode\SonarCode\force-app\main\default\lwc\biPspbAcuteVideoParent\biPspbAcuteVideoParent.js</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\CVHS\SF_Projects\SonarCode\SonarCode\force-app\main\default\lwc\biPspbAcuteVideo\biPspbAcuteVideo.js</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\CVHS\SF_Projects\SonarCode\SonarCode\force-app\main\default\lwc\biPspbAddCaregivers\biPspbAddCaregivers.js</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\CVHS\SF_Projects\SonarCode\SonarCode\force-app\main\default\lwc\biPspbArticleCategoryAvatar\biPspbArticleCategoryAvatar.js</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\CVHS\SF_Projects\SonarCode\SonarCode\force-app\main\default\lwc\biPspbArticleCategoryParent\biPspbArticleCategoryParent.js</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\CVHS\SF_Projects\SonarCode\SonarCode\force-app\main\default\lwc\biPspbArticleContentAvatar\biPspbArticleContentAvatar.js</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\CVHS\SF_Projects\SonarCode\SonarCode\force-app\main\default\lwc\biPspbArticleContentNavigation\biPspbArticleContentNavigation.js</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\CVHS\SF_Projects\SonarCode\SonarCode\force-app\main\default\lwc\biPspbArticleContentParent\biPspbArticleContentParent.js</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\CVHS\SF_Projects\SonarCode\SonarCode\force-app\main\default\lwc\biPspbArticleContent\biPspbArticleContent.js</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\CVHS\SF_Projects\SonarCode\SonarCode\force-app\main\default\lwc\biPspbArticleLike\biPspbArticleLike.js</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\CVHS\SF_Projects\SonarCode\SonarCode\force-app\main\default\lwc\biPspbArticleSearchAvatar\biPspbArticleSearchAvatar.js</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\CVHS\SF_Projects\SonarCode\SonarCode\force-app\main\default\lwc\biPspbArticleSearchNavigation\biPspbArticleSearchNavigation.js</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\CVHS\SF_Projects\SonarCode\SonarCode\force-app\main\default\lwc\biPspbArticleSearchParent\biPspbArticleSearchParent.js</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\CVHS\SF_Projects\SonarCode\SonarCode\force-app\main\default\lwc\biPspbArticlesForDashboard\biPspbArticlesForDashboard.js</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\CVHS\SF_Projects\SonarCode\SonarCode\force-app\main\default\lwc\biPspbAvailableChallenges\biPspbAvailableChallenges.js</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\CVHS\SF_Projects\SonarCode\SonarCode\force-app\main\default\lwc\biPspbAvatarNavigationQuestionnaires\biPspbAvatarNavigationQuestionnaires.js</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\CVHS\SF_Projects\SonarCode\SonarCode\force-app\main\default\lwc\biPspbAvatarResources\biPspbAvatarResources.js</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\CVHS\SF_Projects\SonarCode\SonarCode\force-app\main\default\lwc\biPspbAvatarSelectionParent\biPspbAvatarSelectionParent.js</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\CVHS\SF_Projects\SonarCode\SonarCode\force-app\main\default\lwc\biPspbCaregiverNotificationParent\biPspbCaregiverNotificationParent.js</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\CVHS\SF_Projects\SonarCode\SonarCode\force-app\main\default\lwc\biPspbCaregiverPatientParent\biPspbCaregiverPatientParent.js</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\CVHS\SF_Projects\SonarCode\SonarCode\force-app\main\default\lwc\biPspbCaregiverPostLogin\biPspbCaregiverPostLogin.js</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\CVHS\SF_Projects\SonarCode\SonarCode\force-app\main\default\lwc\biPspbCaregiverProfileParent\biPspbCaregiverProfileParent.js</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\CVHS\SF_Projects\SonarCode\SonarCode\force-app\main\default\lwc\biPspbCaregiverProfile\biPspbCaregiverProfile.js</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\CVHS\SF_Projects\SonarCode\SonarCode\force-app\main\default\lwc\biPspbCaseComponentParent\biPspbCaseComponentParent.js</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\CVHS\SF_Projects\SonarCode\SonarCode\force-app\main\default\lwc\biPspbCgAvatarSelectionParent\biPspbCgAvatarSelectionParent.js</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\CVHS\SF_Projects\SonarCode\SonarCode\force-app\main\default\lwc\biPspbCgPatientInformation\biPspbCgPatientInformation.js</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\CVHS\SF_Projects\SonarCode\SonarCode\force-app\main\default\lwc\biPspbCgSelectAvatarParent\biPspbCgSelectAvatarParent.js</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\CVHS\SF_Projects\SonarCode\SonarCode\force-app\main\default\lwc\biPspbChallenges\biPspbChallenges.js</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\CVHS\SF_Projects\SonarCode\SonarCode\force-app\main\default\lwc\biPspbChartPercentage\biPspbChartPercentage.js</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\CVHS\SF_Projects\SonarCode\SonarCode\force-app\main\default\lwc\biPspbChatterNavBar\biPspbChatterNavBar.js</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\CVHS\SF_Projects\SonarCode\SonarCode\force-app\main\default\lwc\biPspbChatterUsername\biPspbChatterUsername.js</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\CVHS\SF_Projects\SonarCode\SonarCode\force-app\main\default\lwc\biPspbChronicVideoAvatar\biPspbChronicVideoAvatar.js</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\CVHS\SF_Projects\SonarCode\SonarCode\force-app\main\default\lwc\biPspbChronicVideoParent\biPspbChronicVideoParent.js</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\CVHS\SF_Projects\SonarCode\SonarCode\force-app\main\default\lwc\biPspbChronicVideo\biPspbChronicVideo.js</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\CVHS\SF_Projects\SonarCode\SonarCode\force-app\main\default\lwc\biPspbCommonNavBar\biPspbCommonNavBar.js</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\CVHS\SF_Projects\SonarCode\SonarCode\force-app\main\default\lwc\biPspbCompletedChallengeComponent\biPspbCompletedChallengeComponent.js</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\CVHS\SF_Projects\SonarCode\SonarCode\force-app\main\default\lwc\biPspbContactUs\biPspbContactUs.js</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\CVHS\SF_Projects\SonarCode\SonarCode\force-app\main\default\lwc\biPspbCreatePost\biPspbCreatePost.js</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\CVHS\SF_Projects\SonarCode\SonarCode\force-app\main\default\lwc\biPspbDlqiCard\biPspbDlqiCard.js</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\CVHS\SF_Projects\SonarCode\SonarCode\force-app\main\default\lwc\biPspbDlqiCompletedQuesParent\biPspbDlqiCompletedQuesParent.js</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\CVHS\SF_Projects\SonarCode\SonarCode\force-app\main\default\lwc\biPspbDlqiCompletedQuestionnaire\biPspbDlqiCompletedQuestionnaire.js</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\CVHS\SF_Projects\SonarCode\SonarCode\force-app\main\default\lwc\biPspbDlqiQuesParent\biPspbDlqiQuesParent.js</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\CVHS\SF_Projects\SonarCode\SonarCode\force-app\main\default\lwc\biPspbEnrollmentFormResource\biPspbEnrollmentFormResource.js</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\CVHS\SF_Projects\SonarCode\SonarCode\force-app\main\default\lwc\biPspbFirsttimeAvatarSelection\biPspbFirsttimeAvatarSelection.js</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\CVHS\SF_Projects\SonarCode\SonarCode\force-app\main\default\lwc\biPspbFooterLogo\biPspbFooterLogo.js</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\CVHS\SF_Projects\SonarCode\SonarCode\force-app\main\default\lwc\biPspbFooterQuickLinks\biPspbFooterQuickLinks.js</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\CVHS\SF_Projects\SonarCode\SonarCode\force-app\main\default\lwc\biPspbHcpEnrollment\biPspbHcpEnrollment.js</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\CVHS\SF_Projects\SonarCode\SonarCode\force-app\main\default\lwc\biPspbHcpPrepopulateCaregiverForm\biPspbHcpPrepopulateCaregiverForm.js</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\CVHS\SF_Projects\SonarCode\SonarCode\force-app\main\default\lwc\biPspbHcpPrepopulatePatientForm\biPspbHcpPrepopulatePatientForm.js</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\CVHS\SF_Projects\SonarCode\SonarCode\force-app\main\default\lwc\biPspbHcpPrepopulateSummary\biPspbHcpPrepopulateSummary.js</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\CVHS\SF_Projects\SonarCode\SonarCode\force-app\main\default\lwc\biPspbHcpSummaryParent\biPspbHcpSummaryParent.js</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\CVHS\SF_Projects\SonarCode\SonarCode\force-app\main\default\lwc\biPspbHistoryNotificationParent\biPspbHistoryNotificationParent.js</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\CVHS\SF_Projects\SonarCode\SonarCode\force-app\main\default\lwc\biPspbHomeIconForThankyouMsg\biPspbHomeIconForThankyouMsg.js</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\CVHS\SF_Projects\SonarCode\SonarCode\force-app\main\default\lwc\biPspbHomeIconParent\biPspbHomeIconParent.js</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\CVHS\SF_Projects\SonarCode\SonarCode\force-app\main\default\lwc\biPspbIamHcpLandingParent\biPspbIamHcpLandingParent.js</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\CVHS\SF_Projects\SonarCode\SonarCode\force-app\main\default\lwc\biPspbIamPatientLandingParent\biPspbIamPatientLandingParent.js</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\CVHS\SF_Projects\SonarCode\SonarCode\force-app\main\default\lwc\biPspbInfoCenterLandingParent\biPspbInfoCenterLandingParent.js</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\CVHS\SF_Projects\SonarCode\SonarCode\force-app\main\default\lwc\biPspbInfoLandingAvatar\biPspbInfoLandingAvatar.js</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\CVHS\SF_Projects\SonarCode\SonarCode\force-app\main\default\lwc\biPspbInformationCenterLanding\biPspbInformationCenterLanding.js</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\CVHS\SF_Projects\SonarCode\SonarCode\force-app\main\default\lwc\biPspbIntroductionCard\biPspbIntroductionCard.js</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\CVHS\SF_Projects\SonarCode\SonarCode\force-app\main\default\lwc\biPspbIntroductionQuesParent\biPspbIntroductionQuesParent.js</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\CVHS\SF_Projects\SonarCode\SonarCode\force-app\main\default\lwc\biPspbLabelAndResourceCommunity\biPspbLabelAndResourceCommunity.js</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\CVHS\SF_Projects\SonarCode\SonarCode\force-app\main\default\lwc\biPspbLabelAndResourceSymptom\biPspbLabelAndResourceSymptom.js</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\CVHS\SF_Projects\SonarCode\SonarCode\force-app\main\default\lwc\biPspbLabelForInfoCenter\biPspbLabelForInfoCenter.js</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\CVHS\SF_Projects\SonarCode\SonarCode\force-app\main\default\lwc\biPspbLoginFooter\biPspbLoginFooter.js</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\CVHS\SF_Projects\SonarCode\SonarCode\force-app\main\default\lwc\biPspbLoginHome\biPspbLoginHome.js</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\CVHS\SF_Projects\SonarCode\SonarCode\force-app\main\default\lwc\biPspbMedicalInformationEnquiryParent\biPspbMedicalInformationEnquiryParent.js</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\CVHS\SF_Projects\SonarCode\SonarCode\force-app\main\default\lwc\biPspbMedicalInformationsEnquiry\biPspbMedicalInformationsEnquiry.js</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\CVHS\SF_Projects\SonarCode\SonarCode\force-app\main\default\lwc\biPspbMyGppParent\biPspbMyGppParent.js</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\CVHS\SF_Projects\SonarCode\SonarCode\force-app\main\default\lwc\biPspbNavBar\biPspbNavBar.js</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\CVHS\SF_Projects\SonarCode\SonarCode\force-app\main\default\lwc\biPspbNavigationBar\biPspbNavigationBar.js</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\CVHS\SF_Projects\SonarCode\SonarCode\force-app\main\default\lwc\biPspbNotificationForCaregiver\biPspbNotificationForCaregiver.js</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\CVHS\SF_Projects\SonarCode\SonarCode\force-app\main\default\lwc\biPspbNotificationForPatient\biPspbNotificationForPatient.js</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\CVHS\SF_Projects\SonarCode\SonarCode\force-app\main\default\lwc\biPspbNotificationGeneralFormParent\biPspbNotificationGeneralFormParent.js</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\CVHS\SF_Projects\SonarCode\SonarCode\force-app\main\default\lwc\biPspbNotificationHistoryForm\biPspbNotificationHistoryForm.js</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\CVHS\SF_Projects\SonarCode\SonarCode\force-app\main\default\lwc\biPspbNotificationReminderResources\biPspbNotificationReminderResources.js</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\CVHS\SF_Projects\SonarCode\SonarCode\force-app\main\default\lwc\biPspbNotificationSetting\biPspbNotificationSetting.js</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\CVHS\SF_Projects\SonarCode\SonarCode\force-app\main\default\lwc\biPspbOutstandingPageParent\biPspbOutstandingPageParent.js</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\CVHS\SF_Projects\SonarCode\SonarCode\force-app\main\default\lwc\biPspbOutstandingPage\biPspbOutstandingPage.js</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\CVHS\SF_Projects\SonarCode\SonarCode\force-app\main\default\lwc\biPspbPatientEnrollmentForm\biPspbPatientEnrollmentForm.js</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\CVHS\SF_Projects\SonarCode\SonarCode\force-app\main\default\lwc\biPspbPatientEnrollmentParent\biPspbPatientEnrollmentParent.js</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\CVHS\SF_Projects\SonarCode\SonarCode\force-app\main\default\lwc\biPspbPatientProfileDetail\biPspbPatientProfileDetail.js</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\CVHS\SF_Projects\SonarCode\SonarCode\force-app\main\default\lwc\biPspbPatientProfileParent\biPspbPatientProfileParent.js</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\CVHS\SF_Projects\SonarCode\SonarCode\force-app\main\default\lwc\biPspbPatientSelectAvatarParent\biPspbPatientSelectAvatarParent.js</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\CVHS\SF_Projects\SonarCode\SonarCode\force-app\main\default\lwc\biPspbPatientSelectionSwitch\biPspbPatientSelectionSwitch.js</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\CVHS\SF_Projects\SonarCode\SonarCode\force-app\main\default\lwc\biPspbPatientSummaryParent\biPspbPatientSummaryParent.js</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\CVHS\SF_Projects\SonarCode\SonarCode\force-app\main\default\lwc\biPspbPlatformSupportParent\biPspbPlatformSupportParent.js</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\CVHS\SF_Projects\SonarCode\SonarCode\force-app\main\default\lwc\biPspbPlatformSupport\biPspbPlatformSupport.js</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\CVHS\SF_Projects\SonarCode\SonarCode\force-app\main\default\lwc\biPspbPreStatusParent\biPspbPreStatusParent.js</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\CVHS\SF_Projects\SonarCode\SonarCode\force-app\main\default\lwc\biPspbPrepopulateSummaryPage\biPspbPrepopulateSummaryPage.js</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\CVHS\SF_Projects\SonarCode\SonarCode\force-app\main\default\lwc\biPspbPrepopulatedCaregiverFormParent\biPspbPrepopulatedCaregiverFormParent.js</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\CVHS\SF_Projects\SonarCode\SonarCode\force-app\main\default\lwc\biPspbPrepopulatedFormParent\biPspbPrepopulatedFormParent.js</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\CVHS\SF_Projects\SonarCode\SonarCode\force-app\main\default\lwc\biPspbPrepopulatedSummaryParent\biPspbPrepopulatedSummaryParent.js</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\CVHS\SF_Projects\SonarCode\SonarCode\force-app\main\default\lwc\biPspbPrescriptionParent\biPspbPrescriptionParent.js</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\CVHS\SF_Projects\SonarCode\SonarCode\force-app\main\default\lwc\biPspbPrescriptionStatus\biPspbPrescriptionStatus.js</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\CVHS\SF_Projects\SonarCode\SonarCode\force-app\main\default\lwc\biPspbPrescriptionWidget\biPspbPrescriptionWidget.js</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\CVHS\SF_Projects\SonarCode\SonarCode\force-app\main\default\lwc\biPspbPrivacyNotice\biPspbPrivacyNotice.js</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\CVHS\SF_Projects\SonarCode\SonarCode\force-app\main\default\lwc\biPspbPsoriasisCard\biPspbPsoriasisCard.js</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\CVHS\SF_Projects\SonarCode\SonarCode\force-app\main\default\lwc\biPspbPsoriasisQuesParent\biPspbPsoriasisQuesParent.js</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\CVHS\SF_Projects\SonarCode\SonarCode\force-app\main\default\lwc\biPspbPssCompletedQuesParent\biPspbPssCompletedQuesParent.js</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\CVHS\SF_Projects\SonarCode\SonarCode\force-app\main\default\lwc\biPspbPssCompletedQuestionnaires\biPspbPssCompletedQuestionnaires.js</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\CVHS\SF_Projects\SonarCode\SonarCode\force-app\main\default\lwc\biPspbPssQuestionnaire\biPspbPssQuestionnaire.js</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\CVHS\SF_Projects\SonarCode\SonarCode\force-app\main\default\lwc\biPspbQsqAfterFourteenWeeks\biPspbQsqAfterFourteenWeeks.js</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\CVHS\SF_Projects\SonarCode\SonarCode\force-app\main\default\lwc\biPspbQsqAfterTwoMonths\biPspbQsqAfterTwoMonths.js</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\CVHS\SF_Projects\SonarCode\SonarCode\force-app\main\default\lwc\biPspbQsqCompletedQsFourteenWeeksParent\biPspbQsqCompletedQsFourteenWeeksParent.js</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\CVHS\SF_Projects\SonarCode\SonarCode\force-app\main\default\lwc\biPspbQsqCompletedQuesFourteenWeeks\biPspbQsqCompletedQuesFourteenWeeks.js</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\CVHS\SF_Projects\SonarCode\SonarCode\force-app\main\default\lwc\biPspbQsqCompletedQuesTwoMonthsParent\biPspbQsqCompletedQuesTwoMonthsParent.js</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\CVHS\SF_Projects\SonarCode\SonarCode\force-app\main\default\lwc\biPspbQsqCompletedQuesTwoMonths\biPspbQsqCompletedQuesTwoMonths.js</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\CVHS\SF_Projects\SonarCode\SonarCode\force-app\main\default\lwc\biPspbQsqFourteenWeekQuesParent\biPspbQsqFourteenWeekQuesParent.js</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\CVHS\SF_Projects\SonarCode\SonarCode\force-app\main\default\lwc\biPspbQsqTwoMonthsQuesParent\biPspbQsqTwoMonthsQuesParent.js</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\CVHS\SF_Projects\SonarCode\SonarCode\force-app\main\default\lwc\biPspbQualitativeCard\biPspbQualitativeCard.js</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\CVHS\SF_Projects\SonarCode\SonarCode\force-app\main\default\lwc\biPspbRelatedArticles\biPspbRelatedArticles.js</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\CVHS\SF_Projects\SonarCode\SonarCode\force-app\main\default\lwc\biPspbReminderNotificationSetting\biPspbReminderNotificationSetting.js</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\CVHS\SF_Projects\SonarCode\SonarCode\force-app\main\default\lwc\biPspbReminderSetupParent\biPspbReminderSetupParent.js</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\CVHS\SF_Projects\SonarCode\SonarCode\force-app\main\default\lwc\biPspbReminderWidget\biPspbReminderWidget.js</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\CVHS\SF_Projects\SonarCode\SonarCode\force-app\main\default\lwc\biPspbReportAdverseEventParent\biPspbReportAdverseEventParent.js</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\CVHS\SF_Projects\SonarCode\SonarCode\force-app\main\default\lwc\biPspbReportAdverseEvents\biPspbReportAdverseEvents.js</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\CVHS\SF_Projects\SonarCode\SonarCode\force-app\main\default\lwc\biPspbSettingForNotification\biPspbSettingForNotification.js</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\CVHS\SF_Projects\SonarCode\SonarCode\force-app\main\default\lwc\biPspbSupportCaseResources\biPspbSupportCaseResources.js</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\CVHS\SF_Projects\SonarCode\SonarCode\force-app\main\default\lwc\biPspbSupportCenterParent\biPspbSupportCenterParent.js</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\CVHS\SF_Projects\SonarCode\SonarCode\force-app\main\default\lwc\biPspbSupportCenter\biPspbSupportCenter.js</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\CVHS\SF_Projects\SonarCode\SonarCode\force-app\main\default\lwc\biPspbSymptomLandingPage\biPspbSymptomLandingPage.js</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\CVHS\SF_Projects\SonarCode\SonarCode\force-app\main\default\lwc\biPspbSymptomTrackerChartParent\biPspbSymptomTrackerChartParent.js</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\CVHS\SF_Projects\SonarCode\SonarCode\force-app\main\default\lwc\biPspbSymptomTrackerGraph\biPspbSymptomTrackerGraph.js</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\CVHS\SF_Projects\SonarCode\SonarCode\force-app\main\default\lwc\biPspbSymptomTrackerLandingPageParent\biPspbSymptomTrackerLandingPageParent.js</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\CVHS\SF_Projects\SonarCode\SonarCode\force-app\main\default\lwc\biPspbSymptomTrackerMainParent\biPspbSymptomTrackerMainParent.js</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\CVHS\SF_Projects\SonarCode\SonarCode\force-app\main\default\lwc\biPspbTermsOfUse\biPspbTermsOfUse.js</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\CVHS\SF_Projects\SonarCode\SonarCode\force-app\main\default\lwc\biPspbThankyouForHcpEnrollment\biPspbThankyouForHcpEnrollment.js</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\CVHS\SF_Projects\SonarCode\SonarCode\force-app\main\default\lwc\biPspbTrophyCaseComponent\biPspbTrophyCaseComponent.js</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\CVHS\SF_Projects\SonarCode\SonarCode\force-app\main\default\lwc\biPspbUpdatePrescription\biPspbUpdatePrescription.js</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\CVHS\SF_Projects\SonarCode\SonarCode\force-app\main\default\lwc\biPspbWapiCard\biPspbWapiCard.js</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\CVHS\SF_Projects\SonarCode\SonarCode\force-app\main\default\lwc\biPspbWapiCompletedQuesParent\biPspbWapiCompletedQuesParent.js</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\CVHS\SF_Projects\SonarCode\SonarCode\force-app\main\default\lwc\biPspbWapiCompletedQuestionnaire\biPspbWapiCompletedQuestionnaire.js</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\CVHS\SF_Projects\SonarCode\SonarCode\force-app\main\default\lwc\biPspbWapiQuesParent\biPspbWapiQuesParent.js</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\CVHS\SF_Projects\SonarCode\SonarCode\force-app\main\default\lwc\biPspbWapiQuestionnaire\biPspbWapiQuestionnaire.js</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\CVHS\SF_Projects\SonarCode\SonarCode\force-app\main\default\lwc\biPspbWelcomeAvatar\biPspbWelcomeAvatar.js</td>
+              <td>0</td>
+              <td>0</td></tr><tr class="success"><td>C:\Users\CVHS\SF_Projects\SonarCode\SonarCode\force-app\main\default\lwc\biPspbWidgetChallenges\biPspbWidgetChallenges.js</td>
+              <td>0</td>
+              <td>0</td></tr></tbody>
+      </table>
+
+  </div>
+</body>
+</html>

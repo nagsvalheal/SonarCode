@@ -20,8 +20,7 @@ public with sharing class BI_PSPB_WpaiQuestionnaireService {
 
             if (!enrolleeIds.isEmpty()) {
                 Integer wpaiCount = BI_PSPB_QuestionsDaysCountFetcher.fetchWpaiCount();
-                List<Id> enrolleeRecIds = BI_PSPB_QuestionsSymptomTrackerProcessor.processSymptomTrackers(enrolleeIds, wpaiCount);
-                System.debug('enrolleeRecIds ' + enrolleeRecIds);	
+                List<Id> enrolleeRecIds = BI_PSPB_QuestionsSymptomTrackerProcessor.processSymptomTrackers(enrolleeIds, wpaiCount);	
                 if (!enrolleeRecIds.isEmpty()) {
                     enrolleeSendIds = BI_PSPB_AssessmentFetcher.fetchDueAssessments(enrolleeRecIds, BI_PSPB_NotificatinRmdConstantsCtrl.wpaiQuestionName);
                     BI_PSPB_TaskParameters params = new BI_PSPB_TaskParameters(
@@ -30,20 +29,16 @@ public with sharing class BI_PSPB_WpaiQuestionnaireService {
 						BI_PSPB_NotificatinRmdConstantsCtrl.wpai,
 						'',
 						BI_PSPB_NotificatinRmdConstantsCtrl.actionTypeNotificatonTypeAction
-					);
-                    System.debug('enrolleeSendIds ' + enrolleeSendIds);					
+					);					
                     newTaskList = BI_PSPB_TaskCreationCtrl.createTasks(
 						enrolleeSendIds,
 						params
 					);
-                    System.debug('newTaskList ' + newTaskList);
-                    if (!newTaskList.isEmpty()) {
                     	BI_PSPB_HandleUtitlites.insertAndHandleErrors(
 							newTaskList,
 							BI_PSPB_WpaiQuestionnaireService.class.toString(),
 							false
 						);
-                    }
                     BI_PSPB_NotificationSender.sendNotifications(enrolleeSendIds, BI_PSPB_NotificatinRmdConstantsCtrl.wpai, new List<String>{''});
                 }
             } else {

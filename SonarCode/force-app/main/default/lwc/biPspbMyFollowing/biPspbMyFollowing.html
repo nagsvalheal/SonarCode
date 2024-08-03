@@ -13,7 +13,7 @@
     <div class="toastmsg">
       <img src={ticIcon} class="imgsize" />
       &nbsp;&nbsp;&nbsp;&nbsp;
-      <p class="flwtoastmsg">You unfollowed {selectedUser} successfully.</p>
+      <p class="flwtoastmsg">{unFollowingToastContent} {selectedUser} {unFollowingPartToastContent}</p>
     </div>
   </template>
   <div class="total">
@@ -23,9 +23,7 @@
       <div class="avatarcontentno">
         <div>
           <p class="avatarcontentdis">
-            This is the patient community forum! Create posts, react and
-            comment, connect with others and build a supportive community in
-            your health journey.
+            {avatarContent}
           </p>
         </div>
       </div>
@@ -44,13 +42,13 @@
       <div class="toastmsgforMbl">
         <img src={ticIcon} class="tickimage" />
         <div class="classflex">
-          <p class="para">You unfollowed {selectedUser} successfully.</p>
+          <p class="para">{unFollowingToastContent} {selectedUser} {unFollowingPartToastContent}</p>
         </div>
       </div>
     </template>
     <!-- right side content -->
     <div class="rightSide">
-      <p class="title" data-scroll-target>Following ({numberOfFollowings})</p>
+      <p class="title" data-scroll-target>{followingLabel} ({numberOfFollowings})</p>
       <!-- Total following count -->
       <!-- display this content if there are following list for the logged user -->
       <template if:true={followingsCount}>
@@ -102,9 +100,7 @@
         <div class="widthformbl">
           <img src={allPostImg} class="postimage" />
           <p class="text">
-            You are not following anyone yet! Get connected! Following other
-            users is a great way to stay connected with other patients who share
-            your interests.
+            {noFollowingContent}
           </p>
           <br />
         </div>
@@ -114,7 +110,7 @@
         <template if:true={followingPopup}>
           <div class="back">
             <div class="popup-container">
-              <p class="profile">Profile</p>
+              <p class="profile">{profileLabel}</p>
               <button
                 onclick={closePopup}
                 class="times"
@@ -135,7 +131,7 @@
                 onclick={handleFollowingPopupButtonClick}
                 data-it-button="MyFollowers: Following"
               >
-                Following
+                {followingLabel}
               </button>
             </div>
           </div>
@@ -152,27 +148,26 @@
             >
               X
             </button>
-            <p class="popuptitle second">Unfollow User?<br /></p>
+            <p class="popuptitle second">{unFollowUserText}?<br /></p>
             <p class="popupcontent">
-              Are you sure you want to unfollow {selectedUser}?<br /><br />
+              {unFollowPopupHeading} {selectedUser}?<br /><br />
             </p>
             <p class="contentonly">
-              You'll no longer receive notifications whenever this user creates
-              a new post.
+              {unFollowPopupContent}
             </p>
             <button
               class="followno1 second"
               onclick={closePopup}
               data-it-button="MyFollowers: Unfollow No "
             >
-              No
+              {no}
             </button>
             <button
               class="followyes1"
               onclick={handleUnFollowConfirmation}
               data-it-button="MyFollowers: Unfollow Yes "
             >
-              Yes
+              {yes}
             </button>
           </div>
         </div>

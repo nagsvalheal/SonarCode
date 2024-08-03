@@ -48,53 +48,6 @@
 	pointer-events: none;
 }
 
-.custom-slider {
-	width: 100%;
-	/* Set the width to your desired value */
-	background-color: hsl(206, 62%, 95%);
-	/* Change the background color */
-	border-radius: 5px;
-	margin-right: 10px;
-	/* Add rounded corners */
-}
-
-.custom-slider .slds-slider-fill {
-	background-color: #ff9900;
-	/* Change the fill color as the slider moves */
-}
-
-.custom-slider .slds-slider-bar {
-	background-color: #d3d3d3;
-	/* Change the color of the slider bar */
-}
-
-.custom-slider .slds-slider-thumb {
-	background-color: #ffffff;
-	/* Change the color of the slider thumb */
-	border: 2px solid #0070d2;
-	/* Add a border to the thumb */
-}
-
-.custom-slider .slds-slider-thumb:focus {
-	box-shadow: 0px 0px 5px #0070d2;
-	/* Add a focus effect */
-}
-
-/* customSlider.css */
-.custom-slider {
-	width: 80%;
-	/* Adjust the width to your preference */
-	background-color: #0070d2;
-	border-radius: 5px;
-	margin-right: 10px;
-	/* Create some space between the slider and the text */
-}
-
-.slider-container {
-	display: flex;
-	align-items: center;
-}
-
 .message {
 	margin-top: 18px;
 }
@@ -417,9 +370,6 @@
 	/*background-color: rgba(0, 0, 0, 0.5);*/
 }
 
-.hidden {
-	display: none;
-}
 
 .popup-content {
 	text-align: center;
@@ -809,11 +759,9 @@ span.nds-radio_faux {
 
 .nds-checkbox-wrapper input[type="checkbox"] {
 	transform: scale(1.2);
-}
-
-.nds-checkbox-wrapper input[type="checkbox"] {
 	margin-right: -70px;
 }
+
 
 .nds-form-element__controll.nds-vertical_radio .nds-checkbox-wrapper {
 	margin-right: 10px;
@@ -1347,10 +1295,6 @@ p.expires {
 		width: 115%;
 	}
 
-	.contents {
-		margin-left: 42px;
-	}
-
 	.tick-circle {
 		width: 24px;
 		margin-top: 6px;
@@ -1471,13 +1415,6 @@ p.expires {
 		/* margin-left: -210px; */
 	}
 
-	.column2 {
-		/* width: 61%; */
-
-		/* margin-left: -248px; */
-		/* margin-top: 990px; */
-		/* margin-left: -4%; */
-	}
 
 	/**the start of colmn 1**/
 	.tophead {
@@ -1693,25 +1630,6 @@ p.expires {
 		/* margin-left: -30px; */
 	}
 
-	.retbutton1 {
-		width: 294px;
-		height: 40px;
-		padding: 12px, 24px, 12px, 24px;
-		top: 266px;
-		left: 12px;
-		border-radius: 12px;
-		border: 1.5px solid #403a60;
-	}
-
-	.savebutton1 {
-		width: 294px;
-		height: 40px;
-		border-radius: 12px;
-		border: 1.5px solid #403a60;
-		padding: 12px, 24px, 12px, 24px;
-		top: 266px;
-		left: 166px;
-	}
 
 	.button-container {
 		margin-left: 50px;

@@ -1,7 +1,6 @@
 //This Lightning web component facilitates setting up reminders and treatment schedules, allowing users to save and manage their healthcare appointments efficiently
 // To import Libraries
 import { LightningElement,wire } from "lwc";
-import { ShowToastEvent } from "lightning/platformShowToastEvent";
 // To import the apex classes
 import AVATAR from '@salesforce/apex/BI_PSPB_AvatarCtrl.userCaregiver';
 import GOOGLE_URL from "@salesforce/apex/BI_PSPB_GoogleCalendarCtrl.generateGoogleCalendarUrl";
@@ -21,6 +20,7 @@ export default class BiPspbReminderSetup extends LightningElement {
 	reminderSetup = resources.REMINDER_SETUP;
 	selectedReminders = [];
 	selectedTreatment = [];
+	datePlaceHolder = resources.DATE_PLACE_HOLDER;
 	showMessage = false;
 	showMessageTwo = false;
 	value = [];
@@ -91,7 +91,7 @@ export default class BiPspbReminderSetup extends LightningElement {
 	//Variable declaration
 	userAccounts;
 	selectedAvatarSrc;
-	rightimg = resources.TIC;
+	rightimg = resources.TICK;
 	googleCalIcon = resources.GOOGLE_ICON;
 	outlookCalIcon = resources.OUTLOOK_ICON;
 	warning = resources.WARNING;
@@ -105,15 +105,19 @@ export default class BiPspbReminderSetup extends LightningElement {
 			if (data) {
 					this.googleCalendarUrls = data;
 			} else if (error) {
-				this.showToast(resources.ERROR_MESSAGE, error.body.message, resources.ERROR_VARIANT);
+				let globalThis=window;
+				globalThis.location.href = resources.ERROR_PAGE;
+				globalThis.sessionStorage.setItem('errorMessage', resources.ERROR_FOR_GOOGLE_CALENDAR);
 			}
-		} catch (err) {
-			this.showToast(resources.ERROR_MESSAGE, err.message, resources.ERROR_VARIANT);
+		} catch {
+			let globalThis=window;
+			globalThis.location.href = resources.ERROR_PAGE;
+			globalThis.sessionStorage.setItem('errorMessage', resources.ERROR_FOR_GOOGLE_CALENDAR);
 		}
 	}
 	//To fetch data for the treatment reminder 
 	@wire(PREPOPULATED_VALUES)
-	wiredPrepopulatedValues({ data }) {
+	wiredPrepopulatedValues({ data , error }) {
 		try{
 			if (data) {
 				this.prepopulatedValues = data;
@@ -121,9 +125,15 @@ export default class BiPspbReminderSetup extends LightningElement {
 				this.existingReminder = data.selectedCheckboxes ? data.selectedCheckboxes.split(';').filter(item => item).map(item => parseFloat(item)) : [];
 				this.updateCheckboxDisabling();
 				this.updateValueArrays();
+			} else if (error) {
+				let globalThis=window;
+				globalThis.location.href = resources.ERROR_PAGE;
+				globalThis.sessionStorage.setItem('errorMessage', resources.ERROR_FOR_REMINDER_VALUES);
 			}
-		} catch (err) {
-			this.showToast(resources.ERROR_MESSAGE, err.message, resources.ERROR_VARIANT);
+		} catch {
+			let globalThis=window;
+			globalThis.location.href = resources.ERROR_PAGE;
+			globalThis.sessionStorage.setItem('errorMessage', resources.ERROR_FOR_REMINDER_VALUES);
 		}
 	}
 	// To fetch URLs of Outlook Calender
@@ -134,13 +144,17 @@ export default class BiPspbReminderSetup extends LightningElement {
 				// Null data is checked and AuraHandledException is thrown from the Apex
 				this.outlookCalendarUrls = data;
 			} else if (error) {
-				this.showToast(resources.ERROR_MESSAGE, error.body.message, resources.ERROR_VARIANT);
+				let globalThis=window;
+				globalThis.location.href = resources.ERROR_PAGE;
+				globalThis.sessionStorage.setItem('errorMessage', resources.ERROR_FOR_OUTLOOK_CALENDAR);
 			}
-		} catch (err) {
-			this.showToast(resources.ERROR_MESSAGE, err.message, resources.ERROR_VARIANT);
+		} catch {
+			let globalThis=window;
+			globalThis.location.href = resources.ERROR_PAGE;
+			globalThis.sessionStorage.setItem('errorMessage', resources.ERROR_FOR_OUTLOOK_CALENDAR);
 		}
 	}
-	// To fetch URL of Avatar image
+	// To fetch URL of Avatar image for user
 	@wire(LOGGEDIN_USER_ACCOUNTS)
 	wiredUserAccounts({ error, data }) {
 		try{
@@ -154,13 +168,17 @@ export default class BiPspbReminderSetup extends LightningElement {
 							: resources.DEFAULT_AVATAR_URL;
 					}
 			} else if (error) {
-				this.showToast(resources.ERROR_MESSAGE, error.body.message, resources.ERROR_VARIANT);
+				let globalThis=window;
+				globalThis.location.href = resources.ERROR_PAGE;
+				globalThis.sessionStorage.setItem('errorMessage', resources.ERROR_FOR_ACCOUNT_RECORD);
 			}
-		} catch (err) {
-			this.showToast(resources.ERROR_MESSAGE, err.message, resources.ERROR_VARIANT);
+		} catch {
+			let globalThis=window;
+			globalThis.location.href = resources.ERROR_PAGE;
+			globalThis.sessionStorage.setItem('errorMessage', resources.ERROR_FOR_ACCOUNT_RECORD);
 		}
 	}
-	// Getting avatar of the logged in user.
+	// Getting avatar of the logged in caregiver.
 	@wire(AVATAR)
 	wiredavtList({ error, data }) {
 		try{
@@ -175,10 +193,14 @@ export default class BiPspbReminderSetup extends LightningElement {
 						this.caregiver = true;
 					}
 			} else if (error) {
-				this.showToast('Error', error.message, resources.ERROR_VARIANT);
+				let globalThis=window;
+				globalThis.location.href = resources.ERROR_PAGE;
+				globalThis.sessionStorage.setItem('errorMessage', resources.ERROR_FOR_ACCOUNT_RECORD);
 			}
-		} catch (err) {
-			this.showToast(resources.ERROR_MESSAGE, err.message, resources.ERROR_VARIANT);
+		} catch {
+			let globalThis=window;
+			globalThis.location.href = resources.ERROR_PAGE;
+			globalThis.sessionStorage.setItem('errorMessage', resources.ERROR_FOR_ACCOUNT_RECORD);
 		}
 	}
 	//Updating the values of the checked boxes.
@@ -226,8 +248,10 @@ export default class BiPspbReminderSetup extends LightningElement {
 	connectedCallback() {
 		try {
 			this.setMinDate();
-		} catch (err) {
-			this.showToast(resources.ERROR_MESSAGE, err.message, resources.ERROR_VARIANT);
+		} catch {
+			let globalThis=window;
+			globalThis.location.href = resources.ERROR_PAGE;
+			globalThis.sessionStorage.setItem('errorMessage', resources.ERROR_FOR_REMINDER_VALUES);
 		}
 	}
 	// Sets the minimum date to 8 days from today when the component is initialized.
@@ -635,13 +659,13 @@ export default class BiPspbReminderSetup extends LightningElement {
 		})
 			// Null data is checked and AuraHandledException is thrown from the Apex
 			.then(() => {
-				// Successful save
 				this.showDiv = false;
 				this.showAfterSaveContent = false;
 			})
-			.catch((error) => {
-				// Error handling
-				this.showToast(resources.ERROR_MESSAGE, error.message, resources.ERROR_VARIANT);
+			.catch(() => {
+				let globalThis=window;
+				globalThis.location.href = resources.ERROR_PAGE;
+				globalThis.sessionStorage.setItem('errorMessage', resources.ERROR_FOR_INSERT_REMINDER);
 			})
 			.finally(() => {
 				this.showDiv = true;
@@ -676,17 +700,6 @@ export default class BiPspbReminderSetup extends LightningElement {
 			for (let i = 0; i < this.outlookCalendarUrls.length; i++) {
 				window.open(this.outlookCalendarUrls[i], "_blank");
 			}
-		}
-	}
-	// To show toast message when an error occurs.
-	showToast(title, message, variant) {
-		if (typeof window !== 'undefined') {
-			const EVENT = new ShowToastEvent({
-				title: title,
-				message: message,
-				variant: variant
-			});
-			this.dispatchEvent(EVENT);
 		}
 	}
 }

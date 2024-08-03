@@ -6,7 +6,7 @@ Version    Author      Date              Detail         Description
 1.0        Gowsic N    10-Dec-2023       Created        Initial development
 1.1        Saran S     20-Apr-2024       Updated        Add log, null check, descriptions   
 */
-public with sharing class BI_PSP_GraphCtrl {
+public with sharing class BI_PSP_QuestionnaireGraphCtrl {
 	/*
 @description Method for getting Symptom Tracker details.
 Retrieves Symptom Tracker details based on the provided parameters.
@@ -15,74 +15,7 @@ Retrieves Symptom Tracker details based on the provided parameters.
 @param lastDate The end date for fetching records.
 @return List of SymptomTracker records.
 */
-	@AuraEnabled(cacheable=true)
-	public static List<SymptomTracker> getSymptomTrackerDetails(
-		String erolleId,
-		Date firstDate,
-		Date lastDate
-	) {
-		List<SymptomTracker> symptoms = new List<SymptomTracker>();
-		try {
-			List<BI_PSP_Symptom_Tracker__c> recordSymptom = new List<BI_PSP_Symptom_Tracker__c>();
-			if (
-				!String.isBlank(erolleId) &&
-				firstDate != null &&
-				lastDate != null
-			) {
-				recordSymptom = [
-					SELECT
-						Id,
-						LastModifiedDate,
-						BI_PSP_Care_Program_Enrollee__c,
-						BI_PSP_EditEntrydates__c,
-						CreatedDate
-					FROM BI_PSP_Symptom_Tracker__c
-					WHERE
-						BI_PSP_Care_Program_Enrollee__c = :erolleId
-						AND BI_PSP_EditEntrydates__c > :firstDate
-						AND BI_PSP_EditEntrydates__c < :lastDate
-						AND BI_PSP_Symptom_Staus__c != :BI_PSP_QuestionnaireConstant.symptomStatusInactive
-					ORDER BY BI_PSP_EditEntrydates__c ASC
-				];
-			}
-			if (!recordSymptom.isEmpty()) {
-				Set<Id> symptomIds = new Set<Id>();
-				for (BI_PSP_Symptom_Tracker__c symp : recordSymptom) {
-					if (symp.BI_PSP_EditEntrydates__c != null) {
-						symptomIds.add(symp.Id);
-					}
-				}
-				List<AllergyIntolerance> allergyTrack = [
-					SELECT
-						Id,
-						BI_PSP_Graph_Symptom_Name__c,
-						BI_PSP_Symptom_Name__r.BI_PSP_EditEntrydates__c,
-						BI_PSP_Symptoms__r.HealthCloudGA__CarePlanTemplate__r.Name
-					FROM AllergyIntolerance
-					WHERE
-						BI_PSP_Symptom_Name__r.Id IN :symptomIds
-						AND BI_PSP_Symptoms__r.HealthCloudGA__CarePlanTemplate__r.Name != NULL
-						AND BI_PSP_Symptoms__c != NULL ORDER BY BI_PSP_Symptom_Name__r.BI_PSP_EditEntrydates__c 
-				];
 
-				if (!allergyTrack.isEmpty()) {
-					for (AllergyIntolerance allergy : allergyTrack) {
-						SymptomTracker symp = new SymptomTracker();
-						symp.symptom = allergy.BI_PSP_Symptom_Name__c;
-						symp.dates = allergy.BI_PSP_Symptom_Name__r.BI_PSP_EditEntrydates__c;
-						symp.name = allergy.BI_PSP_Symptoms__r.HealthCloudGA__CarePlanTemplate__r.Name;
-						symptoms.add(symp);
-					}
-				}
-			}
-		} catch (Exception ex) {
-			BI_PSP_LogMessagesUtility.exceptionLogMessage(BI_PSP_QuestionnaireConstant.symptomErrorMsg, BI_PSP_GraphCtrl.class.toString(), ex);
-
-		}
-
-		return symptoms.isEmpty() ? null : symptoms;
-		//If symptoms is empty we need to return null, because depending on null we do have some functionalities that are handled in LWC
-	}
 	/*
 @description Method for getting Questionnaire details.
 Retrieves Questionnaire details based on the provided parameters.
@@ -175,7 +108,7 @@ Retrieves Questionnaire details based on the provided parameters.
 			BI_SFCOE_LOG_Util.handleException(
 				ex,
 				BI_PSP_QuestionnaireConstant.applicationName,
-				BI_PSP_GraphCtrl.class.toString(),
+				BI_PSP_QuestionnaireGraphCtrl.class.toString(),
 				null,
 				System.now()
 			);
@@ -228,7 +161,7 @@ Retrieves Questionnaire details based on the provided parameters.
 			}
 			
 		} catch (Exception ex) {
-				BI_PSP_LogMessagesUtility.exceptionLogMessage(BI_PSP_QuestionnaireConstant.emptyAssesment, BI_PSP_GraphCtrl.class.toString(), ex);
+				BI_PSP_LogMessagesUtility.exceptionLogMessage(BI_PSP_QuestionnaireConstant.emptyAssesment, BI_PSP_QuestionnaireGraphCtrl.class.toString(), ex);
 		}
         // Return null if no assessment ids found, returning null is required because we have a functionality that requires null value to be returned
 			if (assessments.isEmpty()) {
@@ -237,17 +170,5 @@ Retrieves Questionnaire details based on the provided parameters.
 				return assessments;
 			}
 	}
-	/*
-@description Inner class representing a symptom tracker record.
-*/
-	public class SymptomTracker {
-		@AuraEnabled
-		public Date dates; // Date of the symptom tracker record.
 
-		@AuraEnabled
-		public String name; // Name associated with the symptom.
-
-		@AuraEnabled
-		public String symptom; // Description of the symptom.
-	}
 }

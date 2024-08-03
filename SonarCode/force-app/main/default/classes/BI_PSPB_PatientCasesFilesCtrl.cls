@@ -46,11 +46,13 @@ This method used in BI_PSPB_InsertCaserecordforUpdateRx apex.
 					fileLinks.add(link); // Add the ContentDocumentLink record to the list.
 				}
 				// Check if there are ContentDocumentLink records to be inserted.
+			if(!fileLinks.isEmpty()){
 				BI_PSP_DatabaseOperationsUtility.insertAndHandleErrors(
 					new List<ContentDocumentLink>{ fileLinks[0] },
 					BI_PSPB_PatientCasesFilesCtrl.class.toString(),
 					true
 				);
+				}
 			}
 		} catch (Exception ex) {
 			BI_PSP_LogMessagesUtility.exceptionLogMessage(

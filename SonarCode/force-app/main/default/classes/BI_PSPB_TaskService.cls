@@ -6,9 +6,11 @@
  */
 public with sharing class BI_PSPB_TaskService {
 	/**
-	 * @description Counting the days and triggering another method to send notifications.
-	 * @param reminders Record that is used to trigger.
-	 * @param daysCount Count of days to send notifications.
+	 * @description  Retrieves treatment reminders based on the given criteria.
+	 * @param reminder The ID of the record related to the treatment reminders.
+	 * @param daysDifference The type of reminder to filter by.
+	 * @param daysCount The type of reminder to filter by.
+	 * @return A list of BI_PSPB_Treatment_Reminder__c objects that match the criteria.
 	 */
 	public static Task createTask(
 		BI_PSPB_Treatment_Reminder__c reminder,

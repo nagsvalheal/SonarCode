@@ -22,7 +22,6 @@ import SOFTDELETE_COMMENT_ITEM from "@salesforce/apex/BI_PSPB_FeedCommentCtrl.so
 import TOTAL_REACTIONS from "@salesforce/apex/BI_PSPB_EmojiReactionCtrl.totalReactionsByType";
 import UNFOLLOW_USER from "@salesforce/apex/BI_PSPB_FollowUserCtrl.unfollowUser";
 import USER_ENROLLEE_ID from "@salesforce/apex/BI_PSP_CurrentUser.getEnrolleeRecords";
-import USER_AVATAR from "@salesforce/apex/BI_PSP_CurrentUser.getEnrolleeRecords";
 import VIEW_COMMENTS from "@salesforce/apex/BI_PSPB_FeedCommentCtrl.viewComments";
 
 export default class BiPspbAllPost extends LightningElement {
@@ -101,6 +100,45 @@ export default class BiPspbAllPost extends LightningElement {
   allPostImg = label.NO_FEED_IMG;
   deleteToast = label.TICK_ICON;
   noComment = label.NO_COMMENT_IMG;
+  avatarContent=label.AVATAR_CONTENT;
+  allPostLabel= label.ALL_POST_LABEL;
+  createNewPost = label.CREATE_NEW_POST;
+  thumbsUpLabel = label.THUMBS_UP_LABEL;
+  smileLabel =label.SMILE_LABEL;
+  handsFoldedLabel =label.HANDS_FOLDED_LABEL;
+  heartLabel =label.HEART_LABEL;
+  thoughtfulLabel =label.THOUGHT_LABEL;
+  no = label.NO;
+  yes = label.YES;
+  commentToastContent = label.COMMENT_TOAST_TEXT;
+  noAllPost = label.NO_ALL_POST_CONTENT;
+  reactionsLabel =label.REACTIONS_LABEL;
+  commentLabel =label.COMMENT_LABEL;
+  commentsLabel =label.COMMENTS_LABEL;
+  reactLabel =label.REACT_LABEL;
+  noReactionYet = label.NO_REACTION_YET;
+  noCommentYet = label.NO_COMMENTS_YET;
+  selectComment = label.SELECT_COMMENT;
+  selectLabel = label.SELECT;
+  actionLabel =label.ACTION_LABEL;
+  editCommentLabel =label.EDIT_COMMENT;
+  deleteCommentLabel=label.DELETE_COMMENT_LABEL;
+  deleteCommentConfirmationText =label.DELETE_POPUP_CONFIRMATION;
+  deletedPostToastText = label.POST_TOAST_TEXT;
+  hideLabel = label.HIDE_LABEL;
+  followLabel = label.FOLLOW_LABEL;
+  followingLabel = label.FOLLOWING_LABEL;
+  followingToastContent =label.FOLLOWING_TOAST;
+  unFollowingToastContent = label.UNFOLLOW_TOAST;
+  unFollowingPartToastContent = label.UNFOLLOW_PART_TOAST;
+  noFollowersContent =label.NO_FOLLOWERS_CONTENT;
+  profileLabel = label.PROFILE_LABEL;
+  followUserText = label.FOLLOW_USER;
+  followPopupHeading = label.FOLLOW_POPUP_HEADING;
+  followPopupContent = label.FOLLOW_POPUP_CONTENT;
+  unFollowUserText = label.UNFOLLOW_USER;
+  unFollowPopupHeading = label.UNFOLLOW_POPUP_HEADING;
+  unFollowPopupContent = label.UNFOLLOW_POPUP_CONTENT;
   comment = "";
   commentOption = [];
   editImg = label.EDIT_ICON;
@@ -114,6 +152,7 @@ export default class BiPspbAllPost extends LightningElement {
     try {
       if (data && data.length > 0) {
         this.userEnrolleeId = data[0].Id;
+        this.loggedUserAvatar = data[0].BI_PSP_AvatarUrl__c;
         this.getAllPosts();
       } else {
         this.handleError(label.ACCOUNT_NOT_FOUND);
@@ -131,7 +170,6 @@ export default class BiPspbAllPost extends LightningElement {
       this.getAllPosts();
       this.detectBrandedOrUnassigned();
       this.checkAllReactions();
-      this.avatarImgLeftSide();
       this.setupEventListeners();
     } catch (error) {
       this.handleError(error.body.message);
@@ -278,23 +316,6 @@ export default class BiPspbAllPost extends LightningElement {
     this.isLoading = false;
     this.showSpinner = false;
     this.showToast(label.ERROR_MESSAGE, error, label.ERROR_VARIANT);
-  }
-
-  // To get avatar of the logged in user
-  avatarImgLeftSide() {
-    try{
-    USER_AVATAR()
-      .then((result) => {
-        if (result.length > 0 && result[0].BI_PSP_AvatarUrl__c) {
-          this.loggedUserAvatar = result[0].BI_PSP_AvatarUrl__c;
-        }
-      })
-      .catch((error) => {
-        this.handleError(error.message);
-      });
-    } catch (error) {
-      this.handleError(error.body.message);
-    }
   }
 
   //After clicking create a new post go to createPost page with checking communityUsername
@@ -899,7 +920,7 @@ export default class BiPspbAllPost extends LightningElement {
                 CommentCount: post.CommentCount + 1,
                 commentBox: post.Id === FEED_ID ? !post.commentBox : false,
                 displayHide:
-                  post.Id === FEED_ID && !post.commentBox ? "Hide" : ""
+                  post.Id === FEED_ID && !post.commentBox ? this.hideLabel : ""
               };
             }
             return post;
@@ -981,7 +1002,7 @@ export default class BiPspbAllPost extends LightningElement {
     this.allPost = this.allPost.map((post) => ({
       ...post,
       commentBox: post.Id === POST_ID ? !post.commentBox : false,
-      displayHide: post.Id === POST_ID && !post.commentBox ? "Hide" : "",
+      displayHide: post.Id === POST_ID && !post.commentBox ? this.hideLabel : "",
       showEmojiPopup: false
     }));
     this.commentBox = true;
@@ -1186,7 +1207,6 @@ export default class BiPspbAllPost extends LightningElement {
   //  to follow the user for emoji
   emojiFollowProfileBtn(event) {
     try{
-    //this.followUserName = event.currentTarget.dataset.name;
     this.username = event.target.dataset.name;
     this.followEnrolleeId = event.currentTarget.dataset.enrollee;
     this.followAvatarResult = event.currentTarget.dataset.avat;
@@ -1225,7 +1245,6 @@ export default class BiPspbAllPost extends LightningElement {
   emojiFollowYesBtn() {
     try{
     this.emojiFollowConfirmation = false;
-    //this.handleEmojiFollowUnfollow('follow');
     FOLLOW_USER({ enrolleeIdToFollow: this.followEnrolleeId })
       .then(() => {
         this.allPost = this.allPost.map((post) => ({
@@ -1258,7 +1277,6 @@ export default class BiPspbAllPost extends LightningElement {
   emojiUnfollowYesBtn() {
     try{
     this.emojiUnfollowConfirmation = false;
-    // this.handleEmojiFollowUnfollow('unfollow');
     UNFOLLOW_USER({ enrolleeIdToUnFollow: this.followEnrolleeId })
       .then(() => {
         this.allPost = this.allPost.map((post) => ({

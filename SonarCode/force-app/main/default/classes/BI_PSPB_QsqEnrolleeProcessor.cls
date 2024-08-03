@@ -8,8 +8,10 @@
 */
 public with sharing class BI_PSPB_QsqEnrolleeProcessor {
 	/**
-	 * @description  Used to create task when a video is uploaded and calling the
-	 * method to send sms and email.
+	 * @description  Retrieves treatment reminders based on the given criteria.
+	 * @param enrolleeIds The ID of the record related to the treatment reminders.
+	 * @param qsqCount The type of reminder to filter by.
+	 * @return A list of BI_PSPB_Treatment_Reminder__c objects that match the criteria.
 	 */
 	public static List<Id> processEnrollees(
 		Set<Id> enrolleeIds,

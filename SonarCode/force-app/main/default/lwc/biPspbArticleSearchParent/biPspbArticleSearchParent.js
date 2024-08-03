@@ -285,12 +285,6 @@ export default class BiPspbArticleSearchParent extends LightningElement {
 		return inputString;
 	}
 
-	// Generate a random number between 2 and 4 (inclusive)
-	get dynamicProperty() {
-		let newRandomNumber = Math.floor(Math.random() * 3) + 2;
-		return newRandomNumber;
-	}
-
 	// To clear the search input
 	clearInput() {
 		let inputElement = this.template.querySelector('.search-bar');

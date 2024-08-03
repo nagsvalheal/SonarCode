@@ -10,8 +10,8 @@ import CREATE_LEAD_RECORD from "@salesforce/apex/BI_PSPB_PrepopulateRecCtrl.upda
 import LEAD_ID from "@salesforce/apex/BI_PSPB_PrepopulateRecCtrl.getPatientDetails";
 import CREATE_LEAD from "@salesforce/apex/BI_PSPB_PrepopulateRecCtrl.updateLead";
 import LEAD_CAREGIVER from "@salesforce/apex/BI_PSPB_PrepopulateRecCtrl.getEnrolleeCaregiverId";
-import COUNTRY from '@salesforce/apex/BI_PSPB_ReferringPractitionerCtrl.getCountries';
-import STATE from '@salesforce/apex/BI_PSPB_ReferringPractitionerCtrl.getStates';
+import COUNTRY from '@salesforce/apex/BI_PSPB_EnrollmentUtilities.getCountries';
+import STATE from '@salesforce/apex/BI_PSPB_EnrollmentUtilities.getStates';
 // To import Static Resources
 import { resource } from "c/biPspbEnrollmentFormResource";
 //To import fields from Lead
@@ -21,6 +21,69 @@ import { resource } from "c/biPspbEnrollmentFormResource";
 export default class biPspbHcpPrepopulateCaregiverForm extends NavigationMixin(
 	LightningElement
 ) {
+	relationLabel = resource.RELATION_LABEL;
+	relationValue = resource.RELATION_VALUE;
+	caregiverInfo = resource.CAREGIVER_INFO;
+placeCountry = resource.PLACE_COUNTRY;
+placeCity = resource.PLACE_CITY;
+placeState = resource.PLACE_STATE;
+placeStreet = resource.PLACE_STREET;
+placeZip = resource.PLACE_ZIPCODE;
+placePhone = resource.PLACE_PHONE;
+placeFirst = resource.PLACE_FIRST;
+placeLast = resource.PLACE_LAST;
+placeDob = resource.PLACE_DOB;
+placeSelect = resource.PLACE_SELECT;
+placeEmail = resource.PLACE_EMAIL;
+pinCode = resource.PINCODE;
+streetcode = resource.STREET;
+cityCode = resource.CITY;
+statecode = resource.STATE;
+countryfield = resource.COUNTRY;
+patientFirstName = resource.PATIENT_FIRSTNAME;
+patientLastName = resource.PATIENT_LASTNAME;
+patientDob = resource.PATIENT_DATEOFBIRTH;
+validDob = resource.VALID_DOB;
+genderRequired = resource.PATIENT_GENDER;
+phoneRequired =  resource.PATIENT_PHONE;
+pmcRequired = resource.PREFERRED_CONTACT_METHOD;
+invalidInfo = resource.INVALID_DETAILS;
+patientVerify = resource.PATIENT_VERIFICATION;
+terms = resource.TERMS;
+agree = resource.AGREE;
+agreeMsg = resource.AGREE_MSG;
+submit = resource.SUBMIT;
+progressLabel = resource.PROGRESS_LABEL;
+fieldWidth = resource.FIELD_WIDTH;
+areMandotory = resource.ARE_MANDOTORY ;
+patientEnrollHead = resource.PATIENT_ENROLL;
+patientinfo = resource.PATIENT_INFO ;
+firstNameLabel = resource.FIRST_NAME_LABEL ;
+firstNameRequired = resource.FIRSTNAME_VALIDE ;
+lastNameValid = resource.LASTNAME_VALIDE ;
+lastNameLabel = resource.LASTNAME_LABEL ;
+dobLabel = resource.DOB_LABEL;
+generalLabel = resource.GENDER_LABEL;
+emailLabelMand = resource.EMAIL_LABEL_STAR ;
+nextLabel = resource.NEXT ;
+numTwo = resource.NUM_TWO;
+numOne = resource.NUM_ONE;
+contactInfo = resource.CONTACT_INFO ;
+phoneNum = resource.PHONE_NUM ;
+phoneNumMandotory = resource.PHONE_NUM_MANDOTORY;
+validPhone = resource.VALID_PHONE ;
+emailLabel = resource.EMAIL_LABEL ;
+previousValue = resource.PREVIOS ;
+numThree = resource.NUM_THREE ;
+pmcLabel = resource.PMC_LABEL ;
+countryLabel = resource.COUNTRY_LABEL;
+stateLabel = resource.STATE_LABEL ;
+streetLabel = resource.STREET_LABEL ;
+zipCodeValue = resource.ZIP_CODE_LABEL ;
+validZipCode = resource.VALID_ZIP_CODE ;
+cityLabel = resource.CITY_LABEL ;
+validCity = resource.VALID_CITY ;
+consentInfo = resource.CONSENT_INFO;
 	//Proper naming conventions with camel case for all the variables will be followed in the future releases
 	// Declaration of variables with @api
 	@api searchResults;
@@ -86,9 +149,9 @@ export default class biPspbHcpPrepopulateCaregiverForm extends NavigationMixin(
 	cityRequire = false;
 	streetRequire = false;
 	zipCodeRequire = false;
-	clabelError = false;
+
 	clabelErrors = "input-label";
-	slabelError = false;
+	
 	slabelErrors = "input-label";
 	cilabelError = false;
 	cilabelErrors = "input-label";
@@ -162,7 +225,7 @@ export default class biPspbHcpPrepopulateCaregiverForm extends NavigationMixin(
 	connectedCallback() {
 		loadStyle(this, resource.TEXT_ALIGN);
 	}
-	@wire(getObjectInfo, { objectApiName: resource.LEAD })
+	@wire(getObjectInfo, { objectApiName: 'Lead' })
 	objectInfo;
 
 	// Wire adapter to retrieve picklist values for the State field, based on selected country
@@ -235,11 +298,11 @@ CountryField(){
 		if (this.country === "") {
 			this.countryRequire = true;
 			this.CountryFieldErr();
-			this.clabelError = true;
+			
 		} else {
 			this.countryRequire = false;
 			this.CountryField();
-			this.clabelError = false;
+			
 		}
 	}
 	StateFieldErr(){
@@ -265,11 +328,11 @@ CountryField(){
 		if (this.state === "") {
 			this.stateRequire = true;
 			this.StateFieldErr();
-			this.slabelError = true;
+			
 		} else {
 			this.stateRequire = false;
 			this.StateField();
-			this.slabelError = false;
+			
 		}
 	}
 	CityFieldErr(){
@@ -315,7 +378,7 @@ CountryField(){
 			else {
 				this.cityRequire = false;
 				this.cityValid = false;
-				this.CityFieldErr();
+				this.CityField();
 			}
 		}
 	
@@ -427,13 +490,13 @@ CountryField(){
 			if (this.country === "") {
 				this.countryRequire = true;
 				this.CountryFieldErr();
-				this.clabelError = true;
+				
 				return false;
 			}
 			
 				this.countryRequire = false;
 				this.CountryField();
-				this.clabelError = false;
+				
 				return true;
 			
 			
@@ -444,12 +507,12 @@ CountryField(){
 			if (this.state === "") {
 				this.stateRequire = true;
 				this.StateFieldErr();
-				this.slabelError = true;
+				
 				return false;
 			} 
 				this.stateRequire = false;
 				this.StateField();
-				this.slabelError = false;
+				
 				return true;
 				
 			
@@ -586,7 +649,7 @@ CountryField(){
 
 	//to go to previous page - 1
 	goBackToStepOne() {
-		this.currentStep = "1";
+		this.currentStep = resource.ONE;
 		this.template.querySelector("div.stepTwo").classList.add("slds-hide");
 		this.template.querySelector("div.stepOne").classList.remove("slds-hide");
 		this.template.querySelector("div.slds-progress").classList.add("slds-hide");
@@ -598,7 +661,7 @@ CountryField(){
 
 	//to go to previous page - 2
 	goBackToStepTwo() {
-		this.currentStep = "2";
+		this.currentStep = resource.TWO;
 
 		this.template.querySelector("div.stepThree").classList.add("slds-hide");
 		this.template.querySelector("div.stepTwo").classList.remove("slds-hide");
@@ -615,7 +678,7 @@ CountryField(){
 	}
 	//to go to previous page - 3
 	goBackToStepThree() {
-		this.currentStep = "3";
+		this.currentStep = resource.THREE;
 		this.template.querySelector("div.stepFour").classList.add("slds-hide");
 		this.template.querySelector("div.stepThree").classList.remove("slds-hide");
 		// Progress indicator
@@ -633,15 +696,15 @@ CountryField(){
 
 	}
 	//to go to previous page - 4
-	goBackToStepFour() {
-		this.currentStep = "4";
-		this.template.querySelector("div.stepFive").classList.add("slds-hide");
-		this.template.querySelector("div.stepFour").classList.remove("slds-hide");
-		this.avatarContentTop = resource.CARE_AVATAR_MSG_ONE;
-		this.avatarContentMid = resource.CARE_AVATAR_MSG_THREE;
-		this.avatarContentLast = resource.CARE_AVATAR_MSG_FIVE;
-		this.Xmark();
-	}
+	// goBackToStepFour() {
+	// 	this.currentStep = "4";
+	// 	this.template.querySelector("div.stepFive").classList.add("slds-hide");
+	// 	this.template.querySelector("div.stepFour").classList.remove("slds-hide");
+	// 	this.avatarContentTop = resource.CARE_AVATAR_MSG_ONE;
+	// 	this.avatarContentMid = resource.CARE_AVATAR_MSG_THREE;
+	// 	this.avatarContentLast = resource.CARE_AVATAR_MSG_FIVE;
+	// 	this.Xmark();
+	// }
 
 	//to go to next page by validating fields
 	goToStepTwo() {
@@ -671,7 +734,7 @@ CountryField(){
 					this.leadCaregiverecordget(result.Id);
 
 					if (this.leadId !== "") {
-						this.currentStep = "2";
+						this.currentStep = resource.TWO;
 						this.template
 							.querySelector("div.stepOne")
 							.classList.add("slds-hide");
@@ -887,6 +950,23 @@ CountryField(){
 			this.PmcField();
 			}
 	}
+	MoveToNext(){
+		this.currentStep = resource.THREE;
+			this.template.querySelector("div.stepTwo").classList.add("slds-hide");
+			this.template
+				.querySelector("div.stepThree")
+				.classList.remove("slds-hide");
+			// Progress indicator
+			this.template
+				.querySelector("li.li-one")
+				.classList.remove("slds-is-active");
+			this.template
+				.querySelector("li.li-one")
+				.classList.add("slds-is-completed");
+			this.template.querySelector("li.li-two").classList.add("slds-is-active");
+			this.AvatarContent();
+			this.Xmark();
+	}
 	//to go to next page by validating fields
 	goToStepThree() {
 
@@ -897,45 +977,16 @@ CountryField(){
 		this.phoneRequire = false;
 
 		if (this.rwp && this.phoneNumber && this.pmocValue) {
-			this.currentStep = "3";
-			this.template.querySelector("div.stepTwo").classList.add("slds-hide");
-			this.template
-				.querySelector("div.stepThree")
-				.classList.remove("slds-hide");
-			// Progress indicator
-			this.template
-				.querySelector("li.li-one")
-				.classList.remove("slds-is-active");
-			this.template
-				.querySelector("li.li-one")
-				.classList.add("slds-is-completed");
-			this.template.querySelector("li.li-two").classList.add("slds-is-active");
-			this.AvatarContent();
-			this.Xmark();
+			this.MoveToNext();
 		}
 		else if (!this.phoneField && this.pmocValue !== resource.SMS && this.pmocValue !== resource.PHONE && this.pmocValue) {
 
-			this.currentStep = "3";
-			this.template.querySelector("div.stepTwo").classList.add("slds-hide");
-			this.template
-				.querySelector("div.stepThree")
-				.classList.remove("slds-hide");
-			// Progress indicator
-			this.template
-				.querySelector("li.li-one")
-				.classList.remove("slds-is-active");
-			this.template
-				.querySelector("li.li-one")
-				.classList.add("slds-is-completed");
-			this.template.querySelector("li.li-two").classList.add("slds-is-active");
-			this.AvatarContent();
-			this.Xmark();
+			this.MoveToNext();
 		}
 		else {
 			this.validatePMOC();
 			this.validateRWP();
 			this.validatePhoneNumber();
-	
 			this.AvatarContentOne();
 			this.Xmark();
 
@@ -1010,7 +1061,7 @@ CountryField(){
 		);
 		this.Xmark();
 		if (this.selectedValue !== "") {
-			this.currentStep = "4";
+			this.currentStep = resource.FOUR;
 			this.template.querySelector("div.stepThree").classList.add("slds-hide");
 			this.template.querySelector("div.stepFour").classList.remove("slds-hide");
 			// Progress indicator
@@ -1051,7 +1102,7 @@ CountryField(){
 
 	//to show toast message
 	showToast(title, message, variant) {
-		if (typeof window !== 'undefined') {
+		if (typeof window !== resource.UNDIFINED) {
 			const event = new ShowToastEvent({
 				title: title,
 				message: message,

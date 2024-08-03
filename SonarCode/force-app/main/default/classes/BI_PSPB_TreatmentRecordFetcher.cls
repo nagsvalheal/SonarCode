@@ -8,8 +8,9 @@
 */
 public with sharing class BI_PSPB_TreatmentRecordFetcher {
 	/**
-	 * @description  Used to create task when a video is uploaded and calling the
-	 * method to send sms and email.
+	 * @description  Retrieves treatment reminders based on the given criteria.
+	 * @param targetDates The ID of the record related to the treatment reminders.
+	 * @return A list of BI_PSPB_Treatment_Reminder__c objects that match the criteria.
 	 */
 	public static Map<Date, List<BI_PSPB_Treatment_Reminder__c>> getTreatmentRecords(
 		Set<Date> targetDates
@@ -47,7 +48,6 @@ public with sharing class BI_PSPB_TreatmentRecordFetcher {
 				conditions,
 				false
 			);
-            System.debug('records ' + records);
 
 			for (SObject record : records) {
 				BI_PSPB_Treatment_Reminder__c treatmentReminder = (BI_PSPB_Treatment_Reminder__c) record;

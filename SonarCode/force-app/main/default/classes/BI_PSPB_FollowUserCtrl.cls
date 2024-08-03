@@ -21,33 +21,53 @@ public with sharing class BI_PSPB_FollowUserCtrl {
 	public static void followUser(String enrolleeIdToFollow) {
 		try {
 			// Getting the CareProgramEnrollee ID associated with the user ID.
-			String enrolleeIdWhoFollows = BI_PSP_CurrentUser.getEnrolleeRecords()[0].Id;
+			String enrolleeIdWhoFollows = BI_PSP_CurrentUser.getEnrolleeRecords()[0]
+				.Id;
 			// Check if enrolleeIdWhoFollows and enrolleeIdToFollow are  blank.
-			if( String.isBlank(enrolleeIdWhoFollows) || String.isBlank(enrolleeIdToFollow) ){
+			if (
+				String.isBlank(enrolleeIdWhoFollows) ||
+				String.isBlank(enrolleeIdToFollow)
+			) {
 				BI_PSP_LogMessagesUtility.logError(
 					BI_PSPB_CommunityConstantCtrl.errorWhileGetEnrolleeId,
 					BI_PSPB_FollowUserCtrl.class.toString(),
-					true,BI_PSPB_CommunityConstantCtrl.LOG_SEVERITY_ERROR
+					true,
+					BI_PSPB_CommunityConstantCtrl.LOG_SEVERITY_ERROR
 				);
 			}
 
 			//Checking for if there any existing records before following.
-        // Using common query utility to check existing records
-        String sObjectType = 'BI_PSP_FeedFollow__c';
-        String fields = 'Id';
-        String conditions = '(BI_PSP_CareProgramEnrolleeAccount__c = \'' + enrolleeIdWhoFollows + '\' AND BI_PSP_CareProgramEnrolleeFollow__c = \''
-            + enrolleeIdToFollow + '\' AND BI_PSP_Type__c = \'' + BI_PSPB_CommunityConstantCtrl.following 
-            + '\') OR (BI_PSP_CareProgramEnrolleeAccount__c = \'' + enrolleeIdToFollow + '\' AND BI_PSP_CareProgramEnrolleeFollow__c = \''
-            + enrolleeIdWhoFollows + '\' AND BI_PSP_Type__c = \'' + BI_PSPB_CommunityConstantCtrl.follower + '\')LIMIT 1';
-        List<BI_PSP_FeedFollow__c>  existingRecords = BI_PSP_CommonQueryUtility.executeQuery(sObjectType, fields, conditions, false);
-
+			// Using common query utility to check existing records
+			String sObjectType = 'BI_PSP_FeedFollow__c';
+			String fields = 'Id';
+			String conditions =
+				'(BI_PSP_CareProgramEnrolleeAccount__c = \'' +
+				enrolleeIdWhoFollows +
+				'\' AND BI_PSP_CareProgramEnrolleeFollow__c = \'' +
+				enrolleeIdToFollow +
+				'\' AND BI_PSP_Type__c = \'' +
+				BI_PSPB_CommunityConstantCtrl.following +
+				'\') OR (BI_PSP_CareProgramEnrolleeAccount__c = \'' +
+				enrolleeIdToFollow +
+				'\' AND BI_PSP_CareProgramEnrolleeFollow__c = \'' +
+				enrolleeIdWhoFollows +
+				'\' AND BI_PSP_Type__c = \'' +
+				BI_PSPB_CommunityConstantCtrl.follower +
+				'\')LIMIT 1';
+			List<BI_PSP_FeedFollow__c> existingRecords = BI_PSP_CommonQueryUtility.executeQuery(
+				sObjectType,
+				fields,
+				conditions,
+				false
+			);
 
 			// Check if there are no existing records for the follow relationship.
 			if (!existingRecords.isEmpty()) {
 				BI_PSP_LogMessagesUtility.logError(
 					BI_PSPB_CommunityConstantCtrl.alreadyFollowing,
 					BI_PSPB_FollowUserCtrl.class.toString(),
-					true,BI_PSPB_CommunityConstantCtrl.LOG_SEVERITY_ERROR
+					true,
+					BI_PSPB_CommunityConstantCtrl.LOG_SEVERITY_ERROR
 				);
 			}
 			List<BI_PSP_FeedFollow__c> insertFeedFollowList = new List<BI_PSP_FeedFollow__c>();
@@ -99,17 +119,28 @@ public with sharing class BI_PSPB_FollowUserCtrl {
 				BI_PSP_LogMessagesUtility.logError(
 					BI_PSPB_CommunityConstantCtrl.errorWhileGetEnrolleeId,
 					BI_PSPB_FollowUserCtrl.class.toString(),
-					true,BI_PSPB_CommunityConstantCtrl.LOG_SEVERITY_ERROR
+					true,
+					BI_PSPB_CommunityConstantCtrl.LOG_SEVERITY_ERROR
 				);
 				return followers;
 			}
-				// Querying the database to retrieve followers for the logged-in user.
-        String sObjectType = 'BI_PSP_FeedFollow__c';
-        String fields = 'BI_PSP_CareProgramEnrolleeFollow__c, BI_PSP_CareProgramEnrolleeFollow__r.BI_PSP_CommunityUsername__c, BI_PSP_Type__c, BI_PSP_CareProgramEnrolleeAccount__c, BI_PSP_CareProgramEnrolleeAccount__r.BI_PSP_CommunityUsername__c, BI_PSP_CareProgramEnrolleeFollow__r.BI_PSP_AvatarUrl__c';
-        String conditions = 'BI_PSP_CareProgramEnrolleeAccount__c = \'' + cpeId + '\' AND (BI_PSP_Type__c = \'' + BI_PSPB_CommunityConstantCtrl.follower + '\' OR BI_PSP_Type__c = \'' + BI_PSPB_CommunityConstantCtrl.following + '\')';
-        followers = BI_PSP_CommonQueryUtility.executeQuery(sObjectType, fields, conditions, false);
-
-			
+			// Querying the database to retrieve followers for the logged-in user.
+			String sObjectType = 'BI_PSP_FeedFollow__c';
+			String fields = 'BI_PSP_CareProgramEnrolleeFollow__c, BI_PSP_CareProgramEnrolleeFollow__r.BI_PSP_CommunityUsername__c, BI_PSP_Type__c, BI_PSP_CareProgramEnrolleeAccount__c, BI_PSP_CareProgramEnrolleeAccount__r.BI_PSP_CommunityUsername__c, BI_PSP_CareProgramEnrolleeFollow__r.BI_PSP_AvatarUrl__c';
+			String conditions =
+				'BI_PSP_CareProgramEnrolleeAccount__c = \'' +
+				cpeId +
+				'\' AND (BI_PSP_Type__c = \'' +
+				BI_PSPB_CommunityConstantCtrl.follower +
+				'\' OR BI_PSP_Type__c = \'' +
+				BI_PSPB_CommunityConstantCtrl.following +
+				'\')';
+			followers = BI_PSP_CommonQueryUtility.executeQuery(
+				sObjectType,
+				fields,
+				conditions,
+				false
+			);
 		} catch (Exception ex) {
 			// Catch any other exceptions that might occur during the process.
 			// Log the exception and throw a general error exception.
@@ -136,40 +167,65 @@ public with sharing class BI_PSPB_FollowUserCtrl {
 	public static void unfollowUser(String enrolleeIdToUnFollow) {
 		try {
 			// Getting the CareProgramEnrollee ID associated with the user ID.
-			String enrolleeIdWhoUnfollows = BI_PSP_CurrentUser.getEnrolleeRecords()[0].Id;
+			String enrolleeIdWhoUnfollows = BI_PSP_CurrentUser.getEnrolleeRecords()[0]
+				.Id;
 			// Checking if enrolleeIdToUnFollow and accountId obtained are  blank.
-			if (String.isBlank(enrolleeIdWhoUnfollows) || String.isBlank(enrolleeIdToUnFollow)){
+			if (
+				String.isBlank(enrolleeIdWhoUnfollows) ||
+				String.isBlank(enrolleeIdToUnFollow)
+			) {
 				BI_PSP_LogMessagesUtility.logError(
 					BI_PSPB_CommunityConstantCtrl.errorWhileGetEnrolleeId,
 					BI_PSPB_FollowUserCtrl.class.toString(),
-					true,BI_PSPB_CommunityConstantCtrl.LOG_SEVERITY_ERROR
+					true,
+					BI_PSPB_CommunityConstantCtrl.LOG_SEVERITY_ERROR
 				);
 			}
 
 			// Querying  to retrieve the follower and following records to unfollow.
-              // Using common query utility to retrieve follower and following records
-        	String fields = 'Id';
-            String sObjectType = 'BI_PSP_FeedFollow__c';
-        	String conditionsForUnfollower = 'BI_PSP_CareProgramEnrolleeAccount__c = \'' + enrolleeIdWhoUnfollows +
-                '\' AND BI_PSP_CareProgramEnrolleeFollow__c = \'' + enrolleeIdToUnFollow + '\' AND BI_PSP_Type__c = \'' 
-                + BI_PSPB_CommunityConstantCtrl.following + '\' LIMIT 1';
-            
+			// Using common query utility to retrieve follower and following records
+			String fields = 'Id';
+			String sObjectType = 'BI_PSP_FeedFollow__c';
+			String conditionsForUnfollower =
+				'BI_PSP_CareProgramEnrolleeAccount__c = \'' +
+				enrolleeIdWhoUnfollows +
+				'\' AND BI_PSP_CareProgramEnrolleeFollow__c = \'' +
+				enrolleeIdToUnFollow +
+				'\' AND BI_PSP_Type__c = \'' +
+				BI_PSPB_CommunityConstantCtrl.following +
+				'\' LIMIT 1';
 
-        	String conditionsForUnfollowing = 'BI_PSP_CareProgramEnrolleeAccount__c = \'' + enrolleeIdToUnFollow +
-                '\' AND BI_PSP_CareProgramEnrolleeFollow__c = \'' + enrolleeIdWhoUnfollows + '\' AND BI_PSP_Type__c = \'' 
-                + BI_PSPB_CommunityConstantCtrl.follower + '\' LIMIT 1';
-            
-        	List<BI_PSP_FeedFollow__c> unfollowerResults = BI_PSP_CommonQueryUtility.executeQuery(sObjectType, fields, conditionsForUnfollower, false);
-            List<BI_PSP_FeedFollow__c> unfollowingResults = BI_PSP_CommonQueryUtility.executeQuery(sObjectType, fields, conditionsForUnfollowing, false);
+			String conditionsForUnfollowing =
+				'BI_PSP_CareProgramEnrolleeAccount__c = \'' +
+				enrolleeIdToUnFollow +
+				'\' AND BI_PSP_CareProgramEnrolleeFollow__c = \'' +
+				enrolleeIdWhoUnfollows +
+				'\' AND BI_PSP_Type__c = \'' +
+				BI_PSPB_CommunityConstantCtrl.follower +
+				'\' LIMIT 1';
 
-            
+			List<BI_PSP_FeedFollow__c> unfollowerResults = BI_PSP_CommonQueryUtility.executeQuery(
+				sObjectType,
+				fields,
+				conditionsForUnfollower,
+				false
+			);
+			List<BI_PSP_FeedFollow__c> unfollowingResults = BI_PSP_CommonQueryUtility.executeQuery(
+				sObjectType,
+				fields,
+				conditionsForUnfollowing,
+				false
+			);
+
 			/*Checking if both follower and following records exist
 			 before proceeding with unfollowing. */
 			if (!unfollowerResults.isEmpty() && !unfollowingResults.isEmpty()) {
 				List<BI_PSP_FeedFollow__c> deleteFeedUnfollowList = new List<BI_PSP_FeedFollow__c>();
 				// Cast results to BI_PSP_FeedFollow__c and add to the list
-            	deleteFeedUnfollowList.add((BI_PSP_FeedFollow__c)unfollowerResults[0]);
-            	deleteFeedUnfollowList.add((BI_PSP_FeedFollow__c)unfollowingResults[0]);
+				deleteFeedUnfollowList.add((BI_PSP_FeedFollow__c) unfollowerResults[0]);
+				deleteFeedUnfollowList.add(
+					(BI_PSP_FeedFollow__c) unfollowingResults[0]
+				);
 
 				// Deleting the follower and following records.
 

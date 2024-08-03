@@ -112,7 +112,7 @@
 .formContainer {
 	width: 66%;
 	display: flex;
-	/* z-index: 1000; */
+	
 }
 
 .input-error {
@@ -165,7 +165,7 @@
 .slds-form-element__helps {
 	color: red;
 	font-size: 0.75rem;
-	/* font-weight: 600; */
+	
 	font-family: "Eina-Regular";
 	margin-top: 0px;
 	margin-left: 8px;
@@ -203,11 +203,9 @@
 	border: 1px solid #ccc;
 	box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
 	z-index: 999;
-	/* Ensure the pop-up appears above other content */
 	max-height: 80%;
-	/* Set a maximum height for the pop-up */
 	overflow-y: auto;
-	/* Enable vertical scrolling if content exceeds max-height */
+	
 }
 
 .btnn {
@@ -232,7 +230,7 @@
 .vertical-progress-container {
 	display: flex;
 	flex-direction: column;
-	/* Display steps vertically */
+	
 }
 
 /* //Style for the custom message with class slds-form-element__help */
@@ -248,7 +246,6 @@
 .slds-form-element__helps {
 	color: red;
 	font-size: 0.75rem;
-	/* font-weight: 600; */
 	font-family: "Eina-Regular";
 	margin-top: 0px;
 	margin-left: 8px;
@@ -286,11 +283,9 @@
 	border: 1px solid #ccc;
 	box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
 	z-index: 999;
-	/* Ensure the pop-up appears above other content */
 	max-height: 80%;
-	/* Set a maximum height for the pop-up */
 	overflow-y: auto;
-	/* Enable vertical scrolling if content exceeds max-height */
+	
 }
 
 .sidebar-container {
@@ -310,7 +305,6 @@
 	left: 34%;
 	height: 100%;
 	width: 6px;
-	/* z-index: 10000; */
 }
 
 .avatar-img-div {
@@ -466,15 +460,15 @@ img {
 
 .input-error-label {
 	color: #ec4e4e;
-	line-height: 20px;
-	letter-spacing: 0em;
-	text-align: left;
-	font-size: 16px;
-	font-family: "Eina-SemiBold";
-	display: flex;
-	gap: 10px;
-	/* height: auto; */
-	align-items: center;
+    line-height: 14px;
+    letter-spacing: 0em;
+    text-align: left;
+    font-size: 16px;
+    font-family: "Eina-SemiBold";
+    display: flex;
+    gap: 10px;
+    align-items: start;
+    margin-top: 5px;
 }
 
 .close-icon {
@@ -500,10 +494,8 @@ img {
 }
 
 .demoFont {
-	/* font-family: "Montserrat", Gadget, sans-serif; */
 	font-size: 16px;
 	color: #000000;
-	/* font-weight: bold; */
 	font-family: "Eina-Bold";
 	text-decoration: none;
 	font-style: normal;
@@ -518,8 +510,6 @@ img {
 .progress-ol {
 	position: relative;
 	padding: 0px;
-	/* bottom: 15px; */
-	/* left: 10px; */
 }
 
 .progress-bar-container {
@@ -538,7 +528,7 @@ img {
 }
 
 .slds-progress__list .slds-is-active .slds-progress__marker {
-	/* border-color: #403A60 !important; */
+
 	border-color: #fff !important;
 	background-color: #403a60 !important;
 }
@@ -601,7 +591,7 @@ img {
 	padding: 20px 0px;
 }
 
-/* Button  */
+
 .btn-div {
 	display: flex;
 	justify-content: flex-end;
@@ -618,7 +608,6 @@ img {
 	display: flex;
 	width: 79px;
 	height: 40px;
-	/* padding: 12px 24px 17px 24px; */
 	justify-content: center;
 	align-items: center;
 	flex-shrink: 0;
@@ -685,9 +674,7 @@ img {
 	background-color: white;
 }
 
-/* .check-error {
-  margin-left: 52px;
-} */
+
 
 .slds-hide {
 	display: contents;
@@ -727,7 +714,6 @@ img {
 		padding: 0px 10px;
 		margin-left: 0;
 		position: relative;
-		/* padding-bottom: 30px; */
 	}
 
 	.disable-button {
@@ -757,7 +743,6 @@ img {
 
 	.PI {
 		display: flex;
-		/* font-weight: 600; */
 		color: #403a60;
 		font-family: "Eina-Bold";
 	}
@@ -791,9 +776,7 @@ img {
 		width: 100%;
 	}
 
-	/* .marTB20{
-	  display: none;
-	} */
+	
 
 	.formContainer {
 		width: 100%;
@@ -835,7 +818,7 @@ img {
 	.avatar-img-div {
 		flex-direction: row;
 		position: relative;
-		/* bottom: 84px; */
+	
 	}
 
 	.demoFont {
@@ -884,8 +867,7 @@ img {
 		display: flex;
 		justify-content: space-between;
 		height: 40px;
-		/* position: relative;
-	right: 97px; */
+		
 	}
 
 	.slds-progress_vertical .slds-progress__item {
@@ -930,7 +912,6 @@ img {
 
 	.closeavatar {
 		color: white;
-		/* padding-right: 10px; */
 		position: relative;
 		right: 23px;
 		font-size: 21px;

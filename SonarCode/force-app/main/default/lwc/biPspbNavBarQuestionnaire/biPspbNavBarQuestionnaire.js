@@ -1,7 +1,6 @@
 //To design the Navigation bar that contains the required menus and submenus
 //To import Libraries
 import { LightningElement } from 'lwc';
-import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import { resources } from 'c/biPspLabelAndResourceGeneral';
 //To import Apex Classes
 import USER_DETAILS from '@salesforce/apex/BI_PSP_CurrentUser.getCurrentUser';
@@ -195,6 +194,7 @@ export default class BiPspbNavBarQuestionnaire extends LightningElement {
 	//Qualitative Date for topbar navigation
 
 	patientAfterThreeMonthsAndFourteenWeeks() {
+		let globalThis = window;
 		try{
 			GET_PATIENT_AFTER_WEEKS()
 				.then(data => {
@@ -203,12 +203,14 @@ export default class BiPspbNavBarQuestionnaire extends LightningElement {
 					}
 				})
 				.catch(error => {
-					this.showToast(this.errorMsg, error.message, this.errorVariant);
+					globalThis.sessionStorage.setItem('errorMessage',error.body.message);
+					globalThis.location?.assign(this.baseUrl + this.siteUrlBranded + this.displayErrorPage);
 				})
 		}
 		catch (error) {
 			//navigate to error page
-			this.showToast(this.errorMessages, error.message, this.errorVariant);
+			globalThis.sessionStorage.setItem('errorMessage',error.body.message);
+			globalThis.location?.assign(this.baseUrl + this.siteUrlBranded + this.displayErrorPage);
 		}
 	}
 
@@ -216,6 +218,7 @@ export default class BiPspbNavBarQuestionnaire extends LightningElement {
 
 	//Used to get information regarding the loggedin caregiver
 	patientInfo() {
+		let globalThis = window;
 		try{
 			GET_CAREGIVER_ACCOUNTS({ userId: Id ,isActive: true})
 				.then(patient => {//Null check has been handled in the respective apex method.
@@ -229,12 +232,14 @@ export default class BiPspbNavBarQuestionnaire extends LightningElement {
 					}
 				})
 				.catch(error => {
-					this.showToast(this.errorMsg, error.message, this.errorVariant);
+					globalThis.sessionStorage.setItem('errorMessage',error.body.message);
+					globalThis.location?.assign(this.baseUrl + this.siteUrlBranded + this.displayErrorPage);
 				})
 		}
 		catch (error) {
 			//navigate to error page
-			this.showToast(this.errorMessages, error.message, this.errorVariant);
+			globalThis.sessionStorage.setItem('errorMessage',error.body.message);
+			globalThis.location?.assign(this.baseUrl + this.siteUrlBranded + this.displayErrorPage);
 		}
 	}
 	//Navigation
@@ -245,9 +250,9 @@ export default class BiPspbNavBarQuestionnaire extends LightningElement {
 	//Used to get the user and profile information of the current loggedin user to render the navigation bar details.
 
 	connectedCallback() {
+		let globalThis = window;
 		try {
 			this.userType = typeof Id;
-			let globalThis = window;
 			this.currentPageUrl = globalThis.location?.href;
 			this.urlSegments = this.currentPageUrl.split('/');
 			this.baseUrl = `${this.urlSegments[0]}//${this.urlSegments[2]}`;
@@ -322,11 +327,13 @@ export default class BiPspbNavBarQuestionnaire extends LightningElement {
 
 							})
 							.catch(error => {
-								this.showToast(this.errorMsg, error.message, this.errorVariant);
+								globalThis.sessionStorage.setItem('errorMessage',error.body.message);
+								globalThis.location?.assign(this.baseUrl + this.siteUrlBranded + this.displayErrorPage);
 							})
 					})
 					.catch(error => {
-						this.showToast(this.errorMsg, error.message, this.errorVariant);
+						globalThis.sessionStorage.setItem('errorMessage',error.body.message);
+						globalThis.location?.assign(this.baseUrl + this.siteUrlBranded + this.displayErrorPage);
 					})
 			} else {
 				this.showMenu = false;
@@ -347,12 +354,14 @@ export default class BiPspbNavBarQuestionnaire extends LightningElement {
 			}
 		}
 		catch (error) {
-			this.showToast(this.errorMsg, error.message, this.errorVariant);
+			globalThis.sessionStorage.setItem('errorMessage',error.body.message);
+			globalThis.location?.assign(this.baseUrl + this.siteUrlBranded + this.displayErrorPage);
 		}
 	}
 
 	//This wire method is used to get the patient information of the current logged in user
 	retrievePatientStatus() {
+		let globalThis = window;
 		try{
 			PATIENT_STATUS({ userId: '$userId' })
 				.then(result => {// Null check for user record has been handled in its respective apex method.
@@ -362,12 +371,14 @@ export default class BiPspbNavBarQuestionnaire extends LightningElement {
 					}
 				})
 				.catch(error => {
-					this.showToast(this.errorMsg, error.message, this.errorVariant);
+					globalThis.sessionStorage.setItem('errorMessage',error.body.message);
+					globalThis.location?.assign(this.baseUrl + this.siteUrlBranded + this.displayErrorPage);
 				});
 		}
 		catch (error) {
 			//navigate to error page
-			this.showToast(this.errorMessages, error.message, this.errorVariant);
+			globalThis.sessionStorage.setItem('errorMessage',error.body.message);
+			globalThis.location?.assign(this.baseUrl + this.siteUrlBranded + this.displayErrorPage);
 		}
 	}
 	//Used for rendering the modules according to the patient information
@@ -384,6 +395,7 @@ export default class BiPspbNavBarQuestionnaire extends LightningElement {
 
 	// This method is used t collect the assessment deatils.
 	fetchAssessmentCount() {
+		let globalThis = window;
 		try{
 			COUNT_ASSESSMENT()
 				.then(result => {
@@ -405,13 +417,15 @@ export default class BiPspbNavBarQuestionnaire extends LightningElement {
 					}
 				})
 				.catch(error => {
-					this.showToast(this.errorMsg, error.message, this.errorVariant);
+					globalThis.sessionStorage.setItem('errorMessage',error.body.message);
+					globalThis.location?.assign(this.baseUrl + this.siteUrlBranded + this.displayErrorPage);
 					this.showTabMenu = false;
 				});
 		}
 		catch (error) {
 			//navigate to error page
-			this.showToast(this.errorMessages, error.message, this.errorVariant);
+			globalThis.sessionStorage.setItem('errorMessage',error.body.message);
+			globalThis.location?.assign(this.baseUrl + this.siteUrlBranded + this.displayErrorPage);
 		}
 	}
 	//This method is used to identify the current page and renders the highliged bar for menus
@@ -448,6 +462,7 @@ export default class BiPspbNavBarQuestionnaire extends LightningElement {
 	//Used to decide the Navigation for community chatter
 
 	openCommunity() {
+		let globalThis = window;
 		try{
 			CHECK_COMMUNITY_USERNAME({ userId: this.userId })
 				.then((result) => {// Null check for user record has been handled in its respective apex method.
@@ -459,12 +474,14 @@ export default class BiPspbNavBarQuestionnaire extends LightningElement {
 					}
 				})
 				.catch((error) => {
-					this.showToast(this.errorMsg, error.message, this.errorVariant);
+					globalThis.sessionStorage.setItem('errorMessage',error.body.message);
+					globalThis.location?.assign(this.baseUrl + this.siteUrlBranded + this.displayErrorPage);
 				})
 		}
 		catch (error) {
 			//navigate to error page
-			this.showToast(this.errorMessages, error.message, this.errorVariant);
+			globalThis.sessionStorage.setItem('errorMessage',error.body.message);
+			globalThis.location?.assign(this.baseUrl + this.siteUrlBranded + this.displayErrorPage);
 		}
 	}
 	//Navigation for Caregiver/Patient
@@ -582,6 +599,7 @@ export default class BiPspbNavBarQuestionnaire extends LightningElement {
 	//This method is used for logout functionality
 
 	logoutFromSite() {
+		let globalThis = window;
 		try{
 			this.showPopup = false;
 			let currentUrl = window.location.href;
@@ -594,7 +612,8 @@ export default class BiPspbNavBarQuestionnaire extends LightningElement {
 		}
 		catch (error) {
 			//navigate to error page
-			this.showToast(this.errorMessages, error.message, this.errorVariant);
+			globalThis.sessionStorage.setItem('errorMessage',error.body.message);
+			globalThis.location?.assign(this.baseUrl + this.siteUrlBranded + this.displayErrorPage);
 		}
 	}
 	//Navigation
@@ -664,6 +683,7 @@ export default class BiPspbNavBarQuestionnaire extends LightningElement {
 	/*   Patient Community SubMenu */
 
 	openAllPosts() {
+		let globalThis = window;
 		try{
 			CHECK_COMMUNITY_USERNAME({ userId: this.userId })
 				.then((result) => {// Null check for user record has been handled in its respective apex method.
@@ -675,16 +695,19 @@ export default class BiPspbNavBarQuestionnaire extends LightningElement {
 					}
 				})
 				.catch((error) => {
-					this.showToast(this.errorMsg, error.message, this.errorVariant);
+					globalThis.sessionStorage.setItem('errorMessage',error.body.message);
+					globalThis.location?.assign(this.baseUrl + this.siteUrlBranded + this.displayErrorPage);
 				});
 		}
 		catch (error) {
 			//navigate to error page
-			this.showToast(this.errorMessages, error.message, this.errorVariant);
+			globalThis.sessionStorage.setItem('errorMessage',error.body.message);
+			globalThis.location?.assign(this.baseUrl + this.siteUrlBranded + this.displayErrorPage);
 		}
 	}
 
 	openMyPosts() {
+		let globalThis = window;
 		try{
 			CHECK_COMMUNITY_USERNAME({ userId: this.userId })
 				.then((result) => {// Null check for user record has been handled in its respective apex method.
@@ -696,16 +719,19 @@ export default class BiPspbNavBarQuestionnaire extends LightningElement {
 					}
 				})
 				.catch((error) => {
-					this.showToast(this.errorMsg, error.message, this.errorVariant);
+					globalThis.sessionStorage.setItem('errorMessage',error.body.message);
+					globalThis.location?.assign(this.baseUrl + this.siteUrlBranded + this.displayErrorPage);
 				});
 		}
 		catch (error) {
 			//navigate to error page
-			this.showToast(this.errorMessages, error.message, this.errorVariant);
+			globalThis.sessionStorage.setItem('errorMessage',error.body.message);
+			globalThis.location?.assign(this.baseUrl + this.siteUrlBranded + this.displayErrorPage);
 		}
 	}
 
 	openMyFollowers() {
+		let globalThis = window;
 		try{
 			CHECK_COMMUNITY_USERNAME({ userId: this.userId })
 				.then((result) => {// Null check for user record has been handled in its respective apex method.
@@ -717,16 +743,19 @@ export default class BiPspbNavBarQuestionnaire extends LightningElement {
 					}
 				})
 				.catch((error) => {
-					this.showToast(this.errorMsg, error.message, this.errorVariant);
+					globalThis.sessionStorage.setItem('errorMessage',error.body.message);
+					globalThis.location?.assign(this.baseUrl + this.siteUrlBranded + this.displayErrorPage);
 				});
 		}
 		catch (error) {
 			//navigate to error page
-			this.showToast(this.errorMessages, error.message, this.errorVariant);
+			globalThis.sessionStorage.setItem('errorMessage',error.body.message);
+			globalThis.location?.assign(this.baseUrl + this.siteUrlBranded + this.displayErrorPage);
 		}
 	}
 
 	openFollowing() {
+		let globalThis = window;
 		try{
 			CHECK_COMMUNITY_USERNAME({ userId: this.userId })
 				.then((result) => {// Null check for user record has been handled in its respective apex method.
@@ -740,12 +769,14 @@ export default class BiPspbNavBarQuestionnaire extends LightningElement {
 					}
 				})
 				.catch((error) => {
-					this.showToast(this.errorMsg, error.message, this.errorVariant);
+					globalThis.sessionStorage.setItem('errorMessage',error.body.message);
+					globalThis.location?.assign(this.baseUrl + this.siteUrlBranded + this.displayErrorPage);
 				});
 		}
 		catch (error) {
 			//navigate to error page
-			this.showToast(this.errorMessages, error.message, this.errorVariant);
+			globalThis.sessionStorage.setItem('errorMessage',error.body.message);
+			globalThis.location?.assign(this.baseUrl + this.siteUrlBranded + this.displayErrorPage);
 		}
 	}
 	/*showQuestionnaireMenu links*/
@@ -937,16 +968,5 @@ export default class BiPspbNavBarQuestionnaire extends LightningElement {
 			}
 		}
 	}
-	// showToast used for all the error messages caught
 
-	showToast(title, message, variant) {
-		if (typeof window !== 'undefined') {
-			const event = new ShowToastEvent({
-				title: title,
-				message: message,
-				variant: variant
-			});
-			this.dispatchEvent(event);
-		}
-	}
 }

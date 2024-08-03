@@ -8,7 +8,7 @@ import INTRODUCTION_QUESTIONARE from '@salesforce/apex/BI_PSP_AssessmentQuestion
 import PATIENT_STATUS_RETURNS from '@salesforce/apex/BI_PSP_AssessmentQuestionsCtrl.patientstatusreturn';
 import DRAFT_RESPONSE_SUBMITION from '@salesforce/apex/BI_PSP_AssessmentManagementCtrl.mulitipleDraftRecordsInsertion';
 import DRAFT_RESPONSE_OF_INTRODUCTION from '@salesforce/apex/BI_PSP_DraftResponseCtrl.retrieveDrfatResponses';
-//import CREATE_TASK from '@salesforce/apex/BI_PSPB_TreatmentReminderCtrl.createTaskIfNoAssessment';
+import CREATE_TASK from '@salesforce/apex/BI_PSPB_LetPersonaliseNotification.createTaskIfNoAssessment';
 // To import Custom Labels
 import ERROR_VARIANT from '@salesforce/label/c.BI_PSP_ErrorVariantToast';
 import ERROR_MESSAGE from '@salesforce/label/c.BI_PSP_ConsoleError';

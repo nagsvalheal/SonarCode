@@ -1,7 +1,6 @@
 //This component is used as Footer for all pages
 // To import Libraries
 import { LightningElement } from 'lwc';
-import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import { resources } from 'c/biPspLabelAndResourceGeneral';
 
 // To import User Id.
@@ -35,13 +34,21 @@ export default class BiPspbFooterLogo extends LightningElement {
 	termsOfUseLab = resources.TERMS_OF_USE_LABEL;
 	privacyNoticeLab = resources.PRIVACY_NOTICE_LABEL;
 	copyrights = resources.COPYRIGHTS;
+	displayErrorPage = resources.BI_PSP_DISPLAYERRORPAGE;
+	siteUrlBranded = resources.BRSITE_URL;
 	//ConnectedCallback used to find the site is Branded or Unassigned.
-	renderedCallback() {
+
+	connectedCallback() {
+		let globalThis = window;
 		try {
+			this.currentPageUrl = globalThis.location?.href;
+			this.urlSegments = this.currentPageUrl.split('/');
+			this.baseUrl = `${this.urlSegments[0]}//${this.urlSegments[2]}`;
 			this.detectBrandedOrUnassigned();
 			this.detectPageUrl();
 		} catch (err) {
-			this.showToast(this.errorMsg, err.message, this.errorVariant); // Result Null/other Exception
+			globalThis.sessionStorage.setItem('errorMessage',err.body.message);
+			globalThis.location?.assign(this.baseUrl + this.siteUrlBranded + this.displayErrorPage); // Result Null/other Exception
 		}
 	}
 
@@ -71,9 +78,10 @@ export default class BiPspbFooterLogo extends LightningElement {
 
 	detectPageUrl()
 	{
-		const currentTabName = window.location.pathname.split('/').pop();
+		let globalThis = window;
+		const currentTabName = globalThis.location?.pathname.split('/').pop();
 		// Get the pathname from the URL
-		let pathname = window.location.pathname;
+		let pathname = globalThis.location?.pathname;
 		if (pathname === this.brSiteUrl || pathname === '' || currentTabName === this.questionnairePageOne ||
 		currentTabName === this.questionnairePageTwo || currentTabName === this.publicPrivacyNotice || 
 		currentTabName === this.publicTermsOfUse || currentTabName === this.publicContactUs || 
@@ -130,20 +138,6 @@ export default class BiPspbFooterLogo extends LightningElement {
 			}else{
 				window.location.assign(this.decidingBrandedOrUnassigned + this.privacyLogin);
 			}
-		}
-	}
-	// show the Toast message if the catch runs
-
-	showToast(title, message, variant) 
-	{
-		if (typeof window !== 'undefined') 
-		{
-			const event = new ShowToastEvent({
-				title: title,
-				message: message,
-				variant: variant
-			});
-			this.dispatchEvent(event);
 		}
 	}
 }

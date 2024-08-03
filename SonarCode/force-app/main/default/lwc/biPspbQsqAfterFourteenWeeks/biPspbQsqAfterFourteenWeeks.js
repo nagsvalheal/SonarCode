@@ -16,44 +16,10 @@ import QSQ_IMAGE from '@salesforce/resourceUrl/BI_PSP_QualitativeImage';
 //To get Current UserId
 import Id from '@salesforce/user/Id';
 //To import Custom labels
-import INTRODUCTION_CATEGORY from '@salesforce/label/c.BI_PSP_IntroductionTxt';
-import PSS_CATEGORY from '@salesforce/label/c.BI_PSP_PssCategory';
-import WPAI_CATEGORY from '@salesforce/label/c.BI_PSP_WapiCategory';
-import DLQI_CATEGORY from '@salesforce/label/c.BI_PSP_DlqiCategory';
-import QUALITATIVE_CATEGORY from '@salesforce/label/c.BI_PSP_QualitativeCategory';
-import WPAI_TEXT from '@salesforce/label/c.BI_PSP_WpaiQstnrTxt';
-import CLICK_BELOW from '@salesforce/label/c.BI_PSP_ClickBelowText';
-import OUTSTANDING_PAGE_TEXT from '@salesforce/label/c.BI_PSP_OutstndngPageTxt';
-import INFORMATION_CENTRE from '@salesforce/label/c.BI_PSP_InformationCentreTxt';
-import SYMPTOM_TRACKER from '@salesforce/label/c.BI_PSP_SymptomTrackerValue';
-import CHALLENGES_NAME from '@salesforce/label/c.BI_PSP_ChallengesName';
-import QUESTIONNAIRE from '@salesforce/label/c.BI_PSP_Questionnaire';
-import TREATMENT_VIDEOS_TXT from '@salesforce/label/c.BI_PSP_TreatmentVideosTxt';
-import SUPPORT_TEXT from '@salesforce/label/c.BI_PSP_SupportTxt';
-import OPTION_VALUE_YES from '@salesforce/label/c.BI_PSP_OptionValueYes';
-import OPTION_VALUE_NO from '@salesforce/label/c.BI_PSP_OptionValueNo';
-import BUTTON_SUBMIT from '@salesforce/label/c.BI_PSP_ButtonSubmit';
-import DRAFT_BUTTON from '@salesforce/label/c.BI_PSP_DraftButton';
-import RETURN_BACK from '@salesforce/label/c.BI_PSP_ButtonReturnback';
-import CONFIRM_SUBMISSION from '@salesforce/label/c.BI_PSP_ButtonConfirmSub';
-import CANCEL_BUTTON from '@salesforce/label/c.BI_PSP_CancelButton';
-import CONFIRM_BUTTON from '@salesforce/label/c.BI_PSP_ConfirmButton';
-import QSQ_TEXT from '@salesforce/label/c.BI_PSP_QualitativeEgTxt';
-import BRANDED_URL from '@salesforce/label/c.BI_PSPB_SiteLabel';
-import UN_ASSIGNED_URL from '@salesforce/label/c.BI_PSPB_UnAssignedLabel';
-import CONSOLE_ERROR_MSG from '@salesforce/label/c.BI_PSP_ConsoleError';
-import POPUP_MESSAGE from '@salesforce/label/c.BI_PSP_MsgPopupTxt';
-import SUBMIT_LABEL from '@salesforce/label/c.BI_PSP_SubmitLabel';
-import CANNOT_EDIT_MSG from '@salesforce/label/c.BI_PSP_CannotEditMsg';
-import COMPLETE_ALL from '@salesforce/label/c.BI_PSP_CompleteAll';
-import ERROR_VARIANT_TOAST from '@salesforce/label/c.BI_PSP_ErrorVariantToast';
-import DLQI_QUESTIONNAIRE_URL from '@salesforce/label/c.BI_PSPB_DlqiQuestionnaireUrl';
-import WAPI_QUESTIONNAIRE from '@salesforce/label/c.BI_PSPB_WapiQuestionnaire';
-import PSORIASIS_QUES_URL from '@salesforce/label/c.BI_PSPB_PsoriasisQuesUrl';
-import OUTSTANDING_PAGE_URL from '@salesforce/label/c.BI_PSPB_OutstndngPageUrl';
-import BRANDED_URL_NAVI from '@salesforce/label/c.BI_PSPB_BrandedSiteNaviUrl';
-import UN_ASSIGNED_URL_NAVI from '@salesforce/label/c.BI_PSPB_UnAssignedNaviUrl';
 
+import CONSOLE_ERROR_MSG from '@salesforce/label/c.BI_PSP_ConsoleError';
+import ERROR_VARIANT_TOAST from '@salesforce/label/c.BI_PSP_ErrorVariantToast';
+import * as labels from 'c/biPspbLabelAndResourceForQuestionnaire';
 export default class BiPspbQsqAfterFourteenWeeks extends LightningElement {
 	//Proper naming conventions with camel case for all the variable will be followed in the future releases
 	//Track variable Declarations(re-render variables)
@@ -145,14 +111,14 @@ export default class BiPspbQsqAfterFourteenWeeks extends LightningElement {
 	eighthResponseVersinId;
 	isConfirmationDialogOpen = false;
 	customFormModal = false;
-	message = COMPLETE_ALL;
-	submitLabel = SUBMIT_LABEL;
+	message = labels.COMPLETED_ALL;
+	submitLabel = labels.SUBMIT_LABEL;
 	isPopupOpen = false;
 	saveAsDraftPopUp = false;
 	sliderValue = 0;
 	sliderValueThree = 0;
 	isDraftSavedPopupOpen = false;
-	draftSavedMessage = POPUP_MESSAGE;
+	draftSavedMessage = labels.POPUP_MESSAGE;
 	//Global variables(without @track does not trigger automatic re-renders)
 	twoMonthsTrueFalse = false;
 	firstDraftResp;
@@ -203,30 +169,30 @@ export default class BiPspbQsqAfterFourteenWeeks extends LightningElement {
 	pssCardImage = PSS_IMAGE;
 	wpaiCardImage = WPAI_IMAGE;
 	qsqCardImage = QSQ_IMAGE;
-	introduction = INTRODUCTION_CATEGORY;
-	pss = PSS_CATEGORY;
-	dlqi = DLQI_CATEGORY;
-	wapi = WPAI_CATEGORY;
-	qsq = QUALITATIVE_CATEGORY;
-	wpaiText = WPAI_TEXT;
-	clickBelow = CLICK_BELOW;
-	qsqText = QSQ_TEXT;
-	outstandingQue = OUTSTANDING_PAGE_TEXT;
-	informationCentre = INFORMATION_CENTRE;
-	symptomTracker = SYMPTOM_TRACKER;
-	challenges = CHALLENGES_NAME;
-	questionnaire = QUESTIONNAIRE;
-	treatmentVideos = TREATMENT_VIDEOS_TXT;
-	support = SUPPORT_TEXT;
-	yes = OPTION_VALUE_YES;
-	no = OPTION_VALUE_NO;
-	submit = BUTTON_SUBMIT;
-	saveasdraft = DRAFT_BUTTON;
-	returnBackc = RETURN_BACK;
-	confirmSub = CONFIRM_SUBMISSION;
-	cannotEdit = CANNOT_EDIT_MSG;
-	cancelbt = CANCEL_BUTTON;
-	confirmbt = CONFIRM_BUTTON;
+	introduction = labels.INTRODUCTION_CATEGORY;
+	pss = labels.PSS_CATEGORY;
+	dlqi = labels.DLQI_CATEGORY;
+	wapi = labels.WPAI_CATEGORY;
+	qsq = labels.QUALITATIVE_LABEL;
+	wpaiText = labels.WPAI_TXT;
+	clickBelow = labels.CLICK_BELOW;
+	qsqText = labels.QSQ_EG_TXT;
+	outstandingQue = labels.OUTSTANDING_QUESTIONNAIRE;
+	informationCentre = labels.INFORMATION_CENTER_TXT;
+	symptomTracker = labels.SYMPTOM_TRACKER;
+	challenges = labels.CHALLENGES_TXT;
+	questionnaire = labels.QUESTIONNAIRE_TXT;
+	treatmentVideos = labels.REATMENT_VIDEOS;
+	support = labels.SUPPORT_TXT;
+	yes = labels.YES_LABEL;
+	no = labels.NO_LABEL;
+	submit = labels.SUBMIT;
+	saveasdraft = labels.SAVE_AS_DRAFT;
+	returnBackc = labels.BUTTON_RETURN_BACK;
+	confirmSub = labels.BUTTON_CONFIRM_SUB;
+	cannotEdit = labels.CANNOT_EDIT_MSG;
+	cancelbt = labels.CANCEL_BUTTON;
+	confirmbt = labels.CONFIRM_BUTTON;
 	draftResponses = [];
 	handleResizeBound;
 	stqsq = 0;
@@ -246,15 +212,15 @@ export default class BiPspbQsqAfterFourteenWeeks extends LightningElement {
 			let pathComponents = path.split('/');
 			// Find the component you need (in this case, 'Branded')
 			let desiredComponent = pathComponents.find((component) =>
-				[BRANDED_URL.toLowerCase(), UN_ASSIGNED_URL.toLowerCase()].includes(
+				[labels.BRANDED_URL.toLowerCase(), labels.UN_ASSIGNED_URL.toLowerCase()].includes(
 					component.toLowerCase()
 				)
 			);
 
-			if (desiredComponent.toLowerCase() === BRANDED_URL.toLowerCase()) {
-				this.urlq = BRANDED_URL_NAVI;
+			if (desiredComponent.toLowerCase() === labels.BRANDED_URL.toLowerCase()) {
+				this.urlq = labels.BRANDED_NAVI_URL;
 			} else {
-				this.urlq = UN_ASSIGNED_URL_NAVI;
+				this.urlq = labels.UN_ASSIGNED_URL_NAVI;
 			}
 
 			this.updateThumbLabelPosition(this.sliderValue);
@@ -560,9 +526,9 @@ export default class BiPspbQsqAfterFourteenWeeks extends LightningElement {
 	//Assigning order number for response
 	reposneModeeOn() {
 		// Helper function to handle mapping values to slider
-		const mapSliderValue = (responseValue, valueMap) => 
+		const mapSliderValue = (responseValue, valueMap) =>
 			valueMap[responseValue] || 0 // Default to 0 if not found
-		;
+			;
 
 		// Helper function to handle updating state for checkbox responses
 		const updateCheckedState = (responseValue, stateMap) => {
@@ -740,13 +706,13 @@ export default class BiPspbQsqAfterFourteenWeeks extends LightningElement {
 	//Navigation methods for other Questionnaire
 
 	navigateToCategory2() {
-		window.location.assign(this.urlq + DLQI_QUESTIONNAIRE_URL);
+		window.location.assign(this.urlq + labels.DLQI_URL);
 	}
 	navigateToCategory3() {
-		window.location.assign(this.urlq + PSORIASIS_QUES_URL);
+		window.location.assign(this.urlq + labels.PSS_QUESTIONNAIRE_URL);
 	}
 	navigateToCategory4() {
-		window.location.assign(this.urlq + WAPI_QUESTIONNAIRE);
+		window.location.assign(this.urlq + labels.WPAI_QUESTIONAIRE);
 	}
 	handleSeve(event) {
 		this.nameOfQuestion = event.target.name;
@@ -1099,12 +1065,12 @@ export default class BiPspbQsqAfterFourteenWeeks extends LightningElement {
 
 		if (nonEmptyResponses.length > 0) {
 			let afterFourteenWeeks = false;
-			let twoMonths=false;
+			let twoMonths = false;
 			DRAFT_RESPONSE_SUBMISSION({
 				darftQuestionIds: nonEmptyIds,
 				draftResponseTexts: nonEmptyResponses,
 				isItDraftOrSubmit: afterFourteenWeeks,
-				isQsqAfterTwoMonths :twoMonths
+				isQsqAfterTwoMonths: twoMonths
 			})
 				.then(() => {
 					this.customFormModal = false;
@@ -1117,7 +1083,7 @@ export default class BiPspbQsqAfterFourteenWeeks extends LightningElement {
 					// Handle any errors that occur during the response save
 				});
 		} else {
-			window.location.assign(this.urlq + OUTSTANDING_PAGE_URL);
+			window.location.assign(this.urlq + labels.OUT_STANDING_URL);
 		}
 	}
 
@@ -1127,15 +1093,15 @@ export default class BiPspbQsqAfterFourteenWeeks extends LightningElement {
 		const { nonEmptyResponses, nonEmptyIds } = this.handleResponses();
 		if (nonEmptyResponses.length > 0) {
 			let afterFourteenWeeks = true;
-			let twoMonths=false;
+			let twoMonths = false;
 			SUBMIT_ASSESSMENT_RESPONSE({
 				darftQuestionIds: nonEmptyIds,
 				draftResponseTexts: nonEmptyResponses,
 				isItDraftOrSubmit: afterFourteenWeeks,
-				isQsqAfterTwoMonths :twoMonths
-				})
+				isQsqAfterTwoMonths: twoMonths
+			})
 				.then(() => {
-					window.location.assign(this.urlq + OUTSTANDING_PAGE_URL);
+					window.location.assign(this.urlq + labels.OUT_STANDING_URL);
 				})
 				.catch((error) => {
 					this.showToast(CONSOLE_ERROR_MSG, error.message, ERROR_VARIANT_TOAST); // Catching Potential Error
@@ -1151,7 +1117,7 @@ export default class BiPspbQsqAfterFourteenWeeks extends LightningElement {
 	//Navigation to outstanding Questionnaire
 	closeDraftSavedPopup() {
 		this.isDraftSavedPopupOpen = false;
-		window.location.assign(this.urlq + OUTSTANDING_PAGE_URL);
+		window.location.assign(this.urlq + labels.OUTSTANDING_PAGE_URL);
 	}
 
 	// showToast used for all the error messages caught

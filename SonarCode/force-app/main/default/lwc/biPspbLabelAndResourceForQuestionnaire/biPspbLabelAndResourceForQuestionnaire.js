@@ -98,3 +98,37 @@ export { default as WPAI_DAILY_LEFT } from '@salesforce/label/c.BI_PSP_WpaiDaily
 export { default as WPAI_DAILY_RIGHT } from '@salesforce/label/c.BI_PSP_WpaiDailyRight';
 export { default as WPAI_WORK_LEFT } from '@salesforce/label/c.BI_PSP_WpaiWorkLeft';
 export { default as WPAI_WORK_RIGHT } from '@salesforce/label/c.BI_PSP_WpaiWorkRight';
+export { default as VERY_MUCH } from '@salesforce/label/c.BI_PSP_RbVeryMuch';
+export { default as A_LOT } from '@salesforce/label/c.BI_PSP_RbAlot';
+export { default as A_LITTLE } from '@salesforce/label/c.BI_PSP_RbAlittle';
+export { default as NOT_AT_ALL } from '@salesforce/label/c.BI_PSP_RbNotAtAll';
+export { default as NOT_RELEVANT } from '@salesforce/label/c.BI_PSP_RbNotRelevant';
+export { default as ANSWERED } from '@salesforce/label/c.BI_PSP_NumOfAnsrdQstn';
+export { default as SUBMIT } from '@salesforce/label/c.BI_PSP_ButtonSubmit';
+export { default as SAVE_AS_DRAFT } from '@salesforce/label/c.BI_PSP_DraftButton';
+export { default as ROLLOUT_DATE } from '@salesforce/label/c.BI_PSP_QuestnrRollOutDate';
+export { default as EXPIRES_ON } from '@salesforce/label/c.BI_PSP_QuestnrExpiresOn';
+export { default as OUTSTANDING_QUESTIONNAIRE } from '@salesforce/label/c.BI_PSP_OutstndngPageTxt';
+export { default as BUTTON_RETURN_BACK } from '@salesforce/label/c.BI_PSP_ButtonReturnback';
+export { default as BUTTON_CONFIRM_SUB } from '@salesforce/label/c.BI_PSP_ButtonConfirmSub';
+export { default as CANCEL_BUTTON } from '@salesforce/label/c.BI_PSP_CancelButton';
+export { default as CONFIRM_BUTTON } from '@salesforce/label/c.BI_PSP_ConfirmButton';
+export { default as POPUP_MESSAGE } from '@salesforce/label/c.BI_PSP_MsgPopupTxt';
+export { default as SUBMIT_LABEL } from '@salesforce/label/c.BI_PSP_SubmitLabel';
+export { default as CANNOT_EDIT_MSG } from '@salesforce/label/c.BI_PSP_CannotEditMsg';
+export { default as COMPLETED_ALL } from '@salesforce/label/c.BI_PSP_CompleteAll';
+
+
+
+
+export { default as VERY_SEVERE } from '@salesforce/label/c.BI_PSP_RbVerySevere';
+export { default as SEVERE } from '@salesforce/label/c.BI_PSP_RbSevere';
+export { default as MODERATE } from '@salesforce/label/c.BI_PSP_RbModerate';
+export { default as MILD } from '@salesforce/label/c.BI_PSP_RbMild';
+export { default as NONE } from '@salesforce/label/c.BI_PSP_RbNone';
+export { default as PSS_BOTTOM_SEC_MSG } from '@salesforce/label/c.BI_PSP_PssBottomSecndMsg';
+
+export { default as WPAI_ALERT_TEXT } from '@salesforce/label/c.BI_PSP_WpaiAlertText';
+export { default as WPAI_SLIDER_QUEST_TEXT } from '@salesforce/label/c.BI_PSP_WpaiSliderQuestText';
+export { default as WORKING_FOR_PAY_TEXT } from '@salesforce/label/c.BI_PSP_WorkingForPayText';
+export { default as CLICK_BELOW } from '@salesforce/label/c.BI_PSP_ClickBelowText';

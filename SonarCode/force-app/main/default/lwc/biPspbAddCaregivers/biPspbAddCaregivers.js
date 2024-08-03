@@ -1,6 +1,6 @@
 // This component is used to create and update caregiver details as well as to check for unique emails
 // To import Libraries
-import { LightningElement, wire,api} from 'lwc';
+import { LightningElement, wire} from 'lwc';
 import { getObjectInfo } from 'lightning/uiObjectInfoApi';
 import { getPicklistValues } from 'lightning/uiObjectInfoApi';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
@@ -26,7 +26,6 @@ export default class BiPspbAddCaregivers extends LightningElement {
 	//Proper naming conventions with camel case for all the variables will be followed in the future releases
 	// Declaration of variables with 
 firstNameErrorMessageValid = false;
-@api errorId = '404';
 lastNameErrorMessageValid = false;
 firstName;
 lastName;
@@ -73,7 +72,13 @@ sliderView = false;
 	Boxedicon = resources.Boxedicon;
 	name = resources.FIRST_NAME;
 	surname= resources.LAST_NAME;
+	enterDob=resources.ENTER_DOB;
+	enterLastName=resources.ENTER_LASTNAME;
+	enterFirstName=resources.ENTER_FIRSTNAME;
+	enterEmail=resources.ENTER_EMAIL;
 	minor=resources.MINOR;
+	select=resources.SELECT;
+	enterPhone=resources.PHONE_NUMBER
 	abovedate=resources.ABOVE_DATE;
 	belowDate=resources.DATE;
 	deleteToastimage=resources.DELETE_TOAST_IMAGE;

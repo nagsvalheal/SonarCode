@@ -19,7 +19,7 @@ public with sharing class BI_PSPB_InsiteTaskUpdater {
 			if(tasks.isEmpty() || String.isBlank(newStatus)){
 				BI_PSP_LogMessagesUtility.logError(
 					BI_PSPB_NotificatinRmdConstantsCtrl.errorMsgRecordNotFound,
-					BI_PSPB_DlqiQuestionnaireService.class.toString(),
+					BI_PSPB_InsiteTaskUpdater.class.toString(),
 					false,
                     BI_PSPB_NotificatinRmdConstantsCtrl.severityError
 				);

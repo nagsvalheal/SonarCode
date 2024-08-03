@@ -180,6 +180,17 @@ minorerror=false;
 	requestButton=resources.REQUEST_BUTTON;
 	yesButton=resources.YES_BUTTON;
 	noButton=resources.NO_BUTTON;
+	enterDob=resources.ENTER_DOB;
+	enterLastName=resources.ENTER_LASTNAME;
+	enterFirstName=resources.ENTER_FIRSTNAME;
+	enterEmail=resources.ENTER_EMAIL;
+	select=resources.SELECT;
+	enterPhone=resources.PHONE_NUMBER;
+	enterCountry=resources.ENTER_COUNTRY;
+	enterState=resources.ENTER_STATE;
+	enterCity=resources.ENTER_CITY;
+	enterZipcode=resources.ENTER_ZIPCODE;
+	enterStreet=resources.ENTER_STREET;
 	//to prepopulate patient information
 	@wire(ACCOUNT_DETAILS)
 	wiredcurrentrecord({ error, data }) {

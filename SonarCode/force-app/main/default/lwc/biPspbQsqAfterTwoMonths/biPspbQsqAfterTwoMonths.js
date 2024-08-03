@@ -14,42 +14,9 @@ import DLQI_IMAGE from '@salesforce/resourceUrl/BI_PSP_DlqiImage';
 import WPAI_IMAGE from '@salesforce/resourceUrl/BI_PSP_WpaiImage';
 import QSQ_IMAGE from '@salesforce/resourceUrl/BI_PSP_QualitativeImage';
 //To import Custom Labels
-import PSS_CATEGORY from '@salesforce/label/c.BI_PSP_PssCategory';
-import WPAI_CATEGORY from '@salesforce/label/c.BI_PSP_WapiCategory';
-import DLQI_CATEGORY from '@salesforce/label/c.BI_PSP_DlqiCategory';
-import QSQ_CATEGORY from '@salesforce/label/c.BI_PSP_QualitativeCategory';
-import WPAI_TEXT from '@salesforce/label/c.BI_PSP_WpaiQstnrTxt';
-import SUBMIT_LABEL from '@salesforce/label/c.BI_PSP_SubmitLabel';
-import CLICK_BELOW from '@salesforce/label/c.BI_PSP_ClickBelowText';
-import OUTSTANDING_PAGE_TEXT from '@salesforce/label/c.BI_PSP_OutstndngPageTxt';
-import INFORMATION_CENTRE from '@salesforce/label/c.BI_PSP_InformationCentreTxt';
-import SYMPTOM_TRACKER from '@salesforce/label/c.BI_PSP_SymptomTrackerValue';
-import CHALLENGES_NAME from '@salesforce/label/c.BI_PSP_ChallengesName';
-import QUESTIONNAIRE from '@salesforce/label/c.BI_PSP_Questionnaire';
-import TREATMENT_VIDEOS_TXT from '@salesforce/label/c.BI_PSP_TreatmentVideosTxt';
-import SUPPORT_TEXT from '@salesforce/label/c.BI_PSP_SupportTxt';
-import OPTION_VALUE_YES from '@salesforce/label/c.BI_PSP_OptionValueYes';
-import OPTION_VALUE_NO from '@salesforce/label/c.BI_PSP_OptionValueNo';
-import BUTTON_SUBMIT from '@salesforce/label/c.BI_PSP_ButtonSubmit';
-import DRAFT_BUTTON from '@salesforce/label/c.BI_PSP_DraftButton';
-import RETURN_BACK from '@salesforce/label/c.BI_PSP_ButtonReturnback';
-import CONFIRM_SUBMISSION from '@salesforce/label/c.BI_PSP_ButtonConfirmSub';
-import CANCEL_BUTTON from '@salesforce/label/c.BI_PSP_CancelButton';
-import CONFIRM_BUTTON from '@salesforce/label/c.BI_PSP_ConfirmButton';
-import QSQ_TEXT from '@salesforce/label/c.BI_PSP_QualitativeEgTxt';
-import BRANDED_URL from '@salesforce/label/c.BI_PSPB_SiteLabel';
-import UN_ASSIGNED_URL from '@salesforce/label/c.BI_PSPB_UnAssignedLabel';
-import POPUP_MESSAGE from '@salesforce/label/c.BI_PSP_MsgPopupTxt';
-import COMPLETE_ALL from '@salesforce/label/c.BI_PSP_CompleteAll';
-import CANNOT_EDIT_MSG from '@salesforce/label/c.BI_PSP_CannotEditMsg';
+import * as labels from 'c/biPspbLabelAndResourceForQuestionnaire';
 import CONSOLE_ERROR_MSG from '@salesforce/label/c.BI_PSP_ConsoleError';
 import ERROR_VARIANT_TOAST from '@salesforce/label/c.BI_PSP_ErrorVariantToast';
-import DLQI_QUESTIONNAIRE_URL from '@salesforce/label/c.BI_PSPB_DlqiQuestionnaireUrl';
-import WAPI_QUESTIONNAIRE from '@salesforce/label/c.BI_PSPB_WapiQuestionnaire';
-import PSORIASIS_QUES_URL from '@salesforce/label/c.BI_PSPB_PsoriasisQuesUrl';
-import OUTSTANDING_PAGE_URL from '@salesforce/label/c.BI_PSPB_OutstndngPageUrl';
-import BRANDED_URL_NAVI from '@salesforce/label/c.BI_PSPB_BrandedSiteNaviUrl';
-import UN_ASSIGNED_URL_NAVI from '@salesforce/label/c.BI_PSPB_UnAssignedNaviUrl';
 //To get Current UserId
 import Id from '@salesforce/user/Id';
 export default class BiPspbQsqAfterTwoMonths extends LightningElement {
@@ -146,7 +113,7 @@ export default class BiPspbQsqAfterTwoMonths extends LightningElement {
 	eighthResponseVersinId;
 	isConfirmationDialogOpen = false;
 	customFormModal = false;
-	submitLabel = SUBMIT_LABEL;
+	submitLabel = labels.SUBMIT_LABEL;
 	//whenever the data gets rentered or selected i should be able to get that here from omniscript
 	isDraftSavedPopupOpen = false;
 	isPopupOpen = false;
@@ -158,8 +125,8 @@ export default class BiPspbQsqAfterTwoMonths extends LightningElement {
 	twoMonthsTrueFalse = true;
 	popUpMenu = false;
 	checkedResVal;
-	message = COMPLETE_ALL;
-	draftSavedMessage = POPUP_MESSAGE;
+	message = labels.COMPLETED_ALL;
+	draftSavedMessage = labels.POPUP_MESSAGE;
 	urlq;
 	userId = Id;
 	firstDraftResp;
@@ -208,29 +175,29 @@ export default class BiPspbQsqAfterTwoMonths extends LightningElement {
 	pssCardImage = PSS_IMAGE;
 	wpaiCardImage = WPAI_IMAGE;
 	qsqCardImage = QSQ_IMAGE;
-	pss = PSS_CATEGORY;
-	dlqi = DLQI_CATEGORY;
-	wapi = WPAI_CATEGORY;
-	qsq = QSQ_CATEGORY;
-	wpaiText = WPAI_TEXT;
-	clickBelow = CLICK_BELOW;
-	qsqText = QSQ_TEXT;
-	outstandingQue = OUTSTANDING_PAGE_TEXT;
-	informationCentre = INFORMATION_CENTRE;
-	symptomTracker = SYMPTOM_TRACKER;
-	challenges = CHALLENGES_NAME;
-	questionnaire = QUESTIONNAIRE;
-	treatmentVideos = TREATMENT_VIDEOS_TXT;
-	support = SUPPORT_TEXT;
-	yes = OPTION_VALUE_YES;
-	no = OPTION_VALUE_NO;
-	submit = BUTTON_SUBMIT;
-	saveasdraft = DRAFT_BUTTON;
-	returnbackc = RETURN_BACK;
-	confirmsub = CONFIRM_SUBMISSION;
-	cannotedit = CANNOT_EDIT_MSG;
-	cancelbt = CANCEL_BUTTON;
-	confirmbt = CONFIRM_BUTTON;
+	pss = labels.PSS_CATEGORY;
+	dlqi = labels.DLQI_CATEGORY;
+	wapi = labels.WPAI_CATEGORY;
+	qsq = labels.QUALITATIVE_LABEL;
+	wpaiText = labels.WPAI_TXT;
+	clickBelow = labels.CLICK_BELOW;
+	qsqText = labels.QSQ_TEXT;
+	outstandingQue = labels.OUTSTANDING_QUESTIONNAIRE;
+	informationCentre = labels.INFORMATION_CENTER_TXT;
+	symptomTracker = labels.SYMPTOM_TRACKER_TXT;
+	challenges = labels.CHALLENGES_TXT;
+	questionnaire = labels.QUESTIONNAIRE_TXT;
+	treatmentVideos = labels.TREATMENT_VIDEOS;
+	support = labels.SUPPORT_TXT;
+	yes = labels.YES_LABEL;
+	no = labels.NO_LABEL;
+	submit = labels.SUBMIT;
+	saveasdraft = labels.SAVE_AS_DRAFT;
+	returnbackc = labels.BUTTON_RETURN_BACK;
+	confirmsub = labels.BUTTON_CONFIRM_SUB;
+	cannotedit = labels.CANNOT_EDIT_MSG;
+	cancelbt = labels.CANCEL_BUTTON;
+	confirmbt = labels.CONFIRM_BUTTON;
 	draftResponses = [];
 	handleResizeBound;
 	stqsq = 0;
@@ -250,14 +217,14 @@ export default class BiPspbQsqAfterTwoMonths extends LightningElement {
 			let pathComponents = path.split('/');
 			// Find the component you need (in this case, 'Branded')
 			let desiredComponent = pathComponents.find((component) =>
-				[BRANDED_URL.toLowerCase(), UN_ASSIGNED_URL.toLowerCase()].includes(
+				[labels.BRANDED_URL.toLowerCase(), labels.UN_ASSIGNED_URL.toLowerCase()].includes(
 					component.toLowerCase()
 				)
 			);
-			if (desiredComponent.toLowerCase() === BRANDED_URL.toLowerCase()) {
-				this.urlq = BRANDED_URL_NAVI;
+			if (desiredComponent.toLowerCase() === labels.BRANDED_URL.toLowerCase()) {
+				this.urlq = labels.BRANDED_NAVI_URL;
 			} else {
-				this.urlq = UN_ASSIGNED_URL_NAVI;
+				this.urlq = labels.UN_ASSIGNED_URL_NAVI;
 			}
 			this.updateThumbLabelPosition(this.sliderValue);
 			this.updateThumbLabelPositionsec(this.sliderValuesec);
@@ -563,8 +530,8 @@ export default class BiPspbQsqAfterTwoMonths extends LightningElement {
     const fourthValues = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10'];
 
     // Define options for Yes/No
-    const secYes = OPTION_VALUE_YES;
-    const secNo = OPTION_VALUE_NO;
+    const secYes = labels.YES_LABEL;
+    const secNo = labels.NO_LABEL;
 
     // Define UI elements
     const fifthValues = {
@@ -718,13 +685,13 @@ export default class BiPspbQsqAfterTwoMonths extends LightningElement {
 	//Navigation methods
 
 	navigateToCategory2() {
-		window.location.assign(this.urlq + DLQI_QUESTIONNAIRE_URL);
+		window.location.assign(this.urlq + labels.DLQI_URL);
 	}
 	navigateToCategory3() {
-		window.location.assign(this.urlq + PSORIASIS_QUES_URL);
+		window.location.assign(this.urlq + labels.PSS_QUESTIONNAIRE_URL);
 	}
 	navigateToCategory4() {
-		window.location.assign(this.urlq + WAPI_QUESTIONNAIRE);
+		window.location.assign(this.urlq + labels.WPAI_QUESTIONAIRE);
 	}
 
 	handleSeve(event) {
@@ -1043,7 +1010,7 @@ export default class BiPspbQsqAfterTwoMonths extends LightningElement {
 					this.showToast(CONSOLE_ERROR_MSG, error.message, ERROR_VARIANT_TOAST);
 				});
 		} else {
-			window.location.assign(this.urlq + OUTSTANDING_PAGE_URL);
+			window.location.assign(this.urlq + labels.OUT_STANDING_URL);
 		}
 	}
 
@@ -1079,7 +1046,7 @@ export default class BiPspbQsqAfterTwoMonths extends LightningElement {
 	}
 	closeDraftSavedPopup() {
 		this.isDraftSavedPopupOpen = false;
-		window.location.assign(this.urlq + OUTSTANDING_PAGE_URL);
+		window.location.assign(this.urlq + labels.OUT_STANDING_URL);
 	}
 	// Confirm Submission List of Response
 	confirmSubmission() {
@@ -1147,7 +1114,7 @@ export default class BiPspbQsqAfterTwoMonths extends LightningElement {
 				isQsqAfterTwoMonths :twoMonths
 			})
 				.then(() => {
-					window.location.assign(this.urlq + OUTSTANDING_PAGE_URL);
+					window.location.assign(this.urlq + labels.OUT_STANDING_URL);
 				})
 				.catch((error) => {
 					this.showToast(CONSOLE_ERROR_MSG, error.message, ERROR_VARIANT_TOAST);

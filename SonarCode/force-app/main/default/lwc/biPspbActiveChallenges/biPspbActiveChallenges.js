@@ -1,40 +1,78 @@
 /**This Lightning web component helps to display the active challenges that has been chosen by the user**/
 //To import Libraries
 import { LightningElement, wire, api } from 'lwc';
-import { ShowToastEvent } from 'lightning/platformShowToastEvent';
+import { ShowToastEvent } from 'lightning/platformShowToastEvent';/**This Lightning web component helps to display the active challenges that has been chosen by the user**/
+//To import Libraries
+
 import { resources } from 'c/biPspLabelAndResourceChallenges';
 //To import Apex Classes
 import GET_INDIVIDUAL_CHALLENGES from '@salesforce/apex/BI_PSP_IndividualChallengesCtrl.getIndividualChallenges';
 import COUNT_ASSESSMENT from '@salesforce/apex/BI_PSP_AssessmentCtrl.getAssessmentCountsByCurrentUserName';
-import UPDATE_REACTION from '@salesforce/apex/BI_PSPB_ArticleLikeCtrl.updateReaction';
+//import UPDATE_REACTION from '@salesforce/apex/BI_PSPB_ArticleLikeCtrl.updateReaction';
 //To import Custom labels
+
+import CHALLENGE_LEVEL_ONE from '@salesforce/label/c.BI_PSP_ChallengeLevelOne';
+import CHALLENGE_LEVEL_TWO from '@salesforce/label/c.BI_PSP_ChallengeLevelTwo';
+import CH_BOOK_WORM from '@salesforce/label/c.BI_PSP_ChallengeBookworm';
+import IC_LANDING_PAGE from '@salesforce/label/c.BI_PSP_GppArticle';
+import WHY_BEING_ACTIVE from '@salesforce/label/c.BI_PSP_ActiveArticle';
+import BR_SITE_URL from '@salesforce/label/c.BI_PSPB_BrandedSiteNaviUrl';
+import BRANDED_URL from '@salesforce/label/c.BI_PSPB_SiteLabel';
+import UN_ASSIGNED_URL from '@salesforce/label/c.BI_PSPB_UnAssignedLabel';
+import BRANDES_URL_NAVI from '@salesforce/label/c.BI_PSPB_BrandedSiteNaviUrl';
+import UN_ASSIGNED_URL_NAVI from '@salesforce/label/c.BI_PSPB_UnAssignedNaviUrl';
+import BR_WAPI_QUESTIONNAIRE from "@salesforce/label/c.BI_PSPB_WapiQuestionnaire";
+import PSS_QUESTIONNAIRE from "@salesforce/label/c.BI_PSPB_PsoriasisQuesUrl";
+import DLQI_QUESTIONNAIRE from "@salesforce/label/c.BI_PSPB_DlqiQuestionnaireUrl";
+import CHALLENGE_LEVEL_THREE from "@salesforce/label/c.BI_PSP_ChallengeLevelThree";
+import TRACK_YOUR_GPP_LABEL from "@salesforce/label/c.BI_PSP_TrackYourGppLabel";
+import BRDLQICOMPLETEDURL from "@salesforce/label/c.BI_PSPB_DlqiCompletedUrl";
+import BRWAPICOMPLETEDURL from "@salesforce/label/c.BI_PSPB_WapiCompletedQuestionnaire";
+import BRPSSCOMPLETEDURL from "@salesforce/label/c.BI_PSPB_PsoriasisCompletedQuesUrl";
+import VIEW_LABEL from '@salesforce/label/c.BI_PSPB_View';
+// import BEING_ACTIVE from '@salesforce/label/c.BI_PSPB_BeingActive';
+// import TRACK_YOUR_ANSWER from '@salesforce/label/c.BI_PSPB_TrackYourAnswer';
+// import LINKARTICLE from '@salesforce/label/c.BI_PSPB_LinkArticle';
+// import GPPWORKLIFELINK from '@salesforce/label/c.BI_PSPB_GppWorkLifeLink';
+// import GPPSYMPTOMSLINK from '@salesforce/label/c.BI_PSPB_GPP_symptoms_Link';
+// import GPPQUALITYLIFELINK from '@salesforce/label/c.BI_PSPB_GppQualityLife';
+// import QuestonnaireValue from '@salesforce/label/c.BI_PSPB_QuestionnaireLink';
+// import COMPLETECHALLENGEBUTTON from '@salesforce/label/c.BI_PSPB_CompleteChallengeButton';
 
 
 export default class BiPspbActiveChallenges extends LightningElement {
 	//Proper naming conventions with camel case for all the variable will be followed in the future releases
 	@api activechallengeid;
 	@api challengeidtoupdate;
-	levelOne = resources.CHALLENGE_LEVEL_ONE;
-	levelTwo = resources.CHALLENGE_LEVEL_TWO;
-	challengeBookworm = resources.CH_BOOK_WORM;
-	siteUrlBranded = resources.BR_SITE_URL;
-	gppArticle = resources.IC_LANDING_PAGE;
-	beingActive = resources.WHY_BEING_ACTIVE;
+	levelOne = CHALLENGE_LEVEL_ONE;
+	levelTwo = CHALLENGE_LEVEL_TWO;
+	challengeBookworm = CH_BOOK_WORM;
+	siteUrlBranded = BR_SITE_URL;
+	gppArticle = IC_LANDING_PAGE;
+	beingActive = WHY_BEING_ACTIVE;
 	errorMsg = resources.ERROR_MESSAGES;
 	errorVariant = resources.ERROR_VARIANT;
-	brandedUrl = resources.BRANDED_URL;
-	unAssignedUrl = resources.UNASSIGNED_URL;
-	brSiteUrl = resources.BR_SITE_URL;
-	unAssignedUrlNavi = resources.UN_ASSIGNED_URL_NAVI;
-	brWapiQuestionnaire = resources.BR_WAPI_QUESTIONNAIRE;
-	pssQuestionnaire = resources.PSS_QUESTIONNAIRE;
-	dlqiQuestonnaire = resources.DLQI_QUESTIONNAIRE;
-	challengeLevelThree = resources.CHALLENGE_LEVEL_THREE;
-	trackYourGppLable = resources.TRACK_YOUR_GPP_LABLE;
-	dlqiCompletedUrl = resources.BRDLQI_COMPLETED_URL;
-	biPspbWapiCompletedQuestionnaire = resources.BRWAPI_COMPLETED_URL;
-	brCompletedUrl = resources.BRPSS_COMPLETED_URL;
-	viewLable = resources.VIEW_LABEL;
+	brandedUrl = BRANDED_URL;
+	unAssignedUrl = UN_ASSIGNED_URL_NAVI;
+	brSiteUrl = BRANDES_URL_NAVI;
+	unAssignedUrlNavi = UN_ASSIGNED_URL;
+	brWapiQuestionnaire = BR_WAPI_QUESTIONNAIRE ;
+	pssQuestionnaire = PSS_QUESTIONNAIRE;
+	dlqiQuestonnaire = DLQI_QUESTIONNAIRE;
+	challengeLevelThree = CHALLENGE_LEVEL_THREE;
+	trackYourGppLable = TRACK_YOUR_GPP_LABEL;
+	dlqiCompletedUrl = BRDLQICOMPLETEDURL;
+	biPspbWapiCompletedQuestionnaire = BRWAPICOMPLETEDURL;
+	brCompletedUrl = BRPSSCOMPLETEDURL;
+	viewLable = VIEW_LABEL;
+	beingActive = resources.BEING_ACTIVE;
+	trackYourAns = resources.TRACK_YOUR_ANSWER;
+	linkArticle =resources.LINKARTICLE;
+	gppWrkLifeLink =resources.GPPWORKLIFELINK;
+	gppSymptomsLink = resources.GPPSYMPTOMSLINK;
+	gppQualityLifeLink = resources.GPPQUALITYLIFELINK;
+	questionnairelink = resources.QuestonnaireValue;
+	completeChallengeButton = resources.COMPLETECHALLENGEBUTTON;
 
 	title;
 	level;
@@ -192,41 +230,41 @@ export default class BiPspbActiveChallenges extends LightningElement {
 	}
 	//Used for navigating to articles
 	openArticles() {
-		UPDATE_REACTION({
-			articleName: this.gppArticle, reaction: this.viewLable
+		// UPDATE_REACTION({
+		// 	articleName: this.gppArticle, reaction: this.viewLable
 			
-		})
-			.then(() => {
+		// })
+		// 	.then(() => {
 
-				this.titlear = this.viewLable + ': ' + this.gppArticle;
-				window.location.assign(
-					this.urlq + this.gppArticle
+		// 		this.titlear = this.viewLable + ': ' + this.gppArticle;
+		// 		window.location.assign(
+		// 			this.urlq + this.gppArticle
 					
 					
-				);
-				console.log('OUTPUT : ',this.gppArticle,);
+		// 		);
+		// 		console.log('OUTPUT : ',this.gppArticle,);
 
-			})
-			.catch((error) => {
-				this.showToast(this.errorMsg, error.body.message, this.errorVariant); // Catching Potential Error from Apex
-				// Handle error, if needed
-			});
+		// 	})
+		// 	.catch((error) => {
+		// 		this.showToast(this.errorMsg, error.body.message, this.errorVariant); // Catching Potential Error from Apex
+		// 		// Handle error, if needed
+		// 	});
 
 	}
 	openArticlesActive() {
-		UPDATE_REACTION({
-			articleName: this.beingActive, reaction: this.viewLable
-		})
-			.then(() => {
-				this.titlear = this.viewLable + ': ' + this.beingActive;
-				window.location.assign(
-					this.urlq + this.beingActive
-				);
-			})
-			.catch((error) => {
-				this.showToast(this.errorMsg, error.body.message, this.errorVariant); // Catching Potential Error from Apex
-				// Handle error, if needed
-			});
+		// UPDATE_REACTION({
+		// 	articleName: this.beingActive, reaction: this.viewLable
+		// })
+		// 	.then(() => {
+		// 		this.titlear = this.viewLable + ': ' + this.beingActive;
+		// 		window.location.assign(
+		// 			this.urlq + this.beingActive
+		// 		);
+		// 	})
+		// 	.catch((error) => {
+		// 		this.showToast(this.errorMsg, error.body.message, this.errorVariant); // Catching Potential Error from Apex
+		// 		// Handle error, if needed
+		// 	});
 
 	}
 	TrackYourGppNavigationWPAI() {

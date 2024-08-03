@@ -21,8 +21,8 @@ import LINE_YELLOW from '@salesforce/resourceUrl/BI_PSP_LineYellow';
 import LINE_BROWN from '@salesforce/resourceUrl/BI_PSP_LineBrown';
 //To import apex classess
 import GET_ENROLLE from '@salesforce/apex/BI_PSP_CurrentUser.getEnrolleeRecords';
-import GET_ASSESSMENT_DETAILS from '@salesforce/apex/BI_PSP_GraphCtrl.getQuestionnaireDetails';
-import GET_LAST_QUESTION from '@salesforce/apex/BI_PSP_GraphCtrl.getQuestionnaireLast';
+import GET_ASSESSMENT_DETAILS from '@salesforce/apex/BI_PSP_QuestionnaireGraphCtrl.getQuestionnaireDetails';
+import GET_LAST_QUESTION from '@salesforce/apex/BI_PSP_QuestionnaireGraphCtrl.getQuestionnaireLast';
 import GET_ASSESSMENT_COUNT from '@salesforce/apex/BI_PSP_AssessmentCtrl.getAssessmentCountsByCurrentUserName';
 //To import custo labels
 import BRANDED_URL from '@salesforce/label/c.BI_PSPB_SiteLabel';
@@ -107,8 +107,8 @@ import RANGE_OF_MONTHS from '@salesforce/label/c.BI_PSPB_RangeOfMonthsTxt';
 import EXPIRED from '@salesforce/label/c.BI_PSP_Expired';
 import COMPLETED_LABEL from '@salesforce/label/c.BI_PSP_Completed';
 import UN_ASSIGNED_URL_NAVI from '@salesforce/label/c.BI_PSPB_UnAssignedNaviUrl';
-import html2canvas from '@salesforce/resourceUrl/BI_PSP_html2canvas';
-import jsPDF from '@salesforce/resourceUrl/pdflib';
+//import html2canvas from '@salesforce/resourceUrl/BI_PSP_html2canvas';
+//import jsPDF from '@salesforce/resourceUrl/pdflib';
 export default class BiPspbQuestionnarieSumChart extends LightningElement {
 	assessmentResponse;
 	@track dlqiFirstQuestion = [];
@@ -1116,48 +1116,48 @@ export default class BiPspbQuestionnarieSumChart extends LightningElement {
 		this.onPrint = false;
 	}
 
-	renderedCallback() {
-		loadScript(this, jsPDF)
-			.then(() => {
-				console.log('success pdf');
-			})
-			.catch(error => {
-				console.log(error);
-			});
-		loadScript(this, html2canvas)
-			.then(() => {
-				console.log('success html');
-			})
-			.catch(error => {
-				console.log(error);
-			});
-	}
+	// renderedCallback() {
+	// 	loadScript(this, jsPDF)
+	// 		.then(() => {
+	// 			console.log('success pdf');
+	// 		})
+	// 		.catch(error => {
+	// 			console.log(error);
+	// 		});
+	// 	loadScript(this, html2canvas)
+	// 		.then(() => {
+	// 			console.log('success html');
+	// 		})
+	// 		.catch(error => {
+	// 			console.log(error);
+	// 		});
+	// }
 	yesDownload() {
-		// window.print();
-		// this.cancelDownload()
-		// this.onPrint = false;
-		const content = this.template.querySelector('.custom-box22');
-		console.log(content);
-		document.body.appendChild(content);
-		console.log(content);
-		window.html2canvas(content).then(canvas => {
+		window.print();
+		this.cancelDownload()
+		this.onPrint = false;
+		//const content = this.template.querySelector('.custom-box22');
 
-			const imgData = canvas.toDataURL('image/png');
+		// document.body.appendChild(content);
 
-			const pdf = new window.jsPDF('p', 'mm', 'a4');
+		// window.html2canvas(content).then(canvas => {
 
-			const pdfWidth = pdf.internal.pageSize.getWidth();
+		// 	const imgData = canvas.toDataURL('image/png');
 
-			const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
+		// 	const pdf = new window.jsPDF('p', 'mm', 'a4');
 
-			pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
+		// 	const pdfWidth = pdf.internal.pageSize.getWidth();
 
-			pdf.save('download.pdf');
+		// 	const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
 
-		}).catch(error => {
-			console.log('i am here');
-			console.log(error);
-		});
+		// 	pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
+
+		// 	pdf.save('download.pdf');
+
+		// }).catch(error => {
+		// 	console.log('i am here');
+		// 	console.log(error);
+		// });
 	}
 
 

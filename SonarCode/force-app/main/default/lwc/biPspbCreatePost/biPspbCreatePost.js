@@ -231,12 +231,10 @@ export default class BiPspbCreatePost extends LightningElement {
         this.selectLengthWidthParent = "errorSelectLengthWidth";
         this.selectLengthWidthChild = "errorSelectLengthWidth";
         this.categoryPlaceHolder = this.topicPlaceHolder;
-      } else {
-        if (CATEGORY_CLASS.classList.contains("firstInvalid")) {
+      } else if (CATEGORY_CLASS.classList.contains("firstInvalid")) {
           CATEGORY_CLASS.classList.remove("firstInvalid");
           CATEGORY_CLASS.classList.add("valid");
           this.warningCategory = false;
-        }
       }
       //if phrase is null raise invalidation
       if (!this.childValue) {
@@ -244,12 +242,10 @@ export default class BiPspbCreatePost extends LightningElement {
         this.warningPhrase = true;
         this.phrasePlaceHolder = this.subTopicPlaceHolder;
         this.selectLengthWidthChild = "errorSelectLengthWidth";
-      } else {
-        if (PHRASE_CLASS.classList.contains("secondInvalid")) {
+      } else if (PHRASE_CLASS.classList.contains("secondInvalid")) {
           PHRASE_CLASS.classList.remove("secondInvalid");
           PHRASE_CLASS.classList.add("secondValid");
           this.warningPhrase = false;
-        }
       }
     }
     //if none of the field is null , fix the normal text instead of error text

@@ -9,6 +9,8 @@ import GET_LOGGEDIN_USER_ACCOUNT from '@salesforce/apex/BI_PSP_CurrentUser.getEn
 import PATIENT_STATUS from '@salesforce/apex/BI_PSPB_TreatmentVideoCtrl.patientStatus';
 // To import Custom Labels
 import { LABELS } from 'c/biPspbLabelForInfoCenter';
+import SEARCH_AVATAR_MESSAGE from '@salesforce/label/c.BI_PSPB_ArticleSearchAvatarMessage';
+
 
 export default class BiPspbInfoLandingAvatar extends LightningElement {
 	patientStatusRecord = '';
@@ -16,6 +18,7 @@ export default class BiPspbInfoLandingAvatar extends LightningElement {
 	renderedCount=0;
 	userAccounts;
 	cardImage = '';
+	searchAvatarMessage = SEARCH_AVATAR_MESSAGE;
 
 	
 	/*There's no need to check for null because in Apex, we're throwing an AuraHandledException. 

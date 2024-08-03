@@ -5,10 +5,11 @@
  * 1.0		Niyas		24-07-2024		Created		Refactored Version
  */
 public with sharing class BI_PSPB_TaskEnrolleeFetcher {
-    	/**
-	* @description Checking for tasks and calling other method
-	to send mail.
-	*/
+	/**
+	 * @description  Retrieves treatment reminders based on the given criteria.
+	 * @param recordIds The ID of the record related to the treatment reminders.
+	 * @return A list of BI_PSPB_Treatment_Reminder__c objects that match the criteria.
+	 */
     public static List<CareProgramEnrollee> fetchEnrolleeRecords(List<Id> recordIds) {
         String fields = 'Id';
         // Convert List<Id> to a comma-separated string for the query

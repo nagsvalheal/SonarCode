@@ -12,9 +12,9 @@
 				<lightning-layout-item size="12" small-device-size="12" medium-device-size="12" large-device-size="12">
 					<div class="customNavTab pad">
 						<div class="grid-containerNavTab">
-							<a onclick={openArticlesPage} class="menuListActive">Articles</a>
+							<a onclick={openArticlesPage} class="menuListActive">{articles}</a>
 							<template if:true={showTreatVideo}>
-								<a onclick={openPTVPage} class="menuList">Patient Treatment Videos</a></template>
+								<a onclick={openPTVPage} class="menuList">{patientTreatmentVideos}</a></template>
 						</div>
 					</div>
 				</lightning-layout-item>
@@ -28,15 +28,11 @@
 		<div class="textformb">
 			<div class="contentmb">
 				<p class="headingmb">
-					Learn, Manage, and Live with Generalized Pustular Psoriasis
+					{infoCenterLandingMessage}
 				</p>
 				<br />
 				<p class="paramb">
-					Welcome to our comprehensive information center that aims to provide
-					you with all the necessary material and support to understand, manage
-					and live with GPP. Here, you can gain a deeper understanding of the
-					condition, learn useful tips to help manage symptoms, and access
-					essential resources to answer your questions.
+					{infoCenterLandingDetailMessage}
 				</p>
 				<br />
 			</div>

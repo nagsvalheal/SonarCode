@@ -35,12 +35,12 @@
               {description}
               <template if:true={linktoArticle}
                 ><a class="noDecoration" onclick={openArticles}
-                  > "<u>Link to the article</u>"</a
+                  > "<u>{linkArticle}</u>"</a
                 ></template
               >
               <template if:true={whyBeingActive}
                 ><a class="noDecoration" onclick={openArticlesActive}
-                  > "<u>why being active is important</u>"</a
+                  > "<u>{beingActive}</u>"</a
                 ></template
               >
             </p>
@@ -48,16 +48,16 @@
             <template if:true={quesChallenges}>
             <p class="CardPara">
               <template if:true={trackYourGppDivWpai}>
-                Fill and track your answers to the <a class="noDecoration" onclick={TrackYourGppNavigationWPAI}>
-                  "<u>GPP impact on work life</u>"</a> questionnaire
+                {trackYourAns} <a class="noDecoration" onclick={TrackYourGppNavigationWPAI}>
+                  "<u>{gppWrkLifeLink}</u>"</a> {questionnairelink}
               </template>
               <template if:true={trackYourGppDivPss}>
-                Fill and track your answers to the <a class="noDecoration" onclick={TrackYourGppNavigationPSS}>
-                  "<u>GPP symptoms</u>"</a> questionnaire
+                {trackYourAns} <a class="noDecoration" onclick={TrackYourGppNavigationPSS}>
+                  "<u>{gppSymptomsLink}</u>"</a> {questionnairelink}
               </template>
               <template if:true={trackYourGppDivDlqi}>
-                Fill and track your answers to the <a class="noDecoration" onclick={TrackYourGppNavigationDLQI}>
-                  "<u>GPP impact on quality of life</u>"</a> questionnaire
+               {trackYourAns} <a class="noDecoration" onclick={TrackYourGppNavigationDLQI}>
+                  "<u>{gppQualityLifeLink}</u>"</a> {questionnairelink}
               </template>
             </p>
             </template>
@@ -65,7 +65,7 @@
           <!-- Accept Challenge Button -->
           <div class="slds-align_absolute-center">
             <button class="ComChaButton" onclick={afterAccept}>
-              Accept Challenge
+             {acceptChallengeButton}
             </button>
           </div>
         </div>

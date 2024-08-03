@@ -26,6 +26,19 @@ export default class BiPspbMyFollowing extends LightningElement {
   followingsCount = false;
   ticIcon = label.TICK_ICON;
   handleResizeBound;
+  avatarContent=label.AVATAR_CONTENT;
+  followingLabel = label.FOLLOWING_LABEL;
+  myFollowingLabel= label.MY_FOLLOWING_POST_LABEL;
+  myFollowersLabel= label.MY_FOLLOWERS_POST_LABEL;
+  yes = label.YES;
+  no = label.NO;
+  unFollowingToastContent = label.UNFOLLOW_TOAST;
+  unFollowingPartToastContent = label.UNFOLLOW_PART_TOAST;
+  profileLabel = label.PROFILE_LABEL;
+  unFollowUserText = label.UNFOLLOW_USER;
+  unFollowPopupHeading = label.UNFOLLOW_POPUP_HEADING;
+  unFollowPopupContent = label.UNFOLLOW_POPUP_CONTENT;
+  noFollowingContent = label.NO_FOLLOWING_CONTENT;
   //This connected callback used to get Avatar ,Get followers list and resize the desktop view when popup opens
   connectedCallback() {
     try {

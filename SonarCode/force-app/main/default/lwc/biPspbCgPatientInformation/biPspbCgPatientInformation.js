@@ -8,11 +8,11 @@ import { loadStyle } from 'lightning/platformResourceLoader';
 import Id from '@salesforce/user/Id';
 //  To import Apex Classes
 import UPDATE_PATIENT_DETAILS from '@salesforce/apex/BI_PSPB_ProfileManagerCtrl.updatePatientExcistInfo';
-import CREATE_CASE from '@salesforce/apex/BI_PSPB_CaseCtrl.createCase';
-import CREATE_ACCESS_CASE from '@salesforce/apex/BI_PSPB_CaseCtrl.createAccessCase';
+import CREATE_CASE from '@salesforce/apex/BI_PSPB_CaseDeletionCtrl.createCase';
+import CREATE_ACCESS_CASE from '@salesforce/apex/BI_PSPB_CaseAccessCtrl.createAccessCase';
 import ENROLLEE_DETAILS from '@salesforce/apex/BI_PSP_ChallengeEnrolleCtrl.getEnrolle';
-import CHECKBOX_VALUES from '@salesforce/apex/BI_PSPB_CaseCtrl.checkboxPersonalAccess';
-import CHECKBOX_VALUES_REQUEST from '@salesforce/apex/BI_PSPB_CaseCtrl.checkboxAccountDeletion';
+import CHECKBOX_VALUES from '@salesforce/apex/BI_PSPB_CaseAccessCtrl.checkboxPersonalAccess';
+import CHECKBOX_VALUES_REQUEST from '@salesforce/apex/BI_PSPB_CaseDeletionCtrl.checkboxAccountDeletion';
 import PATIENT_INFO from '@salesforce/apex/BI_PSPB_PatientFormCtrl.getPatientInfo';
 import COUNTRYS from "@salesforce/apex/BI_PSPB_EnrollmentUtilities.getCountries";
 import STATES from "@salesforce/apex/BI_PSPB_EnrollmentUtilities.getStates";
@@ -169,6 +169,7 @@ pmcName = resources.PHONE_NUMBER_REQUIRED;
 	genderLabel=resources.GENDER_LABEL;
 	emailLabel=resources.EMAIL_HEADING;
 	prefferedLabel=resources.PREFFERED_LABEL;
+	enterPreferredMode=resources.ENTER_PREFERRED;
 	countryLabel=resources.COUNTRY_LABEL;
 	stateLabel=resources.STATE_LABEL;
 	citylabel=resources.CITY_LABEL;
@@ -190,6 +191,17 @@ pmcName = resources.PHONE_NUMBER_REQUIRED;
 	personalRequest=resources.PERSONAL_REQUEST;
 	sendRequest=resources.SEND_REQUEST;
 	dateError=resources.DOB;
+	enterDob=resources.ENTER_DOB;
+	enterLastName=resources.ENTER_LASTNAME;
+	enterFirstName=resources.ENTER_FIRSTNAME;
+	enterEmail=resources.ENTER_EMAIL;
+	select=resources.SELECT;
+	enterPhone=resources.PHONE_NUMBER;
+	enterCountry=resources.ENTER_COUNTRY;
+	enterState=resources.ENTER_STATE;
+	enterCity=resources.ENTER_CITY;
+	enterZipcode=resources.ENTER_ZIPCODE;
+	enterStreet=resources.ENTER_STREET;
 	StateCode = [];
 	checkbox1Value;
 	checkbox2Value;
@@ -208,7 +220,10 @@ pmcName = resources.PHONE_NUMBER_REQUIRED;
 				value: country.value
 			}));
 		} else if (error) {
-			//this.showToast(resources.ERRORMESSAGE, error.message, resources.ERRORVARIANT);
+		// 	let globalThis=window;
+		// 	this.error=resources.COUNTRY_NOT_FOUND;
+        // globalThis.location.href = resources.ERROR_PAGE;        
+        // globalThis.sessionStorage.setItem('errorMessage', this.error);
 		}
 	}
 
@@ -618,15 +633,12 @@ pmcName = resources.PHONE_NUMBER_REQUIRED;
 					value: state.BI_PSPB_StateCode__c
 				}));
 			})
-			.catch((error) => {
-				let globalThis=window;
-        globalThis.location.href = 'https://bi-patient-eu--ubrpspdev2.sandbox.my.site.com/Branded/s/bi-psp-displayerrorpage';
-    
-        // Set a value in sessionStorage
-        
-        globalThis.sessionStorage.setItem('errorMessage', error.message);
-				this.showToast(resources.ERRORMESSAGE, error.message, resources.ERRORVARIANT);
-			});
+			// .catch(() => {
+			// 	let globalThis=window;
+			// 	this.error=resources.STATE_NOT_FOUND;
+			// 	globalThis.location.href = resources.ERROR_PAGE;        
+			// 	globalThis.sessionStorage.setItem('errorMessage',this.error );
+			// });	
 	}
 	//to validate state field
 	handleFieldstate(event) {
@@ -988,9 +1000,11 @@ pmcName = resources.PHONE_NUMBER_REQUIRED;
 			this.updatePopup = true;
 			window.scrollTo({ top: 0, behavior: 'smooth' });
 		})
-		.catch(error => {
-			this.updatePopup = false;
-			this.showToast(resources.ERRORMESSAGE, error.message, resources.ERRORVARIANT); // Catching Potential Error from Apex
+		.catch(() => {
+			let globalThis=window;
+			this.error=resources.ACCOUNT_NOT_UPDATE;
+        globalThis.location.href = resources.ERROR_PAGE;        
+        globalThis.sessionStorage.setItem('errorMessage', this.error);
 		});
 	}
 	
@@ -1019,9 +1033,11 @@ pmcName = resources.PHONE_NUMBER_REQUIRED;
 			this.updatePopup = true;
 			window.scrollTo({ top: 0, behavior: 'smooth' });
 		})
-		.catch(error => {
-			this.updatePopup = false;
-			this.showToast(resources.ERRORMESSAGE, error.message, resources.ERRORVARIANT); // Catching Potential Error from Apex
+		.catch(() => {
+			let globalThis=window;
+			this.error=resources.ACCOUNT_NOT_UPDATE;
+        globalThis.location.href = resources.ERROR_PAGE;        
+        globalThis.sessionStorage.setItem('errorMessage', this.error);
 		});
 	}
 	

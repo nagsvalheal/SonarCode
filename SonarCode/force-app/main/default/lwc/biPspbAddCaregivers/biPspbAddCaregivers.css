@@ -28,7 +28,6 @@
 }
 
 .header {
-	/* max-width: 700px; */
 	height: 50%;
 
 }
@@ -42,13 +41,9 @@
 .flexclass {
 	display: flex;
 	width: 100%;
-	/* justify-content: space-between; */
 }
 
 .GrantAcc {
-	/* position: relative;
-left: 88%;
-top: 40px; */
 	width: 100%;
 }
 .errorflag{
@@ -74,7 +69,6 @@ top: 40px; */
 	height: 65px;
 	position: absolute;
 	right: 0%;
-	/* bottom: 870px; */
 }
 
 .notify {
@@ -103,11 +97,10 @@ top: 40px; */
     font-size: 12px;
 }
 
-/* Move the slider to the right when checked */
-/* Styles for the label */
+
 .toggle-checkbox {
 	display: none;
-	/* Hide the actual checkbox */
+	
 }
 
 .toggle-slider {
@@ -200,11 +193,7 @@ top: 40px; */
 }
 
 @media only screen and (max-width:400px) {
-	/* .input-div {
-		width: 100%;
-		overflow-x: hidden;
-	} */
-
+	
 	.size {
 		font-size: 24px !important;
 		font-weight: bold;
@@ -232,7 +221,6 @@ top: 40px; */
 		display: block !important;
 		position: relative;
 		top: 10px;
-		/* right: 190px; */
 
 	}
 
@@ -289,12 +277,7 @@ top: 40px; */
 		padding-left: 0px;
 	}
 
-	/* .toggle-label{
-	position: absolute;
-	top:1010px;
-	left: 40px;
 	
-} */
 	.toggle-label-disabled {
 		position: absolute;
 		top: 890px;
@@ -367,12 +350,6 @@ top: 40px; */
 		display: none;
 	}
 
-	/* .align {
-	position: relative;
-	top: 520px;
-	right: 240px;
-	
-}  */
 	.toggle-label-disabled {
 		position: absolute;
 		bottom: 280px;
@@ -420,7 +397,6 @@ top: 40px; */
 	.GAbtn2 {
 		display: block !important;
 		position: relative;
-		/* right: 190px; */
 		top: 10px;
 
 	}
@@ -516,8 +492,6 @@ top: 40px; */
 
 @media only screen and (min-width:1200px) {
 	.toggle-label {
-		/* margin-top:0%;
-	margin-left:43%; */
 		position: absolute;
 		top: 230px;
 		right: 100px;
@@ -538,11 +512,7 @@ top: 40px; */
 		background-color: #FEF4D7;
 		padding: 7px;
 		margin-bottom: 7px;
-		/* width: 300px !important; */
 		height: auto;
-		/* position: absolute;
-left: 71% !important;
-top: 315px !important; */
 		border-left: 4px solid #EDBE2B;
 
 
@@ -593,9 +563,7 @@ top: 315px !important; */
 	margin: 8px 0px;
 }
 
-/* :host {
---sds-c-card-color-background: #FBFAF4;
-} */
+
 
 .save-button {
 	display: flex;
@@ -627,7 +595,6 @@ top: 315px !important; */
 	-webkit-text-fill-color: #403A60;
 	--slds-c-input-color-border: #423A66;
 	--slds-c-textarea-color-border: #423A66;
-	/* width: 394px; */
 	margin: 8px 0px 0px 0px;
 	--lwc-heightInput: 40px;
 	font-size: 14px;
@@ -637,7 +604,6 @@ top: 315px !important; */
 	-webkit-text-fill-color: #403A60;
 	--slds-c-input-color-border: red;
 	--slds-c-textarea-color-border: red;
-	/* width: 394px; */
 	margin: 8px 0px 0px 0px;
 	--lwc-heightInput: 40px;
 	font-size: 14px;

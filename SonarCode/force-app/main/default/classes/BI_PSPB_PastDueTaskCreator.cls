@@ -8,12 +8,11 @@ another method to create tasks.
 public with sharing class BI_PSPB_PastDueTaskCreator {
     /**
     * @description Creates a task based on the given reminder and past due days.
-    * @param reminder - The treatment reminder record.
     * @param targetDate - The target date for the task.
-    * @param pastDueDays - The past due days thresholds.
     * @param enrolleeRecIds - The list to store enrollees for today.
     * @param enrolleePastOne - The list to store enrollees past due by 24 hours.
     * @param enrolleePastThree - The list to store enrollees past due by 72 hours.
+    * @param params - The list to store enrollees past due by 72 hours.
     * @return - The created Task record or null if no task is created.
     */
     public static Task createTask(Date targetDate, List<Id> enrolleeRecIds, List<Id> enrolleePastOne,

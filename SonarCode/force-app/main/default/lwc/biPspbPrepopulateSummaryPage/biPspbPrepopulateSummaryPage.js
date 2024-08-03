@@ -10,9 +10,24 @@ import PHYSICIAN_GET from '@salesforce/apex/BI_PSPB_EnrollmentUtilities.getHcpDe
 import COTHANKS_GET from '@salesforce/apex/BI_PSPB_ThankyouPageUtilites.checkCaregiverData';
 
 import { resource } from "c/biPspbEnrollmentFormResource";
+
+
 export default class BiPspbPrepopulateSummaryPage extends LightningElement {
 	//Proper naming conventions with camel case for all the variables will be followed in the future releases
 	// Declaration of variables with  
+	verifyTheInfo = resource.VERIFY_THE_INFO;
+	verifyYourInfo = resource.VERIFY_YOUR_INFO;
+	addressColan = resource.ADRRESS_COLAN;
+	enrollHead = resource.ENROLL_SUMMARY;
+	nameColan = resource.NAME_COLAN;
+	dobColan = resource.DOB_COLAN;
+	emailColan = resource.EMAIL_COLAN;
+	phoneColan = resource.PHONE_COLAN;
+	prescriptionInfo = resource.PRESCRIPTION_INFO;
+	patientinfo = resource.PATIENT_INFO ;
+	physicianInfo = resource.PHYSICIAN_INFO ;
+	relationColan = resource.RELATION_COLAN;
+	caregiverInfo = resource.CAREGIVER_INFO;
 	age = true;
 	head = true;
 	recordDetails;

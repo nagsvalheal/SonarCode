@@ -3,22 +3,21 @@
 import { LightningElement, wire } from "lwc";
 import { ShowToastEvent } from "lightning/platformShowToastEvent";
 //  To import Apex Classes
+import USER_ENROLLEE_ID from "@salesforce/apex/BI_PSP_CurrentUser.getEnrolleeRecords";
+import MY_POST_FEED from "@salesforce/apex/BI_PSPB_FeedItemCtrl.fetchMyPost";
 import CHECK_COMMUNITY_USERNAME from "@salesforce/apex/BI_PSPB_FeedUsernameCtrl.checkCommunityUsername";
 import COMMENT_OPTIONS from "@salesforce/apex/BI_PSPB_FeedCommentCtrl.getCommentOptions";
 import CHECK_FOLLOW_STATUS from "@salesforce/apex/BI_PSPB_EmojiReactionCtrl.checkFollowingStatus";
 import EDIT_COMMENT from "@salesforce/apex/BI_PSPB_FeedCommentCtrl.editComment";
 import FOLLOW_USER from "@salesforce/apex/BI_PSPB_FollowUserCtrl.followUser";
 import HARDDELETE_EMOJI_REACTION from "@salesforce/apex/BI_PSPB_EmojiReactionCtrl.deleteEmojiReaction";
-import MY_POST_FEED from "@salesforce/apex/BI_PSPB_FeedItemCtrl.fetchMyPost";
 import REACTIONSBY_FEED_ID from "@salesforce/apex/BI_PSPB_EmojiReactionCtrl.getReactionsByFeedItemId";
 import SAVE_EMOJI from "@salesforce/apex/BI_PSPB_EmojiReactionCtrl.saveEmoji";
 import SOFTDELETE_FEEDITEM from "@salesforce/apex/BI_PSPB_FeedItemCtrl.softDeleteFeedItem";
 import SOFTDELETE_COMMENT_ITEM from "@salesforce/apex/BI_PSPB_FeedCommentCtrl.softDeleteFeedCommentItem";
 import SAVE_COMMENT_OPTION from "@salesforce/apex/BI_PSPB_FeedCommentCtrl.insertComment";
-import USER_AVATAR from "@salesforce/apex/BI_PSP_CurrentUser.getEnrolleeRecords";
 import TOTAL_REACTIONS from "@salesforce/apex/BI_PSPB_EmojiReactionCtrl.totalReactionsByType";
 import UNFOLLOW_USER from "@salesforce/apex/BI_PSPB_FollowUserCtrl.unfollowUser";
-import USER_ENROLLEE_ID from "@salesforce/apex/BI_PSP_CurrentUser.getEnrolleeRecords";
 import VIEW_COMMENTS from "@salesforce/apex/BI_PSPB_FeedCommentCtrl.viewComments";
 // To import Custom labels and static resources
 import * as label from 'c/biPspbLabelAndResourceCommunity';
@@ -100,13 +99,55 @@ export default class BiPspbMyPost extends LightningElement {
 	deleteToast = label.TICK_ICON;
 	noComment = label.NO_COMMENT_IMG;
 	handleResizeBound;
-
+	avatarContent=label.AVATAR_CONTENT;
+	myPostLabel= label.MY_POST_LABEL;
+	createNewPost = label.CREATE_NEW_POST;
+	thumbsUpLabel = label.THUMBS_UP_LABEL;
+	smileLabel =label.SMILE_LABEL;
+	handsFoldedLabel =label.HANDS_FOLDED_LABEL;
+	heartLabel =label.HEART_LABEL;
+	thoughtfulLabel =label.THOUGHT_LABEL;
+	no = label.NO;
+	yes = label.YES;
+	commentToastContent = label.COMMENT_TOAST_TEXT;
+	reactionsLabel =label.REACTIONS_LABEL;
+	commentLabel =label.COMMENT_LABEL;
+	commentsLabel =label.COMMENTS_LABEL;
+	reactLabel =label.REACT_LABEL;
+	noReactionYet = label.NO_REACTION_YET;
+	noCommentYet = label.NO_COMMENTS_YET;
+	selectComment = label.SELECT_COMMENT;
+	selectLabel = label.SELECT;
+	actionLabel =label.ACTION_LABEL;
+	editCommentLabel =label.EDIT_COMMENT;
+	deleteCommentLabel=label.DELETE_COMMENT_LABEL;
+	deleteCommentConfirmationText =label.DELETE_POPUP_CONFIRMATION;
+	deletePostLabel =label.DELETE_POST_LABEL;
+	deletePostConfirmationText =label.DELETE_POST_CONFIRMATION;
+	noMyPostContent =label.NO_MY_POST_CONTENT;
+	deletedPostToastText = label.POST_TOAST_TEXT;
+	hideLabel = label.HIDE_LABEL;
+	youLabel = label.BI_PSP_ChatterNameForYou;
+	followLabel = label.FOLLOW_LABEL;
+	followingLabel = label.FOLLOWING_LABEL;
+	followingToastContent =label.FOLLOWING_TOAST;
+	unFollowingToastContent = label.UNFOLLOW_TOAST;
+	unFollowingPartToastContent = label.UNFOLLOW_PART_TOAST;
+	noFollowersContent =label.NO_FOLLOWERS_CONTENT;
+	profileLabel = label.PROFILE_LABEL;
+	followUserText = label.FOLLOW_USER;
+	followPopupHeading = label.FOLLOW_POPUP_HEADING;
+	followPopupContent = label.FOLLOW_POPUP_CONTENT;
+	unFollowUserText = label.UNFOLLOW_USER;
+	unFollowPopupHeading = label.UNFOLLOW_POPUP_HEADING;
+	unFollowPopupContent = label.UNFOLLOW_POPUP_CONTENT;
 	// To fetch the enrollee Id of the user
 	@wire(USER_ENROLLEE_ID)
 	wiredGetEnrolleeId({ data }) {
 		try {
 			if (data && data.length > 0) {
 				this.userEnrolleeId = data[0].Id;
+				this.loggedUserAvatar = data[0].BI_PSP_AvatarUrl__c;
 			} else {
 				this.showToast(label.ERROR_MESSAGE, label.ACCOUNT_NOT_FOUND ,label.ERROR_VARIANT);
 			}
@@ -256,22 +297,6 @@ export default class BiPspbMyPost extends LightningElement {
 			this.delay(6000)
 				.then(() => {
 					this.showToastMsg = false;
-				})
-				.catch((error) => {
-					this.showToast(label.ERROR_MESSAGE, error.message, label.ERROR_VARIANT); // Catching Potential Error
-				});
-		} catch (error) {
-			this.showToast(label.ERROR_MESSAGE, error.body.message, label.ERROR_VARIANT); // Catching Potential Error
-		}
-	}
-	// To get avatar of the logged in user
-	avatarImgLeftSide() {
-		try {
-			USER_AVATAR()
-				.then((result) => {
-					if (result.length > 0 && result[0].BI_PSP_AvatarUrl__c) {
-						this.loggedUserAvatar = result[0].BI_PSP_AvatarUrl__c;
-					}
 				})
 				.catch((error) => {
 					this.showToast(label.ERROR_MESSAGE, error.message, label.ERROR_VARIANT); // Catching Potential Error

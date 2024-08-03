@@ -6,7 +6,7 @@ import {ShowToastEvent} from 'lightning/platformShowToastEvent';
 import * as label from 'c/biPspbLabelAndResourceSymptom';
 // To import Apex Classes
 import USER_ENROLLEE_ID from "@salesforce/apex/BI_PSP_CurrentUser.getEnrolleeRecords";
-import FETCH_SYMPTOM_ENROLLEE from '@salesforce/apex/BI_PSP_GraphCtrl.getSymptomTrackerDetails';
+import FETCH_SYMPTOM_ENROLLEE from '@salesforce/apex/BI_PSP_QuestionnaireGraphCtrl.getSymptomTrackerDetails';
 import GET_LATEST_SYMPTOM from '@salesforce/apex/BI_PSPB_SymptomPrimaryPageCtrl.getLatestSymptomRecord';
 export default class BiPspbSymptomTrackerLandingPageParent extends LightningElement {
     //variable declaration
@@ -90,19 +90,20 @@ export default class BiPspbSymptomTrackerLandingPageParent extends LightningElem
         let globalThis = window;
         FETCH_SYMPTOM_ENROLLEE({erolleId: enrollees,firstDate: firstDate,lastDate: lastDate})
             .then(result => {
-                if (result || this.graphDatas !== '') {
+                if (result == '') {
                     let urlParams = new URLSearchParams(globalThis.location.href.split(label.QUESTION_MARK)[1]);
                     this.EDITS = urlParams.get(label.EDITS);
-                    if (!this.EDITS) {
+                   
+                } else {
+                    this.showSymptom = true;
+                    this.isLoading = false;
+                }
+                 if (!this.EDITS) {
                         globalThis.location.assign(this.brandedOrUnassigned + label.SYMPTOM_GRAPH_URL + this.enrolleeId + label.FIRST_DATE_GRAPH + this.firstdate + label.LAST_DATE_GRAPH + this.lastDate + label.MONTH_DATE + currentMonthName);
                     } else {
                         this.showSymptom = true;
                         this.isLoading = false;
                     }
-                } else {
-                    this.showSymptom = true;
-                    this.isLoading = false;
-                }
             })
             .catch(error => {
                 this.showToast(label.ERROR_MESSAGE, error.message, label.ERROR_VARIANT_TOAST);

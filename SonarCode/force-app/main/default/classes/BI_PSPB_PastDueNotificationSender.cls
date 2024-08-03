@@ -7,8 +7,11 @@ another method to create tasks.
 */
 public with sharing class BI_PSPB_PastDueNotificationSender {
 	/**
-	 * @description  Used to create task when a video is uploaded and calling the
-	 * method to send sms and email.
+	 * @description  Retrieves treatment reminders based on the given criteria.
+	 * @param enrolleeRecIds The ID of the record related to the treatment reminders.
+	 * @param enrolleePastOne The type of reminder to filter by.
+	 * @param enrolleePastThree The type of reminder to filter by.
+	 * @param pastDueDays The type of reminder to filter by.
 	 */
 	public static void sendNotifications(
 		List<Id> enrolleeRecIds,

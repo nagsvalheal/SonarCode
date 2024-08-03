@@ -8,36 +8,36 @@ import RECORD_UPDATE_ALLERGY_INTOLERANCE from '@salesforce/apex/BI_PSP_SymptomTr
 import * as label from 'c/biPspbLabelAndResourceSymptom';
 
 export default class biPspRednessSymptom extends NavigationMixin(LightningElement) {
-	//Proper naming conventions with camel case for all the variable will be followed in the future releases
-	// @api variable declaration
-	@api resultId;
-	// variable declaration
-	redNess = false;
-	valueOfTemperature;
-	buttonText = label.BODY_PARTS_SELECT_ALL;
-	clickCount = 0;
-	totalElements = 0;
-	sliderValue = 0;
-	sliderValueTwo = label.ZERO_VALUE;
-	isCheckedSelectAll = false;
-	humanParts = [] // Initialize the array
-	moodValues = ''
-	rednessValue = label.REDNESS_VALUE;
-	insertCount;
-	lastSymptomId;
-	localStorageValueItchiness;
-	clickedElement;
-	isButtonDisabled = false;
-	fatiqueErrors = true;
-	allergyIntoleranceData;
-	itchBody;
-	intensity
-	carePlanTemplateName;
-	itchinessErrors = false;
-	// Variable declaration
-	accountId;
-	userId = label.ID
-	recordInsertCount = 0;
+    //Proper naming conventions with camel case for all the variable will be followed in the future releases
+    // @api variable declaration
+    @api resultId;
+    // variable declaration
+    redNess = false;
+    valueOfTemperature;
+    buttonText = label.BODY_PARTS_SELECT_ALL;
+    clickCount = 0;
+    totalElements = 0;
+    sliderValue = 0;
+    sliderValueTwo = label.ZERO_VALUE;
+    isCheckedSelectAll = false;
+    humanParts = [] // Initialize the array
+    moodValues = ''
+    rednessValue = label.REDNESS_VALUE;
+    insertCount;
+    lastSymptomId;
+    localStorageValueItchiness;
+    clickedElement;
+    isButtonDisabled = false;
+    fatiqueErrors = true;
+    allergyIntoleranceData;
+    itchBody;
+    intensity
+    carePlanTemplateName;
+    itchinessErrors = false;
+    // Variable declaration
+    accountId;
+    userId = label.ID
+    recordInsertCount = 0;
     @wire(GET_ALLERGY_INTOLERANCE_DATA, { symptomTrackerId: '$lastSymptomId' })
     handleAllergyIntoleranceData({ error, data }) {
         if (data) {
@@ -86,12 +86,16 @@ export default class biPspRednessSymptom extends NavigationMixin(LightningElemen
 
     processAllergyIntoleranceData(data) {
         try {
+            const rednessValueNormalized = this.rednessValue.trim().toLowerCase();
+
             data.forEach(record => {
                 this.itchBody = record.BI_PSP_Bodyparts__c;
                 this.intensity = record.BI_PSP_Intensity__c;
-                this.carePlanTemplateName = record?.BI_PSP_Symptoms__r?.HealthCloudGA__CarePlanTemplate__r?.Name;
 
-                if (this.carePlanTemplateName === this.rednessValue) {
+                let carePlanTemplateName = record?.BI_PSP_Symptoms__r?.HealthCloudGA__CarePlanTemplate__r?.Name || '';
+                this.carePlanTemplateName = carePlanTemplateName.trim().toLowerCase();
+                if (this.carePlanTemplateName === rednessValueNormalized) {
+
                     this.sliderValue = this.intensity;
                     this.sliderValueTwo = this.intensity;
                     this.updateBodyParts(this.itchBody.split(';'), this.intensity);
@@ -113,8 +117,8 @@ export default class biPspRednessSymptom extends NavigationMixin(LightningElemen
 
             this.humanParts = [...bodyPartsArr];
             this.totalElements = bodyPartsArr.length;
-			  this.sliderValue = intensity;
-                    this.sliderValueTwo =intensity;
+            this.sliderValue = intensity;
+            this.sliderValueTwo = intensity;
             this.itchinessErrors = this.totalElements <= 0;
             this.isCheckedSelectAll = this.totalElements === 30;
             this.buttonText = this.isCheckedSelectAll ? label.BODY_PARTS_REMOVE : label.BODY_PARTS_SELECT_ALL;
@@ -209,54 +213,69 @@ export default class biPspRednessSymptom extends NavigationMixin(LightningElemen
         this.updateThumbLabelPosition(this.sliderValue);
     }
 
-   handleClickForAccept() {
-    const globalThis = window;
+    handleClickForAccept() {
+        const globalThis = window;
 
-    const commonPayload = {
-        sliderValue: parseFloat(this.sliderValue) || 0,
-        careProgramId: this.accountId,
-        floatValueOfTemperature: parseFloat(this.valueOfTemperature) || 0,
-        symptomName: this.rednessValue || '',
-        valuesOfMood: this.moodValues || '',
-        bodyParts: this.humanParts
-    };
+        const commonPayload = {
+            sliderValue: parseFloat(this.sliderValue) || 0,
+            careProgramId: this.accountId,
+            floatValueOfTemperature: parseFloat(this.valueOfTemperature) || 0,
+            symptomName: this.rednessValue || '',
+            valuesOfMood: this.moodValues || '',
+            bodyParts: this.humanParts
+        };
 
-    const insertPayload = { ...commonPayload, symptomId: this.localStorageValueItchiness || this.lastSymptomId };
-    const updatePayload = { ...commonPayload, symptomId: this.lastSymptomId || this.localStorageValueItchiness };
+        const insertPayload = { ...commonPayload, symptomId: this.localStorageValueItchiness || this.lastSymptomId };
+        const updatePayload = { ...commonPayload, symptomId: this.lastSymptomId || this.localStorageValueItchiness };
 
-    if (this.humanParts.length > 0 && parseInt(this.sliderValue, 10) > 0) {
-        const recordOperation = this.insertCount === '1' 
-            ? RECORD_UPDATE_ALLERGY_INTOLERANCE({ itchinessallrecordupdate: updatePayload ,bodyParts: this.humanParts })
-            : (this.lastSymptomId && this.carePlanTemplateName === label.REDNESS_VALUE
-                ? RECORD_UPDATE_ALLERGY_INTOLERANCE({ itchinessallrecordupdate: updatePayload ,bodyParts: this.humanParts })
-                : RECORD_INSERT_ALLERGY_INTOLERANCE({ itchinessallrecordinsert: insertPayload ,bodyParts: this.humanParts })
-            );
+        if (this.humanParts.length > 0 && parseInt(this.sliderValue, 10) > 0) {
+            let recordOperation;
 
-        recordOperation
-            .then(result => {
-                if (result) {
-                    globalThis?.sessionStorage.setItem('redness', this.humanParts);
-                    globalThis?.sessionStorage.setItem('myDataintensityredness', this.sliderValue);
-                    globalThis?.sessionStorage.setItem('syptombtn', false);
+            if (this.insertCount === '1' || this.carePlanTemplateName === 'Redness') {
 
-                    const updateEvent = new CustomEvent('updatechildprop', { detail: false });
-                    this.dispatchEvent(updateEvent);
+                recordOperation = RECORD_UPDATE_ALLERGY_INTOLERANCE({
+                    itchinessallrecordupdate: updatePayload,
+                    bodyParts: this.humanParts
+                });
+            } else {
 
-                    if (this.insertCount !== '1') {
-                        const addTaskEvent = new CustomEvent('addtask', { detail: label.REDNESS_VALUE });
-                        this.dispatchEvent(addTaskEvent);
-                        this.recordInsertCount++;
-                        globalThis?.sessionStorage.setItem('countred', this.recordInsertCount);
+                recordOperation = RECORD_INSERT_ALLERGY_INTOLERANCE({
+                    itchinessallrecordinsert: insertPayload,
+                    bodyParts: this.humanParts
+                });
+            }
+
+            // Execute the record operation
+            recordOperation
+                .then(result => {
+                    if (result) {
+                        globalThis?.sessionStorage.setItem('redness', JSON.stringify(this.humanParts));
+                        globalThis?.sessionStorage.setItem('myDataintensityredness', this.sliderValue);
+                        globalThis?.sessionStorage.setItem('syptombtn', 'false');
+                        if (typeof window !== 'undefined') {
+                            const updateEvent = new CustomEvent('updatechildprop', { detail: false });
+                            this.dispatchEvent(updateEvent);
+                        }
+
+                        if (this.insertCount !== '1') {
+                            if (typeof window !== 'undefined') {
+                                const addTaskEvent = new CustomEvent('addtask', { detail: label.ITCHINESS_VALUES });
+                                this.dispatchEvent(addTaskEvent);
+                            }
+                            this.recordInsertCount++;
+                            globalThis?.sessionStorage.setItem('countred', this.recordInsertCount.toString());
+                        }
                     }
-                }
-            })
-            .catch(error => {
-                this.showToast(label.ERROR_MESSAGE, error.message, label.ERROR_VARIANT);
-            });
-    } else {
-        this.itchinessErrors = true;
+                })
+                .catch(error => {
+                    this.showToast(label.ERROR_MESSAGE, error.message, label.ERROR_VARIANT);
+                });
+        } else {
+            this.itchinessErrors = true;
+        }
     }
-}
+
+
 
 
     handleSuccess() {
@@ -264,19 +283,26 @@ export default class biPspRednessSymptom extends NavigationMixin(LightningElemen
         const globalThis = window;
         globalThis.sessionStorage.removeItem('redness');
         globalThis.localStorage.removeItem('symptomlastid');
-     
+
     }
 
-  
+
 
     updateThumbLabelPosition(value) {
         const thumbLabel = this.template.querySelector('.slds-slider__label');
         if (thumbLabel) {
-            thumbLabel.innerHTML = `${value}`;
+            thumbLabel.textContent = value;
         }
     }
 
     showToast(title, message, variant) {
-        this.dispatchEvent(new ShowToastEvent({ title, message, variant }));
+        if (typeof window !== 'undefined') {
+            const event = new ShowToastEvent({
+                title: title,
+                message: message,
+                variant: variant
+            });
+            this.dispatchEvent(event);
+        }
     }
 }

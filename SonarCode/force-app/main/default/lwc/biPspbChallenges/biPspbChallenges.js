@@ -169,145 +169,280 @@ export default class BiPspbChallenges extends LightningElement {
 			this.showToast(this.errorMessages, error.message, this.errorVariant);
 		}
 	}
-	//This method is used for get the rank and xp values.
+
 	xpMethod() {
 		this.isLoading = true;
-		try{
+		try {
 			GET_RANK({ personAccountId: this.enrolleId })
 				.then((result) => {
 					if (result !== null) {
 						this.variable = true;
-						this.currentXP = result[0].BI_PSP_Total_Reward_Points__c;
-
-						if (this.currentXP === undefined) {
-							this.currentXP = 0;
-						}
-						if (this.currentXP < this.noviceGpps) {
-							this.nextrankxp = this.noviceGpps;
-							this.xpNextrank = this.noviceGpps - this.currentXP;
-							this.rankLevel = this.levelOne;
-							this.rankLevels = this.rankTwo;
-							this.percentage = 100 * (this.currentXP / this.nextrankxp);
-							this.percentage = Math.floor(this.percentage);
-							this.rankcompleted = this.noviveGpp;
-							this.tImage = this.NoviceImage;
-						} else if (
-							this.currentXP >= this.noviceGpps &&
-							this.currentXP < this.beginner
-						) {
-							this.nextrankxp = this.beginner;
-							this.xpNextrank = this.beginner - this.currentXP;
-							this.rankLevel = this.levelTwo;
-							this.rankLevels = this.rankThree;
-							this.percentage = 100 * (this.currentXP / this.nextrankxp);
-							this.percentage = Math.floor(this.percentage);
-							this.rankcompleted = this.beginnerGpp;
-							this.tImage = this.BeginnerImage;
-						} else if (
-							this.currentXP >= this.beginner &&
-							this.currentXP < this.intermediate
-						) {
-							this.nextrankxp = this.intermediate;
-							this.xpNextrank = this.intermediate - this.currentXP;
-							this.rankLevel = this.levelThree;
-							this.rankLevels = this.rankFour;
-							this.percentage = 100 * (this.currentXP / this.nextrankxp);
-							this.percentage = Math.floor(this.percentage);
-							this.rankcompleted = this.intermediateGpp;
-							this.tImage = this.IntermediateImage;
-						} else if (
-							this.currentXP >= this.intermediate &&
-							this.currentXP < this.proficient
-						) {
-							this.nextrankxp = this.proficient;
-							this.xpNextrank = this.proficient - this.currentXP;
-							this.rankLevel = this.levelFour;
-							this.rankLevels = this.rankFive;
-							this.percentage = 100 * (this.currentXP / this.nextrankxp);
-							this.percentage = Math.floor(this.percentage);
-							this.rankcompleted = this.proficientGpp;
-							this.tImage = this.ProficientImage;
-						} else if (this.currentXP >= this.proficient && this.currentXP < this.expert) {
-							this.nextrankxp = this.expert;
-							this.xpNextrank = this.nextrankxp - this.currentXP;
-							this.rankLevel = this.levelFive;
-							this.rankLevels = this.rankSix;
-							this.variable = false;
-							this.percentage = 100 * (this.currentXP / this.nextrankxp);
-							this.percentage = Math.floor(this.percentage);
-							this.rankcompleted = this.expertGpp;
-							this.tImage = this.expertImage;
-						}
-						else if (this.currentXP >= this.expert) {
-							if (this.currentXP === 1500) {
-								this.showFiveHund = true;
-								this.showNoneFive = false;
-							} else {
-								this.showFiveHund = false;
-								this.showNoneFive = true;
-							}
-							this.percentage = 100;
-							this.tImage = this.expertImage;
-							this.rankLevel = this.levelSix;
-							let status = this.availableLabel;
-							GET_RANDOM_CHALLENGES({
-								personAccountId: this.enrolleId,
-								status: status
-							})
-								.then((datas) => {
-									let data = datas;
-									data = data.filter((obj) => Object.keys(obj).length !== 0);
-									if (data.length === 0) {
-										let activeStatus = this.activeLabel;
-										GET_RANDOM_CHALLENGES({
-											personAccountId: this.enrolleId,
-											status: activeStatus
-										})
-											.then((resultDatas) => {
-												let resultData = resultDatas;
-												resultData = resultData.filter(
-													(obj) => Object.keys(obj).length !== 0
-												);
-												if (resultData.length === 0) {
-													this.showCongratsPre = false;
-												} else {
-													this.showCongratsPre = true;
-												}
-											})
-											.catch((error) => {
-												this.showToast(
-													this.errorMessages,
-													error.message,
-													this.errorVariant
-												);
-											});
-									} else {
-										this.showCongratsPre = true;
-									}
-								})
-								.catch((err) => {
-									this.showToast(this.errorMessages, err.message, this.errorVariant);
-								});
+						this.currentXP = result[0].BI_PSP_Total_Reward_Points__c || 0;
+						this.calculateRankDetails();
+						if (this.currentXP >= this.expert) {
+							this.handleExpertLevel();
 						}
 						this.getavailable();
 					}
 					this.isLoading = false;
 					if (typeof window !== 'undefined') {
-						this.dispatchEvent(
-							new CustomEvent('sendxp', { detail: this.currentXP })
-						);
+						this.dispatchEvent(new CustomEvent('sendxp', { detail: this.currentXP }));
 					}
 				})
 				.catch((error) => {
-					this.isLoading = false;
-					this.showToast(this.errorMessages, error.message, this.errorVariant);
+					this.handleError(error);
 				});
-			}
-		catch (error) {
-		//navigate to error page
-			this.showToast(this.errorMessages, error.message, this.errorVariant);
+		} catch (error) {
+			this.handleError(error);
 		}
 	}
+
+	calculateRankDetails() {
+		if (this.currentXP < this.noviceGpps) {
+			this.setRankDetails({
+				nextrankxp: this.noviceGpps,
+				rankLevel: this.levelOne,
+				rankLevels: this.rankTwo,
+				rankcompleted: this.noviceGpp,
+				tImage: this.NoviceImage
+			});
+		} else if (this.currentXP >= this.noviceGpps &&
+			this.currentXP < this.beginner)
+			{
+			this.setRankDetails({
+				nextrankxp: this.beginner,
+				rankLevel: this.levelTwo,
+				rankLevels: this.rankThree,
+				rankcompleted: this.beginnerGpp,
+				tImage: this.BeginnerImage
+			});
+		} else if (this.currentXP >= this.beginner &&
+			this.currentXP < this.intermediate) {
+			this.setRankDetails({
+				nextrankxp: this.intermediate,
+				rankLevel: this.levelThree,
+				rankLevels: this.rankFour,
+				rankcompleted: this.intermediateGpp,
+				tImage: this.IntermediateImage
+			});
+		} else if (this.currentXP >= this.intermediate &&
+			this.currentXP < this.proficient) {
+			this.setRankDetails({
+				nextrankxp: this.proficient,
+				rankLevel: this.levelFour,
+				rankLevels: this.rankFive,
+				rankcompleted: this.proficientGpp,
+				tImage: this.ProficientImage
+			});
+		} else if (this.currentXP >= this.proficient && this.currentXP < this.expert) {
+			this.setRankDetails({
+				nextrankxp: this.expert,
+				rankLevel: this.levelFive,
+				rankLevels: this.rankSix,
+				rankcompleted: this.expertGpp,
+				tImage: this.expertImage,
+				variable: false
+			});
+		} else if(this.currentXP >= this.expert){
+			this.handleExpertLevel();
+		}
+	}
+
+	setRankDetails({ nextrankxp, rankLevel, rankLevels, rankcompleted, tImage, variable = true }) {
+		this.nextrankxp = nextrankxp;
+		this.xpNextrank = nextrankxp - this.currentXP;
+		this.rankLevel = rankLevel;
+		this.rankLevels = rankLevels;
+		this.percentage = 100 * (this.currentXP / this.nextrankxp);
+		this.percentage = Math.floor(this.percentage);
+		this.rankcompleted = rankcompleted;
+		this.tImage = tImage;
+		this.variable = variable;
+	}
+
+	handleExpertLevel() {
+		if (this.currentXP === 1500) {
+			this.showFiveHund = true;
+			this.showNoneFive = false;
+		} else {
+			this.showFiveHund = false;
+			this.showNoneFive = true;
+		}
+		this.percentage = 100;
+		this.tImage = this.expertImage;
+		this.rankLevel = this.levelSix;
+	
+		this.getRandomChallenges(this.availableLabel)
+			.then((data) => {
+				if (data.length === 0) {
+					this.getRandomChallenges(this.activeLabel)
+						.then((resultData) => {
+							this.showCongratsPre = resultData.length > 0;
+						})
+						.catch((error) => {
+							this.handleError(error);
+						});
+				} else {
+					this.showCongratsPre = true;
+				}
+			})
+			.catch((error) => {
+				this.handleError(error);
+			});
+	}
+	
+	getRandomChallenges(status) {
+		return GET_RANDOM_CHALLENGES({ personAccountId: this.enrolleId, status })
+			.then((datas) => datas.filter((obj) => Object.keys(obj).length !== 0))
+	}
+	
+	handleError(error) {
+		this.isLoading = false;
+		this.showToast(this.errorMessages, error.message, this.errorVariant);
+	}
+	
+
+	//This method is used for get the rank and xp values.
+	//has to be deleted
+	// xpMethod11() {
+	// 	this.isLoading = true;
+	// 	try{
+	// 		GET_RANK({ personAccountId: this.enrolleId })
+	// 			.then((result) => {
+	// 				if (result !== null) {
+	// 					this.variable = true;
+	// 					this.currentXP = result[0].BI_PSP_Total_Reward_Points__c;
+
+	// 					if (this.currentXP === undefined) {
+	// 						this.currentXP = 0;
+	// 					}
+	// 					if (this.currentXP < this.noviceGpps) {
+	// 						this.nextrankxp = this.noviceGpps;
+	// 						this.xpNextrank = this.noviceGpps - this.currentXP;
+	// 						this.rankLevel = this.levelOne;
+	// 						this.rankLevels = this.rankTwo;
+	// 						this.percentage = 100 * (this.currentXP / this.nextrankxp);
+	// 						this.percentage = Math.floor(this.percentage);
+	// 						this.rankcompleted = this.noviveGpp;
+	// 						this.tImage = this.NoviceImage;
+	// 					} else if (
+	// 						this.currentXP >= this.noviceGpps &&
+	// 						this.currentXP < this.beginner
+	// 					) {
+	// 						this.nextrankxp = this.beginner;
+	// 						this.xpNextrank = this.beginner - this.currentXP;
+	// 						this.rankLevel = this.levelTwo;
+	// 						this.rankLevels = this.rankThree;
+	// 						this.percentage = 100 * (this.currentXP / this.nextrankxp);
+	// 						this.percentage = Math.floor(this.percentage);
+	// 						this.rankcompleted = this.beginnerGpp;
+	// 						this.tImage = this.BeginnerImage;
+	// 					} else if (
+	// 						this.currentXP >= this.beginner &&
+	// 						this.currentXP < this.intermediate
+	// 					) {
+	// 						this.nextrankxp = this.intermediate;
+	// 						this.xpNextrank = this.intermediate - this.currentXP;
+	// 						this.rankLevel = this.levelThree;
+	// 						this.rankLevels = this.rankFour;
+	// 						this.percentage = 100 * (this.currentXP / this.nextrankxp);
+	// 						this.percentage = Math.floor(this.percentage);
+	// 						this.rankcompleted = this.intermediateGpp;
+	// 						this.tImage = this.IntermediateImage;
+	// 					} else if (
+	// 						this.currentXP >= this.intermediate &&
+	// 						this.currentXP < this.proficient
+	// 					) {
+	// 						this.nextrankxp = this.proficient;
+	// 						this.xpNextrank = this.proficient - this.currentXP;
+	// 						this.rankLevel = this.levelFour;
+	// 						this.rankLevels = this.rankFive;
+	// 						this.percentage = 100 * (this.currentXP / this.nextrankxp);
+	// 						this.percentage = Math.floor(this.percentage);
+	// 						this.rankcompleted = this.proficientGpp;
+	// 						this.tImage = this.ProficientImage;
+	// 					} else if (this.currentXP >= this.proficient && this.currentXP < this.expert) {
+	// 						this.nextrankxp = this.expert;
+	// 						this.xpNextrank = this.nextrankxp - this.currentXP;
+	// 						this.rankLevel = this.levelFive;
+	// 						this.rankLevels = this.rankSix;
+	// 						this.variable = false;
+	// 						this.percentage = 100 * (this.currentXP / this.nextrankxp);
+	// 						this.percentage = Math.floor(this.percentage);
+	// 						this.rankcompleted = this.expertGpp;
+	// 						this.tImage = this.expertImage;
+	// 					}
+	// 					else if (this.currentXP >= this.expert) {
+	// 						if (this.currentXP === 1500) {
+	// 							this.showFiveHund = true;
+	// 							this.showNoneFive = false;
+	// 						} else {
+	// 							this.showFiveHund = false;
+	// 							this.showNoneFive = true;
+	// 						}
+	// 						this.percentage = 100;
+	// 						this.tImage = this.expertImage;
+	// 						this.rankLevel = this.levelSix;
+	// 						let status = this.availableLabel;
+	// 						GET_RANDOM_CHALLENGES({
+	// 							personAccountId: this.enrolleId,
+	// 							status: status
+	// 						})
+	// 							.then((datas) => {
+	// 								let data = datas;
+	// 								data = data.filter((obj) => Object.keys(obj).length !== 0);
+	// 								if (data.length === 0) {
+	// 									let activeStatus = this.activeLabel;
+	// 									GET_RANDOM_CHALLENGES({
+	// 										personAccountId: this.enrolleId,
+	// 										status: activeStatus
+	// 									})
+	// 										.then((resultDatas) => {
+	// 											let resultData = resultDatas;
+	// 											resultData = resultData.filter(
+	// 												(obj) => Object.keys(obj).length !== 0
+	// 											);
+	// 											if (resultData.length === 0) {
+	// 												this.showCongratsPre = false;
+	// 											} else {
+	// 												this.showCongratsPre = true;
+	// 											}
+	// 										})
+	// 										.catch((error) => {
+	// 											this.showToast(
+	// 												this.errorMessages,
+	// 												error.message,
+	// 												this.errorVariant
+	// 											);
+	// 										});
+	// 								} else {
+	// 									this.showCongratsPre = true;
+	// 								}
+	// 							})
+	// 							.catch((err) => {
+	// 								this.showToast(this.errorMessages, err.message, this.errorVariant);
+	// 							});
+	// 					}
+	// 					this.getavailable();
+	// 				}
+	// 				this.isLoading = false;
+	// 				if (typeof window !== 'undefined') {
+	// 					this.dispatchEvent(
+	// 						new CustomEvent('sendxp', { detail: this.currentXP })
+	// 					);
+	// 				}
+	// 			})
+	// 			.catch((error) => {
+	// 				this.isLoading = false;
+	// 				this.showToast(this.errorMessages, error.message, this.errorVariant);
+	// 			});
+	// 		}
+	// 	catch (error) {
+	// 	//navigate to error page
+	// 		this.showToast(this.errorMessages, error.message, this.errorVariant);
+	// 	}
+	// }
+
 	//This method is used for get Only available challenges.
 	getavailable() {
 		try{
@@ -637,10 +772,6 @@ export default class BiPspbChallenges extends LightningElement {
 			this.updateShowInfo(filteredArray);
 		}
 	}
-
-	// filterEmptyResults(results) {
-	// 	return results ? results.filter((obj) => Object.keys(obj).length !== 0) : [];
-	// }
 
 	filterActiveChallenges(result) {
 		if (this.activeChallenges.length > 0) {

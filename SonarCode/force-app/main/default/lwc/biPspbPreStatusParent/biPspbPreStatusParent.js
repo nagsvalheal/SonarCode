@@ -1,6 +1,5 @@
 import { LightningElement } from 'lwc';
 // To Import Custom Labels
-import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import { LABELS } from 'c/biPspbLabelForUpdatePrescription';
 
 export default class BiPspbPreStatusParent extends LightningElement {
@@ -52,13 +51,9 @@ export default class BiPspbPreStatusParent extends LightningElement {
 	}
 	// showToast used for all the error messages caught
 	showToast(title, message, variant) {
-		if (typeof window !== 'undefined') {
-			const event = new ShowToastEvent({
-				title: title,
-				message: message,
-				variant: variant
-			});
-			this.dispatchEvent(event);
-		}
+		let messageList =title +' '+ message +' ' + variant;
+		let globalThis = window;
+		globalThis.sessionStorage.setItem('errorMessage', messageList);
+		globalThis.location.href = this.urlq + LABELS.ERROR_PAGE;
 	}
 }

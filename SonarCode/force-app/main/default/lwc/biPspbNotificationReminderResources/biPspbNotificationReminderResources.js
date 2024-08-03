@@ -6,16 +6,17 @@ import OUTLOOK_ICON from "@salesforce/resourceUrl/BI_PSPB_OutlookCalendar";
 import GOOGLE_ICON from "@salesforce/resourceUrl/BI_PSPB_GoogleCalendar";
 import BOXED_ICON from "@salesforce/resourceUrl/BI_PSPB_BoxedIcon";
 import DEFAULT_AVATAR_URL from "@salesforce/resourceUrl/BI_PSPB_DefaultAvatarNavigation";
-import TIC from "@salesforce/resourceUrl/BI_PSP_ToastTickIcon";
+import TICK from "@salesforce/resourceUrl/BI_PSP_ToastTickIcon";
 import WARNING from "@salesforce/resourceUrl/BI_PSPB_WarningIcon";
 import YELLOW_ICON from '@salesforce/resourceUrl/BI_PSPB_YellowIcon';
 // Importing Static Resources for Notifications
 import DOT_IMG from '@salesforce/resourceUrl/BI_PSPB_DotImg';
+import TREATMENT_IMAGE from '@salesforce/resourceUrl/BI_PSP_NewContentImage';
 import CHALLENGES_IMG from '@salesforce/resourceUrl/BI_PSPB_NotificationChallengesImg';
 import QUESTIONNAIRE_IMAGE from '@salesforce/resourceUrl/BI_PSP_QuestionnaireImage';
-import AVATAR_IMG from '@salesforce/resourceUrl/BI_PSPB_SymptomImg';
+import AVATAR_IMAGE from '@salesforce/resourceUrl/BI_PSPB_SymptomImg';
 import TREATMENT_IMG from '@salesforce/resourceUrl/BI_PSPB_ArticleImg';
-import COMMUNITY_IMG from '@salesforce/resourceUrl/BI_PSP_CommunityLogo';
+import COMMUNITY_IMAGE from '@salesforce/resourceUrl/BI_PSP_CommunityLogo';
 import QUESTIONNAIRE_ONLY_IMAGE from '@salesforce/resourceUrl/BI_PSP_TreatmentImage';
 // Importing Custom Labels for Treatment Reminders
 import JAN from "@salesforce/label/c.BI_PSPB_Jan";
@@ -73,6 +74,7 @@ import PREFERRED_WAY from '@salesforce/label/c.BI_PSPB_ReminderSetting';
 import NOTIFICATION_SETTINGS from '@salesforce/label/c.BI_PSPB_NotificationSetting';
 // Importing labels for Notifications
 import SYMPTOM from '@salesforce/label/c.BI_PSP_SymptomTrackerValue';
+import INJECTION from '@salesforce/label/c.BI_PSPB_Injection';
 import DLQI_QUESTIONNAIRES from '@salesforce/label/c.BI_PSP_AssessmentDlqi';
 import PSS_QUESTIONNAIRES from '@salesforce/label/c.BI_PSP_AssessmentPss';
 import WPAI_QUESTIONNAIRES from '@salesforce/label/c.BI_PSP_AssessmentWpai';
@@ -83,6 +85,7 @@ import COMMUNITY from '@salesforce/label/c.BI_PSPB_Community';
 import NOT_COMPLETED from '@salesforce/label/c.BI_PSP_NotCompleted';
 import BI_PSP_HISTORY from '@salesforce/label/c.BI_PSPB_History';
 import MY_QUESTIONNAIRES from '@salesforce/label/c.BI_PSPB_MyQuestionnaires';
+import NEW_CONTENT_UPDATES from '@salesforce/label/c.BI_PSPB_NewContentUpdates';
 import STATUS_EXPIRED from '@salesforce/label/c.BI_PSP_Expired';
 import GENERAL_NOTIFICATION from '@salesforce/label/c.BI_PSP_GeneralNotification';
 import GENERAL from '@salesforce/label/c.BI_PSPB_General';
@@ -90,7 +93,6 @@ import ACTION_REQUIRED from '@salesforce/label/c.BI_PSPB_ActionRequiredValue';
 import ACTION from '@salesforce/label/c.BI_PSPB_Action';
 import READ from '@salesforce/label/c.BI_PSPB_Read';
 import TREATMENT from '@salesforce/label/c.BI_PSPB_Treatment';
-import PRESCRIPTION from '@salesforce/label/c.BI_PSPB_Prescription';
 import PRESCRIPTION_REMINDER from '@salesforce/label/c.BI_PSPB_PrescriptionReminderValue';
 import COMPLETED from '@salesforce/label/c.BI_PSP_Completed';
 import NOT_COMPLETED_HISTORY from '@salesforce/label/c.BI_PSPB_NotCompletedHistory';
@@ -98,10 +100,6 @@ import ALL from '@salesforce/label/c.BI_PSPB_All';
 import TREATMENT_VIDEO from '@salesforce/label/c.BI_PSPB_TreatmentVideo';
 import PRESCRIPTION_LABEL from '@salesforce/label/c.BI_PSPB_Prescription';
 import TREATMENT_REMINDERS from '@salesforce/label/c.BI_PSPB_TreatmentReminders';
-import PSS from '@salesforce/label/c.BI_PSP_AssessmentPss';
-import DLQI from '@salesforce/label/c.BI_PSP_AssessmentDlqi';
-import WPAI from '@salesforce/label/c.BI_PSP_AssessmentWpai';
-import QSQ from '@salesforce/label/c.BI_PSP_Qsq';
 import HISTORY_HEADING from '@salesforce/label/c.BI_PSPB_HistoryNotification';
 import NO_NOTIFICATIONS from '@salesforce/label/c.BI_PSPB_NoNotifications';
 import SYMPTOM_BUTTON from '@salesforce/label/c.BI_PSPB_NotificationSymptomButton';
@@ -117,33 +115,33 @@ import TYPE_PLACEHOLDER from '@salesforce/label/c.BI_PSPB_NotificationPlaceHolde
 import CATEGORY_PLACEHOLDER from '@salesforce/label/c.BI_PSPB_CategoryPlaceHolder';
 import STATUS_PLACEHOLDER from '@salesforce/label/c.BI_PSPB_StatusPlaceHolder';
 import NOTIFY_QUESTION_IMG from '@salesforce/resourceUrl/BI_PSP_QuestionnairesNotification';
-import BI_PSP_ALL_POST_URL from '@salesforce/label/c.BI_PSPB_ChatterAllPost';
-import BI_PSP_CHATTER_MY_POST from '@salesforce/label/c.BI_PSPB_ChatterMyPost';
-import BI_PSP_CHATTER_FOLLOWER from '@salesforce/label/c.BI_PSPB_ChatterFollower';
-import BI_PSP_FOLLOW from '@salesforce/label/c.BI_PSP_Follow';
-import BI_PSP_REACTION from '@salesforce/label/c.BI_PSP_Reaction';
-import BI_PSP_CREATE_POST from '@salesforce/label/c.BI_PSP_CreatePost';
-import BI_PSP_COMMENT from '@salesforce/label/c.BI_PSP_Comment';
-import BI_PSPB_SYMPTOM_TRACKER_MAIN from '@salesforce/label/c.BI_PSPB_SymptomTrackerMain';
-import BI_PSPB_OUTSTANDING_QUESTIONNAIRE_URL from '@salesforce/label/c.BI_PSPB_OutstndngPageUrl';
-import BI_PSP_CHALLENGESURL from "@salesforce/label/c.BI_PSP_ChallengesNaviUrl";
-import BI_PSP_INFO_CENTER_URL from "@salesforce/label/c.BI_PSPB_InfoCenterLandingUrl";
+import ALL_POST_URL from '@salesforce/label/c.BI_PSPB_ChatterAllPost';
+import CHATTER_MY_POST from '@salesforce/label/c.BI_PSPB_ChatterMyPost';
+import CHATTER_FOLLOWER from '@salesforce/label/c.BI_PSPB_ChatterFollower';
+import FOLLOW from '@salesforce/label/c.BI_PSP_Follow';
+import REACTION from '@salesforce/label/c.BI_PSP_Reaction';
+import CREATE_POST from '@salesforce/label/c.BI_PSP_CreatePost';
+import COMMENT from '@salesforce/label/c.BI_PSP_Comment';
+import SYMPTOM_TRACKER_MAIN from '@salesforce/label/c.BI_PSPB_SymptomTrackerMain';
+import OUTSTANDING_QUESTIONNAIRE_URL from '@salesforce/label/c.BI_PSPB_OutstndngPageUrl';
+import CHALLENGESURL from "@salesforce/label/c.BI_PSP_ChallengesNaviUrl";
+import INFO_CENTER_URL from "@salesforce/label/c.BI_PSPB_InfoCenterLandingUrl";
 import NOTIFICATION_HEADING from "@salesforce/label/c.BI_PSPB_NotificationHeading";
 import ACTION_URL from '@salesforce/label/c.BI_PSPB_ActionUrl';
 import MESSAGE_CENTER_URL from '@salesforce/label/c.BI_PSPB_MessageCenterPageUrl';
 import HISTORY_URL from '@salesforce/label/c.BI_PSPB_HistoryUrl';
 import ACTION_REQUIRED_HEADING from '@salesforce/label/c.BI_PSPB_ActionRequired';
 import GENERAL_HEADING from '@salesforce/label/c.BI_PSPB_GeneralHeading';
-import BI_PSPB_TREATMENT_REMINDER from '@salesforce/label/c.BI_PSPB_TreatmentReminder';
+import TREATMENT_REMINDER from '@salesforce/label/c.BI_PSPB_TreatmentReminder';
 import DATE_OF_TREATMENT from '@salesforce/label/c.BI_PSPB_Date_of_Treatment';
 import DATE_OF_TREATMENT_FIELD from '@salesforce/label/c.BI_PSPB_TreatmentDateField';
-import BI_PSPB_HOUR from '@salesforce/label/c.BI_PSPB_SeventyTwoHour';
-import BI_PSPB_HR from '@salesforce/label/c.BI_PSPB_TwentyFourHours';
-import BI_PSPB_DLQI_QUESTIONNAIRE_URL from '@salesforce/label/c.BI_PSPB_DlqiQuestionnaireUrl';
-import BI_PSPB_PSS_QUESTIONNAIRE_URL from '@salesforce/label/c.BI_PSPB_PsoriasisQuesUrl';
-import BI_PSPB_WPAI_QUESTIONNAIRE_URL from '@salesforce/label/c.BI_PSPB_WapiQuestionnaire';
-import BI_PSPB_QSQ_QUESTIONNAIRE_URL from '@salesforce/label/c.BI_PSPB_QualitativeTwoMonths';
-import BI_PSPB_PERSONALIZE_QUESTIONNAIRE_URL from '@salesforce/label/c.BI_PSPB_LetsPersonalizeUrl';
+import SEVENTY_TWO_HOURS from '@salesforce/label/c.BI_PSPB_SeventyTwoHour';
+import TWENTY_FOUR_HOURS from '@salesforce/label/c.BI_PSPB_TwentyFourHours';
+import DLQI_QUESTIONNAIRE_URL from '@salesforce/label/c.BI_PSPB_DlqiQuestionnaireUrl';
+import PSS_QUESTIONNAIRE_URL from '@salesforce/label/c.BI_PSPB_PsoriasisQuesUrl';
+import WPAI_QUESTIONNAIRE_URL from '@salesforce/label/c.BI_PSPB_WapiQuestionnaire';
+import QSQ_QUESTIONNAIRE_URL from '@salesforce/label/c.BI_PSPB_QualitativeTwoMonths';
+import PERSONALIZE_QUESTIONNAIRE_URL from '@salesforce/label/c.BI_PSPB_LetsPersonalizeUrl';
 import DAY_OF_TREATMENT from '@salesforce/label/c.BI_PSPB_DayOfTreatment';
 import PAST_DUE_DATE from '@salesforce/label/c.BI_PSPB_PastDueDate';
 import PAST_DUE_DATE_TWO from '@salesforce/label/c.BI_PSPB_PastDueDateTwo';
@@ -197,17 +195,60 @@ import TREATMENT_DATE_TOOL_TIP from '@salesforce/label/c.BI_PSPB_TreatmentDateTo
 import ERROR_MESSAGE from '@salesforce/label/c.BI_PSP_ConsoleError';
 import NO_RECORDS from '@salesforce/label/c.BI_PSP_RecordNotFoundMsg';
 import ERROR_VARIANT from '@salesforce/label/c.BI_PSP_ErrorVariantToast';
+import CHALLENGES_IMAGE from '@salesforce/resourceUrl/BI_PSPB_ChallengesImg';
+import SYMPTOMS_IMAGE from '@salesforce/resourceUrl/BI_PSP_SymtomsImg';
+import NEW_CONTENT_IMAGE from '@salesforce/resourceUrl/BI_PSP_NewContentImage';
+import ALARM_IMAGE from '@salesforce/resourceUrl/BI_PSP_Alarm';
+import INJECTION_IMAGE from '@salesforce/resourceUrl/BI_PSP_InjectionImg';
+import SYMPTOM_URL from '@salesforce/label/c.BI_PSP_SymptomTrackerLandingPageUrl';
+import DATE_OF_TREATMENT_LABEL from '@salesforce/label/c.BI_PSPB_DateOfTreatment';
+import NOTIFICATION from "@salesforce/label/c.BI_PSPB_Notification";
+import VIEW_ALL from "@salesforce/label/c.BI_PSPB_ViewAllBtn";
+import START_NEW_BUTTON from "@salesforce/label/c.BI_PSPB_StartBtn";
+import DATE_PLACE_HOLDER from "@salesforce/label/c.BI_PSPB_DatePlaceHolder";
+import VIEW_BUTTON from "@salesforce/label/c.BI_PSPB_ViewBtn";
+import EMPTY_NOTIFICATION from "@salesforce/label/c.BI_PSPB_EmptyNotification";
+import CLOSE from "@salesforce/label/c.BI_PSPB_Close";
+import TREATMENT_DATE from "@salesforce/label/c.BI_PSPB_TreatmentDate";
+import ENTER_YOUR_DATE from "@salesforce/label/c.BI_PSPB_EnterYourDate";
+import DATE_TREATMENT from "@salesforce/label/c.BI_PSP_DateOfTreatment";
+import CANCEL_BUTTON from "@salesforce/label/c.BI_PSP_CancelButton";
+import NEW_IMG from '@salesforce/resourceUrl/BI_PSP_New';
+import ERROR_PAGE from '@salesforce/label/c.BI_PSP_DisplayErrorPage';
+import ERROR_FOR_NOTIFICATION from '@salesforce/label/c.BI_PSPB_ErrorNotificationRecords';
+import ERROR_FOR_HISTORY from '@salesforce/label/c.BI_PSPB_ErrorHistoryRecords';
+import ENROLLEE_NOT_FOUND from '@salesforce/label/c.BI_PSPB_EnrolleeRecordError';
+import FETCHING_ENROLLEE_ERROR from '@salesforce/label/c.BI_PSPB_FetchingEnrolleeError';
+import URL_TYPE_ERROR from '@salesforce/label/c.BI_PSPB_UrlTypeError';
+import ERROR_FOR_ACTION from '@salesforce/label/c.BI_PSPB_ErrorActionRecords';
+import UPDATE_NOTIFICATION_ERROR from '@salesforce/label/c.BI_PSPSB_ErrorUpdatingStatus';
+import ERROR_FOR_GENERAL from '@salesforce/label/c.BI_PSPB_ErrorGeneralRecords';
 // Exporting all resources in an organized object
 export const resources = {
     ID,
+    ERROR_FOR_HISTORY,
+    FETCHING_ENROLLEE_ERROR,
+    ERROR_FOR_GENERAL,
+    URL_TYPE_ERROR,
+    ERROR_FOR_ACTION,
+    ENROLLEE_NOT_FOUND,
+    UPDATE_NOTIFICATION_ERROR,
     // Static Resources
     ALARM,
     DOT_IMG,
     CHALLENGES_IMG,
+    CHALLENGES_IMAGE,
     QUESTIONNAIRE_IMAGE,
-    AVATAR_IMG,
+    TREATMENT_IMAGE,
+    AVATAR_IMAGE,
     TREATMENT_IMG,
-    COMMUNITY_IMG,
+    ERROR_FOR_NOTIFICATION,
+    SYMPTOMS_IMAGE,
+    NEW_IMG,
+    NEW_CONTENT_IMAGE,
+    ALARM_IMAGE,
+    COMMUNITY_IMAGE,
+    INJECTION_IMAGE,
     // Custom Labels
     ALL,
     JAN,
@@ -240,20 +281,35 @@ export const resources = {
     RD,
     BRANDED_URL,
     ADD_CALENDAR,
+    VIEW_ALL,
+    VIEW_BUTTON,
     REMINDER_AVATAR_ONE,
+    CANCEL_BUTTON,
+    START_NEW_BUTTON,
+    DATE_OF_TREATMENT_LABEL,
+    TREATMENT_DATE,
     REMINDER_PAGE_URL,
+    SYMPTOM_URL,
+    INJECTION,
+    DATE_TREATMENT,
+    ENTER_YOUR_DATE,
     DAYS_BEFORE,
     DAY_BEFORE,
     DAY_THREE,
     WHEN_TREATMENT,
     SELECT_CALENDAR,
+    EMPTY_NOTIFICATION,
     SAVE,
+    NOTIFICATION,
     TREATMENT_REMINDER_MOBILE,
+    NEW_CONTENT_UPDATES,
     LOOK_REMINDERS,
     DAY_ONE,
+    DATE_PLACE_HOLDER,
     DAY_SEVEN,DAY_FOURTEEN,
     DAY_TEN,
     ONE_DAY_TOOL_TIP,
+    CLOSE,
     PRESCRIPTION_REMINDER_ONE,
     PRESCRIPTION_REMINDER_TWO,
     REMINDER_TEXT,
@@ -266,6 +322,7 @@ export const resources = {
     TIMELINE,
     USE_REMINDER_MOBILE,
     TREATMENT_REMINDER_TWO,
+    ERROR_PAGE,
     NO_UPCOMING_REMAINDERS,
     REMINDER_AVATAR_THREE,
     THREE_DAYS_TOOL_TIP,
@@ -288,7 +345,7 @@ export const resources = {
     BOXED_ICON,
     REMINDER_AVATAR_TEXT,
     DEFAULT_AVATAR_URL,
-    TIC,
+    TICK,
     WARNING,
     PREFERRED_WAY,
     NOTIFICATION_SETTINGS,
@@ -318,17 +375,12 @@ export const resources = {
     ACTION,
     READ,
     TREATMENT,
-    PRESCRIPTION,
     PRESCRIPTION_REMINDER,
     COMPLETED,
     NOT_COMPLETED_HISTORY,
     TREATMENT_VIDEO,
     PRESCRIPTION_LABEL,
     TREATMENT_REMINDERS,
-    PSS,
-    WPAI,
-    DLQI,
-    QSQ,
     HISTORY_HEADING,
     NO_NOTIFICATIONS,
     LOAD_MORE,
@@ -338,17 +390,17 @@ export const resources = {
     NO_RECORDS,
     NOTIFY_QUESTION_IMG,
     UNASSIGNED_SITE_URL,
-    BI_PSP_ALL_POST_URL,
-    BI_PSP_CHATTER_MY_POST,
-    BI_PSP_CHATTER_FOLLOWER,
-    BI_PSP_FOLLOW,
-    BI_PSP_REACTION,
-    BI_PSP_CREATE_POST,
-    BI_PSP_COMMENT,
-    BI_PSPB_SYMPTOM_TRACKER_MAIN,
-    BI_PSPB_OUTSTANDING_QUESTIONNAIRE_URL,
-    BI_PSP_CHALLENGESURL,
-    BI_PSP_INFO_CENTER_URL,
+    ALL_POST_URL,
+    CHATTER_MY_POST,
+    CHATTER_FOLLOWER,
+    FOLLOW,
+    REACTION,
+    CREATE_POST,
+    COMMENT,
+    SYMPTOM_TRACKER_MAIN,
+    OUTSTANDING_QUESTIONNAIRE_URL,
+    CHALLENGESURL,
+    INFO_CENTER_URL,
     NOTIFICATION_HEADING,
     SYMPTOM_BUTTON,
     START_BUTTON,
@@ -364,14 +416,14 @@ export const resources = {
     ACTION_REQUIRED_HEADING,
     GENERAL_HEADING,
     QUESTIONNAIRE_ONLY_IMAGE,
-    BI_PSPB_TREATMENT_REMINDER,
-    BI_PSPB_HOUR,
-    BI_PSPB_HR,
-    BI_PSPB_DLQI_QUESTIONNAIRE_URL,
-    BI_PSPB_PSS_QUESTIONNAIRE_URL,
-    BI_PSPB_WPAI_QUESTIONNAIRE_URL,
-    BI_PSPB_QSQ_QUESTIONNAIRE_URL,
-    BI_PSPB_PERSONALIZE_QUESTIONNAIRE_URL,
+    TREATMENT_REMINDER,
+    SEVENTY_TWO_HOURS,
+    TWENTY_FOUR_HOURS,
+    DLQI_QUESTIONNAIRE_URL,
+    PSS_QUESTIONNAIRE_URL,
+    WPAI_QUESTIONNAIRE_URL,
+    QSQ_QUESTIONNAIRE_URL,
+    PERSONALIZE_QUESTIONNAIRE_URL,
     DAY_OF_TREATMENT,
     PAST_DUE_DATE_TWO,
     YES,

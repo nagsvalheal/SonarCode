@@ -1,6 +1,5 @@
 // To import libraries
 import { LightningElement} from 'lwc';
-import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import { loadStyle } from 'lightning/platformResourceLoader';
 //To Import apex clases
 import CASE_RECORD_CREATE from '@salesforce/apex/BI_PSPB_PatientPrescriptionCtrl.createCaseRecordWithFiles';
@@ -69,12 +68,36 @@ export default class BiPspbUpdatePrescription extends LightningElement {
 		{ label: LABELS.NO, value: LABELS.NO }
 	];
 
-	// call the upload file width css
+	brandedUrl = LABELS.BRANDED_URL;
+	unassignedUrl = LABELS.UNASSIGNED_URL;
+	brandedUrlNavi = LABELS.BRANDED_URL_NAVI;
+	updateRx = LABELS.UPDATERX;
+	unAssignedUrlNavi = LABELS.UNASSIGNED_URL_NAVI;
+
+	// To get the current site path Branded or Unassigned and navigate to the respective page
 	connectedCallback() {
 		try {
+			const globalThis = window;
+			const CURRENT_URL = globalThis.location.href;
+			const URL_OBJECT = new URL(CURRENT_URL); // Get the PATH
+			const PATH = URL_OBJECT.pathname; // Split the PATH using '/' as a separator
+			const PATH_COMPONENTS = PATH.split('/');
+			const DESIRED_COMPONENTS = PATH_COMPONENTS.find((component) =>
+				[
+					this.brandedUrl.toLowerCase(),
+					this.unassignedUrl.toLowerCase()
+				].includes(component.toLowerCase())
+			);
+
+			if (DESIRED_COMPONENTS.toLowerCase() === this.brandedUrl.toLowerCase()) {
+				this.urlq = this.brandedUrlNavi;
+			} else {
+				this.urlq = this.unAssignedUrlNavi;
+			}
 			loadStyle(this, UPLOAD_FILE_CSS);
-		} catch (err) {
-			this.showToast(LABELS.ERROR_MESSAGE, err.message, LABELS.ERROR_VARIANT);
+		} catch (error) {
+			// Handle error
+			this.showToast(LABELS.ERROR_MESSAGE, error.message, LABELS.ERROR_VARIANT);
 		}
 	}
 
@@ -288,14 +311,9 @@ export default class BiPspbUpdatePrescription extends LightningElement {
 		window.location.reload();
 	}
 	showToast(title, message, variant) {
-		const EVENT = new ShowToastEvent({
-			title: title,
-			message: message,
-			variant: variant
-		});
-
-		if(typeof window !== 'undefined'){
-		this.dispatchEvent(EVENT);
-		}
+		let messageList =title +' '+message +' ' +variant;
+		let globalThis = window;
+		globalThis.sessionStorage.setItem('errorMessage', messageList);
+		globalThis.location.href = this.urlq + LABELS.ERROR_PAGE;
 	}
 }

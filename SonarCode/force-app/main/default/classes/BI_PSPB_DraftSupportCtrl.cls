@@ -8,7 +8,7 @@
  * 59       Niyas       18-04-2024      Updated     Code review changes
  * 59       Rajaa       31-07-2024      Updated     Code refactor changes
  */
-public with sharing class BI_PSPB_TransactionDataSupportCtrl {
+public with sharing class BI_PSPB_DraftSupportCtrl {
 	private static final String LOG_SEVERITY_ERROR = System.Label.BI_PSP_ErrorSeverity;
 	/**
 	 * @description Retrieves the latest draft Case record related to a specified Care Program Enrollee.
@@ -20,7 +20,7 @@ public with sharing class BI_PSPB_TransactionDataSupportCtrl {
 		if (String.isBlank(accountId)) {
 			BI_PSP_LogMessagesUtility.logError(
 				BI_PSPB_ConstantsClassCtrl.errorMsgPatientIdNotFound,
-				BI_PSPB_TransactionDataSupportCtrl.class.toString(),
+				BI_PSPB_DraftSupportCtrl.class.toString(),
 				false,
 				LOG_SEVERITY_ERROR
 			);
@@ -66,7 +66,7 @@ public with sharing class BI_PSPB_TransactionDataSupportCtrl {
 			} else {
 				BI_PSP_LogMessagesUtility.logError(
 					BI_PSPB_ConstantsClassCtrl.recordCannotFound,
-					BI_PSPB_TransactionDataSupportCtrl.class.toString(),
+					BI_PSPB_DraftSupportCtrl.class.toString(),
 					false,
 					LOG_SEVERITY_ERROR
 				);
@@ -75,7 +75,7 @@ public with sharing class BI_PSPB_TransactionDataSupportCtrl {
 		} catch (Exception LOG_SEVERITY_ERROR) {
 			BI_PSP_LogMessagesUtility.exceptionLogMessage(
 				BI_PSPB_ConstantsClassCtrl.recordCannotFound,
-				BI_PSPB_TransactionDataSupportCtrl.class.toString(),
+				BI_PSPB_DraftSupportCtrl.class.toString(),
 				LOG_SEVERITY_ERROR
 			);
 			return null;
@@ -93,10 +93,11 @@ public with sharing class BI_PSPB_TransactionDataSupportCtrl {
 		if (String.isBlank(accountId)) {
 			BI_PSP_LogMessagesUtility.logError(
 				BI_PSPB_ConstantsClassCtrl.errorMsgCaseRecordNotFound,
-				BI_PSPB_TransactionDataSupportCtrl.class.toString(),
+				BI_PSPB_DraftSupportCtrl.class.toString(),
 				false,
 				LOG_SEVERITY_ERROR
 			);
+			return null;
 		}
 		try {
 			//Since Careprogramenrollee lookup field is used we cannot use USER_MODE here.
@@ -135,7 +136,7 @@ public with sharing class BI_PSPB_TransactionDataSupportCtrl {
 			} else {
 				BI_PSP_LogMessagesUtility.logError(
 					BI_PSPB_ConstantsClassCtrl.errorMsgCaseRecordNotFound,
-					BI_PSPB_TransactionDataSupportCtrl.class.toString(),
+					BI_PSPB_DraftSupportCtrl.class.toString(),
 					false,
 					LOG_SEVERITY_ERROR
 				);
@@ -144,7 +145,7 @@ public with sharing class BI_PSPB_TransactionDataSupportCtrl {
 		} catch (Exception LOG_SEVERITY_ERROR) {
 			BI_PSP_LogMessagesUtility.exceptionLogMessage(
 				BI_PSPB_ConstantsClassCtrl.recordCannotFound,
-				BI_PSPB_TransactionDataSupportCtrl.class.toString(),
+				BI_PSPB_DraftSupportCtrl.class.toString(),
 				LOG_SEVERITY_ERROR
 			);
 			return null;
@@ -164,7 +165,7 @@ public with sharing class BI_PSPB_TransactionDataSupportCtrl {
 			if (String.isBlank(accountId)) {
 				BI_PSP_LogMessagesUtility.logError(
 					BI_PSPB_ConstantsClassCtrl.errorMsgPatientIdNotFound,
-					BI_PSPB_TransactionDataSupportCtrl.class.toString(),
+					BI_PSPB_DraftSupportCtrl.class.toString(),
 					false,
 					LOG_SEVERITY_ERROR
 				);
@@ -207,7 +208,7 @@ public with sharing class BI_PSPB_TransactionDataSupportCtrl {
 			} else {
 				BI_PSP_LogMessagesUtility.logError(
 					BI_PSPB_ConstantsClassCtrl.recordCannotFound,
-					BI_PSPB_TransactionDataSupportCtrl.class.toString(),
+					BI_PSPB_DraftSupportCtrl.class.toString(),
 					false,
 					LOG_SEVERITY_ERROR
 				);
@@ -216,7 +217,7 @@ public with sharing class BI_PSPB_TransactionDataSupportCtrl {
 		} catch (Exception LOG_SEVERITY_ERROR) {
 			BI_PSP_LogMessagesUtility.exceptionLogMessage(
 				BI_PSPB_ConstantsClassCtrl.recordCannotFound,
-				BI_PSPB_TransactionDataSupportCtrl.class.toString(),
+				BI_PSPB_DraftSupportCtrl.class.toString(),
 				LOG_SEVERITY_ERROR
 			);
 			return null;

@@ -10,11 +10,11 @@
 				<a onclick={handleNo}><span>&times;</span></a>
 			</div>
 			<div class="modal-content">
-				<p class="modalHead">Are you sure you want to leave this page?</p>
-				<p class="modalPara">The changes you made will be lost</p>
+				<p class="modalHead">{leaveThisPage}</p>
+				<p class="modalPara">{changeMade}</p>
 				<div class="modal-buttons">
-					<button class="button-DivNoBack" onclick={handleNo}>Cancel</button>
-					<button class="button-Div" onclick={handleYes}>Okay</button>
+					<button class="button-DivNoBack" onclick={handleNo}>{cancelLabel}</button>
+					<button class="button-Div" onclick={handleYes}>{okay}</button>
 				</div>
 			</div>
 		</div>

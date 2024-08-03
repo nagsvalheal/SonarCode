@@ -12,7 +12,6 @@
   position: relative;
   top: 25%;
 
-  /* right: 4%; */
 }
 .spinner-wrapper {
   position: fixed;
@@ -219,7 +218,7 @@
   .avatar {
     position: relative;
     top: -7%;
-    /* left: 8%; */
+   
   }
   .board {
     position: relative;
@@ -261,9 +260,7 @@
     grid-template-columns: auto;
     gap: 20px;
   }
-  /* .notifications-card{
-	width: 68%;
-} */
+
 }
 
 @media only screen and (min-width: 401px) and (max-width: 600px) {
@@ -288,7 +285,7 @@
   .board {
     position: relative;
     bottom: 30px;
-    /* right: 10%; */
+ 
   }
   .custom-box {
     margin-top: -32px;
@@ -318,12 +315,7 @@
     right: 6px;
     bottom: 71px;
   }
-  /* .board{
-width: 50%;
-}
-.avatar{
-width: 50%;
-} */
+  
 }
 @media only screen and (min-width: 601px) {
   .grid-containerButtons {
@@ -360,16 +352,16 @@ width: 50%;
     grid-template-columns: auto;
     gap: 10px;
     width: 120%;
-    /* margin-left: 27%; */
+   
   }
   .avatar {
     position: relative;
     top: 15%;
-    /* left: 4%; */
+ 
   }
   .board {
     position: relative;
-    /* left: 7%; */
+   
   }
 }
 @media only screen and (min-width: 768px) {
@@ -390,7 +382,7 @@ width: 50%;
     width: 471px;
     position: relative;
     right: 115px;
-    /* top: 540px; */
+   
   }
   .grid-containerWidget {
     display: grid;
@@ -441,7 +433,7 @@ width: 50%;
     position: relative;
     bottom: 25px;
     right: 30px;
-    /* left: 3%; */
+   
   }.custom-box{
     position: relative;
     right: 9px;
@@ -456,7 +448,7 @@ width: 50%;
     gap: 51px;
     position: relative;
     left: 18px;
-    /* margin-left: 10%; */
+    
   }
   .padding {
     padding-right: 6%;
@@ -469,7 +461,7 @@ width: 50%;
     grid-template-columns: auto;
     gap: 51px;
     margin-left: -56px;
-    /* margin-left: 18%; */
+  
   }
 }
 @media only screen and (min-width: 1300px) and (max-width: 1400px) {
@@ -477,7 +469,7 @@ width: 50%;
     display: grid;
     grid-template-columns: auto;
     gap: 51px;
-    /* margin-left: 19%; */
+   
   }
 }
 @media only screen and (min-width: 1400px) and (max-width: 1500px) {
@@ -487,7 +479,7 @@ width: 50%;
     gap: 51px;
     position: relative;
     left: 16px;
-    /* margin-left: 21%; */
+   
   }
 }
 @media only screen and (min-width: 1600px) and (max-width: 1700px) {
@@ -497,7 +489,7 @@ width: 50%;
     gap: 51px;
     position: relative;
     left: 0px;
-    /* margin-left: 21%; */
+   
   }
 }
 @media only screen and (min-width: 1500px) and (max-width: 1700px) {
@@ -516,7 +508,7 @@ width: 50%;
     display: grid;
     grid-template-columns: auto;
     gap: 51px;
-    /* margin-left: 13%; */
+    
   }
   .board {
     position: relative;
@@ -526,7 +518,7 @@ width: 50%;
     position: relative;
     top: 5%;
     left: 1%;
-    /* left: 5%; */
+   
   }
 }
 @media only screen and (min-width: 1701px) and (max-width: 1900px) {
@@ -536,7 +528,7 @@ width: 50%;
     gap: 51px;
     position: relative;
     left: 30px;
-    /* margin-left: 27%; */
+   
   }
 }
 @media only screen and (min-width: 1901px) {
@@ -546,7 +538,7 @@ width: 50%;
     gap: 51px;
     position: relative;
     left: 25px;
-    /* margin-left: 35%; */
+   
   }
   .avatar {
     position: relative;

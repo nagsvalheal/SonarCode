@@ -1,7 +1,6 @@
 //This component for unassigned update prescription.
 //To import Libraries
 import { LightningElement } from 'lwc';
-import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 //To import static resource
 import WIDGET_ICON from '@salesforce/resourceUrl/BI_PSPB_UpdateRxIcon';
 //To import custom labels
@@ -34,13 +33,9 @@ export default class BiPspbPrescriptionWidget extends LightningElement {
 	}
 		// showToast used for all the error messages caught
 		showToast(title, message, variant) {
-		const event = new ShowToastEvent({
-			title: title,
-			message: message,
-			variant: variant
-		});
-		if (typeof window !== 'undefined') {
-		this.dispatchEvent(event);
-		}
+			let messageList =title +' '+ message +' ' + variant;
+			let globalThis = window;
+			globalThis.sessionStorage.setItem('errorMessage', messageList);
+			globalThis.location.href = this.urlq + LABELS.ERROR_PAGE;
 	}
 }

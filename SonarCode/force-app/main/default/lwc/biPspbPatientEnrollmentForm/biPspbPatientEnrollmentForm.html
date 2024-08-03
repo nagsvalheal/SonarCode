@@ -489,7 +489,7 @@
     </div>
 						<div class="Agree">
 							<span>{agree}</span>
-							<label class="tac" onclick={showModal}>{terms}{condition}</label>
+							<label class="tac" onclick={showModal}>{terms}</label>
 						</div>
 					</div>
 					<div class="slds-form-element__help" if:true={checkBoxRequired}>
@@ -504,7 +504,7 @@
 								<div class="slds-modal__header">
 									<span onclick={closeModal} class="slds-modal__close">X</span>
 									<!--alternative text, size, variant if removed, impacts the functionality-->
-									<h1 class="terms">{termsAndCondition}</h1>
+									<h1 class="terms">Terms and Conditions</h1>
 								</div>
 								<!-- Body Section   -->
 								<div class="slds-modal__content slds-p-around_medium">

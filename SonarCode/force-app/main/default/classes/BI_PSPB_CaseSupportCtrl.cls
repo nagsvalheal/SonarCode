@@ -107,7 +107,7 @@ public with sharing class BI_PSPB_CaseSupportCtrl {
             return ' AND (Status = \'Draft\' OR Status = \'Need More Information\')';
         }
         when 'submitted' {
-            return ' AND (Status = \'Submitted\' OR Status = \'Need More Information\')';
+            return ' AND (Status = \'Submitted\')';
         }
         when else {
             return ' AND Status = \'' + status + '\'';

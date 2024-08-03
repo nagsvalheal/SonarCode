@@ -79,8 +79,7 @@ public without sharing class BI_PSPB_ProductListCtrl {
               BI_PSP_LogMessagesUtility.logError(errorForCareprogramProduct,BI_PSPB_ProductListCtrl.class.getName(),true,BI_PSPB_EnrollmentConstantCtrl.getLabel('LOG_SEVERITY_ERROR'));
             }
 			String fields = 'Id,Name,BI_PSPB_Product_code__c,BI_PSPB_Dosage__c,BI_PSPB_Unit__c,BI_PSPB_Unit__r.Name';
-			String conditions = 'Id = \'' + productId + '\''+
-								'LIMIT 1';
+			String conditions = 'Id = \'' + productId + '\'';
 			Boolean withSharingKeywrd = false;
 			List<SObject> sObjectResponses = BI_PSP_CommonQueryUtility.executeQuery('CareProgramProduct', fields, conditions, withSharingKeywrd);
 			for (SObject sObj : sObjectResponses) {

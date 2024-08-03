@@ -7,10 +7,13 @@
 * 1.0		Niyas		24-07-2024		Created		Refactored Version
 */
 public with sharing class BI_PSPB_SmsAndEmailSenderCtrl {
-    /**
-	* @description  Used to create task when a video is uploaded and calling the
-	* method to send sms and email.
-	*/
+	/**
+	 * @description  Retrieves treatment reminders based on the given criteria.
+	 * @param recordId The ID of the record related to the treatment reminders.
+	 * @param notificationTypes The type of reminder to filter by.
+     * @param communityUserName The type of reminder to filter by.
+     * @param treatmentDate The type of reminder to filter by.
+	 */
     public static void handleTrigger(List<Id> recordId, String notificationTypes, List<String> communityUserName, String treatmentDate) {
         if (recordId.isEmpty() && String.isBlank(notificationTypes)) {
             BI_PSP_LogMessagesUtility.logError(
@@ -38,18 +41,11 @@ public with sharing class BI_PSPB_SmsAndEmailSenderCtrl {
 
             // Retrieve notifications
             Map<Id, List<BI_PSP_Notification_Setting__c>> accountToNotificationsMap = BI_PSPB_SmsAndEmailNotificationSetting.getAccountToNotificationsMap(enrolIds, notificationDetails.notificationType);
-            System.debug('accountToNotificationsMap ' + accountToNotificationsMap);
             // Filter and add contacts
             BI_PSPB_SmsAndEmailNotificationHelper.addContactsToSend(accountToNotificationsMap, enrollees, contactIdsToSendEmail, contactIdsToSendSMS);
-            System.debug('accountToNotificationsMap ' + contactIdsToSendEmail);
             // URL      
             String url = BI_PSPB_SmsAndEmailNotificationHelper.getNotificationUrl(notificationDetails);
             if (!contactIdsToSendEmail.isEmpty()) {
-                System.debug('contactIdsToSendEmail ' + contactIdsToSendEmail);
-                System.debug('notificationDetails.emailSubject ' + notificationDetails.emailSubject);
-                System.debug('url ' + url);
-                System.debug('null ' + null);
-                System.debug('notificationDetails ' + notificationDetails.followName);
 				BI_PSPB_EmailBatch sendEmail = new BI_PSPB_EmailBatch(
 					contactIdsToSendEmail,
 					notificationDetails.emailSubject,
@@ -60,7 +56,6 @@ public with sharing class BI_PSPB_SmsAndEmailSenderCtrl {
 				database.executeBatch(sendEmail, 45);
 			}
 			if (!contactIdsToSendSMS.isEmpty()) {
-                System.debug('contactIdsToSendSMS ' + contactIdsToSendSMS);
 				BI_PSPB_SmsBatch sendSms = new BI_PSPB_SmsBatch(
 					contactIdsToSendSMS,
 					notificationDetails.subject,

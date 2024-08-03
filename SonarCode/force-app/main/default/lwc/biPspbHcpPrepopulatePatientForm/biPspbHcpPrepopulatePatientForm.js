@@ -8,8 +8,8 @@ import { loadStyle } from "lightning/platformResourceLoader";
 //To import Apex Classes
 import CREATE_LEAD_RECORD from "@salesforce/apex/BI_PSPB_PrepopulateRecCtrl.updateLeadRecord";
 import LEAD_ID from "@salesforce/apex/BI_PSPB_PrepopulateRecCtrl.getPatientDetails";
-import COUNTRY from '@salesforce/apex/BI_PSPB_ReferringPractitionerCtrl.getCountries';
-import STATE from '@salesforce/apex/BI_PSPB_ReferringPractitionerCtrl.getStates';
+import COUNTRY from '@salesforce/apex/BI_PSPB_EnrollmentUtilities.getCountries';
+import STATE from '@salesforce/apex/BI_PSPB_EnrollmentUtilities.getStates';
 
 //To import fields from Lead object
 //To import Custom Labels
@@ -18,6 +18,71 @@ import { resource } from "c/biPspbEnrollmentFormResource";
 export default class BiPspbHcpPrepopulatePatientForm extends NavigationMixin(
 	LightningElement
 ) {
+placeCountry = resource.PLACE_COUNTRY;
+placeCity = resource.PLACE_CITY;
+placeState = resource.PLACE_STATE;
+placeStreet = resource.PLACE_STREET;
+placeZip = resource.PLACE_ZIPCODE;
+placePhone = resource.PLACE_PHONE;
+placeFirst = resource.PLACE_FIRST;
+placeLast = resource.PLACE_LAST;
+placeDob = resource.PLACE_DOB;
+placeSelect = resource.PLACE_SELECT;
+placeEmail = resource.PLACE_EMAIL;
+pinCode = resource.PINCODE;
+streetcode = resource.STREET;
+cityCode = resource.CITY;
+statecode = resource.STATE;
+countryfield = resource.COUNTRY;
+patientFirstName = resource.PATIENT_FIRSTNAME;
+patientLastName = resource.PATIENT_LASTNAME;
+patientDob = resource.PATIENT_DATEOFBIRTH;
+validDob = resource.VALID_DOB;
+genderRequired = resource.PATIENT_GENDER;
+phoneRequired =  resource.PATIENT_PHONE;
+pmcRequired = resource.PREFERRED_CONTACT_METHOD;
+invalidInfo = resource.INVALID_DETAILS;
+patientVerify = resource.PATIENT_VERIFICATION;
+terms = resource.TERMS;
+agree = resource.AGREE;
+condition = resource.CONDITION;
+agreeMsg = resource.AGREE_MSG;
+submit = resource.SUBMIT;
+progressLabel = resource.PROGRESS_LABEL;
+accountExit = resource.ACCOUNT_EXIST;
+accountExistMsg = resource.ACCOUNT_EXIST_MSG;
+fieldWidth = resource.FIELD_WIDTH;
+areMandotory = resource.ARE_MANDOTORY ;
+patientEnrollHead = resource.PATIENT_ENROLL;
+patientinfo = resource.PATIENT_INFO ;
+firstNameLabel = resource.FIRST_NAME_LABEL ;
+firstNameValid = resource.FIRSTNAME_VALIDE ;
+lastNameValid = resource.LASTNAME_VALIDE ;
+lastNameLabel = resource.LASTNAME_LABEL ;
+dobLabel = resource.DOB_LABEL;
+generalLabel = resource.GENDER_LABEL;
+emailLabelMand = resource.EMAIL_LABEL_STAR ;
+cancelLabel = resource.CANCEL ;
+nextLabel = resource.NEXT ;
+numTwo = resource.NUM_TWO;
+numOne = resource.NUM_ONE;
+contactInfo = resource.CONTACT_INFO ;
+phoneNum = resource.PHONE_NUM ;
+phoneNumMandotory = resource.PHONE_NUM_MANDOTORY;
+validPhone = resource.VALID_PHONE ;
+emailLabel = resource.EMAIL_LABEL ;
+previousValue = resource.PREVIOS ;
+numFour = resource.NUM_FOUR ;
+numThree = resource.NUM_THREE ;
+pmcLabel = resource.PMC_LABEL ;
+countryLabel = resource.COUNTRY_LABEL;
+stateLabel = resource.STATE_LABEL ;
+streetLabel = resource.STREET_LABEL ;
+zipCodeValue = resource.ZIP_CODE_LABEL ;
+validZipCode = resource.VALID_ZIP_CODE ;
+cityLabel = resource.CITY_LABEL ;
+validCity = resource.VALID_CITY ;
+consentInfo = resource.CONSENT_INFO;
 	// Declaration of variables with   
 	avatarContentTop = resource.PRE_AVATAR_MSG_ONE;
 	avatarContentMid = resource.PRE_AVATAR_MSG_THREE;
@@ -63,7 +128,7 @@ export default class BiPspbHcpPrepopulatePatientForm extends NavigationMixin(
 	dobErrorMessage = false;
 	normalHeading = true;
 	normalHeadingOne = false;
-	firstNameValid = false;
+	firstNameValidConditionCondition = false;
 	lastNameChangeValid = false;
 	dateOfBirthVaild = false;
 	currentStep;
@@ -136,11 +201,11 @@ export default class BiPspbHcpPrepopulatePatientForm extends NavigationMixin(
 		//to get data field value from html
 		
 		if (!this.validateFirstNamePattern().test(this.firstName)) {
-				this.firstNameValid = true;
+				this.firstNameValidCondition = true;
 				this.firstNameRequire = false;
 				this.FirstNameFieldErr();
 			} else {
-				this.firstNameValid = false;
+				this.firstNameValidCondition = false;
 				this.firstNameRequire = false;
 				this.FirstNameField();
 			}
@@ -733,7 +798,7 @@ PmcField(){
 	//to go back to previous page - 1
 	goBackToStepOne() {
 		this.normalHeadingOne = false;
-		this.currentStep = "1";
+		this.currentStep = resource.ONE;
 		this.template.querySelector("div.stepTwo").classList.add("slds-hide");
 		this.template.querySelector("div.stepOne").classList.remove("slds-hide");
 		// Progress indicator
@@ -746,7 +811,7 @@ PmcField(){
 
 	//to go back to previous page - 2
 	goBackToStepTwo() {
-		this.currentStep = "2";
+		this.currentStep = resource.TWO;
 		this.template.querySelector("div.stepThree").classList.add("slds-hide");
 		this.template.querySelector("div.stepTwo").classList.remove("slds-hide");
 		// Progress indicator
@@ -761,29 +826,29 @@ PmcField(){
 		this.Xmark();
 	}
 	//to go back to previous page - 3
-	goBackToStepThree() {
-		this.currentStep = "3";
-		this.template.querySelector("div.stepFour").classList.add("slds-hide");
-		this.template.querySelector("div.stepThree").classList.remove("slds-hide");
-		// Progress indicator
-		this.template
-			.querySelector("li.li-four")
-			.classList.remove("slds-is-active");
-		this.template
-			.querySelector("li.li-three")
-			.classList.remove("slds-is-completed");
-		this.template.querySelector("li.li-three").classList.add("slds-is-active");
-		this.avatarContentTop = resource.PRE_AVATAR_MSG_ONE;
-		this.avatarContentMid = resource.PRE_AVATAR_MSG_THREE;
-		this.avatarContentLast = resource.PRE_AVATAR_MSG_FOUR;
-		this.Xmark();
-	}
+	// goBackToStepThree() {
+	// 	this.currentStep = "3";
+	// 	this.template.querySelector("div.stepFour").classList.add("slds-hide");
+	// 	this.template.querySelector("div.stepThree").classList.remove("slds-hide");
+	// 	// Progress indicator
+	// 	this.template
+	// 		.querySelector("li.li-four")
+	// 		.classList.remove("slds-is-active");
+	// 	this.template
+	// 		.querySelector("li.li-three")
+	// 		.classList.remove("slds-is-completed");
+	// 	this.template.querySelector("li.li-three").classList.add("slds-is-active");
+	// 	this.avatarContentTop = resource.PRE_AVATAR_MSG_ONE;
+	// 	this.avatarContentMid = resource.PRE_AVATAR_MSG_THREE;
+	// 	this.avatarContentLast = resource.PRE_AVATAR_MSG_FOUR;
+	// 	this.Xmark();
+	// }
 	//to go back to previous page - 4
-	goBackToStepFour() {
-		this.currentStep = "4";
-		this.template.querySelector("div.stepFive").classList.add("slds-hide");
-		this.template.querySelector("div.stepFour").classList.remove("slds-hide");
-	}
+	// goBackToStepFour() {
+	// 	this.currentStep = "4";
+	// 	this.template.querySelector("div.stepFive").classList.add("slds-hide");
+	// 	this.template.querySelector("div.stepFour").classList.remove("slds-hide");
+	// }
 	toggleClass(element, className, add) {
         if (element) {
             if (add) {
@@ -833,7 +898,7 @@ PmcField(){
 
 						this.normalHeadingOne = true;
 
-						this.firstNameValid = true;
+						this.firstNameValidCondition = true;
 						this.firstNameRequire = false;
 						FIRSTNAMEFIELD.value = "";
 						this.FirstNameFieldErr();
@@ -862,7 +927,7 @@ PmcField(){
 				this.normalHeadingOne = true;
 				this.normalHeading = false;
 				this.firstNameRequire = true;
-				this.firstNameValid = false;
+				this.firstNameValidCondition = false;
 				this.FirstNameFieldErr();
 			}
 			if (this.lastName === "") {
@@ -895,7 +960,7 @@ PmcField(){
 	}
 	LeadEmptyCondition(){
 		this.sldsProgree = true;
-							this.currentStep = "2";
+							this.currentStep = resource.TWO;
 							
 							this.toggleClass(this.template.querySelector("div.stepOne"), "slds-hide", true);
 							this.toggleClass(this.template.querySelector("div.stepTwo"), "slds-hide", false);
@@ -924,7 +989,7 @@ PmcField(){
 		);
 		this.Xmark();
 		if (this.selectedValue !== "") {
-			this.currentStep = "3";
+			this.currentStep = resource.THREE;
 			this.template.querySelector("div.stepTwo").classList.add("slds-hide");
 			this.template
 				.querySelector("div.stepThree")
@@ -950,7 +1015,7 @@ PmcField(){
 	}
 
 	//to get dependent records from Lead
-	@wire(getObjectInfo, { objectApiName: "Lead" })
+	@wire(getObjectInfo, { objectApiName: 'Lead' })
 	objectInfo;
 
 

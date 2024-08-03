@@ -35,11 +35,11 @@
 			// Define date range
 			DateTime startDate = DateTime.newInstance(2023, 2, 2, 17, 0, 0);
 			String formattedStartDate = startDate.formatGMT(
-				'yyyy-MM-dd\'T\'HH:mm:ss.SSS\'Z\''
+				BI_PSPB_InfoCenterConstantCtrl.dateFormat
 			);
 			DateTime endDate = DateTime.now();
 			String formattedEndDate = endDate.formatGMT(
-				'yyyy-MM-dd\'T\'HH:mm:ss.SSS\'Z\''
+				BI_PSPB_InfoCenterConstantCtrl.dateFormat
 			);
 
 			// Get the news content
@@ -164,12 +164,12 @@
 			//get the image content
 			DateTime startDate = DateTime.newInstance(2023, 10, 2, 17, 0, 0);
 			String formattedStartDate = startDate.formatGMT(
-				'yyyy-MM-dd\'T\'HH:mm:ss.SSS\'Z\''
+				BI_PSPB_InfoCenterConstantCtrl.dateFormat
 			);
 
 			DateTime endDate = DateTime.now();
 			String formattedEndDate = endDate.formatGMT(
-				'yyyy-MM-dd\'T\'HH:mm:ss.SSS\'Z\''
+				BI_PSPB_InfoCenterConstantCtrl.dateFormat
 			);
 			ConnectApi.ManagedContentVersionCollection obj = ConnectApi.ManagedContent.getAllContent(
 				channelId,

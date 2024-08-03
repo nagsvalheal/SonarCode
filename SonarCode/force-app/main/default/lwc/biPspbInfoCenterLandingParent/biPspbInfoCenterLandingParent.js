@@ -9,6 +9,10 @@ import LANDING_DESK_IMG from '@salesforce/resourceUrl/BI_PSPB_InfoLandingImg';
 import LANDING_MOB_IMG from '@salesforce/resourceUrl/BI_PSPB_InfoLandingMob';
 // To import Custom Labels
 import { LABELS } from 'c/biPspbLabelForInfoCenter';
+import PATIENT_TREATMENT_VIDEOS from '@salesforce/label/c.BI_PSPB_PatientTreatmentVideo';
+import ARTICLES from '@salesforce/label/c.BI_PSPB_Articles';
+import INFO_CENTER_LANDING_MESSAGE from '@salesforce/label/c.BI_PSPB_InfoCenterLandMessage';
+import INFO_CENTER_LANDING_DETAIL_MESSAGE from '@salesforce/label/c.BI_PSPB_InfoCenterLandDetailMessage';
 
 // To get Current UserId
 import ID from '@salesforce/user/Id';
@@ -30,6 +34,11 @@ export default class BiPspbInfoCenterLandingParent extends LightningElement {
 
 	renderedChildrenCount = 0;
     totalChildren = 4; // Total number of child components
+
+    articles = ARTICLES;
+	patientTreatmentVideos = PATIENT_TREATMENT_VIDEOS;
+	infoCenterLandingMessage = INFO_CENTER_LANDING_MESSAGE;
+	infoCenterLandingDetailMessage = INFO_CENTER_LANDING_DETAIL_MESSAGE;
 
     // Getter to check if all children have rendered
     get allChildrenRendered() {

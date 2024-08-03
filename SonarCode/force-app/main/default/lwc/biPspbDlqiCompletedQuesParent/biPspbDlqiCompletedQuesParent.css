@@ -155,7 +155,6 @@
 	}
 
 	.custom-box1 {
-		/* margin-left: 266px; */
 		width: 112%;
 	}
 
@@ -180,7 +179,6 @@
 
 	.custom-box1 {
 		width: 112%;
-		/* margin-left: 315px; */
 		margin-left: 5%;
 	}
 
@@ -200,9 +198,7 @@
 		overflow-x: hidden;
 	}
 
-	.custom-box2 {
-		/* margin-left: 40px; */
-	}
+	
 
 	.custom-box1 {
 		margin-left: 67px;
@@ -221,7 +217,7 @@
 	}
 
 	.custom-box2 {
-		/* margin-left: 40px; */
+		
 		right: 4%;
 	}
 
@@ -249,7 +245,7 @@
 	}
 
 	.custom-box2 {
-		/* margin-left: 40px; */
+		
 		right: 3%;
 	}
 }

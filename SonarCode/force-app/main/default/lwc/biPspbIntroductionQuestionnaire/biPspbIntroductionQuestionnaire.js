@@ -1751,35 +1751,31 @@ export default class BiPspbIntroductionQuestionnaire extends LightningElement {
 		} else {
 			document.body.style.overflow = '';
 		}
-        const allInputs = this.template.querySelectorAll('input[type="radio"]:checked');
-        const fifthQuestionChecked = this.template.querySelector('input[name="NinthQuestionResponse"]:checked');
-        const sixthQuestionChecked = this.template.querySelectorAll('input[name="tenthQuestionResponse"]:checked');
+		const allInputs = this.template.querySelectorAll('input[type="radio"]:checked');
+		const fifthQuestionChecked = this.template.querySelector('input[name="NinthQuestionResponse"]:checked');
+		const sixthQuestionChecked = this.template.querySelectorAll('input[name="tenthQuestionResponse"]:checked');
 
-        if (allInputs.length < 14) {
-			console.log('1 : ');
-            this.customFormModal = true;
-            this.isPopupOpenDraft = true;
-            this.isPopupOpen = false;
-            this.checkYesOrNo = false;
-        } else if (fifthQuestionChecked && fifthQuestionChecked.value === 'No') {
-				console.log('2 : ');
-            this.customFormModal = true;
-            this.isPopupOpenDraft = false;
-            this.isPopupOpen = true;
-            this.checkYesOrNo = false;
-        } else if (fifthQuestionChecked && fifthQuestionChecked.value === 'Yes' && sixthQuestionChecked.length === 0) {
-            	console.log('3 : ');
+		if (allInputs.length < 14) {
 			this.customFormModal = true;
-            this.isPopupOpenDraft = true;
-            this.isPopupOpen = false;
-            this.checkYesOrNo = false;
-        } else {
-				console.log('4 : ');
-            this.customFormModal = true;
-            this.isPopupOpenDraft = false;
-            this.isPopupOpen = true;
-            this.checkYesOrNo = false;
-        }
+			this.isPopupOpenDraft = true;
+			this.isPopupOpen = false;
+			this.checkYesOrNo = false;
+		} else if (fifthQuestionChecked && fifthQuestionChecked.value === 'No') {
+			this.customFormModal = true;
+			this.isPopupOpenDraft = false;
+			this.isPopupOpen = true;
+			this.checkYesOrNo = false;
+		} else if (fifthQuestionChecked && fifthQuestionChecked.value === 'Yes' && sixthQuestionChecked.length === 0) {
+			this.customFormModal = true;
+			this.isPopupOpenDraft = true;
+			this.isPopupOpen = false;
+			this.checkYesOrNo = false;
+		} else {
+			this.customFormModal = true;
+			this.isPopupOpenDraft = false;
+			this.isPopupOpen = true;
+			this.checkYesOrNo = false;
+		}
 	}
 
 	//hiding the popup

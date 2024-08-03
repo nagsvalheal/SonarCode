@@ -9,6 +9,7 @@ import GET_LOGGEDIN_USER_ACCOUNT from '@salesforce/apex/BI_PSP_CurrentUser.getEn
 import DEFAULT_IMG from '@salesforce/resourceUrl/BI_PSPB_ProfileAvatar';
 // To import Custom Labels
 import { LABELS } from 'c/biPspbLabelForInfoCenter';
+import ARTICLE_SEARCH_AVATAR_MESSAGE from '@salesforce/label/c.BI_PSPB_ArticleSearchAvatarMessage';
 
 // To get Current UserId
 import ID from '@salesforce/user/Id';
@@ -25,7 +26,7 @@ export default class BiPspbArticleSearchAvatar extends LightningElement {
 	userAccounts;
 	cardImage = '';
 	acuteMessage = 'This is your information center. Find all the information you need to understand GPP. Learn the tips and tricks to better...';
-
+	articleSearchAvatarMessage = ARTICLE_SEARCH_AVATAR_MESSAGE;
 	// Method to display message for mobile
 	displayMessage() {
 		this.acuteMessage = 'This is your information center. Find all the information you need to understand GPP. Learn the tips and tricks to better...';

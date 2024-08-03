@@ -52,7 +52,7 @@ public static void mulitipleDraftRecordsInsertion(
             createNewAssessment(darftQuestionIds, draftResponseTexts, enrolleeId, isItDraftOrSubmit, isQsqAfterTwoMonths);
         }
     } catch (Exception ex) {
-        BI_PSP_LogMessagesUtility.exceptionLogMessage('', BI_PSP_AssessmentCtrl.class.toString(), ex);
+        BI_PSP_LogMessagesUtility.exceptionLogMessage(BI_PSP_QuestionnaireConstant.falseParemeter, BI_PSP_AssessmentCtrl.class.toString(), ex);
     }
 }
     

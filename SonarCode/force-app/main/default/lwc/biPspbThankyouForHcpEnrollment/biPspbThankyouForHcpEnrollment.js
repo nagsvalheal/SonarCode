@@ -16,6 +16,24 @@ import { resource } from "c/biPspbEnrollmentFormResource";
 export default class BiPspbThankyouForHcpEnrollment extends LightningElement {
 	//Proper naming conventions with camel case for all the variable will be followed in the future releases
 	// Declaration of variables with  
+thanks = resource.THANKS_ENROLL;
+yourPatient = resource.YOUR_PATIENT;
+enrollHead = resource.ENROLL_SUMMARY;
+nameColan = resource.NAME_COLAN;
+dobColan = resource.DOB_COLAN;
+emailColan = resource.EMAIL_COLAN;
+phoneColan = resource.PHONE_COLAN;
+prescriptionInfo = resource.PRESCRIPTION_INFO;
+productColan = resource.PRODUCT_COLAN;
+productCodeColan = resource.PRODUCT_CODE_COLAN;
+prescriptedColan = resource.PRESCRIPTED_COLAN;
+dosageColan = resource.DOSAGE_COLAN;
+frequencyColan = resource.FREQUENCY_COLAN;
+refilsColan = resource.REFILS_COLAN;
+quentityColan = resource.QUANTITY_COLAN;
+relationColan = resource.RELATION_COLAN;
+patientinfo = resource.PATIENT_INFO ;
+caregiverInfo = resource.CAREGIVER_INFO;
 	age = false;
 	recordDetails;
 	caregiver;
@@ -144,7 +162,7 @@ export default class BiPspbThankyouForHcpEnrollment extends LightningElement {
 	}
 	//This ShowToast Message is used For Error
 	showToast(title, message, variant) {
-		if (typeof window !== 'undefined') {
+		if (typeof window !== resource.UNDIFINED) {
 			const event = new ShowToastEvent({
 				title: title,
 				message: message,

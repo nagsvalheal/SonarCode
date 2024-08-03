@@ -9,7 +9,11 @@
 // *********************************************************
 import { LightningElement } from "lwc";
 import { resource } from "c/biPspbEnrollmentFormResource";
+
+
+
 export default class BiPspbPatientSummaryParent extends LightningElement {
+    congratulation = resource.CONGRATULATION;
     beyandGpp = resource.BGPP;
     footerSrc = resource.BIFOOTER_LOGO_JPEG_URL;
     logoSrc = resource.SPEVIGO_LOGO_JPEG_URL;

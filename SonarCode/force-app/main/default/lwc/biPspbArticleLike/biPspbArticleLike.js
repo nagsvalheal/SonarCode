@@ -11,6 +11,8 @@ import THUMBS_UP_ICON from '@salesforce/resourceUrl/BI_PSP_ThumbsUpIcon';
 import THUMBS_RESPONSE from '@salesforce/resourceUrl/BI_PSP_ThumbsResponse';
 // To import Custom Labels
 import { LABELS } from 'c/biPspbLabelForInfoCenter';
+import ARTICLE_LIKE_QUESTION from '@salesforce/label/c.BI_PSPB_ArticleLikeQuestion';
+
 // To get Current UserId
 import ID from '@salesforce/user/Id';
 
@@ -22,6 +24,7 @@ export default class BiPspbArticleLike extends LightningElement {
 	articleTitle = '';
 	userId = ID;
 	showSpinner = false;
+	artlicleLikeQuestion  = ARTICLE_LIKE_QUESTION;
 
 
 	// To change the response to like and dislike

@@ -192,59 +192,84 @@ public with sharing class BI_PSP_AssessmentCtrl {
      * assessment type.
      */
     //Questionnaires
-    @AuraEnabled(cacheable=true)
-    public static List<Integer> getCompletedAssessmentCountsByCurrentUserName() {
-        try {
-            enrolleeId = BI_PSP_CurrentUser.getEnrolleeRecords()[0].Id;
-            // USER_MODE is not used because Assessment is an Salesforce Industry
-            //object using Healthcare license.
-            if (enrolleeId != null && !String.isBlank(enrolleeId)) {
-                assessments = [
-                    SELECT
-                        Id,
-                        Name,
-                        AssessmentStatus,
-                        EffectiveDateTime,
-                        ExpirationDateTime
-                    FROM Assessment
-                    WHERE
-                        BI_PSP_CareProgramEnrollee__c = :enrolleeId
-                        AND AssessmentStatus = :BI_PSP_QuestionnaireConstant.completed
-                ];
-            } else {
-                BI_PSP_LogMessagesUtility.logError(BI_PSP_QuestionnaireConstant.emptyEnrolleRecrd, BI_PSP_AssessmentCtrl.class.toString(), true, BI_PSP_QuestionnaireConstant.LOG_SEVERITY_ERROR);
-
-            }
-            Map<String, Integer> assessmentCountMap = new Map<String, Integer>{
-                'Work & Activity Impairment (WPAI)' => 0,
-                'Psoriasis Symptom Scale (PSS)' => 0,
-                'Dermatology Life Quality Index (DLQI)' => 0,
-                'Qualitative satisfaction questionnaire' => 0
-            };
-            if (!assessments.isEmpty()) {
-                for (Assessment ass : assessments) {
-                    if (assessmentCountMap.containsKey(ass.Name)) {
-                        assessmentCountMap.put(
-                            ass.Name,
-                            assessmentCountMap.get(ass.Name) + 1
-                        );
-                    }
-                }
-            } else {
-                BI_PSP_LogMessagesUtility.logError(BI_PSP_QuestionnaireConstant.emptyAssesment, BI_PSP_AssessmentCtrl.class.toString(), false, BI_PSP_QuestionnaireConstant.LOG_SEVERITY_ERROR);
-            }
-
-            // Convert the map values to a list
-            assessmentCounts = new List<Integer>(assessmentCountMap.values());
-            if (assessmentCounts.isEmpty()) {
-                BI_PSP_LogMessagesUtility.logError(BI_PSP_QuestionnaireConstant.emptyAssesment, BI_PSP_AssessmentCtrl.class.toString(), true, BI_PSP_QuestionnaireConstant.LOG_SEVERITY_ERROR);
-
-            }
-        } catch (Exception ex) {
-          BI_PSP_LogMessagesUtility.exceptionLogMessage(BI_PSP_QuestionnaireConstant.emptyAssesment, BI_PSP_AssessmentCtrl.class.toString(), ex);
+   @AuraEnabled(cacheable=true)
+public static List<Integer> getCompletedAssessmentCountsByCurrentUserName() {
+    List<Integer> assessmentCounts = new List<Integer>();
+    try {
+        // Get the enrollee ID
+        String enrolleeId = BI_PSP_CurrentUser.getEnrolleeRecords()[0].Id;
+        
+        // Define fields and conditions for the query
+        String fields = 'Id, Name, AssessmentStatus, EffectiveDateTime, ExpirationDateTime';
+        String conditions = 'BI_PSP_CareProgramEnrollee__c = \'' + enrolleeId + 
+                            '\' AND AssessmentStatus = \'' + BI_PSP_QuestionnaireConstant.completed + '\'';
+        
+        List<SObject> assessments = BI_PSP_CommonQueryUtility.executeQuery(
+            'Assessment',
+            fields,
+            conditions,
+            false // Assuming USER_MODE is not needed for this query
+        );
+        
+        if (enrolleeId == null || String.isBlank(enrolleeId)) {
+            BI_PSP_LogMessagesUtility.logError(
+                BI_PSP_QuestionnaireConstant.emptyEnrolleRecrd, 
+                BI_PSP_AssessmentCtrl.class.toString(), 
+                true, 
+                BI_PSP_QuestionnaireConstant.LOG_SEVERITY_ERROR
+            );
         }
-        return assessmentCounts;
+        
+        // Initialize the assessment count map
+        Map<String, Integer> assessmentCountMap = new Map<String, Integer>{
+            'Work & Activity Impairment (WPAI)' => 0,
+            'Psoriasis Symptom Scale (PSS)' => 0,
+            'Dermatology Life Quality Index (DLQI)' => 0,
+            'Qualitative satisfaction questionnaire' => 0
+        };
+        
+        // Process the query results
+        if (!assessments.isEmpty()) {
+            for (SObject obj : assessments) {
+                Assessment ass = (Assessment)obj;
+                if (assessmentCountMap.containsKey(ass.Name)) {
+                    assessmentCountMap.put(
+                        ass.Name,
+                        assessmentCountMap.get(ass.Name) + 1
+                    );
+                }
+            }
+        } else {
+            BI_PSP_LogMessagesUtility.logError(
+                BI_PSP_QuestionnaireConstant.emptyAssesment, 
+                BI_PSP_AssessmentCtrl.class.toString(), 
+                false, 
+                BI_PSP_QuestionnaireConstant.LOG_SEVERITY_ERROR
+            );
+        }
+        
+        // Convert the map values to a list
+        assessmentCounts = new List<Integer>(assessmentCountMap.values());
+        if (assessmentCounts.isEmpty()) {
+            BI_PSP_LogMessagesUtility.logError(
+                BI_PSP_QuestionnaireConstant.emptyAssesment, 
+                BI_PSP_AssessmentCtrl.class.toString(), 
+                true, 
+                BI_PSP_QuestionnaireConstant.LOG_SEVERITY_ERROR
+            );
+        }
+    } catch (Exception ex) {
+        // Log the exception
+        BI_PSP_LogMessagesUtility.exceptionLogMessage(
+            BI_PSP_QuestionnaireConstant.emptyAssesment, 
+            BI_PSP_AssessmentCtrl.class.toString(), 
+            ex
+        );
+        throw new AuraHandledException('An error occurred while retrieving completed assessment counts: ' + ex.getMessage());
     }
+    return assessmentCounts;
+}
+
 
     /**
      * @Description Retrieves the rollout dates of questionnaires for the current user's care program enrollee.
@@ -263,16 +288,18 @@ public with sharing class BI_PSP_AssessmentCtrl {
           if (enrolleeId != null && !String.isBlank(enrolleeId)) {
                 /*USER_MODE is not used because we have populated a lookup field thats related to CareProgramEnrollee
                  * which is a Salesforce Industry object using Healthcare license.*/
-                questionnairesDate = [
-                    SELECT
-                        Id,
-                        Name,
-                        BI_PSP_DLQI_RollOutDate__c,
-                        BI_PSP_PSS_RollOutDate__c,
-                        BI_PSP_WAI_RollOutDate__c
-                    FROM BI_PSP_Questionnaire_Setups__c
-                    WHERE BI_PSP_CareProgramEnrollee__c = :enrolleeId
-                ];
+                // Define the fields and conditions for the query
+            String fields = 'Id, Name, BI_PSP_DLQI_RollOutDate__c, BI_PSP_PSS_RollOutDate__c, BI_PSP_WAI_RollOutDate__c';
+            String conditions = 'BI_PSP_CareProgramEnrollee__c = \'' + enrolleeId + '\'';
+            
+            // Execute the query using the common utility
+            questionnairesDate = (List<BI_PSP_Questionnaire_Setups__c>) BI_PSP_CommonQueryUtility.executeQuery(
+                'BI_PSP_Questionnaire_Setups__c', 
+                fields, 
+                conditions, 
+                false // Assuming USER_MODE is not needed for this query
+            );
+
             }
             if (questionnairesDate.isEmpty()) {
                  BI_PSP_LogMessagesUtility.logError(BI_PSP_QuestionnaireConstant.rolloutDateErrorMessage, BI_PSP_AssessmentCtrl.class.toString(), false, BI_PSP_QuestionnaireConstant.LOG_SEVERITY_ERROR);

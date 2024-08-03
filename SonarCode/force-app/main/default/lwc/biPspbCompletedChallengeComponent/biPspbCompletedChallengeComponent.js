@@ -23,6 +23,8 @@ export default class BiPspbCompletedChallengeComponent extends LightningElement 
 	unAssignedUrl = resources.UNASSIGNED_URL;
 	brandedNaviUrl = resources.BR_SITE_URL;
 	unAssignedNaviUrl = resources.UN_ASSIGNED_URL_NAVI;
+	beingActive = resources.BEING_ACTIVE;
+	linkArticle =resources.LINKARTICLE;
 	Title;
 	Description;
 	RewardPoints;

@@ -10,8 +10,8 @@
       <div class="toastmsg">
         <img src={tickIcon} class="imgsize" />
         &nbsp;&nbsp;&nbsp;&nbsp;
-        <p if:true={showToastForFollowing} class="flwtoastmsg">You started following {selectedUser}.</p>
-        <p if:true={showToastForUnfollow} class="flwtoastmsg">You unfollowed {selectedUser} successfully.</p>
+        <p if:true={showToastForFollowing} class="flwtoastmsg">{followingToastContent} {selectedUser}.</p>
+        <p if:true={showToastForUnfollow} class="flwtoastmsg">{unFollowingToastContent} {selectedUser} {unFollowingPartToastContent}</p>
       </div>
     </template>
   </div>
@@ -22,9 +22,7 @@
       <div class="avatarcontentno">
         <div>
           <p class="avatarcontentdis">
-            This is the patient community forum! Create posts, react and
-            comment, connect with others and build a supportive community in
-            your health journey.
+            {avatarContent}
           </p>
         </div>
       </div>
@@ -44,7 +42,7 @@
         <img src={tickIcon} class="tickimage" />
         <div class="classflex">
           <div>
-            <p class="para1">You started following {selectedUser}.</p>
+            <p class="para1">{followingToastContent} {selectedUser}.</p>
           </div>
           <div></div>
         </div>
@@ -58,13 +56,13 @@
       <div class="toastmsgforMbl">
         <img src={tickIcon} class="tickimage" />
         <div class="classflex">
-          <p class="para">You unfollowed {selectedUser} successfully.</p>
+          <p class="para">{unFollowingToastContent} {selectedUser} {unFollowingPartToastContent}</p>
         </div>
       </div>
     </template>
     <!-- right side content -->
     <div class="rightSide">
-      <p class="title" data-scroll-target>My Followers ({numberOfFollowers})</p>
+      <p class="title" data-scroll-target>{myFollowersLabel} ({numberOfFollowers})</p>
       <!-- Total followers count -->
       <!-- display this content if there are Followers list for the logged user -->
       <template if:true={followersCount}>
@@ -116,8 +114,7 @@
         <div class="widthformbl">
           <img src={allpostImg} class="postimage" />
           <p class="text">
-            No followers yet! Create engaging posts with the community. The more
-            you share, the more likely people are to find you and connect.
+            {noFollowersContent}
           </p>
           <br />
         </div>
@@ -127,7 +124,7 @@
         <template if:true={followPopup}>
           <div class="back">
             <div class="popup-container">
-              <p class="profile">Profile</p>
+              <p class="profile">{profileLabel}</p>
               <button
                 onclick={closePopup}
                 class="times"
@@ -144,7 +141,7 @@
                 onclick={handleFollowPopupButtonClick}
                 data-it-button="MyFollowers:  Follow "
               >
-                Follow
+              {followLabel}
               </button>
             </div>
           </div>
@@ -161,28 +158,26 @@
             >
               X
             </button>
-            <p class="popuptitle">Follow User?<br /></p>
+            <p class="popuptitle">{followUserText}?<br /></p>
             <p class="popupcontent">
-              Are you sure you want to follow {selectedUser}?<br /><br />
+              {followPopupHeading} {selectedUser}?<br /><br />
             </p>
             <p class="contentonly">
-              You'll now receive notifications whenever this user creates a
-              <br />new post. You can always change your notification
-              preferences in your profile settings.
+              {followPopupContent}
             </p>
             <button
               class="followno"
               onclick={closePopup}
               data-it-button="MyFollowers: Follow - No "
             >
-              No
+              {no}
             </button>
             <button
               class="followyes"
               onclick={handleFollowConfirmation}
               data-it-button="MyFollowers: Follow - Yes "
             >
-              Yes
+              {yes}
             </button>
           </div>
         </div>
@@ -192,7 +187,7 @@
         <template if:true={followingPopup}>
           <div class="back">
             <div class="popup-container">
-              <p class="profile">Profile</p>
+              <p class="profile">{profileLabel}</p>
               <button
                 onclick={closePopup}
                 class="times"
@@ -213,7 +208,7 @@
                 onclick={handleFollowingPopupButtonClick}
                 data-it-button="MyFollowers: Following"
               >
-                Following
+                {followingLabel}
               </button>
             </div>
           </div>
@@ -230,27 +225,26 @@
             >
               X
             </button>
-            <p class="popuptitle second">Unfollow User?<br /></p>
+            <p class="popuptitle second">{unFollowUserText}?<br /></p>
             <p class="popupcontent">
-              Are you sure you want to unfollow {selectedUser}?<br /><br />
+            {unFollowPopupHeading} {selectedUser}?<br /><br />
             </p>
             <p class="contentonly">
-              You'll no longer receive notifications whenever this user creates
-              a new post.
+              {unFollowPopupContent}
             </p>
             <button
               class="followno1"
               onclick={closePopup}
               data-it-button="MyFollowers: Unfollow No "
             >
-              No
+              {no}
             </button>
             <button
               class="followyes1"
               onclick={handleUnFollowConfirmation}
               data-it-button="MyFollowers: Unfollow Yes "
             >
-              Yes
+              {yes}
             </button>
           </div>
         </div>

@@ -8,8 +8,10 @@
 */
 public with sharing class BI_PSPB_SmsAndEmailNotificationHelper { 
 	/**
-	 * @description  Used to create task when a video is uploaded and calling the
-	 * method to send sms and email.
+	 * @description  Retrieves treatment reminders based on the given criteria.
+	 * @param notificationTypes The ID of the record related to the treatment reminders.
+	 * @param communityUserName The type of reminder to filter by.
+	 * @return A list of BI_PSPB_Treatment_Reminder__c objects that match the criteria.
 	 */
 	public static BI_PSPB_SmsAndEmailNotificationDetails getNotificationDetails( // NOPMD
 		String notificationTypes,
@@ -187,8 +189,11 @@ public with sharing class BI_PSPB_SmsAndEmailNotificationHelper {
 	}
 
 	/**
-	 * @description  Used to create task when a video is uploaded and calling the
-	 * method to send sms and email.
+	 * @description  Retrieves treatment reminders based on the given criteria.
+	 * @param accountToNotificationsMap The ID of the record related to the treatment reminders.
+	 * @param enrollees The type of reminder to filter by.
+	 * @param emailList The type of reminder to filter by.
+	 * @param smsList The type of reminder to filter by.
 	 */
 	public static void addContactsToSend(
 		Map<Id, List<BI_PSP_Notification_Setting__c>> accountToNotificationsMap,
@@ -213,7 +218,6 @@ public with sharing class BI_PSPB_SmsAndEmailNotificationHelper {
 				}
 				careids.add(enrollee.Id);
 			}
-            System.debug('careids ' + careids);
 
 			// Formulate SOQL query conditions
 			String fields = 'Id, BI_PSPB_Care_Program_Enrollee__c, BI_PSPB_Patient__r.BI_PSP_Birthdate__c, BI_PSPB_Patient__r.PersonContactId, BI_PSPB_Caregiver__r.PersonContactId';
@@ -265,8 +269,11 @@ public with sharing class BI_PSPB_SmsAndEmailNotificationHelper {
 	}
 
 	/**
-	 * @description  Used to create task when a video is uploaded and calling the
-	 * method to send sms and email.
+	 * @description  Retrieves treatment reminders based on the given criteria.
+	 * @param notifications The ID of the record related to the treatment reminders.
+	 * @param personContactId The type of reminder to filter by.
+	 * @param emailList The type of reminder to filter by.
+	 * @param smsList The type of reminder to filter by.
 	 */
 	private static void processNotifications(
 		List<BI_PSP_Notification_Setting__c> notifications,
@@ -297,8 +304,9 @@ public with sharing class BI_PSPB_SmsAndEmailNotificationHelper {
 	}
 
 	/**
-	 * @description  Used to create task when a video is uploaded and calling the
-	 * method to send sms and email.
+	 * @description  Retrieves treatment reminders based on the given criteria.
+	 * @param notificationDetails The ID of the record related to the treatment reminders.
+	 * @return A list of BI_PSPB_Treatment_Reminder__c objects that match the criteria.
 	 */
 	public static String getNotificationUrl(
 		BI_PSPB_SmsAndEmailNotificationDetails notificationDetails

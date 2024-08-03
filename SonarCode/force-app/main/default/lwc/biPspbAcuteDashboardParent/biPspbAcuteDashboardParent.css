@@ -209,7 +209,7 @@
 	gap: 10px;
 }
 
-/*--CSS Media Queries---*/
+/* CSS Media Queries */
 @media only screen and (max-width: 400px) {
 	.widgetremin {
 		margin-left: 0px;
@@ -474,7 +474,6 @@
 	.board {
 		position: relative;
 		bottom: 0px;
-		/* left: 3%; */
 
 	}
 

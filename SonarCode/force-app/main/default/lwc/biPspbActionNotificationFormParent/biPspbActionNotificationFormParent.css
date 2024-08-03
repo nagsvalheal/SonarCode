@@ -6,6 +6,11 @@
 	top: 3px;
 }
 
+.noButton{
+	background: none;
+    border: none;
+}
+
 .displayHeader {
 	display: flex;
 	justify-content: end;

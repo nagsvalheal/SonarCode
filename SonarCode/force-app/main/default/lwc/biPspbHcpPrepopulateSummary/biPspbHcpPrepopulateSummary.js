@@ -6,8 +6,19 @@ import LEAD_GET from '@salesforce/apex/BI_PSPB_ThankyouPageUtilites.getExistingL
 import CAREGIVER_GET from '@salesforce/apex/BI_PSPB_EnrollmentUtilities.getHcpDetails';
 // Imports showToastEvent to display notification messages, informing users about component actions or events.
 import { resource } from "c/biPspbEnrollmentFormResource";
-export default class BiPspbHcpPrepopulateSummary extends LightningElement {
 
+export default class BiPspbHcpPrepopulateSummary extends LightningElement {
+	toActive = resource.TO_ACTIVE;
+	enrollThank = resource.ENROLL_THANK;
+	addressColan = resource.ADRRESS_COLAN;
+enrollHead = resource.ENROLL_SUMMARY;
+nameColan = resource.NAME_COLAN;
+dobColan = resource.DOB_COLAN;
+emailColan = resource.EMAIL_COLAN;
+phoneColan = resource.PHONE_COLAN;
+prescriptionInfo = resource.PRESCRIPTION_INFO;
+patientinfo = resource.PATIENT_INFO ;
+physicianInfo = resource.PHYSICIAN_INFO ;
 	age = true;
 	recordDetails;
 	caregiver;

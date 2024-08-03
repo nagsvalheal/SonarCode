@@ -4,7 +4,7 @@
 
 		<template if:true={showDiv}>
 			<div class="toast">
-				<p class="para"><img class="img4" src={rightimg}>&nbsp;&nbsp;{almostThere}</p>
+				<p class="para"><img class="TicImage" src={rightimg} alt="Tic Icon">&nbsp;&nbsp;{almostThere}</p>
 				<div class="notify">
 					<button class="buttonclass btncls" title="Close" onclick={handleclose}>
 						&times;
@@ -14,7 +14,7 @@
 		</template>
 		<template if:true={updatePopup}>
 			<div class="toast">
-				<p class="para"><img class="img4" src={rightimg}>&nbsp;&nbsp;{updatePatientInfo}
+				<p class="para"><img class="TicImage" src={rightimg} alt="Tic Icon">&nbsp;&nbsp;{updatePatientInfo}
 				</p>
 				<div class="notify">
 					<button class="buttonclass btncls" title="Close" onclick={handleclose}>
@@ -25,7 +25,7 @@
 		</template>
 		<template if:true={showDiv1}>
 			<div class="toast">
-				<p class="para"><img class="img4" src={rightimg}>&nbsp;&nbsp;{deleteAccount}</p>
+				<p class="para"><img class="TicImage" src={rightimg} alt="Tic Icon">&nbsp;&nbsp;{deleteAccount}</p>
 				<div class="notify">
 					<button class="buttonclass btncls" title="Close" onclick={handleclose}>
 						&times;
@@ -83,13 +83,13 @@
 								<label for="FirstName" data-field="FirstName" class="input-label">{firstnamelabel}</label>
 								<lightning-input class="textInput" field-name="FirstName" data-field="FirstName"
 									value={patientFirstName} disabled={isFirstNameDisabled}
-									onchange={handleFieldChange} placeholder="Enter First Name" variant="label-hidden"  maxlength="35">
+									onchange={handleFieldChange} placeholder={enterFirstName} variant="label-hidden"  maxlength="35">
 								</lightning-input>
 								<span class="slds-form-element__help" if:true={firstNameErrorMessage}>
-									<img class="css" src={Warningicon}>{firstNameError}
+									<img class="css" src={Warningicon} alt="warning Icon">{firstNameError}
 								</span>
 								<div class="slds-form-element__help" if:true={firstNameErrorMessageValid}>
-									<img class="css" src={Warningicon} width="12px" height="12px">
+									<img class="css" src={Warningicon} alt="warning Icon" width="12px" height="12px">
 									<span class="slds-form-element__helps">{validateFirstNameError}</span>
 								</div>
 							</div>
@@ -103,13 +103,13 @@
 						<lightning-input field-name="LastName" data-field="LastName" 
 							value={patientLastName} id="LastName" variant="label-hidden" class="textInput"
 							onchange={handlelastname}  disabled={isLastNameDisabled}
-							placeholder="Enter Last Name"  maxlength="60"></lightning-input>
+							placeholder={enterLastName} maxlength="60"></lightning-input>
 						<span class="slds-form-element__help" if:true={lastNameErrorMessage}>
-							<img class="css" src={Warningicon}>
+							<img class="css" src={Warningicon} alt="warning Icon">
 							{lastNameError}
 						</span>
 						<div class="slds-form-element__help" if:true={lastNameErrorMessageValid}>
-							<img class="css" src={Warningicon} width="12px" height="12px">
+							<img class="css" src={Warningicon} alt="warning Icon" width="12px" height="12px">
 							<span class="slds-form-element__helps">{validateLastNameError}</span>
 						</div>
 					</div>
@@ -118,28 +118,28 @@
 						<label for="Birthdate" data-field="Birthdate" class="input-label">{dobLabel}</label>
 						<lightning-input field-name="BI_PSP_Birthdate__c" label="Date of Birth" type="date"
 							onchange={agecalculationEvent} onkeydown={handleKeyDownThree} value={patientDOB} data-field="Birthdate" class="textInput"
-							disabled={isDOBDisabled} variant="label-hidden" placeholder="DD.MM.YYYY" date-style="short"></lightning-input>
-						<span if:true={minorError} class="slds-form-element__help"><img class="css" src={Warningicon}>{minorMsg}</span>
-						<span if:true={minorErrorTwo} class="slds-form-element__help"><img class="css" src={Warningicon}>{aboveError}</span>
-						<span if:true={minorErrorThree} class="slds-form-element__help"><img class="css" src={Warningicon}>{futureError}</span>
+							disabled={isDOBDisabled} variant="label-hidden" placeholder={enterDob} date-style="short"></lightning-input>
+						<span if:true={minorError} class="slds-form-element__help"><img class="css" src={Warningicon} alt="warning Icon">{minorMsg}</span>
+						<span if:true={minorErrorTwo} class="slds-form-element__help"><img class="css" src={Warningicon} alt="warning Icon">{aboveError}</span>
+						<span if:true={minorErrorThree} class="slds-form-element__help"><img class="css" src={Warningicon} alt="warning Icon">{futureError}</span>
 						<!-- <span if:true={dobErrorMessage} class="slds-form-element__help">
 
 							<img src={Warningicon}> {label.DOB}
 						</span> -->
 						<span if:true={dobrequired} class="slds-form-element__help">
 							
-							<img src={Warningicon}> {dateError}
+							<img src={Warningicon} alt="warning Icon"> {dateError}
 						</span>
 					</div>
 
 					<div class="input-div">
 						<label class="input-label " data-field="relationship">{genderLabel}</label>
-						<lightning-combobox label="Relationship" name="CaregiverRelationship" placeholder="Select"
+						<lightning-combobox label="Relationship" name="CaregiverRelationship" placeholder={select}
 							data-field="relationship" value={relations} options={leadPmc} onchange={relationshipEvent}
 							disabled={isGenderDisabled} class="textInput" variant="label-hidden">
 						</lightning-combobox>
 						<div class="slds-form-element__help" if:true={relationshipErrorMessage}>
-							<img class="css" src={Warningicon}>
+							<img class="css" src={Warningicon} alt="warning Icon">
 							<span class="slds-form-element__helps">{genderError}</span>
 						</div>
 					</div>
@@ -156,7 +156,7 @@
 										data-field="email" value={patientEmail} onchange={handle_Email} disabled=false>
 									</lightning-input></span>
 								<div class="slds-form-element__help" if:true={emailErrorMessage}><img class="css"
-										src={Warningicon}>{emailError}</div>
+										src={Warningicon} alt="warning Icon">{emailError}</div>
 
 							</div>
 							<div class="input-div">
@@ -165,11 +165,11 @@
 										data-field="phone" maxlength="16" onkeydown={handleKeyDown}
 										onkeypress={validatePhoneInput} value={patientMobilePhone}
 										onchange={handleFielphone} onpaste={handlePaste} disabled={isMobilePhoneDisabled}
-										placeholder="Enter Phone Number"></lightning-input></span>
+										placeholder={enterPhone}></lightning-input></span>
 								<div class="slds-form-element__help" if:true={phoneErrorMessage}><img class="css"
-										src={Warningicon}>{phoneError}</div>
+										src={Warningicon} alt="warning Icon">{phoneError}</div>
 								<div class="slds-form-element__help" if:true={MobileErrorMessage}><img class="css"
-										src={Warningicon}>{mobileError}</div>
+										src={Warningicon} alt="warning Icon">{mobileError}</div>
 
 							</div>
 
@@ -178,11 +178,11 @@
 								<lightning-combobox options={preffer} value={preferredCommunication}
 									onchange={handlePmcChange} variant="label-hidden" class="textInput"
 									data-field="conPmc" disabled={isPOMDisabled}
-									placeholder="Select"></lightning-combobox>
+									placeholder={select}></lightning-combobox>
 								<div class="slds-form-element__help" if:true={conPmcErrorMessage}>
 
 									<span class="slds-form-element__help">
-										<img class="css" src={Warningicon}> {preferredMode}
+										<img class="css" src={Warningicon} alt="warning Icon"> {preferredMode}
 									</span>
 								</div>
 							</div>
@@ -197,21 +197,21 @@
 						<div class="input-div">
 							<label data-field="country" class="input-label">{countryLabel}</label>
 							<lightning-combobox class="textInput" name="Country" label="Country" data-field="country"
-								value={country} placeholder="Select Country Name" variant="label-hidden"
+								value={country} placeholder={enterCountry} variant="label-hidden"
 								options={countryCode} onchange={handleFielcountry} disabled={isMaillingCountryDisabled}>
 							</lightning-combobox>
 							<div class="slds-form-element__help" if:true={countryCodeMessage}>
-								<img class="css" src={Warningicon}>{countryError}
+								<img class="css" src={Warningicon} alt="warning Icon">{countryError}
 							</div>
 						</div>
 						<div class="input-div">
 							<label data-field="state" class="input-label">{stateLabel}</label>
 							<lightning-combobox class="textInput" name="Country" label="Country" data-field="state"
-								value={state} placeholder="Select State Name" variant="label-hidden" options={StateCode}
+								value={state} placeholder={enterState} variant="label-hidden" options={StateCode}
 								onchange={handleFieldstate} disabled={isMaillingStateDisabled}>
 							</lightning-combobox>
 							<div class="slds-form-element__help" if:true={stateCodeMessage}>
-								<img class="css" src={Warningicon}>{stateError}
+								<img class="css" src={Warningicon} alt="warning Icon">{stateError}
 							</div>
 						</div>
 
@@ -220,12 +220,12 @@
 							<label for="c" data-field="city" class="input-label">{citylabel}</label>
 							<span><lightning-input class="textInput" variant="label-hidden"
 									field-name="PersonMailingCity" data-field="city" value={patientCity}
-									onchange={handleFieldCity}  maxlength="35" disabled={isMaillingCityDisabled} placeholder="Enter City Name"> </lightning-input>
+									onchange={handleFieldCity}  maxlength="35" disabled={isMaillingCityDisabled} placeholder={enterCity}> </lightning-input>
 							</span>
 							<div class="slds-form-element__help" if:true={cityMessage}><img class="css"
-									src={Warningicon}>{cityError}</div>
+									src={Warningicon} alt="warning Icon">{cityError}</div>
 									<div class="slds-form-element__help" if:true={RpCityErrorMessageValid}>
-										<img class="css" src={Warningicon} width="12px" height="12px">
+										<img class="css" src={Warningicon} alt="warning Icon" width="12px" height="12px">
 										<span class="slds-form-element__helps">{validCity}</span>
 									</div>
 									
@@ -235,21 +235,21 @@
 							<label for="s" data-field="street" class="input-label">{streetAddress}</label>
 							<span><lightning-input class="textInput" variant="label-hidden"
 									field-name="PersonMailingStreet" data-field="street" value={patientStreet}
-									onchange={handleFieldstreet} disabled={isMaillingStreetDisabled} placeholder="Enter Address">
+									onchange={handleFieldstreet} disabled={isMaillingStreetDisabled} placeholder={enterStreet}>
 								</lightning-input></span>
 							<div class="slds-form-element__help" if:true={streetMessage}><img class="css"
-									src={Warningicon}>{streetError}</div>
+									src={Warningicon} alt="warning Icon">{streetError}</div>
 						</div>
 						<div class="input-div">
 							<label for="pc" data-field="zipcode" class="input-label">{zipcodeLabel}</label>
 							<span><lightning-input class="textInput" variant="label-hidden"
 									field-name="PersonMailingPostalCode" data-field="zipcode" value={patientZipCode}
-									onchange={handleFieldcode} placeholder="Enter Zip Code" disabled={isMaillingPostalcodeDisabled}>
+									onchange={handleFieldcode} placeholder={enterZipcode} disabled={isMaillingPostalcodeDisabled}>
 								</lightning-input></span>
 							<div class="slds-form-element__help" if:true={postalCodeMessage}><img class="css"
-									src={Warningicon}>{pincodeError}</div>
+									src={Warningicon} alt="warning Icon">{pincodeError}</div>
 							<div class="slds-form-element__help" if:true={ZipErrorMessagevalid}>
-								<img class="css" src={Warningicon} width="12px" height="12px">
+								<img class="css" src={Warningicon} alt="warning Icon" width="12px" height="12px">
 								<span class="slds-form-element__helps">{validError}</span>
 							</div>
 						</div>
@@ -274,7 +274,7 @@
 						<b>{deleteAccountLabel}</b>
 					</div>
 					<div class="message" if:true={DeleteMessage}>
-						<img src={boxedIcon} class="boxedimg">
+						<img src={boxedIcon} alt="warning Icon" class="boxedimg">
 						<p>{deleteRequest}</p>
 
 					</div>
@@ -287,7 +287,7 @@
 					<div class="msg"><b>{personalInfo}</b>
 					</div>
 					<div class="message" if:true={accessMessage}>
-						<img src={boxedIcon} class="boxedimg">
+						<img src={boxedIcon} alt="warning Icon" class="boxedimg">
 						<p>{accessRequest}</p>
 					</div>
 					<!-- Used for creating a case for request access for patient -->

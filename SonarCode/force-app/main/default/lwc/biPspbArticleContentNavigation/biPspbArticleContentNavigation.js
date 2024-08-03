@@ -6,11 +6,9 @@ import { CurrentPageReference } from 'lightning/navigation';
 // To import Apex Classes
 import SHOW_FILTER_RESPONSE from '@salesforce/apex/BI_PSP_CaregiverAndPatientCtrl.getAssessmentsByCurrentUserName';
 import PATIENT_STATUS from '@salesforce/apex/BI_PSPB_TreatmentVideoCtrl.patientStatus';
-
 // To import Custom Labels
 import {LABELS} from 'c/biPspbLabelForInfoCenter';
 import ARTICLE_CATEGORIES from '@salesforce/label/c.BI_PSPB_ArticleCategories';
-
 // To get Current UserId
 import ID from '@salesforce/user/Id';
 

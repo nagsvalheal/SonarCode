@@ -8,5 +8,6 @@ export default class BiPspbHcpSummaryParent extends LightningElement {
 	footerSrc = resource.BIFOOTER_LOGO_JPEG_URL;
 	logoSrc = resource.SPEVIGO_LOGO_JPEG_URL;
 	selectedAvatarSrc = resource.OLD_GUY_JPEG_URL;
+	congratulation = resource.CONGRATULATION;
 
 }

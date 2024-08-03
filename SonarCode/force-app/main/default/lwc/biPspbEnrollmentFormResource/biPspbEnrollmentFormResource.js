@@ -67,7 +67,7 @@ import CAREGIVER_FIRSTNAME from "@salesforce/label/c.BI_PSPB_CaregiverFirstName"
 import CAREGIVER_LASTNAME from "@salesforce/label/c.BI_PSPB_CaregiverLastName";
 import CAREGIVER_RELATION from "@salesforce/label/c.BI_PSPB_CaregiverRelationship";
 import EMAIL from "@salesforce/label/c.BI_PSP_NotificationEmail";
-import AGREE from "@salesforce/label/c.BI_PSPB_AgreeErrMsg";
+import AGREE from "@salesforce/label/c.BI_PSPB_Agree";
 import BRANDED_URL from "@salesforce/label/c.BI_PSPB_BrandedSiteNaviUrl";
 import THANK_FORM_URL from "@salesforce/label/c.BI_PSPB_PreThankFormUrl";
 import FEMALE from "@salesforce/label/c.BI_PSP_RbFemale";
@@ -131,11 +131,6 @@ import CARE_AVATAR_MSG_FOUR from '@salesforce/label/c.BI_PSPB_MsgFourCaregiver';
 import CARE_AVATAR_MSG_FIVE from '@salesforce/label/c.BI_PSPB_MsgFiveCaregiver';
 import CARE_AVATAR_MSG_SIX from '@salesforce/label/c.BI_PSPB_MobMsgOneCaregiver';
 import CARE_AVATAR_MSG_SEVEN from '@salesforce/label/c.BI_PSPB_MobMsgTwoCaregiver';
-//Loginfooter
-import LOGIN_COPYRIGHTS from '@salesforce/label/c.BI_PSP_LoginCopyrights';
-import CONTACT_US_LABEL from '@salesforce/label/c.BI_PSPB_ContactUsLabel';
-import TERMS_OF_USE_LABEL from '@salesforce/label/c.BI_PSPB_TermsOfUseLabel';
-import PRIVACY_NOTICE_LABEL from '@salesforce/label/c.BI_PSPB_PrivacyNoticeLabel';
 //Schema
 import LEAD from "@salesforce/schema/Lead";
 import CONTACT from "@salesforce/schema/Contact";
@@ -160,9 +155,262 @@ import HOME_ICON from '@salesforce/resourceUrl/BI_PSPB_HomeIcon';
 import HOME_ICON_MOBILE from '@salesforce/resourceUrl/BI_PSPB_HomeIconForMobile';
 import PATIENT_AVATAR from "@salesforce/resourceUrl/BI_PSPB_HcpEntrollmentPatientAvatar";
 
+//
+import FIELD_WIDTH from '@salesforce/label/c.BI_PSPB_FieldWith';
+import ARE_MANDOTORY from '@salesforce/label/c.BI_PSPB_AreMandatory';
+import PATIENT_ENROLL from '@salesforce/label/c.BI_PSPB_PatientEnrollHead';
+import PATIENT_INFO from '@salesforce/label/c.BI_PSPB_PatientInformation';
+import FIRST_NAME_LABEL from '@salesforce/label/c.BI_PSPB_FirstNameLabel';
+import FIRSTNAME_VALIDE from '@salesforce/label/c.BI_PSPB_ValidFirstNameErrMsg';
+import LASTNAME_VALIDE from '@salesforce/label/c.BI_PSPB_ValidLastNameErrMsg';
+import LASTNAME_LABEL from '@salesforce/label/c.BI_PSPB_LastNameLabel';
+import DOB_LABEL from '@salesforce/label/c.BI_PSPB_DobLabel';
+import BEFORE_EIGHTINE from '@salesforce/label/c.BI_PSPB_PatientLastMsgOne';
+import YEAR_OLDER from '@salesforce/label/c.BI_PSPB_YearOlderErrMsg';
+import GENDER_LABEL from '@salesforce/label/c.BI_PSPB_Gender';
+import EMAIL_LABEL_STAR from '@salesforce/label/c.BI_PSPB_EmailLabel';
+import VALIDE_EMAIL from '@salesforce/label/c.BI_PSPB_ValidEmail';
+import EXISTING_EMAIL from '@salesforce/label/c.BI_PSPB_AlreadyExistEmail';
+import CANCEL from '@salesforce/label/c.BI_PSP_CancelButton';
+import NEXT from '@salesforce/label/c.BI_PSPB_Next';
+import PHYSICIAN_DETAILS from '@salesforce/label/c.BI_PSPB_PhysicianDetailsErrMsg';
+import NUM_TWO from '@salesforce/label/c.BI_PSPB_NumTwo';
+import NUM_ONE from '@salesforce/label/c.BI_PSPB_NumOne';
+import PHYSICIAN_INFO from '@salesforce/label/c.BI_PSPB_PhysicianInformation';
+import PHYSICIAN_INFO_MANDOTORY from '@salesforce/label/c.BI_PSPB_PhysicianInfoMandatory';
+import ACCESS_CODE_MSG from '@salesforce/label/c.BI_PSPB_AccessCodeMsg';
+import HCP_ACCESS_CODE from '@salesforce/label/c.BI_PSPB_HcpAccessCode';
+import YES_VALUE from '@salesforce/label/c.BI_PSPB_Yes';
+import NO_VALUE from '@salesforce/label/c.BI_PSP_OptionValueNo';
+import SEARCH_PHYSICIAN from '@salesforce/label/c.BI_PSPB_SearchPhysician';
+import PHYSICIAN_INFO_VALID from '@salesforce/label/c.BI_PSPB_PhysicianInfoValid';
+import UNABLE_TO_FIND from '@salesforce/label/c.BI_PSPB_UnableToFind';
+import ACCESS_CODE from '@salesforce/label/c.BI_PSPB_AccessCode';
+import VALID_ACCESS_CODE from '@salesforce/label/c.BI_PSPB_ValidAccessCode';
+import ACCESS_CODE_KIT from '@salesforce/label/c.BI_PSPB_AccessCodeKit';
+import ADD_PHYSICIAN from '@salesforce/label/c.BI_PSPB_AddPhysician';
+import CONTACT_INFO from '@salesforce/label/c.BI_PSPB_ContactInformation';
+import PHONE_NUM from '@salesforce/label/c.BI_PSPB_PhoneNumberLabel';
+import PHONE_NUM_MANDOTORY from '@salesforce/label/c.BI_PSPB_PhoneNumberMandatory';
+import VALID_PHONE from '@salesforce/label/c.BI_PSPB_PhysicianPhoneErrMsg';
+import OR from '@salesforce/label/c.BI_PSPB_Or';
+import EMAIL_LABEL from '@salesforce/label/c.BI_PSP_NotificationEmail';
+import ADDRESS_LINE from '@salesforce/label/c.BI_PSPB_AddressLine';
+import ADDRESS_LINE_REQUIRED from '@salesforce/label/c.BI_PSPB_AddressLineRequired';
+import PREVIOS from '@salesforce/label/c.BI_PSPB_Previous';
+import NUM_FOUR from '@salesforce/label/c.BI_PSPB_NumFour';
+import NUM_THREE from '@salesforce/label/c.BI_PSPB_NumThree';
+import PMC_LABEL from '@salesforce/label/c.BI_PSPB_PrefferedLabel';
+import COUNTRY_LABEL from '@salesforce/label/c.BI_PSPB_CountryLabel';
+import STATE_LABEL from '@salesforce/label/c.BI_PSPB_StateLabel';
+import STREET_LABEL from '@salesforce/label/c.BI_PSPB_StreetAddress';
+import ZIP_CODE_LABEL from '@salesforce/label/c.BI_PSPB_ZipCodelabel';
+import VALID_ZIP_CODE from '@salesforce/label/c.BI_PSPB_CaregiverValidPinCodeErrMsg';
+import CITY_LABEL from '@salesforce/label/c.BI_PSPB_CityLabel';
+import VALID_CITY from '@salesforce/label/c.BI_PSPB_ValidCityMsg';
+import CITYLABEL from '@salesforce/label/c.BI_PSPB_City';
+import CONSENT_INFO from '@salesforce/label/c.BI_PSPB_ConsentInformation';
+import TERMS from '@salesforce/label/c.BI_PSPB_Terms';
+import AGREE_MSG from '@salesforce/label/c.BI_PSPB_AgreeErrMsg';
+import TERMS_AND_CONDITION from '@salesforce/label/c.BI_PSPB_TermsAndCondition';
+import SUBMIT from '@salesforce/label/c.BI_PSP_ButtonSubmit';
+import PROGRESS_LABEL from '@salesforce/label/c.BI_PSPB_ProgressLabel';
+import ACCOUNT_EXIST from '@salesforce/label/c.BI_PSPB_AccountExist';
+import ACCOUNT_EXIST_MSG from '@salesforce/label/c.BI_PSPB_AccountExistMsg';
+import GO_TO_LOGIN from '@salesforce/label/c.BI_PSPB_GoToLogin';
+import CONTENT_ONE from '@salesforce/label/c.BI_PSPB_ContentOne';
+import CONTENT_TWO from '@salesforce/label/c.BI_PSPB_ContentTwo';
+import CONTENT_THREE from '@salesforce/label/c.BI_PSPB_ContentThree';
+import CONTENT_FOUR from '@salesforce/label/c.BI_PSPB_ContentFour';
+import CONTENT_FIVE from '@salesforce/label/c.BI_PSPB_ContentFive';
+import CONTENT_SIX from '@salesforce/label/c.BI_PSPB_ContentSix';
+import PLACE_FIRST from '@salesforce/label/c.BI_PSPB_EnterFirstName';
+import PLACE_LAST from '@salesforce/label/c.BI_PSPB_EnterLastName';
+import PLACE_DOB from '@salesforce/label/c.BI_PSPB_DobPlaceHolder';
+import PLACE_SELECT from '@salesforce/label/c.BI_PSP_Select';
+import PLACE_EMAIL from '@salesforce/label/c.BI_PSPB_EnterEmail';
+import PLACE_PHYSICIAN from '@salesforce/label/c.BI_PSPB_EnterPhysicianName';
+import PLACE_ACCESS from '@salesforce/label/c.BI_PSPB_EnterAccessCode';
+import PLACE_PHONE from '@salesforce/label/c.BI_PSPB_EnterPhoneNumber';
+import PLACE_ADDRESS from '@salesforce/label/c.BI_PSPB_EnterAdress';
+import PLACE_COUNTRY from '@salesforce/label/c.BI_PSPB_SelectCountry';
+import PLACE_STATE from '@salesforce/label/c.BI_PSPB_SelectState';
+import PLACE_CITY from '@salesforce/label/c.BI_PSPB_EnterCity';
+import PLACE_STREET from '@salesforce/label/c.BI_PSPB_EnterStreet';
+import PLACE_ZIPCODE from '@salesforce/label/c.BI_PSPB_EnterZipCode';
+import LEAD_LABEL from '@salesforce/label/c.BI_PSPB_Lead';
+import ONE from '@salesforce/label/c.BI_PSPB_CurrentTabOne';
+import TWO from '@salesforce/label/c.BI_PSPB_CurrentTabTwo';
+import THREE from '@salesforce/label/c.BI_PSPB_CurrentTabThree';
+import FOUR from '@salesforce/label/c.BI_PSPB_CurrentTabFour';
+import UNDIFINED from '@salesforce/label/c.BI_PSP_Undefined';
+import NEWPRACTITIONER from '@salesforce/label/c.BI_PSPB_NewPractitioner';
+import SUBMIT_SUCCESS from '@salesforce/label/c.BI_PSPB_SubmitSuccessfully';
+import LOGIN_SUCCESS from '@salesforce/label/c.BI_PSP_LoginSuccess';
+import CHANGE from '@salesforce/label/c.BI_PSPB_Change';
+import PATIENT_VERIFICATION from '@salesforce/label/c.BI_PSPB_PatientVerification';
+import INVALID_DETAILS from '@salesforce/label/c.BI_PSPB_InvalidDetails';
+import VALID_DOB from '@salesforce/label/c.BI_PSPB_ValidDateOfBirth';
+import CAREGIVER_INFO from '@salesforce/label/c.BI_PSP_CaregiverInfo';
+import RELATION_VALUE from '@salesforce/label/c.BI_PSPB_RelationShipValue';
+import RELATION_LABEL from '@salesforce/label/c.BI_PSPB_RelationLabel';
+//
+import THANKS_ENROLL from '@salesforce/label/c.BI_PSPB_ThankForEnroll';
+import YOUR_PATIENT from '@salesforce/label/c.BI_PSPB_YourPatientTitle';
+import ENROLL_SUMMARY from '@salesforce/label/c.BI_PSPB_EnrollmentSummary';
+import NAME_COLAN from '@salesforce/label/c.BI_PSPB_Name';
+import DOB_COLAN from '@salesforce/label/c.BI_PSPB_DateOfBirth';
+import EMAIL_COLAN from '@salesforce/label/c.BI_PSPB_Email';
+import PHONE_COLAN from '@salesforce/label/c.BI_PSPB_PhoneNo';
+import PRESCRIPTION_INFO from '@salesforce/label/c.BI_PSPB_PrescriptionInfo';
+import PRODUCT_COLAN from '@salesforce/label/c.BI_PSPB_Product';
+import PRODUCT_CODE_COLAN from '@salesforce/label/c.BI_PSPB_ProductCode';
+import PRESCRIPTED_COLAN from '@salesforce/label/c.BI_PSPB_PrescriptedDate';
+import DOSAGE_COLAN from '@salesforce/label/c.BI_PSPB_DosageValue';
+import FREQUENCY_COLAN from '@salesforce/label/c.BI_PSPB_FrequencyValue';
+import REFILS_COLAN from '@salesforce/label/c.BI_PSPB_Refills';
+import QUANTITY_COLAN from '@salesforce/label/c.BI_PSPB_Quentity';
+import RELATION_COLAN from '@salesforce/label/c.BI_PSPB_RelationShip';
+import TO_ACTIVE from '@salesforce/label/c.BI_PSPB_ToActive';
+import ENROLL_THANK from '@salesforce/label/c.BI_PSPB_EnrollThank';
+import ADRRESS_COLAN from '@salesforce/label/c.BI_PSPB_AddressColan';
+import VERIFY_THE_INFO from '@salesforce/label/c.BI_PSPB_VerifyTheInfo';
+import VERIFY_YOUR_INFO from '@salesforce/label/c.BI_PSPB_VerifyYourInfo';
+import VERIFY_COMPLETE from '@salesforce/label/c.BI_PSPB_VerificationComplete';
+import  ALL_SET from '@salesforce/label/c.BI_PSPB_AllSet';
+import CONGRATULATION from '@salesforce/label/c.BI_PSPB_CongratulationPatient';
+import LEAVE_THIS_PAGE from '@salesforce/label/c.BI_PSPB_LeaveThisPage';
+import CHANGE_MADE from '@salesforce/label/c.BI_PSPB_ChangesYouMade';
+import OKAY from '@salesforce/label/c.BI_PSPB_Okay';
 export const resource = {
 	ID,
+//
+LEAVE_THIS_PAGE,
+CHANGE_MADE,
+OKAY,
+CONGRATULATION,
+VERIFY_COMPLETE,
+ALL_SET,
+VERIFY_THE_INFO,
+VERIFY_YOUR_INFO,
+TO_ACTIVE,
+ENROLL_THANK,
+ADRRESS_COLAN,
+THANKS_ENROLL,
+YOUR_PATIENT ,
+ENROLL_SUMMARY ,
+NAME_COLAN ,
+DOB_COLAN ,
+EMAIL_COLAN ,
+PHONE_COLAN ,
+PRESCRIPTION_INFO ,
+PRODUCT_COLAN ,
+PRODUCT_CODE_COLAN ,
+PRESCRIPTED_COLAN ,
+DOSAGE_COLAN ,
+FREQUENCY_COLAN ,
+REFILS_COLAN ,
+QUANTITY_COLAN,
+RELATION_COLAN ,
 
+CAREGIVER_INFO,
+RELATION_LABEL,
+RELATION_VALUE,
+PATIENT_VERIFICATION,
+VALID_DOB,
+INVALID_DETAILS,
+FIRST_NAME_LABEL ,
+FIRSTNAME_VALIDE,
+LASTNAME_VALIDE,
+LASTNAME_LABEL ,
+DOB_LABEL,
+BEFORE_EIGHTINE ,
+YEAR_OLDER ,
+GENDER_LABEL ,
+EMAIL_LABEL_STAR ,
+VALIDE_EMAIL ,
+EXISTING_EMAIL ,
+CANCEL ,
+NEXT ,
+PHYSICIAN_DETAILS ,
+NUM_TWO ,
+NUM_ONE ,
+PHYSICIAN_INFO ,
+PHYSICIAN_INFO_MANDOTORY ,
+ACCESS_CODE_MSG ,
+HCP_ACCESS_CODE ,
+YES_VALUE ,
+NO_VALUE ,
+SEARCH_PHYSICIAN ,
+PHYSICIAN_INFO_VALID ,
+UNABLE_TO_FIND ,
+ACCESS_CODE ,
+VALID_ACCESS_CODE ,
+ACCESS_CODE_KIT ,
+ADD_PHYSICIAN,
+CONTACT_INFO ,
+PHONE_NUM ,
+PHONE_NUM_MANDOTORY ,
+VALID_PHONE ,
+OR ,
+EMAIL_LABEL ,
+ADDRESS_LINE ,
+ADDRESS_LINE_REQUIRED ,
+PREVIOS ,
+NUM_FOUR ,
+NUM_THREE ,
+PMC_LABEL ,
+COUNTRY_LABEL ,
+STATE_LABEL ,
+STREET_LABEL ,
+ZIP_CODE_LABEL ,
+VALID_ZIP_CODE ,
+CITY_LABEL,
+VALID_CITY ,
+CITYLABEL,
+CONSENT_INFO ,
+TERMS ,
+AGREE_MSG ,
+TERMS_AND_CONDITION ,
+SUBMIT ,
+PROGRESS_LABEL,
+ACCOUNT_EXIST ,
+ACCOUNT_EXIST_MSG ,
+GO_TO_LOGIN ,
+CONTENT_ONE ,
+CONTENT_TWO ,
+CONTENT_THREE ,
+CONTENT_FOUR ,
+CONTENT_FIVE ,
+CONTENT_SIX ,
+PLACE_FIRST ,
+PLACE_LAST ,
+PLACE_DOB ,
+PLACE_SELECT ,
+PLACE_EMAIL,
+PLACE_PHYSICIAN,
+PLACE_ACCESS,
+PLACE_PHONE ,
+PLACE_ADDRESS,
+PLACE_COUNTRY,
+PLACE_STATE ,
+PLACE_CITY ,
+PLACE_STREET ,
+PLACE_ZIPCODE ,
+FIELD_WIDTH,
+LEAD_LABEL,
+ARE_MANDOTORY,
+PATIENT_ENROLL,
+PATIENT_INFO,
+ONE,
+TWO ,
+THREE ,
+FOUR ,
+UNDIFINED ,
+NEWPRACTITIONER ,
+SUBMIT_SUCCESS ,
+LOGIN_SUCCESS ,
+CHANGE ,
 	//static
 	BGPP,
 	IMG,
@@ -310,10 +558,6 @@ export const resource = {
  LOVEDONE,
  GUARDIAN ,
  FRIEND ,
- RELATIVE ,
- LOGIN_COPYRIGHTS,
- CONTACT_US_LABEL,
- TERMS_OF_USE_LABEL,
- PRIVACY_NOTICE_LABEL
+ RELATIVE 
 
 }

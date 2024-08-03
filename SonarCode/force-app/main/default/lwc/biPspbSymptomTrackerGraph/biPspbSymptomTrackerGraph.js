@@ -1,42 +1,42 @@
 //This LWC is Used for display allergy values and symptom values based on month wise  - biPspbSymptomTrackerGraph
 // To import Libraries
-import { LightningElement, track, wire } from 'lwc';
+import { LightningElement, wire } from 'lwc';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 
 // To import Apex Classes
 import GET_ENROLLE from '@salesforce/apex/BI_PSP_ChallengeEnrolleCtrl.getEnrolle';
-import FETCH_SYMPTOM_EROLLE from '@salesforce/apex/BI_PSP_GraphCtrl.getSymptomTrackerDetails';
+import FETCH_SYMPTOM_EROLLE from '@salesforce/apex/BI_PSP_QuestionnaireGraphCtrl.getSymptomTrackerDetails';
 import GET_LATEST_SYMPTOM_RECORD from '@salesforce/apex/BI_PSPB_SymptomPrimaryPageCtrl.getLatestSymptomRecord';
 // To import Custom labels and static resources
 import * as label from 'c/biPspbLabelAndResourceSymptom';
 
 export default class BiPspbSymptomTrackerGraph extends LightningElement {
 	//Proper naming conventions with camel case for all the variable will be followed in the future releases
-	//@track variable declaration
-	@track receivedValue;
-	@track dateWithAllery = [];
-	@track highlight = false;
-	@track showDiv = false;
-	@track remainingItems = [];
-	@track pdfName;
-	@track firstDate;
-	@track lastDate;
-	@track symptomIdGet
-	@track checkValue = false;
-	@track showLine;
-	@track currentDisplayIndex = 0;
-	@track dateWithAlleryTwo = [];
-	@track dateWithAlleryThree = [];
-	@track dateWithAlleryFour = [];
-	@track leftLess;
-	@track rightLess;
-	@track showChart = false;
-	@track updateValue = false;
-	@track understand = false;
-	@track latestRecord;
-	@track throwErrorMessage = false;
-	@track showLoading = true;
-	// @track isLoading ;
+	// variable declaration
+	receivedValue;
+	dateWithAllery = [];
+	highlight = false;
+	showDiv = false;
+	remainingItems = [];
+	pdfName;
+	firstDate;
+	lastDate;
+	symptomIdGet
+	checkValue = false;
+	showLine;
+	currentDisplayIndex = 0;
+	dateWithAlleryTwo = [];
+	dateWithAlleryThree = [];
+	dateWithAlleryFour = [];
+	leftLess;
+	rightLess;
+	showChart = false;
+	updateValue = false;
+	understand = false;
+	latestRecord;
+	throwErrorMessage = false;
+	showLoading = true;
+	//  isLoading ;
 	//Variable declaration
 	urlq;
 	enrolleId;
@@ -95,11 +95,11 @@ export default class BiPspbSymptomTrackerGraph extends LightningElement {
 	get picklistLabels() {
 		return this.picklistOptions.map(option => option.label);
 
-	}    handlePageRefresh(event) {
-        let globalThis = window;
-        globalThis.sessionStorage?.clear();
-        event.returnValue = "";
-    }
+	} handlePageRefresh(event) {
+		let globalThis = window;
+		globalThis.sessionStorage?.clear();
+		event.returnValue = "";
+	}
 	connectedCallback() {
 		let globalThis = window;
 		globalThis.addEventListener("beforeunload", this.handlePageRefresh);

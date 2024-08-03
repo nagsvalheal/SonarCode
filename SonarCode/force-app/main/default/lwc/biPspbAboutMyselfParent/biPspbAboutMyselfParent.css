@@ -68,9 +68,7 @@
 	display: grid;
 	position: relative;
 	bottom: 49px;
-	/* right: 10%; */
-	/* margin-top: -103px; */
-/* margin-left: 8%; */
+	
 	}
 	.custom-box1{
 			width: 102%;
@@ -96,9 +94,6 @@
 	width: -webkit-fill-available;
 	display: grid;
 	position: relative;
-	/* right: 23%; */
-	/* margin-top: -109px; */
-	/* margin-left: 22%; */
 }
 .custom-box1
 {
@@ -123,10 +118,7 @@ width: 105%;
 	.tabsDiv{
 	display: none;
 }
-.custom-box2{
-	/* margin-top: -93px; */
-	/* margin-left: 6%; */
-}
+
 .custom-box1{
 	width: 105%;
 	margin-left: -270px;
@@ -149,9 +141,7 @@ width: 105%;
 		   width: 309%;
 	margin-left: -25%;
 	}
-	.custom-box2{
-		/* margin-left: 5%; */
-	}
+	
 
 }
 @media only screen and (min-width: 993px) and (max-width: 1200px)
@@ -159,14 +149,11 @@ width: 105%;
 	.pad{
 	padding-left: 20px;
 	padding-right: 20px;
-	/* padding-right: 10%; */
 	display: flex;
 	overflow-x: hidden;
 		flex-direction: column;
 	}
-	.custom-box2{
-		/* margin-left: 5%; */
-	}
+	
 	.custom-box1{
 			width: 360%;
 		margin-left: 11%;
@@ -175,31 +162,7 @@ width: 105%;
 
 
 }
-/* @media only screen and (min-width: 1200px)
-{
-	.pad{
-	padding-left: 20px;
-	padding-right: 20px;
-	display: flex;
-	}.custom-box2{
-		position: relative;
-	right: 40px;
-	}
-} */
-/* @media  screen and (min-width: 1201px)
-{
-	.pad{
-	padding-left: 10%;
-	padding-right: 10%;
-	
-	}
-	.custom-box1{
-		margin-left: 1%;
-	}
-	.custom-box2{
-		margin-left: -4%;
-	}
-} */
+
 
 @media only screen and (min-width: 1201px)
 {
@@ -246,8 +209,6 @@ width: 105%;
 	.tabClass{
 		border-bottom: 1.5px solid rgba(141, 137, 165, 0.5);
 	}
-	/* .custom-box1{
-		margin-left: 0px;
-	} */
+	
 
 }

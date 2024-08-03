@@ -9,7 +9,8 @@
 public with sharing class BI_PSPB_EnrolleeFetcher {
 	/**
 	 * @description  Used to create task when a video is uploaded and calling the
-	 * method to send sms and email.
+	 * method to send sms and email. 
+	 * @return A list of Enrollee objects that match the criteria.
 	 */
 	public static Set<Id> fetchEnrolleeIds() {
 		Set<Id> enrolleeIds = new Set<Id>();

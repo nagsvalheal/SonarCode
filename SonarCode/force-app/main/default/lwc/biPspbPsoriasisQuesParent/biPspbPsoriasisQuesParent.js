@@ -1,6 +1,6 @@
 //This is Consolidate Component(LWC) this contains Avatar and Psoriasis Symptom Scale (PSS) Questionnaire to achieve mobile responsive.
 //To import Custom labels
-import { LightningElement, wire, track } from 'lwc';
+import { LightningElement, wire } from 'lwc';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 //To import Apex classes
 import GET_ASSESSMENT_COUNT from '@salesforce/apex/BI_PSP_AssessmentCtrl.getAssessmentCountsByCurrentUserName';

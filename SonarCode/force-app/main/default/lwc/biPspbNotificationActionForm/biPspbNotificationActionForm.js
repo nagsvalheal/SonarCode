@@ -1,7 +1,6 @@
 //This component is used to Display Tasks based on the Action notification on clicking the Notification icon from the Dashboard.
 //To Import the Libraries
 import { LightningElement, api } from 'lwc';
-import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 //To import the Apex class
 import UPDATE_DATE from '@salesforce/apex/BI_PSPB_ActionNotificationUpdateStatus.updateActionDateOfTreatment';
 import UPDATE_TASK from '@salesforce/apex/BI_PSPB_ActionNotificationUpdateStatus.updateActionTreatmentStatus';
@@ -61,14 +60,14 @@ export default class BiPspbNotificationActionForm extends LightningElement {
 	successToast = resources.SUCCESS_TOAST;
 	successToastDate = resources.SUCCESS_TOAST_DATE;
 	dateCapturedToast = resources.DATE_CAPTURED;
-	contentImg = resources.TREATMENT_IMG;
+	contentImg = resources.TREATMENT_IMAGE;
 	letsPersonaliseImg = resources.QUESTIONNAIRE_ONLY_IMAGE;
-	symptomImg = resources.AVATAR_IMG;
+	symptomImg = resources.AVATAR_IMAGE;
 	challengeImg = resources.CHALLENGES_IMG;
-	treatmentImg = resources.TREATMENT_IMG;
+	treatmentImg = resources.TREATMENT_IMAGE;
 	questionImg = resources.QUESTIONNAIRE_IMAGE;
-	deleteToast = resources.TIC;
-	hoursOptions = [{ label: resources.BI_PSPB_HR, value: resources.BI_PSPB_HR }, { label: resources.BI_PSPB_HOUR, value: resources.BI_PSPB_HOUR }];
+	deleteToast = resources.TICK;
+	hoursOptions = [{ label: resources.TWENTY_FOUR_HOURS, value: resources.TWENTY_FOUR_HOURS }, { label: resources.SEVENTY_TWO_HOURS, value: resources.SEVENTY_TWO_HOURS }];
 	// Called when the component is inserted into the DOM
 	connectedCallback() {
 		try {
@@ -81,70 +80,84 @@ export default class BiPspbNotificationActionForm extends LightningElement {
 	}
 	// Initialize component by fetching enrollee data and action records
 	initializeComponent() {
-		ENROLLE({ userId: this.userId })
-			.then(result => {
-				if (result && result[0].patientEnrolle) {
-					this.accountName = result[0].patientEnrolle.Id;
-					this.insertFunc();
-					this.getbrandedaction(this.accountName);
-				}
-			})
-			.catch(error => {
-				this.showToast(resources.ERROR_MESSAGE, error.message, resources.ERROR_VARIANT);
-			});
+			ENROLLE({ userId: this.userId })
+				.then(result => {
+					if (result && result[0].patientEnrolle) {
+						this.accountName = result[0].patientEnrolle.Id;
+						this.insertFunc();
+						this.getbrandedaction(this.accountName);
+					}
+				})
+				.catch(() => {
+					let globalThis=window;
+					globalThis.location.href = resources.ERROR_PAGE;
+					globalThis.sessionStorage.setItem('errorMessage', resources.ENROLLEE_NOT_FOUND);
+				});
 	}
 	// To check for the completed action for questions
 	insertFunc() {
-		return QUESTION_STATUS_UPDATE({ enrolleeId: this.accountName })
-			.then(result => {
-				this.numberOfQuestions = result;
-				return this.numberOfQuestions;
-			})
-			.catch(errors => {
-				this.showToast(resources.ERROR_MESSAGE, errors.message, resources.ERROR_VARIANT);
-			});
+			return QUESTION_STATUS_UPDATE({ enrolleeId: this.accountName })
+				.then(result => {
+					this.numberOfQuestions = result;
+					return this.numberOfQuestions;
+				})
+				.catch(() => {
+					let globalThis=window;
+					globalThis.location.href = resources.ERROR_PAGE;
+					globalThis.sessionStorage.setItem('errorMessage', resources.UPDATE_NOTIFICATION_ERROR);
+					return null;
+				});
 	}	
 	// To get site url type
 	getSiteUrlAndType() {
-		const globalThis = window;
-		const CURRENT_URL = globalThis.location.href;
-		const URL_OBJECT = new URL(CURRENT_URL);
-		const PATH = URL_OBJECT.pathname;
-		const PATH_COMPONENTS = PATH.split('/');
-		const DESIRED_COMPONENT = PATH_COMPONENTS.find(component =>
-			[BRANDED_URL.toLowerCase(), UNASSIGNED_URL.toLowerCase()].includes(component.toLowerCase())
-		);
-	
-		if (DESIRED_COMPONENT?.toLowerCase() === BRANDED_URL.toLowerCase()) {
-			return {type: 'branded' };
+		try{
+			const globalThis = window;
+			const CURRENT_URL = globalThis.location.href;
+			const URL_OBJECT = new URL(CURRENT_URL);
+			const PATH = URL_OBJECT.pathname;
+			const PATH_COMPONENTS = PATH.split('/');
+			const DESIRED_COMPONENT = PATH_COMPONENTS.find(component =>
+				[BRANDED_URL.toLowerCase(), UNASSIGNED_URL.toLowerCase()].includes(component.toLowerCase())
+			);
+		
+			if (DESIRED_COMPONENT?.toLowerCase() === BRANDED_URL.toLowerCase()) {
+				return {type: 'branded' };
+			}
+			return { type: 'unassigned' };
+		} catch {
+			let globalThis=window;
+			globalThis.location.href = resources.ERROR_PAGE;
+			globalThis.sessionStorage.setItem('errorMessage', resources.URL_TYPE_ERROR);
+			return { type: 'unknown' }
 		}
-		return { type: 'unassigned' };
 	}
 	// Determine the site URL
 	determineSiteUrlAndHistory() {
-		const { type } = this.getSiteUrlAndType();
-	
+		const { type } = this.getSiteUrlAndType();	
 		if (type === 'branded') {
 			this.urlq = resources.BRANDED_URL;
 			this.actionOptions = [
 				{ label: resources.ALL, value: resources.ALL },
-				{ label: resources.TREATMENT_REMINDERS, value: resources.BI_PSPB_TREATMENT_REMINDER },
+				{ label: resources.TREATMENT_REMINDERS, value: resources.TREATMENT_REMINDER },
 				{ label: resources.SYMPTOM, value: resources.SYMPTOM },
 				{ label: resources.MY_QUESTIONNAIRES, value: resources.MY_QUESTIONNAIRES },
 				{ label: resources.PRESCRIPTION_OPTION, value: resources.PRESCRIPTION_REMINDER }
 			];
-		} else {
-			this.urlq = 'unassigned';
+		} else if (type === 'unassigned') {
+			this.urlq = resources.UNASSIGNED_SITE_URL;
 			this.actionOptions = [
 				{ label: resources.ALL, value: resources.ALL },
 				{ label: resources.SYMPTOM, value: resources.SYMPTOM },
 				{ label: resources.MY_QUESTIONNAIRES, value: resources.MY_QUESTIONNAIRES }
 			];
+		} else {
+			let globalThis=window;
+			globalThis.location.href = resources.ERROR_PAGE;
+			globalThis.sessionStorage.setItem('errorMessage', resources.URL_TYPE_ERROR);
 		}
 	}
 	//To fetch the Branded Action Notification
 	getbrandedaction(acc) {
-		try {
 			ACTION_TASK({ enroleeId: acc })
 				.then(result => {
 					if (result) {
@@ -211,7 +224,7 @@ export default class BiPspbNotificationActionForm extends LightningElement {
 									voilet = true;
 									break;
 								case resources.TREATMENT:
-								case resources.PRESCRIPTION:
+								case resources.PRESCRIPTION_LABEL:
 									treatimg = true;
 									yesbutton = true;
 									nobutton = true;
@@ -256,12 +269,11 @@ export default class BiPspbNotificationActionForm extends LightningElement {
 						});
 					}
 				})
-				.catch(errors => {
-					this.showToast(resources.ERROR_MESSAGE, errors.message, resources.ERROR_VARIANT);
+				.catch(() => {
+					let globalThis=window;
+					globalThis.location.href = resources.ERROR_PAGE;
+					globalThis.sessionStorage.setItem('errorMessage', resources.ERROR_FOR_ACTION);
 				});
-		} catch (err) {
-			this.showToast(resources.ERROR_MESSAGE, err.message, resources.ERROR_VARIANT);
-		}
 	}	
 	// To display recent 3 records, on clicking Load More, shows all the records
 	get displayedActionValue() {
@@ -286,7 +298,6 @@ export default class BiPspbNotificationActionForm extends LightningElement {
 			this.showModal = false;
 			this.showDeleteToastMsg = true;
 			this.actionTask = this.actionTask.filter(obj => obj.Id !== this.taskSelectedId);
-			this.handleToastTemplate();
 		}						
 	// To display the Date in the short format
 	formatDate(createdDate) {
@@ -306,53 +317,43 @@ export default class BiPspbNotificationActionForm extends LightningElement {
 	}
 	//This function is used for Submit the date of treatment
 	handleComplete(event) {
-		try {
 			this.taskSelectedId = event.currentTarget.dataset.id;
 			UPDATE_DATE({recordId:this.taskSelectedId,actionValue:resources.YES})
 			.then(() => {
 				this.showModal = true;
 			})
-			.catch(errors => {
-				this.showToast(resources.ERROR_MESSAGE, errors.message, resources.ERROR_VARIANT);
+			.catch(() => {
+				let globalThis=window;
+				globalThis.location.href = resources.ERROR_PAGE;
+				globalThis.sessionStorage.setItem('errorMessage', resources.UPDATE_NOTIFICATION_ERROR);
 			})
-			
-		}
-		catch (err) {
-			this.showToast(resources.ERROR_MESSAGE, err.message, resources.ERROR_VARIANT);
-		}
 	}
 	// To update the task to completed
 	handleCompleteDateOfTreatment(event) {
-		try {
 			this.taskSelectedId = event.currentTarget.dataset.taskid;
 			UPDATE_TASK({recordId:this.taskSelectedId,actionValue:resources.YES})
 			.then(() => {
 				this.showDeleteToastMsg = true;
 			})
-			.catch(errors => {
-				this.showToast(resources.ERROR_MESSAGE, errors.message, resources.ERROR_VARIANT);
-			})			
-		}
-		catch (err) {
-			this.showToast(resources.ERROR_MESSAGE, err.message, resources.ERROR_VARIANT);
-		}
+			.catch(() => {
+				let globalThis=window;
+				globalThis.location.href = resources.ERROR_PAGE;
+				globalThis.sessionStorage.setItem('errorMessage', resources.UPDATE_NOTIFICATION_ERROR);
+			})
 	}
 	// To update task to not completed
 	handleNotCompleted(event){
-		try {
 			this.taskSelectedId = event.currentTarget.dataset.id;
 			UPDATE_TASK({recordId:this.taskSelectedId,actionValue:resources.No})
 			.then(() => {
 				this.actionTask = this.actionTask.filter(obj => obj.Id !== this.taskSelectedId);
 				this.showDeleteToastMsg = true;
 			})
-			.catch(errors => {
-				this.showToast(resources.ERROR_MESSAGE, errors.message, resources.ERROR_VARIANT);
-			})			
-		}
-		catch (err) {
-			this.showToast(resources.ERROR_MESSAGE, err.message, resources.ERROR_VARIANT);
-		}
+			.catch(() => {
+				let globalThis=window;
+				globalThis.location.href = resources.ERROR_PAGE;
+				globalThis.sessionStorage.setItem('errorMessage', resources.UPDATE_NOTIFICATION_ERROR);
+			})
 	}
 	//To get the onchange value in category type
 	actioncat(event) {
@@ -368,16 +369,16 @@ export default class BiPspbNotificationActionForm extends LightningElement {
 			case resources.SYMPTOM:
 				this.filterAndMap(this.allData, [resources.SYMPTOM], this.mapSymptom);
 				break;
-			case resources.BI_PSPB_TREATMENT_REMINDER:
+			case resources.TREATMENT_REMINDER:
 				this.filterAndMap(this.allData, [resources.DATE_OF_TREATMENT], this.mapTreatment);
 				this.isHoursComboboxDisabled = false;
 				this.hoursDisplay = true;
 				break;
 			case resources.PRESCRIPTION_REMINDER:
-				this.filterAndMap(this.allData, [resources.PRESCRIPTION,resources.TREATMENT], this.mapPrescription);
+				this.filterAndMap(this.allData, [resources.PRESCRIPTION_LABEL,resources.TREATMENT], this.mapPrescription);
 				break;
 			case resources.MY_QUESTIONNAIRES:
-				VALID_CATEGORIES = [resources.MY_QUESTIONNAIRES, resources.PSS, resources.QSQ, resources.WPAI, resources.DLQI];
+				VALID_CATEGORIES = [resources.MY_QUESTIONNAIRES, resources.PSS_QUESTIONNAIRES, resources.QSQ_QUESTIONNAIRES, resources.WPAI_QUESTIONNAIRES, resources.DLQI_QUESTIONNAIRES];
 				this.filterAndMap(this.allData, VALID_CATEGORIES, this.mapQuestionnaires);
 				break;
 			default:
@@ -388,8 +389,7 @@ export default class BiPspbNotificationActionForm extends LightningElement {
 	filterAndMap(data, categories, mapFunction) {
 		this.filteredData = data.filter(obj => categories.includes(obj.BI_PSP_Category__c));
 		this.showLoadMoreButton = this.filteredData.length > 3;
-		this.noRecords = this.filteredData.length === 0;
-	
+		this.noRecords = this.filteredData.length === 0;	
 		this.actionTask = this.filteredData.map(mapFunction.bind(this));
 	}
 	// Mapping symptom records
@@ -424,10 +424,10 @@ export default class BiPspbNotificationActionForm extends LightningElement {
 	mapPrescription(obj) {
 		return {
 			...obj,
-			treatimg: obj.BI_PSP_Category__c === resources.PRESCRIPTION || obj.BI_PSP_Category__c === resources.TREATMENT,
-			yesbutton: obj.BI_PSP_Category__c === resources.PRESCRIPTION || obj.BI_PSP_Category__c === resources.TREATMENT,
-			nobutton: obj.BI_PSP_Category__c === resources.PRESCRIPTION || obj.BI_PSP_Category__c === resources.TREATMENT,
-			voilet: obj.BI_PSP_Category__c === resources.PRESCRIPTION || obj.BI_PSP_Category__c === resources.TREATMENT,
+			treatimg: obj.BI_PSP_Category__c === resources.PRESCRIPTION_LABEL || obj.BI_PSP_Category__c === resources.TREATMENT,
+			yesbutton: obj.BI_PSP_Category__c === resources.PRESCRIPTION_LABEL || obj.BI_PSP_Category__c === resources.TREATMENT,
+			nobutton: obj.BI_PSP_Category__c === resources.PRESCRIPTION_LABEL || obj.BI_PSP_Category__c === resources.TREATMENT,
+			voilet: obj.BI_PSP_Category__c === resources.PRESCRIPTION_LABEL || obj.BI_PSP_Category__c === resources.TREATMENT,
 			FormattedDate: this.formatDate(obj.CreatedDate)
 		};
 	}
@@ -435,14 +435,14 @@ export default class BiPspbNotificationActionForm extends LightningElement {
 	mapQuestionnaires(obj) {
 		return {
 			...obj,
-			StartbuttonQsq: obj.BI_PSP_Category__c === resources.QSQ,
-			StartbuttonPss: obj.BI_PSP_Category__c === resources.PSS,
-			StartbuttonWpai: obj.BI_PSP_Category__c === resources.WPAI,
-			StartbuttonDlqi: obj.BI_PSP_Category__c === resources.DLQI,
+			StartbuttonQsq: obj.BI_PSP_Category__c === resources.QSQ_QUESTIONNAIRES,
+			StartbuttonPss: obj.BI_PSP_Category__c === resources.PSS_QUESTIONNAIRES,
+			StartbuttonWpai: obj.BI_PSP_Category__c === resources.WPAI_QUESTIONNAIRES,
+			StartbuttonDlqi: obj.BI_PSP_Category__c === resources.DLQI_QUESTIONNAIRES,
 			StartbuttonLetPer:  obj.BI_PSP_Category__c === resources.MY_QUESTIONNAIRES,
 			sympimg: obj.BI_PSP_Category__c === resources.MY_QUESTIONNAIRES,
-			QuestionImgPss: obj.BI_PSP_Category__c === resources.PSS || obj.BI_PSP_Category__c === resources.QSQ
-			|| obj.BI_PSP_Category__c === resources.WPAI || obj.BI_PSP_Category__c === resources.DLQI,
+			QuestionImgPss: obj.BI_PSP_Category__c === resources.PSS_QUESTIONNAIRES || obj.BI_PSP_Category__c === resources.QSQ_QUESTIONNAIRES
+			|| obj.BI_PSP_Category__c === resources.WPAI_QUESTIONNAIRES || obj.BI_PSP_Category__c === resources.DLQI_QUESTIONNAIRES,
 			voilet: true,
 			FormattedDate: this.formatDate(obj.CreatedDate)
 		};
@@ -452,8 +452,10 @@ export default class BiPspbNotificationActionForm extends LightningElement {
 		try {
 			TASK_UPDATE({ taskId: symptomActiontask })
 		}
-		catch (err) {
-			this.showToast(resources.ERROR_MESSAGE, err.message, resources.ERROR_VARIANT);
+		catch {
+			let globalThis=window;
+			globalThis.location.href = resources.ERROR_PAGE;
+			globalThis.sessionStorage.setItem('errorMessage', resources.UPDATE_NOTIFICATION_ERROR);
 		}
 	}
 	// Navigate to symptom page
@@ -461,32 +463,32 @@ export default class BiPspbNotificationActionForm extends LightningElement {
 		this.symptomTaskId = event.target.dataset.id;
 		this.updatesymptomcompleted(this.symptomTaskId);
 		let globalThis = window;
-		globalThis.location?.assign(this.urlq + resources.BI_PSPB_SYMPTOM_TRACKER_MAIN);
+		globalThis.location?.assign(this.urlq + resources.SYMPTOM_TRACKER_MAIN);
 	}
 	// Navigate to QSQ page
 	clickQuestionQsq() {
 		let globalThis = window;
-		globalThis.location?.assign(this.urlq + resources.BI_PSPB_QSQ_QUESTIONNAIRE_URL);
+		globalThis.location?.assign(this.urlq + resources.QSQ_QUESTIONNAIRE_URL);
 	}
 	// Navigate to PSS page
 	clickQuestionPss() {
 		let globalThis = window;
-		globalThis.location?.assign(this.urlq + resources.BI_PSPB_PSS_QUESTIONNAIRE_URL);
+		globalThis.location?.assign(this.urlq + resources.PSS_QUESTIONNAIRE_URL);
 	}
 	// Navigate to WPAI page
 	clickQuestionWpai() {
 		let globalThis = window;
-		globalThis.location?.assign(this.urlq + resources.BI_PSPB_WPAI_QUESTIONNAIRE_URL);
+		globalThis.location?.assign(this.urlq + resources.WPAI_QUESTIONNAIRE_URL);
 	}
 	// Navigate to DLQI page
 	clickQuestionDlqi() {
 		let globalThis = window;
-		globalThis.location?.assign(this.urlq + resources.BI_PSPB_DLQI_QUESTIONNAIRE_URL);
+		globalThis.location?.assign(this.urlq + resources.DLQI_QUESTIONNAIRE_URL);
 	}
 	// Navigate to Lets personalise page
 	clickLetPerQuestion() {
 		let globalThis = window;
-		globalThis.location?.assign(this.urlq + resources.BI_PSPB_PERSONALIZE_QUESTIONNAIRE_URL);
+		globalThis.location?.assign(this.urlq + resources.PERSONALIZE_QUESTIONNAIRE_URL);
 	}
 	// To set the date value to enter
 	setMinMaxDates() {
@@ -495,32 +497,4 @@ export default class BiPspbNotificationActionForm extends LightningElement {
         const todayFormatted = today.toISOString().split('T')[0];
         this.maxDate = todayFormatted;
     }
-	// To display toast when error occurs
-	showToast(title, message, variant) {
-		if (typeof window !== 'undefined') {
-			const event = new ShowToastEvent({
-				title: title,
-				message: message,
-				variant: variant
-			});
-			this.dispatchEvent(event);
-		}
-	}
-	// automatically close the toast
-	delay(ms) {
-		return new Promise((resolve) => setTimeout(resolve, ms));
-	}
-	// To display toast message
-	handleToastTemplate() {
-		try {
-			this.delay(6000).then(() => {
-				this.showDeleteToastMsg = false;
-				this.showDeleteToastDate = false;
-			}).catch((error) => {
-				this.showToast(resources.ERROR_MESSAGE, error.message, resources.ERROR_VARIANT);
-			});
-		} catch (error) {
-			this.showToast(resources.ERROR_MESSAGE, error.message, resources.ERROR_VARIANT);
-		}
-	}
 }

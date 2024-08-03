@@ -8,8 +8,8 @@
 */
 public with sharing class BI_PSPB_WpaiQuestionariesSched implements Schedulable {
 	/**
-	 * @description  Used to create task when a video is uploaded and calling the
-	 * method to send sms and email.
+	 * @description Used to scehdule a job when a post is created in community.
+	 * @param ctx The context in which the job is executed.
 	 */
 	public void execute(SchedulableContext ctx) {
 		try {

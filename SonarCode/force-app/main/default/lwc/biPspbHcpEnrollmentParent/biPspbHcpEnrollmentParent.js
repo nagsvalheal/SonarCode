@@ -4,8 +4,8 @@ import { resource } from "c/biPspbEnrollmentFormResource";
 
 export default class BiPspbHcpEnrollmentParent extends LightningElement {
 	//Proper naming conventions with camel case for all the variable will be followed in the future releases
-	homeIcon = resource.HOME_ICON;
-	beyondGpp = resource.BEYOND_GPP_LOGO;
-	footerSrc = resource.FOOTER_COPYRIGHT;
-	logoSrc = resource.HEADER_SPEVIGO;
+	
+	beyondGpp = resource.BGPP;
+	footerSrc = resource.BIFOOTER_LOGO_JPEG_URL;
+	logoSrc = resource.SPEVIGO_LOGO_JPEG_URL;
 }

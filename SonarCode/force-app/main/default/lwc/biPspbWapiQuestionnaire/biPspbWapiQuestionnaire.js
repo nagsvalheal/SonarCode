@@ -1,6 +1,6 @@
 //This Lightning Web Component facilitating user measurement of health problem effects on work and regular activities.
 //To import Libraries
-import { LightningElement, wire, track } from 'lwc';
+import { LightningElement, wire, track} from 'lwc';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 //To import Apex classes
 import GET_THE_ASSESSMENT_QUESTION from '@salesforce/apex/BI_PSP_AssessmentQuestionsCtrl.getTheAssesmentQuestion';
@@ -18,63 +18,14 @@ import WPAI_IMAGE from '@salesforce/resourceUrl/BI_PSP_WpaiImage';
 import QUALITATIVE_IMAGE from '@salesforce/resourceUrl/BI_PSP_QualitativeImage';
 import ALERT_ICON from '@salesforce/resourceUrl/BI_PSP_AlertIcon';
 //To import Custom labels
-import INTRODUCTION_CATEGORY from '@salesforce/label/c.BI_PSP_IntroductionTxt';
-import PSS_CATEGORY from '@salesforce/label/c.BI_PSP_PssCategory';
-import WAPI_CATEGORY from '@salesforce/label/c.BI_PSP_WapiCategory';
-import DLQI_CATEGORY from '@salesforce/label/c.BI_PSP_DlqiCategory';
-import QUALITATIVE_CATEGORY from '@salesforce/label/c.BI_PSP_QualitativeCategory';
-import WAPI from '@salesforce/label/c.BI_PSP_WpaiQstnrTxt';
-import WPAI_FOOTER_MSG_FIRST from '@salesforce/label/c.BI_PSP_WpaiBottomTxt';
-import WPAI_SEC_FOOTER_MSG from '@salesforce/label/c.BI_PSP_PssBottomSecndMsg';
-import YES from '@salesforce/label/c.BI_PSP_OptionValueYes';
-import NO from '@salesforce/label/c.BI_PSP_OptionValueNo';
-import INCLUDE_TEXT from '@salesforce/label/c.BI_PSP_WpaiIncludeTxt';
-import WPAI_ALERT_TEXT from '@salesforce/label/c.BI_PSP_WpaiAlertText';
-import HOURS from '@salesforce/label/c.BI_PSP_HoursForChatter';
-import WPAI_SKIP from '@salesforce/label/c.BI_PSP_WpaiSkipTxt';
-import WPAI_SEC_TEXT from '@salesforce/label/c.BI_PSP_WpaiSecTxt';
-import WPAI_WORK_LEFT from '@salesforce/label/c.BI_PSP_WpaiWorkLeft';
-import WPAI_WORK_RIGHT from '@salesforce/label/c.BI_PSP_WpaiWorkRight';
-import WPAI_SLIDER_QUEST_TEXT from '@salesforce/label/c.BI_PSP_WpaiSliderQuestText';
-import WPAI_DAILY_LEFT from '@salesforce/label/c.BI_PSP_WpaiDailyLeft';
-import WPAI_DAILY_RIGHT from '@salesforce/label/c.BI_PSP_WpaiDailyRight';
-import ANSWERED from '@salesforce/label/c.BI_PSP_NumOfAnsrdQstn';
-import BUTTON_SUBMIT from '@salesforce/label/c.BI_PSP_ButtonSubmit';
-import DRAFT_BUTTON from '@salesforce/label/c.BI_PSP_DraftButton';
-import QUESTIONNAIRE_ROLL_OUT_DATE from '@salesforce/label/c.BI_PSP_QuestnrRollOutDate';
-import QUESTIONNAIRE_EXPIRES_ON from '@salesforce/label/c.BI_PSP_QuestnrExpiresOn';
-import OUTSTANDING_PAGE_TEXT from '@salesforce/label/c.BI_PSP_OutstndngPageTxt';
-import BUTTON_RETURN_BACK from '@salesforce/label/c.BI_PSP_ButtonReturnback';
-import BUTTON_CONFIRM_SUB from '@salesforce/label/c.BI_PSP_ButtonConfirmSub';
-import CANCEL_BUTTON from '@salesforce/label/c.BI_PSP_CancelButton';
-import CONFIRM_BUTTON from '@salesforce/label/c.BI_PSP_ConfirmButton';
-import WORKING_FOR_PAY_TEXT from '@salesforce/label/c.BI_PSP_WorkingForPayText';
-import WPAI_NAME from '@salesforce/label/c.BI_PSP_WapiCategory';
-import BRANDED_URL from '@salesforce/label/c.BI_PSPB_SiteLabel';
-import UN_ASSIGNED_URL from '@salesforce/label/c.BI_PSPB_UnAssignedLabel';
-import SUBMIT_LABEL from '@salesforce/label/c.BI_PSP_SubmitLabel';
-import QUALITATIVE_TWO_MONTHS from '@salesforce/label/c.BI_PSPB_QualitativeTwoMonths';
-import QUALITATIVE_FOURTEEN_WEEKS from '@salesforce/label/c.BI_PSPB_QualitativeFourteenWeeks';
-import DLQI_QUESTIONNAIRE_URL from '@salesforce/label/c.BI_PSPB_DlqiQuestionnaireUrl';
-import PSORIASIS_QUES_URL from '@salesforce/label/c.BI_PSPB_PsoriasisQuesUrl';
-import OUTSTANDING_PAGE from '@salesforce/label/c.BI_PSPB_OutstndngPageUrl';
-import BRANDED_URL_NAVI from '@salesforce/label/c.BI_PSPB_BrandedSiteNaviUrl';
-import UN_ASSIGNED_URL_NAVI from '@salesforce/label/c.BI_PSPB_UnAssignedNaviUrl';
-import COMPLETED_ALL from '@salesforce/label/c.BI_PSP_CompleteAll';
-import POPUP_MESSAGE from '@salesforce/label/c.BI_PSP_MsgPopupTxt';
-import CANNOT_EDIT_MSG from '@salesforce/label/c.BI_PSP_CannotEditMsg';
+import * as labels from 'c/biPspbLabelAndResourceForQuestionnaire';
 import ERROR_VARIANT_TOAST from '@salesforce/label/c.BI_PSP_ErrorVariantToast';
 import CONSOLE_ERROR_MESSAGE from '@salesforce/label/c.BI_PSP_ConsoleError';
-import IN_PROGRESS from '@salesforce/label/c.BI_PSP_InProgressTxt';
-import EXPIRED from '@salesforce/label/c.BI_PSP_Expired';
-import COMPLETED_LABEL from '@salesforce/label/c.BI_PSP_Completed';
 // To get Current UserId
 import Id from '@salesforce/user/Id';
-
 export default class BiPspbWapiQuestionnaire extends LightningElement {
-	//Proper naming conventions with camel case for all the variable will be followed in the future releases
-	//Track variable Declarations(re-render variables).
-	/**** new change*/
+
+	//Global variables
 	firstNumberRecrdId;
 	secondNumberRecrdId;
 	thirdNumberRecrdId;
@@ -83,61 +34,59 @@ export default class BiPspbWapiQuestionnaire extends LightningElement {
 	sixththRel = false;
 	firstQuesIsNo = false;
 	firstQuesIsYes = false;
-	/**** */
 	twoMonthsTrueFalse = false;
-	@track yesOrNo;
-	@track secondQuestionVisible = false;
-	@track sliderThumb = false;
-	@track totalDraftResponses = 0;
-	@track nameToDraftFirst;
-	@track nameToDraftSecond;
-	@track nameToDraftThird;
-	@track nameToDraftFourth;
-	@track nameToDraftFifth;
-	@track nameToDraftSixth;
-	@track firstNumberValue = '';
-	@track secondNumberValue = '';
-	@track thirdNumberValue = '';
-	@track displayTotalMessage = false;
-	@track totalValueToUi;
-	@track errorFlag = false;
-	@track responseValue;
-	@track firstRspValue = '';
-	@track firstRespVersId = '';
-	@track secondRspValue = '';
-	@track secondRespVersId = '';
-	@track thirdRspValue = '';
-	@track thirdVersionId = '';
-	@track fourthRspValue = '';
-	@track fourthVersionId = '';
-	@track fifthResonseValue = '';
-	@track fifthVersionId = '';
-	@track sixthResponseValue = '';
-	@track sixthVersiD = '';
-	@track numberOfResponses;
-	@track checkYesOrNo = false;
-	@track firstQuestionResponse = '';
-	@track secondQuestionResponse = '';
-	@track thirdQuestionResponse = '';
-	@track fourthQuestionResponse = '';
-	@track fifthQuestionresponse = '';
-	@track sixthQuestionResponse = '';
+	yesOrNo;
+	secondQuestionVisible = false;
+	sliderThumb = false;
+	totalDraftResponses = 0;
+	nameToDraftFirst;
+	nameToDraftSecond;
+	nameToDraftThird;
+	nameToDraftFourth;
+	nameToDraftFifth;
+	nameToDraftSixth;
+	firstNumberValue = '';
+	secondNumberValue = '';
+	thirdNumberValue = '';
+	displayTotalMessage = false;
+	totalValueToUi;
+	errorFlag = false;
+	responseValue;
+	firstRspValue = '';
+	firstRespVersId = '';
+	secondRspValue = '';
+	secondRespVersId = '';
+	thirdRspValue = '';
+	thirdVersionId = '';
+	fourthRspValue = '';
+	fourthVersionId = '';
+	fifthResonseValue = '';
+	fifthVersionId = '';
+	sixthResponseValue = '';
+	sixthVersiD = '';
+	numberOfResponses;
+	checkYesOrNo = false;
+	firstQuestionResponse = '';
+	secondQuestionResponse = '';
+	thirdQuestionResponse = '';
+	fourthQuestionResponse = '';
+	fifthQuestionresponse = '';
+	sixthQuestionResponse = '';
 	@track realAssesVerArra = [];
 	@track realRespArray = [];
 	@track arrayForPushResp = [];
 	@track arrayForPushId = [];
-	@track isConfirmationDialogOpen = false;
-	@track customFormModal = false;
-	@track message = COMPLETED_ALL;
-	@track saveAsDraftContent = SUBMIT_LABEL;
-	@track isDraftSavedPopupOpen = false;
-	@track draftSavedMessage = POPUP_MESSAGE;
-	@track selectedOption;
-	@track isPopupOpen = false;
-	@track saveAsDraftPopUp = false;
-	@track sliderValue = 0;
-	@track sliderValueSec = 0;
-	//Global variables(without @track does not trigger automatic re-renders)
+	isConfirmationDialogOpen = false;
+	customFormModal = false;
+	message = labels.COMPLETED_ALL;
+	saveAsDraftContent = labels.SUBMIT_LABEL;
+	isDraftSavedPopupOpen = false;
+	draftSavedMessage = labels.POPUP_MESSAGE;
+	selectedOption;
+	isPopupOpen = false;
+	saveAsDraftPopUp = false;
+	sliderValue = 0;
+	sliderValueSec = 0;
 	drfatNoCheck = false;
 	noCheck;
 	errorMessageCheck;
@@ -168,7 +117,7 @@ export default class BiPspbWapiQuestionnaire extends LightningElement {
 	sixthDraftVersionId = '';
 	dateResponses = [];
 	storeDate;
-	categoryname = WPAI_NAME;
+	categoryname = labels.WPAI_CATEGORY;
 	firstQuestionVersinId;
 	secondQuestionVersinId;
 	assVerId;
@@ -179,38 +128,38 @@ export default class BiPspbWapiQuestionnaire extends LightningElement {
 	wpaiCardImage = WPAI_IMAGE;
 	qsqCardImage = QUALITATIVE_IMAGE;
 	errorIcon = ALERT_ICON;
-	wpaiFirstFooterMsg = WPAI_FOOTER_MSG_FIRST;
-	wpaiSecndFooterMsg = WPAI_SEC_FOOTER_MSG;
-	introduction = INTRODUCTION_CATEGORY;
-	pss = PSS_CATEGORY;
-	dlqi = DLQI_CATEGORY;
-	wapi = WAPI_CATEGORY;
-	qsq = QUALITATIVE_CATEGORY;
-	workingForPay = WORKING_FOR_PAY_TEXT;
-	wpaiText = WAPI;
-	yes = YES;
-	no = NO;
-	includeHelpText = INCLUDE_TEXT;
-	alertText = WPAI_ALERT_TEXT;
-	hours = HOURS;
-	skipText = WPAI_SKIP;
-	sliderText = WPAI_SEC_TEXT;
-	workSliderLeft = WPAI_WORK_LEFT;
-	workSliderRight = WPAI_WORK_RIGHT;
-	sliderTextTwo = WPAI_SLIDER_QUEST_TEXT;
-	dailySliderLeft = WPAI_DAILY_LEFT;
-	dailySliderRight = WPAI_DAILY_RIGHT;
-	answered = ANSWERED;
-	submit = BUTTON_SUBMIT;
-	saveasdraft = DRAFT_BUTTON;
-	rolloutdate = QUESTIONNAIRE_ROLL_OUT_DATE;
-	expiresOn = QUESTIONNAIRE_EXPIRES_ON;
-	outstandingQue = OUTSTANDING_PAGE_TEXT;
-	returnBackc = BUTTON_RETURN_BACK;
-	confirmSub = BUTTON_CONFIRM_SUB;
-	cannotEdit = CANNOT_EDIT_MSG;
-	cancelbt = CANCEL_BUTTON;
-	confirmbt = CONFIRM_BUTTON;
+	wpaiFirstFooterMsg = labels.WPAI_BOTTOM_TXT;
+	wpaiSecndFooterMsg = labels.PSS_BOTTOM_SEC_MSG;
+	introduction = labels.INTRODUCTION_CATEGORY;
+	pss = labels.PSS_CATEGORY;
+	dlqi = labels.DLQI_CATEGORY;
+	wapi = labels.WPAI_CATEGORY;
+	qsq = labels.QUALITATIVE_LABEL;
+	workingForPay = labels.WORKING_FOR_PAY_TEXT;
+	wpaiText = labels.WPAI_TXT;
+	yes = labels.YES_LABEL;
+	no = labels.NO_LABEL;
+	includeHelpText = labels.INCLUDE_TXT;
+	alertText = labels.WPAI_ALERT_TEXT;
+	hours = labels.HOUR_TXT;
+	skipText = labels.WPAI_SKIP;
+	sliderText = labels.WPAI_SEC_TXT;
+	workSliderLeft = labels.WPAI_WORK_LEFT;
+	workSliderRight = labels.WPAI_WORK_RIGHT;
+	sliderTextTwo = labels.WPAI_SLIDER_QUEST_TEXT;
+	dailySliderLeft = labels.WPAI_DAILY_LEFT;
+	dailySliderRight = labels.WPAI_DAILY_RIGHT;
+	answered = labels.ANSWERED;
+	submit = labels.SUBMIT;
+	saveasdraft = labels.SAVE_AS_DRAFT;
+	rolloutdate = labels.ROLLOUT_DATE;
+	expiresOn = labels.EXPIRES_ON;
+	outstandingQue = labels.OUTSTANDING_QUESTIONNAIRE;
+	returnBackc = labels.BUTTON_RETURN_BACK;
+	confirmSub = labels.BUTTON_CONFIRM_SUB;
+	cannotEdit = labels.CANNOT_EDIT_MSG;
+	cancelbt = labels.CANCEL_BUTTON;
+	confirmbt = labels.CONFIRM_BUTTON;
 	targetDateFourteenWks;
 	targetDateTwoMonths;
 	forteenWeeks;
@@ -315,10 +264,10 @@ export default class BiPspbWapiQuestionnaire extends LightningElement {
 		this.assessmentId = data.length > 0 ? data[0].Id : null;
 		this.status = data.length > 0 ? data[0].AssessmentStatus : null;
 
-		if (this.status === EXPIRED) {
+		if (this.status === labels.EXPIRED) {
 			this.calculateDates(data[0].ExpirationDateTime);
 		}
-		else if (this.status === IN_PROGRESS || this.status === COMPLETED_LABEL) {
+		else if (this.status === labels.IN_PROGRESS || this.status === labels.COMPLETED_LABEL) {
 			this.calculateDates(data[0].BI_PSP_RolloutforCompletedQuestionnarie__c)
 		}
 	}
@@ -579,16 +528,16 @@ export default class BiPspbWapiQuestionnaire extends LightningElement {
 			let pathComponents = path.split('/');
 			// Find the desired component in the path
 			let desiredComponent = pathComponents.find((component) =>
-				[BRANDED_URL.toLowerCase(), UN_ASSIGNED_URL.toLowerCase()].includes(
+				[labels.BRANDED_URL.toLowerCase(), labels.UN_ASSIGNED_URL.toLowerCase()].includes(
 					component.toLowerCase()
 				)
 			);
 
 			// Determine the URL type based on the desired component
-			if (desiredComponent.toLowerCase() === BRANDED_URL.toLowerCase()) {
-				this.urlq = BRANDED_URL_NAVI;
+			if (desiredComponent.toLowerCase() === labels.BRANDED_URL.toLowerCase()) {
+				this.urlq = labels.BRANDED_NAVI_URL;
 			} else {
-				this.urlq = UN_ASSIGNED_URL_NAVI;
+				this.urlq = labels.UN_ASSIGNED_URL_NAVI;
 			}
 
 			// Update thumb label position for a slider
@@ -1163,14 +1112,14 @@ export default class BiPspbWapiQuestionnaire extends LightningElement {
 	* Navigates the user to the DLQI questionnaire page based on the current URL.
 	*/
 	navigateToCategory2() {
-		window.location.assign(this.urlq + DLQI_QUESTIONNAIRE_URL);
+		window.location.assign(this.urlq + labels.DLQI_URL);
 	}
 
 	/**
 	* Navigates the user to the PSS questionnaire page based on the current URL.
 	*/
 	navigateToCategory3() {
-		window.location.assign(this.urlq + PSORIASIS_QUES_URL);
+		window.location.assign(this.urlq + labels.PSS_QUESTIONNAIRE_URL);
 	}
 
 	/**
@@ -1179,9 +1128,9 @@ export default class BiPspbWapiQuestionnaire extends LightningElement {
 	*/
 	navigateToCategory5() {
 		if (this.targetDateFourteenWks !== null) {
-			window.location.assign(this.urlq + QUALITATIVE_FOURTEEN_WEEKS); // Navigate to page 2
+			window.location.assign(this.urlq + labels.QUALITATIVE_FOURTEENWEEKS); // Navigate to page 2
 		} else {
-			window.location.assign(this.urlq + QUALITATIVE_TWO_MONTHS); // Navigate to page 1
+			window.location.assign(this.urlq + labels.QUALITATIVE_TWO_MONTHS); // Navigate to page 1
 		}
 	}
 
@@ -1424,7 +1373,7 @@ export default class BiPspbWapiQuestionnaire extends LightningElement {
 					this.showToast(CONSOLE_ERROR_MESSAGE, error.message, ERROR_VARIANT_TOAST);
 				});
 		} else {
-			window.location.assign(this.urlq + OUTSTANDING_PAGE);
+			window.location.assign(this.urlq + labels.OUT_STANDING_URL);
 		}
 	}
 
@@ -1462,7 +1411,7 @@ export default class BiPspbWapiQuestionnaire extends LightningElement {
 
 		this.deleteSelectedResponses(recordIdsToDelete);
 
-		window.location.assign(this.urlq + OUTSTANDING_PAGE);
+		window.location.assign(this.urlq + labels.OUTSTANDING_PAGE);
 
 		this.prepareResponseArrays();
 
@@ -1474,7 +1423,7 @@ export default class BiPspbWapiQuestionnaire extends LightningElement {
 	//this will close the popup method and make a naviagtion
 	closeDraftSavedPopup() {
 		this.isDraftSavedPopupOpen = false;
-		window.location.assign(this.urlq + OUTSTANDING_PAGE);
+		window.location.assign(this.urlq + labels.OUTSTANDING_PAGE);
 	}
 	//custom pop up method as per requirement it should be deplay for certain ms 
 	popUpMetod() {

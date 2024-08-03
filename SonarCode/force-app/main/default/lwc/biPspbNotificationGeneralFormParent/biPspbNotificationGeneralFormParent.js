@@ -1,7 +1,6 @@
 //This Consolidated component is used to display the General Notification For Patient on click of the notification icon in Dashboard
 //To import the Libraries
 import { LightningElement } from 'lwc';
-import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 //To import the Custom labels
 import BRANDED_URL from '@salesforce/label/c.BI_PSPB_SiteLabel';
 import UN_ASSIGNED_URL from '@salesforce/label/c.BI_PSPB_UnAssignedLabel';
@@ -22,7 +21,6 @@ export default class BiPspbNotificationGeneralFormParent extends LightningElemen
 			let DESIREDCOMPONENT = PATHCOMPONENTS.find(component =>
 				[BRANDED_URL.toLowerCase(), UN_ASSIGNED_URL.toLowerCase()].includes(component.toLowerCase())
 			);
-
 			if (DESIREDCOMPONENT.toLowerCase() === BRANDED_URL.toLowerCase()) {
 				this.urlq = BRANDED_URL;
 			}
@@ -30,8 +28,10 @@ export default class BiPspbNotificationGeneralFormParent extends LightningElemen
 				this.urlq = UN_ASSIGNED_URL;
 			}
 		}
-		catch (error) {
-			this.showToast(resources.ERROR_MESSAGE, error.message, resources.ERROR_VARIANT);
+		catch {
+			let globalThis=window;
+			globalThis.location.href = resources.ERROR_PAGE;
+			globalThis.sessionStorage.setItem('errorMessage', resources.URL_TYPE_ERROR);
 		}
 	}
 	// navigation for messagecenter page  
@@ -48,17 +48,5 @@ export default class BiPspbNotificationGeneralFormParent extends LightningElemen
 	openHistory() {
 		let globalThis = window;
 		globalThis.location?.assign(resources.HISTORY_URL);
-	}
-
-	//This ShowToast message is used for get error
-	showToast(title, message, variant) {
-		if (typeof window !== 'undefined') {
-			const event = new ShowToastEvent({
-				title: title,
-				message: message,
-				variant: variant
-			});
-			this.dispatchEvent(event);
-		}
 	}
 }

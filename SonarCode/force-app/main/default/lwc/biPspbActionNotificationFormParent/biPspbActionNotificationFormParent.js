@@ -1,7 +1,6 @@
 //This Consolidated component is used to display the Action Notification For Patient on click of the notification icon in Dashboard
 //To import the Libraries
 import { LightningElement } from 'lwc';
-import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 //To import the Custom labels
 import UN_ASSIGNED_URL from '@salesforce/label/c.BI_PSPB_UnAssignedLabel';
 import BRANDED_URL from '@salesforce/label/c.BI_PSPB_SiteLabel';
@@ -30,7 +29,9 @@ export default class BiPspbActionNotificationFormParent extends LightningElement
 			}
 		}
 		catch (error) {
-			this.showToast(resources.ERROR_MESSAGE, error.message, resources.ERROR_VARIANT);
+			let globalThis=window;
+			globalThis.location.href = resources.ERROR_PAGE;
+			globalThis.sessionStorage.setItem('errorMessage', resources.URL_TYPE_ERROR);
 		}
 	}
 	// navigation for messagecenter page  
@@ -47,17 +48,5 @@ export default class BiPspbActionNotificationFormParent extends LightningElement
 	openHistory() {
 		const globalThis = window;
 		globalThis.location?.assign(resources.HISTORY_URL);
-	}
-
-	//This ShowToast message is used for get error
-	showToast(title, message, variant) {
-		if (typeof window !== 'undefined') {
-			const event = new ShowToastEvent({
-				title: title,
-				message: message,
-				variant: variant
-			});
-			this.dispatchEvent(event);
-		}
 	}
 }

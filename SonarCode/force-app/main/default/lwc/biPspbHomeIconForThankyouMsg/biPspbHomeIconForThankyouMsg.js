@@ -9,7 +9,9 @@ export default class BiPspbHomeIconForThankyouMsg extends LightningElement {
 	HIcon = resource.HOME_ICON;
 	HIconMobile = resource.HOME_ICON_MOBILE;
 	openModal;
-
+	okay = resource.OKAY;
+	leaveThisPage = resource.LEAVE_THIS_PAGE;
+	cancelLabel = resource.CANCEL ;
 	openhome() {
 		this.openModal = true;
 	}

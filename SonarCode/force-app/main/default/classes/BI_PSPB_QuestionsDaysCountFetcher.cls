@@ -10,6 +10,7 @@ public with sharing class BI_PSPB_QuestionsDaysCountFetcher {
     /**
 	* @description  Used to create task when a video is uploaded and calling the
 	* method to send sms and email.
+    * @return A list of BI_PSPB_Treatment_Reminder__c objects that match the criteria.
 	*/
     public static Integer fetchDlqiCount() {
         BI_PSPB_Days_Count__mdt mcs = BI_PSPB_Days_Count__mdt.getInstance(
@@ -20,6 +21,7 @@ public with sharing class BI_PSPB_QuestionsDaysCountFetcher {
     /**
 	* @description  Used to create task when a video is uploaded and calling the
 	* method to send sms and email.
+    * @return A list of BI_PSPB_Treatment_Reminder__c objects that match the criteria.
 	*/
     public static Integer fetchPssCount() {
         BI_PSPB_Days_Count__mdt mcs = BI_PSPB_Days_Count__mdt.getInstance(
@@ -30,6 +32,7 @@ public with sharing class BI_PSPB_QuestionsDaysCountFetcher {
     /**
 	* @description  Used to create task when a video is uploaded and calling the
 	* method to send sms and email.
+    * @return A list of BI_PSPB_Treatment_Reminder__c objects that match the criteria.
 	*/
     public static Integer fetchWpaiCount() {
         BI_PSPB_Days_Count__mdt mcs = BI_PSPB_Days_Count__mdt.getInstance(
@@ -40,6 +43,7 @@ public with sharing class BI_PSPB_QuestionsDaysCountFetcher {
     /**
 	* @description  Used to create task when a video is uploaded and calling the
 	* method to send sms and email.
+    * @return A list of BI_PSPB_Treatment_Reminder__c objects that match the criteria.
 	*/
     public static Integer fetchQsqCount() {
         BI_PSPB_Days_Count__mdt mcs = BI_PSPB_Days_Count__mdt.getInstance(

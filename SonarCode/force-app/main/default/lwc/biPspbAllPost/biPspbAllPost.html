@@ -10,13 +10,13 @@
       <img src={deleteToast} data-scroll-target class="deletetoastimg" />
       &nbsp;&nbsp;&nbsp;&nbsp;
       <p if:true={showDeleteToastMsg} class="cmtdeltoastmsg">
-        Comment deleted successfully.
+        {commentToastContent}
       </p>
       <p if:true={showFollowToastMsg} class="flwtoastmsg">
-        You started following {username}.
+        {followingToastContent} {username}.
       </p>
       <p if:true={showUnfollowToastMsg} class="flwtoastmsg">
-        You unfollowed {username} successfully.
+        {unFollowingToastContent} {username} {unFollowingPartToastContent}
       </p>
     </div>
   </template>
@@ -29,9 +29,7 @@
         <br />
         <div class="avatarcontent">
           <p class="avatartext">
-            This is the patient community forum! Create posts, react and
-            comment, connect with others and build a supportive community in
-            your health journey.
+            {avatarContent}
           </p>
         </div>
       </div>
@@ -42,13 +40,13 @@
         <div class="toastmsgformobile">
           <img src={deleteToast} class="deletetoastimg" />
           <p if:true={showDeleteToastMsg} class="tstmsg">
-            Comment deleted succesfully.
+            {commentToastContent}
           </p>
           <p if:true={showFollowToastMsg} class="flwtoastmsg">
-            You started following {username}.
+            {followingToastContent} {username}.
           </p>
           <p if:true={showUnfollowToastMsg} class="flwtoastmsg">
-            You unfollowed {username} successfully.
+            {unFollowingToastContent} {username} {unFollowingPartToastContent}
           </p>
           <div
             class="toastmsgcloseformbl"
@@ -63,13 +61,13 @@
         <div class="bodyclr">
           <br />
           <!-- Allpost Title and Create Post button -->
-          <p data-scroll-target class="allpost">All Posts</p>
+          <p data-scroll-target class="allpost">{allPostLabel}s</p>
           <button
             class="allpostbtn"
             onclick={goToCreatePost}
             data-it-button="allPost: reate New Post"
           >
-            Create New Post
+            {createNewPost}
           </button>
           <br />
           <!-- if None of the user haven't created a post yet (post created by the users are 0) display this content -->
@@ -77,9 +75,7 @@
             <div class="allpostNone">
               <img src={allPostImg} class="postimage" />
               <p class="allpostmsg">
-                Welcome to the patient community forum! You don’t have any posts
-                at the moment. Share your thoughts and experiences with the
-                community by creating a new post
+                {noAllPost}
               </p>
               <br /><br />
             </div>
@@ -150,7 +146,7 @@
                         class="totalreaction"
                         data-it-button="allPost: View Reactions"
                       >
-                        {allposts.CountEmoji} Reactions
+                        {allposts.CountEmoji} {reactionsLabel}
                       </p>
                       <!-- Total Comment Count of the Post if the user clicks ,it shows the comments -->
                       <span
@@ -160,7 +156,7 @@
                         data-custom-feeditem-id={allposts.Id}
                         data-it-button="allPost: ViewComments"
                         onclick={commentBoxOpen}
-                        >{allposts.displayHide} {allposts.CommentCount} Comments
+                        >{allposts.displayHide} {allposts.CommentCount} {commentsLabel}
                       </span>
                       <hr class="lineforcomment" />
                     </div>
@@ -180,7 +176,7 @@
                             >
                               X
                             </button>
-                            <h1 class="reactiontext">Reactions</h1>
+                            <h1 class="reactiontext">{reactionsLabel}</h1>
                             <br />
                             <!-- All Emoji Button if the User click the emoji , it shows the Username who reacted to that post -->
                             <div class="mypostemoji-buttons">
@@ -199,7 +195,7 @@
                                   data-emoji="thumbsup"
                                   data-it-button="allPost: ViewReaction - ThumbsUp"
                                 >
-                                  Thumbs up
+                                  {thumbsUpLabel}
                                 </p>
                               </div>
                               <br />
@@ -217,7 +213,7 @@
                                   data-emoji="smile"
                                   data-it-button="allPost: ViewReaction - Smile"
                                 >
-                                  Smile
+                                  {smileLabel}
                                 </p>
                               </div>
                               <div
@@ -234,7 +230,7 @@
                                   data-emoji="foldedhands"
                                   data-it-button="allPost: ViewReaction - Hands Folded"
                                 >
-                                  Hands Folded
+                                  {handsFoldedLabel}
                                 </p>
                               </div>
                               <br />
@@ -249,7 +245,7 @@
                                   data-emoji="heart"
                                   data-it-button="allPost: ViewReaction - Heart"
                                 >
-                                  Heart
+                                  {heartLabel}
                                 </p>
                               </div>
                               <div
@@ -266,7 +262,7 @@
                                   data-emoji="thinkingface"
                                   data-it-button="allPost: ViewReaction - Thoughtful"
                                 >
-                                  Thoughtful
+                                  {thoughtfulLabel}
                                 </p>
                               </div>
                             </div>
@@ -274,7 +270,7 @@
                             <div class="reactedusers">
                               <template if:true={noReactionForThisEmoji}>
                                 <img src={noComment} class="NoCommentImage" />
-                                <p class="noreacteduser">No reactions yet!</p>
+                                <p class="noreacteduser">{noReactionYet}</p>
                                 <br />
                                 <br />
                               </template>
@@ -321,7 +317,7 @@
                                   <template if:true={emojiFollowProfile}>
                                     <div class="back">
                                       <div class="follow-profile-container">
-                                        <p class="emojiprofilepop">Profile</p>
+                                        <p class="emojiprofilepop">{profileLabel}</p>
                                         <button
                                           onclick={emojiClosePopup}
                                           data-it-button="AllPost: Close Follow "
@@ -340,7 +336,7 @@
                                           class="popupbutton secon"
                                           onclick={emojiFollowPopupButtonClick}
                                         >
-                                          Follow
+                                          {followLabel}
                                         </button>
                                       </div>
                                     </div>
@@ -356,21 +352,17 @@
                                           X
                                         </button>
                                         <p class="popuptitle">
-                                          Follow User?<br />
+                                        {followUserText}<br />
                                         </p>
                                         <div>
                                           <p class="popupcontent second">
-                                            Are you sure you want to follow
+                                            {followPopupHeading}
                                             {followUserName}?<br /><br />
                                           </p>
                                         </div>
                                         <div>
                                           <p class="popupcontent four">
-                                            You'll now receive notifications
-                                            whenever this user creates a new
-                                            post. You can always change your
-                                            notification preferences in your
-                                            profile settings.
+                                            {followPopupContent}
                                           </p>
                                         </div>
                                         <button
@@ -378,14 +370,14 @@
                                           onclick={emojiClosePopup}
                                           data-it-button="AllPost:  Follow No "
                                         >
-                                          No
+                                          {no}
                                         </button>
                                         <button
                                           class="followyes1 five"
                                           onclick={emojiFollowYesBtn}
                                           data-it-button="AllPost:  Follow Yes"
                                         >
-                                          Yes
+                                          {yes}
                                         </button>
                                       </div>
                                     </div>
@@ -393,7 +385,7 @@
                                   <template if:true={emojiFollowingProfile}>
                                     <div class="back">
                                       <div class="follow-profile-container">
-                                        <p class="emojiprofilepop">Profile</p>
+                                        <p class="emojiprofilepop">{profileLabel}</p>
                                         <button
                                           onclick={emojiClosePopup}
                                           data-it-button="AllPost: Close UnFollow "
@@ -413,7 +405,7 @@
                                           data-it-button="AllPost:  UnFollow "
                                           onclick={emojiFollowingPopupButtonClick}
                                         >
-                                          Following
+                                          {followingLabel}
                                         </button>
                                       </div>
                                     </div>
@@ -431,36 +423,34 @@
                                         <p
                                           class="popleft emojifollowingpopuptitle"
                                         >
-                                          Unfollow User?<br />
+                                        {unFollowUserText}<br />
                                         </p>
                                         <div>
                                           <div>
                                             <p class="popupcontent second">
-                                              Are you sure you want to unfollow
+                                              {unFollowPopupHeading} 
                                               {followUserName}?<br /><br />
                                             </p>
                                           </div>
                                           <div>
                                             <p class="popupcontent third">
-                                              You'll no longer receive
-                                              notifications whenever this user
-                                              creates a new post.
+                                              {unFollowPopupContent}
                                             </p>
                                           </div>
                                           <div class="unfollowFlexContainer">
                                             <button
                                               class="followno unflwpad"
                                               onclick={emojiClosePopup}
-                                              data-it-button="AllPost:  UnFollow No "
+                                              data-it-button="AllPost:  UnFollow NoButton "
                                             >
-                                              No
+                                              {no}
                                             </button>
                                             <button
                                               class="followyes unflwpad"
                                               onclick={emojiUnfollowYesBtn}
                                               data-it-button="AllPost:  UnFollow Yes"
                                             >
-                                              Yes
+                                            {yes}
                                             </button>
                                           </div>
                                         </div>
@@ -509,7 +499,7 @@
                                         <div class="back">
                                           <div class="follow-profile-container">
                                             <p class="emojiprofilepop">
-                                              Profile
+                                              {profileLabel}
                                             </p>
                                             <button
                                               onclick={emojiClosePopup}
@@ -529,7 +519,7 @@
                                               class="popupbutton secon"
                                               onclick={emojiFollowPopupButtonClick}
                                             >
-                                              Follow
+                                              {followLabel}
                                             </button>
                                           </div>
                                         </div>
@@ -548,21 +538,17 @@
                                             </button>
 
                                             <p class="popuptitle">
-                                              Follow User?<br />
+                                            {followUserText}<br />
                                             </p>
                                             <div>
                                               <p class="popupcontent second">
-                                                Are you sure you want to follow
+                                                {followPopupHeading}
                                                 {followUserName}?<br /><br />
                                               </p>
                                             </div>
                                             <div>
                                               <p class="popupcontent four">
-                                                You'll now receive notifications
-                                                whenever this user creates a new
-                                                post. You can always change your
-                                                notification preferences in your
-                                                profile settings.
+                                                {followPopupContent}
                                               </p>
                                             </div>
                                             <button
@@ -570,14 +556,14 @@
                                               onclick={emojiClosePopup}
                                               data-it-button="AllPost:  Follow No "
                                             >
-                                              No
+                                              {no}
                                             </button>
                                             <button
                                               class="followyes1 five"
                                               onclick={emojiFollowYesBtn}
                                               data-it-button="AllPost:  Follow Yes "
                                             >
-                                              Yes
+                                            {yes}
                                             </button>
                                           </div>
                                         </div>
@@ -586,7 +572,7 @@
                                         <div class="back">
                                           <div class="follow-profile-container">
                                             <p class="emojiprofilepop">
-                                              Profile
+                                              {profileLabel}
                                             </p>
                                             <button
                                               onclick={emojiClosePopup}
@@ -606,7 +592,7 @@
                                               class="popupbuttonfollowing firs"
                                               onclick={emojiFollowingPopupButtonClick}
                                             >
-                                              Following
+                                              {followingLabel}
                                             </button>
                                           </div>
                                         </div>
@@ -628,19 +614,16 @@
                                             <p
                                               class="emojifollowingpopuptitle popleft"
                                             >
-                                              Unfollow User?<br />
+                                            {unFollowUserText}<br />
                                             </p>
                                             <div>
                                               <p class="popupcontent second">
-                                                Are you sure you want to
-                                                unfollow {followUserName}?<br /><br />
+                                                {unFollowPopupHeading} {followUserName}?<br /><br />
                                               </p>
                                             </div>
                                             <div>
                                               <p class="popupcontent third">
-                                                You'll no longer receive
-                                                notifications whenever this user
-                                                creates a new post.
+                                                {unFollowPopupContent}
                                               </p>
                                             </div>
                                             <div class="unfollowFlexContainer">
@@ -649,14 +632,14 @@
                                                 onclick={emojiClosePopup}
                                                 data-it-button="AllPost:  UnFollow No "
                                               >
-                                                No
+                                                {no}
                                               </button>
                                               <button
                                                 class="followyes unflwpad"
                                                 onclick={emojiUnfollowYesBtn}
                                                 data-it-button="AllPost:  UnFollow Yes"
                                               >
-                                                Yes
+                                              {yes}
                                               </button>
                                             </div>
                                           </div>
@@ -706,7 +689,7 @@
                                         <div class="back">
                                           <div class="follow-profile-container">
                                             <p class="emojiprofilepop">
-                                              Profile
+                                              {profileLabel}
                                             </p>
                                             <button
                                               onclick={emojiClosePopup}
@@ -726,7 +709,7 @@
                                               class="popupbutton secon"
                                               onclick={emojiFollowPopupButtonClick}
                                             >
-                                              Follow
+                                              {followLabel}
                                             </button>
                                           </div>
                                         </div>
@@ -744,34 +727,30 @@
                                               X
                                             </button>
                                             <p class="popuptitle">
-                                              Follow User?<br />
+                                            {followUserText}<br />
                                             </p>
                                             <div>
                                               <p class="popupcontent second">
-                                                Are you sure you want to follow
+                                                {followPopupHeading}
                                                 {followUserName}?<br /><br />
                                               </p>
                                             </div>
                                             <div>
                                               <p class="popupcontent four">
-                                                You'll now receive notifications
-                                                whenever this user creates a new
-                                                post. You can always change your
-                                                notification preferences in your
-                                                profile settings.
+                                                {followPopupContent}
                                               </p>
                                             </div>
                                             <button
                                               class="follownonly five"
                                               onclick={emojiClosePopup}
                                             >
-                                              No
+                                            {no}
                                             </button>
                                             <button
                                               class="followyes1 five"
                                               onclick={emojiFollowYesBtn}
                                             >
-                                              Yes
+                                              {yes}
                                             </button>
                                           </div>
                                         </div>
@@ -780,7 +759,7 @@
                                         <div class="back">
                                           <div class="follow-profile-container">
                                             <p class="emojiprofilepop">
-                                              Profile
+                                              {profileLabel}
                                             </p>
                                             <button
                                               onclick={emojiClosePopup}
@@ -800,7 +779,7 @@
                                               class="popupbuttonfollowing firs"
                                               onclick={emojiFollowingPopupButtonClick}
                                             >
-                                              Following
+                                              {followingLabel}
                                             </button>
                                           </div>
                                         </div>
@@ -822,19 +801,16 @@
                                             <p
                                               class="emojifollowingpopuptitle popleft"
                                             >
-                                              Unfollow User?<br />
+                                            {unFollowUserText}<br />
                                             </p>
                                             <div>
                                               <p class="popupcontent second">
-                                                Are you sure you want to
-                                                unfollow {followUserName}?<br /><br />
+                                                {unFollowPopupHeading} {followUserName}?<br /><br />
                                               </p>
                                             </div>
                                             <div>
                                               <p class="popupcontent third">
-                                                You'll no longer receive
-                                                notifications whenever this user
-                                                creates a new post.
+                                                {unFollowPopupContent}
                                               </p>
                                             </div>
                                             <div class="unfollowFlexContainer">
@@ -842,13 +818,13 @@
                                                 class="followno unflwpad"
                                                 onclick={emojiClosePopup}
                                               >
-                                                No
+                                              {no}
                                               </button>
                                               <button
                                                 class="followyes unflwpad"
                                                 onclick={emojiUnfollowYesBtn}
                                               >
-                                                Yes
+                                              {yes}
                                               </button>
                                             </div>
                                           </div>
@@ -898,7 +874,7 @@
                                         <div class="back">
                                           <div class="follow-profile-container">
                                             <p class="emojiprofilepop">
-                                              Profile
+                                              {profileLabel}
                                             </p>
                                             <button
                                               onclick={emojiClosePopup}
@@ -918,7 +894,7 @@
                                               class="popupbutton secon"
                                               onclick={emojiFollowPopupButtonClick}
                                             >
-                                              Follow
+                                              {followLabel}
                                             </button>
                                           </div>
                                         </div>
@@ -937,35 +913,30 @@
                                               X
                                             </button>
                                             <p class="popuptitle">
-                                              Follow User?<br />
+                                            {followUserText}<br />
                                             </p>
                                             <div>
                                               <p class="popupcontent second">
-                                                Are you sure you want to follow
+                                                {followPopupHeading}
                                                 {followUserName}?<br /><br />
                                               </p>
                                             </div>
                                             <div>
                                               <p class="popupcontent four">
-                                                You'll now receive notifications
-                                                whenever this user creates a new
-                                                post. You can always change your
-                                                notification
-                                                <br />preferences in your
-                                                profile settings.
+                                              {followPopupContent}
                                               </p>
                                             </div>
                                             <button
                                               class="follownonly five"
                                               onclick={emojiClosePopup}
                                             >
-                                              No
+                                            {no}
                                             </button>
                                             <button
                                               class="followyes1 five"
                                               onclick={emojiFollowYesBtn}
                                             >
-                                              Yes
+                                              {yes}
                                             </button>
                                           </div>
                                         </div>
@@ -975,7 +946,7 @@
                                         <div class="back">
                                           <div class="follow-profile-container">
                                             <p class="emojiprofilepop">
-                                              Profile
+                                              {profileLabel}
                                             </p>
                                             <button
                                               onclick={emojiClosePopup}
@@ -994,7 +965,7 @@
                                               class="popupbuttonfollowing firs"
                                               onclick={emojiFollowingPopupButtonClick}
                                             >
-                                              Following
+                                              {followingLabel}
                                             </button>
                                           </div>
                                         </div>
@@ -1017,19 +988,16 @@
                                             <p
                                               class="emojifollowingpopuptitle popleft"
                                             >
-                                              Unfollow User?<br />
+                                            {unFollowUserText}<br />
                                             </p>
                                             <div>
                                               <p class="popupcontent second">
-                                                Are you sure you want to
-                                                unfollow {followUserName}?<br /><br />
+                                                {unFollowPopupHeading} {followUserName}?<br /><br />
                                               </p>
                                             </div>
                                             <div>
                                               <p class="popupcontent third">
-                                                You'll no longer receive
-                                                notifications whenever this user
-                                                creates a new post.
+                                                {unFollowPopupContent}
                                               </p>
                                             </div>
                                             <div class="unfollowFlexContainer">
@@ -1037,13 +1005,13 @@
                                                 class="followno unflwpad"
                                                 onclick={emojiClosePopup}
                                               >
-                                                No
+                                              {no}
                                               </button>
                                               <button
                                                 class="followyes unflwpad"
                                                 onclick={emojiUnfollowYesBtn}
                                               >
-                                                Yes
+                                              {yes}
                                               </button>
                                             </div>
                                           </div>
@@ -1093,7 +1061,7 @@
                                         <div class="back">
                                           <div class="follow-profile-container">
                                             <p class="emojiprofilepop">
-                                              Profile
+                                              {profileLabel}
                                             </p>
                                             <button
                                               onclick={emojiClosePopup}
@@ -1113,7 +1081,7 @@
                                               class="popupbutton secon"
                                               onclick={emojiFollowPopupButtonClick}
                                             >
-                                              Follow
+                                              {followLabel}
                                             </button>
                                           </div>
                                         </div>
@@ -1132,35 +1100,30 @@
                                               X
                                             </button>
                                             <p class="popuptitle">
-                                              Follow User?<br />
+                                            {followUserText}<br />
                                             </p>
                                             <div>
                                               <p class="popupcontent second">
-                                                Are you sure you want to follow
+                                                {followPopupHeading}
                                                 {followUserName}?<br /><br />
                                               </p>
                                             </div>
                                             <div>
                                               <p class="popupcontent four">
-                                                You'll now receive notifications
-                                                whenever this user creates a new
-                                                post. You can always change your
-                                                notification
-                                                <br />preferences in your
-                                                profile settings.
+                                                {followPopupContent}
                                               </p>
                                             </div>
                                             <button
                                               class="follownonly five"
                                               onclick={emojiClosePopup}
                                             >
-                                              No
+                                            {no}
                                             </button>
                                             <button
                                               class="followyes1 five"
                                               onclick={emojiFollowYesBtn}
                                             >
-                                              Yes
+                                            {yes}
                                             </button>
                                           </div>
                                         </div>
@@ -1170,7 +1133,7 @@
                                         <div class="back">
                                           <div class="follow-profile-container">
                                             <p class="emojiprofilepop">
-                                              Profile
+                                              {profileLabel}
                                             </p>
                                             <button
                                               onclick={emojiClosePopup}
@@ -1190,7 +1153,7 @@
                                               class="popupbuttonfollowing firs"
                                               onclick={emojiFollowingPopupButtonClick}
                                             >
-                                              Following
+                                              {followingLabel}
                                             </button>
                                           </div>
                                         </div>
@@ -1213,19 +1176,16 @@
                                             <p
                                               class="emojifollowingpopuptitle popleft"
                                             >
-                                              Unfollow User?<br />
+                                            {unFollowUserText}<br />
                                             </p>
                                             <div>
                                               <p class="popupcontent second">
-                                                Are you sure you want to
-                                                unfollow {followUserName}?<br /><br />
+                                                {unFollowPopupHeading} {followUserName}?<br /><br />
                                               </p>
                                             </div>
                                             <div>
                                               <p class="popupcontent third">
-                                                You'll no longer receive
-                                                notifications whenever this user
-                                                creates a new post.
+                                                {unFollowPopupContent}
                                               </p>
                                             </div>
                                             <div class="unfollowFlexContainer">
@@ -1233,13 +1193,13 @@
                                                 class="followno unflwpad"
                                                 onclick={emojiClosePopup}
                                               >
-                                                No
+                                              {no}
                                               </button>
                                               <button
                                                 class="followyes unflwpad"
                                                 onclick={emojiUnfollowYesBtn}
                                               >
-                                                Yes
+                                              {yes}
                                               </button>
                                             </div>
                                           </div>
@@ -1266,7 +1226,7 @@
                           data-custom-feeditem-id={allposts.Id}
                           onclick={reactWith}
                           ><img src={imgThumbs} class="emojthumbs" />
-                          <div class="emoji-popup">Thumbs Up</div>
+                          <div class="emoji-popup">{thumbsUpLabel}</div>
                         </span>
                         <span
                           class="emoji"
@@ -1275,7 +1235,7 @@
                           data-custom-feeditem-id={allposts.Id}
                           onclick={reactWith}
                           ><img src={imgSmile} class="emojsmile" />
-                          <div class="emoji-popup1">Smile</div>
+                          <div class="emoji-popup1">{smileLabel}</div>
                         </span>
                         <span
                           class="emoji"
@@ -1284,7 +1244,7 @@
                           data-custom-feeditem-id={allposts.Id}
                           onclick={reactWith}
                           ><img src={imgHands} class="emojhands" />
-                          <div class="emoji-popup2">Hands Folded</div>
+                          <div class="emoji-popup2">{handsFoldedLabel}</div>
                         </span>
                         <span
                           class="emoji"
@@ -1293,7 +1253,7 @@
                           data-custom-feeditem-id={allposts.Id}
                           onclick={reactWith}
                           ><img src={imgLike} class="emojheart" />
-                          <div class="emoji-popup3">Heart</div>
+                          <div class="emoji-popup3">{heartLabel}</div>
                         </span>
                         <span
                           class="emoji"
@@ -1302,7 +1262,7 @@
                           data-custom-feeditem-id={allposts.Id}
                           onclick={reactWith}
                           ><img src={imgThought} class="emojthinks" />
-                          <div class="emoji-popup4">Thoughtful</div>
+                          <div class="emoji-popup4">{thoughtfulLabel}</div>
                         </span>
                       </div>
                     </div>
@@ -1315,7 +1275,7 @@
                           data-it-button="allPost: React "
                           data-custom-feeditem-id={allposts.Id}
                         >
-                          React
+                          {reactLabel}
                         </button>
                       </template>
                       <!-- If the User already react the post show the button with the Emoji of the reaction -->
@@ -1345,7 +1305,7 @@
                         data-it-button="allPost: Comment"
                         onclick={commentBoxOpen}
                       >
-                        Comment
+                        {commentLabel}
                       </button>
                     </div>
                   </div>
@@ -1355,8 +1315,8 @@
                   >
                     <!-- Show if comment button clicked-->
                     <template if:true={allposts.commentBox}>
-                      <p class="CommentContent">Comments</p>
-                      <p class="selectcomenttext">Select Comment</p>
+                      <p class="CommentContent">{commentsLabel}</p>
+                      <p class="selectcomenttext">{selectComment}</p>
                       <img src={loggedUserAvatar} class="commentimage" />
                       <!-- Dropdown comments based on the category and Phrase -->
                       <select
@@ -1369,7 +1329,7 @@
                       >
                         <!-- Set the First Option as disabled so that we can display it as "Select" otherwise it'll be the First Option by default -->
                         <option value="" disabled selected hidden>
-                          Select
+                          {selectLabel}
                         </option>
                         <template for:each={commentOption} for:item="option">
                           <option key={option.value} value={option.value}>
@@ -1383,7 +1343,7 @@
                         <div class="noCommentContainer">
                           <br />
                           <img src={noComment} class="NoCommentImage" />
-                          <p class="noCommentTxt">No Comments Yet!</p>
+                          <p class="noCommentTxt">{noCommentYet}</p>
                           <br />
                         </div>
                         <br />
@@ -1467,7 +1427,7 @@
                                         >
                                           &times;
                                         </div>
-                                        <p class="action">Action</p>
+                                        <p class="action">{actionLabel}</p>
                                         <br />
                                         <div class="editanddeletethreedots">
                                           <button
@@ -1480,7 +1440,7 @@
                                               onclick={editTheComment}
                                               data-it-button="allPost: Show Edit Dropdown(Mobile View)"
                                               class="edit"
-                                            />Edit Commment
+                                            />{editCommentLabel}
                                           </button>
                                           <br />
                                           <br />
@@ -1494,7 +1454,7 @@
                                               src={deleteImg}
                                               data-it-button="allPost: Delete Comment Popup (Mobile View)"
                                               class="deletecomment"
-                                            />&emsp; Delete Comment
+                                            />&emsp; {deleteCommentLabel}
                                           </button>
                                           <br />
                                         </div>
@@ -1530,7 +1490,7 @@
                                 <label
                                   for="Edit The Comment"
                                   class={editTheCommentTxt}
-                                  >Edit comment</label
+                                  >{editCommentLabel}</label
                                 >
                                 <select
                                   onchange={handleCommentChangeedit}
@@ -1542,7 +1502,7 @@
                                   data-it-button="allPost: Edit Dropdown"
                                 >
                                   <option value="" disabled selected hidden>
-                                    Select
+                                    {selectLabel}
                                   </option>
                                   <template
                                     for:each={commentOption}
@@ -1574,7 +1534,7 @@
             <template if:true={followPopupAtFeed}>
               <div class="backforpost">
                 <div class="follow-profile-container">
-                  <p class="profile">Profile</p>
+                  <p class="profile">{profileLabel}</p>
                   <button
                     onclick={closePopup}
                     data-it-button="AllPost: Close Follow "
@@ -1591,7 +1551,7 @@
                     data-it-button="allPost: Follow Popup"
                     onclick={handleFollowPopupButtonClick}
                   >
-                    Follow
+                    {followLabel}
                   </button>
                 </div>
               </div>
@@ -1608,17 +1568,15 @@
                     >
                       X
                     </button>
-                    <p class="popuptitle">Follow User?<br /></p>
+                    <p class="popuptitle">{followUserText}<br /></p>
                     <div>
                       <p class="popupcontent second">
-                        Are you sure you want to follow {username}?<br /><br />
+                        {followPopupHeading} {username}?<br /><br />
                       </p>
                     </div>
                     <div>
                       <p class="popupcontent four">
-                        You'll now receive notifications whenever this user
-                        creates a new post. You can always change your
-                        notification preferences in your profile settings.
+                        {followPopupContent}
                       </p>
                     </div>
                     <button
@@ -1626,14 +1584,14 @@
                       data-it-button="allPost: Follow Confirmation-No"
                       onclick={closePopup}
                     >
-                      No
+                    {no}
                     </button>
                     <button
                       class="followyes1"
                       onclick={followUserYesBtn}
                       data-it-button="allPost: Follow Confirmation-Yes"
                     >
-                      Yes
+                    {yes}
                     </button>
                   </div>
                 </div>
@@ -1643,7 +1601,7 @@
             <template if:true={followingPopupAtFeed}>
               <div class="backforpost">
                 <div class="follow-profile-container">
-                  <p class="profile">Profile</p>
+                  <p class="profile">{profileLabel}</p>
                   <button
                     onclick={closePopup}
                     data-it-button="AllPost: Close Follow "
@@ -1660,7 +1618,7 @@
                     data-it-button="allPost: Following Popup"
                     onclick={handleFollowingPopupButtonClick}
                   >
-                    Following
+                    {followingLabel}
                   </button>
                 </div>
               </div>
@@ -1676,16 +1634,15 @@
                   >
                     X
                   </button>
-                  <p class="emojifollowingpopuptitle">Unfollow User?<br /></p>
+                  <p class="emojifollowingpopuptitle">{unFollowUserText}<br /></p>
                   <div>
                     <p class="popupcontent second">
-                      Are you sure you want to unfollow {username}?<br /><br />
+                      {unFollowPopupHeading} {username}?<br /><br />
                     </p>
                   </div>
                   <div>
                     <p class="popupcontent third">
-                      You'll no longer receive notifications whenever this user
-                      creates a new post.
+                      {unFollowPopupContent}
                     </p>
                   </div>
                   <div class="unfollowFlexContainer">
@@ -1694,14 +1651,14 @@
                       onclick={closePopup}
                       data-it-button="allPost: Unfollow Confirmation-No"
                     >
-                      No
+                    {no}
                     </button>
                     <button
                       class="followyes btn2"
                       onclick={unfollowUserYesBtn}
                       data-it-button="allPost: Unfollow Confirmation-No"
                     >
-                      Yes
+                    {yes}
                     </button>
                   </div>
                 </div>
@@ -1722,9 +1679,9 @@
               >
                 X
               </button>
-              <h1 class="heading">Delete Comment?</h1>
+              <h1 class="heading">{deleteCommentLabel}?</h1>
               <p class="paragh">
-                Are you sure you want to delete this comment?
+                {deleteCommentConfirmationText}
               </p>
               <br />
               <div class="newpopupbtndiv">
@@ -1733,14 +1690,14 @@
                   data-it-button="allPost: Delete Comment - No"
                   onclick={closeFirstPopup}
                 >
-                  No
+                {no}
                 </button>
                 <button
                   class="submitbtn"
                   data-it-button="allPost: Delete Comment - Yes"
                   onclick={handleDeleteComment}
                 >
-                  Yes
+                {yes}
                 </button>
               </div>
               <br />
@@ -1751,7 +1708,7 @@
         <template if:true={emojiFollowProfile}>
           <div class="backcomment">
             <div class="follow-profile-container">
-              <p class="profile">Profile</p>
+              <p class="profile">{profileLabel}</p>
               <button
                 onclick={emojiClosePopup}
                 data-it-button="allPost: Follow Popup Close"
@@ -1764,7 +1721,7 @@
                 <p class="username123">{followUserName}</p>
               </div>
               <button class="popupbutton" onclick={emojiFollowPopupButtonClick}>
-                Follow
+                {followLabel}
               </button>
             </div>
           </div>
@@ -1779,22 +1736,20 @@
               >
                 X
               </button>
-              <p class="popuptitle">Follow User?<br /></p>
+              <p class="popuptitle">{followUserText}<br /></p>
               <div>
                 <p class="popupcontent second">
-                  Are you sure you want to follow {followUserName}?<br /><br />
+                  {followPopupHeading} {followUserName}?<br /><br />
                 </p>
               </div>
               <div>
                 <p class="popupcontent four">
-                  You'll now receive notifications whenever this user creates a
-                  new post. You can always change your notification preferences
-                  in your profile settings.
+                {followPopupContent}
                 </p>
               </div>
-              <button class="follownonly" onclick={emojiClosePopup}>No</button>
+              <button class="follownonly" onclick={emojiClosePopup}>{no}</button>
               <button class="followyes1" onclick={emojiFollowYesBtn}>
-                Yes
+                {yes}
               </button>
             </div>
           </div>
@@ -1803,7 +1758,7 @@
         <template if:true={emojiFollowingProfile}>
           <div class="backcomment">
             <div class="follow-profile-container">
-              <p class="profile">Profile</p>
+              <p class="profile">{profileLabel}</p>
               <button onclick={emojiClosePopup} class="times3 closeprofilecmnt">
                 X
               </button>
@@ -1815,7 +1770,7 @@
                 class="popupbuttonfollowing"
                 onclick={emojiFollowingPopupButtonClick}
               >
-                Following
+                {followingLabel}
               </button>
             </div>
           </div>
@@ -1825,22 +1780,21 @@
           <div class="backcomment">
             <div class="following-popup-container">
               <button onclick={emojiClosePopup} class="times2 ten">X</button>
-              <p class="emojifollowingpopuptitle">Unfollow User?<br /></p>
+              <p class="emojifollowingpopuptitle">{unFollowUserText}<br /></p>
               <div>
                 <p class="popupcontent second">
-                  Are you sure you want to unfollow {followUserName}?<br /><br />
+                  {unFollowPopupHeading} {followUserName}?<br /><br />
                 </p>
               </div>
               <div>
                 <p class="popupcontent third">
-                  You'll no longer receive notifications whenever this user
-                  creates a new post.
+                  {unFollowPopupContent}
                 </p>
               </div>
               <div class="unfollowFlexContainer">
-                <button class="followno" onclick={emojiClosePopup}>No</button>
+                <button class="followno" onclick={emojiClosePopup}>{no}</button>
                 <button class="followyes" onclick={emojiUnfollowYesBtn}>
-                  Yes
+                  {yes}
                 </button>
               </div>
             </div>

@@ -120,15 +120,23 @@ export default class BiPspbArticlesForDashboard extends LightningElement {
 		[LABELS.WORK_IN_GPP_LABEL]: WORK_IN_GPP_IMG
 	};
 
-	// To generate the random number basded on article list length
+	// Function to generate a secure random number within a specified range
+	secureRandomInt(max) {
+		const array = new Uint32Array(1);
+		window.crypto.getRandomValues(array); // Generate a random value
+		return array[0] % max; // Limit the random number to the range 0 to max-1
+	}
+
+	// Function to generate unique random numbers based on article list length
 	generateRandomNumbers() {
 		let numbers = new Set();
 		while (numbers.size < this.articleList.length) {
-			let randomNumber = Math.floor(Math.random() * this.articleList.length); // Generates numbers from 0 to 8
+			let randomNumber = this.secureRandomInt(this.articleList.length); // Use secure random generator
 			numbers.add(randomNumber);
 		}
 		return Array.from(numbers);
 	}
+
 
 	connectedCallback(){
 		try{

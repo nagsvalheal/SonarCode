@@ -3,9 +3,13 @@
 import { LightningElement,  } from 'lwc';
 //To import Static Resource
 import { resource } from "c/biPspbEnrollmentFormResource";
+
+
 export default class BiPspbPrepopulatedSummaryParent extends LightningElement {
 	//Proper naming conventions with camel case for all the variable will be followed in the future releases
 	// Declaration of variables with @track
+	verifyComplete =resource.VERIFY_COMPLETE;
+	allSet = resource.ALL_SET;
 	caregiverValue = false;
 	// Declaration of Global variables
 	beyandGpp = resource.BGPP;

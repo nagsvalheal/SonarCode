@@ -7,7 +7,7 @@
 public with sharing class BI_PSPB_TreatmentRemindersSched implements Schedulable {
 	/**
 	 * @description Used to scehdule a job when a post is created in community.
-	 * @param ctx The context in which the job is executed.
+	 * @param sc The context in which the job is executed.
 	 */
 	public void execute(SchedulableContext sc) {
 		try {

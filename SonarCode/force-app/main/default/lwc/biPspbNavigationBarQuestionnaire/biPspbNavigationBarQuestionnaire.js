@@ -1,7 +1,7 @@
 // This comppnent is used for navigating to one page to another page for all unassigned pages
 // To import Libraries
-import { LightningElement, wire } from "lwc";
-import { ShowToastEvent } from "lightning/platformShowToastEvent";
+import { LightningElement } from "lwc";
+import { resources } from 'c/biPspLabelAndResourceGeneral';
 // To import Apex Classes
 //import getTaskCount from '@salesforce/apex/BI_PSPB_BellIconCount.getTaskCountUA';
 import USER_DETAILS from "@salesforce/apex/BI_PSP_CurrentUser.getCurrentUser";
@@ -11,79 +11,6 @@ import CHECK_COMMUNITY_USERNAME from "@salesforce/apex/BI_PSPB_FeedUsernameCtrl.
 import PATIENT_STATUS from "@salesforce/apex/BI_PSPB_TreatmentVideoCtrl.patientStatus";
 import COUNT_ASSESSMENT from "@salesforce/apex/BI_PSP_AssessmentCtrl.getAssessmentCountsByCurrentUserName";
 import GET_PATIENT_AFTER_WEEKS from "@salesforce/apex/BI_PSP_QualitativeSatisfactionCtrl.getPatientEnrolleeDateAfterTwoMonthsAndFourteenWeeks";
-// To import Static Resource
-import SITE_LOGO from "@salesforce/resourceUrl/BI_PSPB_SiteLogo";
-import HOME_ICON from "@salesforce/resourceUrl/BI_PSPB_HomeIcon";
-import NOTIFIC_ICON from "@salesforce/resourceUrl/BI_PSPB_NotiIcon";
-import MENU_ICON from "@salesforce/resourceUrl/BI_PSPB_MenuIcon";
-import NOTIFIC_ICON_COLOR from "@salesforce/resourceUrl/BI_PSPB_NotIconColored";
-import CRO_ICON from "@salesforce/resourceUrl/BI_PSP_CrossIcon";
-import SEL_ICON from "@salesforce/resourceUrl/BI_PSPB_SelectIcon";
-import DOWN_ICON from "@salesforce/resourceUrl/BI_PSPB_downHeadIcon";
-// To import Custom Labels
-import ACUTE_PATIENT from "@salesforce/label/c.BI_PSPB_Acute";
-import BRANDED_DEVUI from "@salesforce/label/c.BI_PSP_BrandedDevProfile";
-import ADMIN_PROFILE from "@salesforce/label/c.BI_PSP_SystemAdminProfile";
-import PATIENT_PROFILE from "@salesforce/label/c.BI_PSP_PatientProfile";
-import CAREGIVER_PROFILES from "@salesforce/label/c.BI_PSPB_CaregiverProfile";
-import UNASSIGNED_SITE_URL from "@salesforce/label/c.BI_PSPB_UnAssignedNaviUrl";
-import CAREGIVE_RPROFILE from "@salesforce/label/c.BI_PSPB_CaregiverProfileUrl";
-import PATIENT_INFO from "@salesforce/label/c.BI_PSPB_CaregiverPatientUrl";
-import SELECT_AVATAR from "@salesforce/label/c.BI_PSPB_CaregiverSelectAvatarUrl";
-import NOTIFICATION from "@salesforce/label/c.BI_PSPB_CaregiverNotificationPageUrl";
-import ERROR_MESSAGE from "@salesforce/label/c.BI_PSP_ConsoleError";
-import ERROR_VARIANT from "@salesforce/label/c.BI_PSP_ErrorVariantToast";
-import MY_PROFILE from "@salesforce/label/c.BI_PSPB_PatientMyProfileUrl";
-import MY_CAREGIVER from "@salesforce/label/c.BI_PSPB_MyCaregiverUrl";
-import PATIENT_AVATAR from "@salesforce/label/c.BI_PSPB_PatientSelectAvatarUrl";
-import PATIENT_NOTIFICATION from "@salesforce/label/c.BI_PSPB_PatientNotificationUrl";
-import ALL_POST from "@salesforce/label/c.BI_PSPB_ChatterAllPost";
-import MY_POST from "@salesforce/label/c.BI_PSPB_ChatterMyPost";
-import FOLLOWER from "@salesforce/label/c.BI_PSPB_ChatterFollower";
-import FOLLOWING from "@salesforce/label/c.BI_PSPB_ChatterFollowing";
-import UNASSIGNED from "@salesforce/label/c.BI_PSPB_UnAssignedLabel";
-import BI_PSP_UNASSIGNED from "@salesforce/label/c.BI_PSP_Unassigned";
-import CHATTER_SIGNUP from "@salesforce/label/c.BI_PSP_ChatterSignUpUrl";
-import INFO_LAND from "@salesforce/label/c.BI_PSPB_InfoCenterLandingUrl";
-import ACUTE_DASHBOARD from "@salesforce/label/c.BI_PSPB_AcuteDashboard";
-import CHALLENGES from "@salesforce/label/c.BI_PSP_ChallengesNaviUrl";
-import TROPHY from "@salesforce/label/c.BI_PSP_TrophyPageUrl";
-import OUTSTANDING_QUESTIONAIRE from "@salesforce/label/c.BI_PSPB_OutstndngPageUrl";
-import SUPPORT_CASE from "@salesforce/label/c.BI_PSPB_SupportCenterPageUrl";
-import MESSAGE_CENTER from "@salesforce/label/c.BI_PSPB_MessageCenterPageUrl";
-import SUPPORT_CENTER from "@salesforce/label/c.BI_PSPB_SupportCenterPageUrl";
-import MY_CASE from "@salesforce/label/c.BI_PSPB_MyCasesPageUrl";
-import SUMMARY_QUESTIONNAIRE from "@salesforce/label/c.BI_PSPB_SummaryUrl";
-import WAPI_COMPLETED from "@salesforce/label/c.BI_PSPB_WapiCompletedQuestionnaire";
-import DLQI_COMPLETED from "@salesforce/label/c.BI_PSPB_DlqiCompletedUrl";
-import PSS_COMPLETED from "@salesforce/label/c.BI_PSPB_PsoriasisCompletedQuesUrl";
-import QSQ_ONE_COMPLETED from "@salesforce/label/c.BI_PSPB_QualitativeTwoMonthsCompletedUrl";
-import QSQ_TWO_COMPLETED from "@salesforce/label/c.BI_PSPB_QualitativeFourteenwksCompletedUrl";
-import LET_PERSONALIZE from "@salesforce/label/c.BI_PSPB_LetsPersonalizeUrl";
-import PRESCRIPTION_STATUS from "@salesforce/label/c.BI_PSPB_PrescriptionStatusUrl";
-import ACTION from "@salesforce/label/c.BI_PSPB_ActionUrl";
-import HISTORY from "@salesforce/label/c.BI_PSPB_HistoryUrl";
-import SYMPTOM_LANDING from "@salesforce/label/c.BI_PSP_SymptomTrackerLandingPageUrl";
-import ARTICLE_CATEGORY from "@salesforce/label/c.BI_PSPB_ArticleCategoryUrl";
-import SEARCH_RESULT from "@salesforce/label/c.BI_PSPB_SearchResults";
-import DETAILEDARTICLE from "@salesforce/label/c.BI_PSPB_DetailedArticle";
-import SYMPTOMTRACKER_GRAPH from "@salesforce/label/c.BI_PSPB_SymptomTrkGraphUrl";
-import SYMPTOMTRACKER_MAIN from "@salesforce/label/c.BI_PSPB_SymptomTrackerMainPages";
-import PSS_QUESTIONNAIRE from "@salesforce/label/c.BI_PSPB_PsoriasisQuesUrl";
-import WAPI_QUESTIONNAIRE from "@salesforce/label/c.BI_PSPB_WapiQuestionnaire";
-import QUALITATIVE_TWO_QUESTIONNAIRE from "@salesforce/label/c.BI_PSPB_QualitativeTwoMonths";
-import QUALITATIVE_FOUR_QUESTIONNAIRE from "@salesforce/label/c.BI_PSPB_QualitativeFourteenWeeks";
-import MEDICAL_INFORMATION from "@salesforce/label/c.BI_PSPB_MedicalInfoEnquiryUrl";
-import REPORT_ADVERSE from "@salesforce/label/c.BI_PSPB_ReportAdverseEvent";
-import CREATE_POST from "@salesforce/label/c.BI_PSPB_CreatePostPageUrl";
-import BI_PSPB_Acute from "@salesforce/label/c.BI_PSPB_Acute";
-import LOGIN_URL from "@salesforce/label/c.BI_PSP_Login";
-import BRANDED_URL from "@salesforce/label/c.BI_PSPB_BrandedSiteNaviUrl";
-import BI_PSPB_SecureLogout from "@salesforce/label/c.BI_PSPB_SecureLogout";
-import UPDATERX from "@salesforce/label/c.BI_PSPB_UpdatePrescriptionUrl";
-import COMPLETED_LABEL from "@salesforce/label/c.BI_PSP_Completed";
-import EXPIRED from "@salesforce/label/c.BI_PSP_Expired";
-import LOGIN_PAGE from '@salesforce/label/c.BI_PSPB_LoginPage';
 // To get Current UserId
 import Id from "@salesforce/user/Id";
 
@@ -92,16 +19,16 @@ export default class BiPspbNavigationBarQuestionnaire extends LightningElement {
 	taskCount;
 	patientStatusVal;
 	showTreatVideo = false;
-	downHeadIcon = DOWN_ICON;
-	SelectIcon = SEL_ICON;
-	navlogo = SITE_LOGO;
+	downHeadIcon = resources.DOWN_HEAD_ICON;
+	SelectIcon = resources.SELECT_ICON;
+	navlogo = resources.SITE_LOGO;
 	showMenu;
 	showToLogin;
-	HIcon = HOME_ICON;
-	NIcon = NOTIFIC_ICON;
-	MenuIcon = MENU_ICON;
-	NIconCol = NOTIFIC_ICON_COLOR;
-	CrossIcon = CRO_ICON;
+	HIcon = resources.HOME_ICON;
+	NIcon = resources.NOTIFIC_ICON;
+	MenuIcon = resources.MENU_ICON;
+	NIconCol = resources.NOTIFIC_ICON_COLOR;
+	CrossIcon = resources.CROSS_ICON;
 
 	isMenuOpen;
 	patientMenuList;
@@ -143,86 +70,139 @@ export default class BiPspbNavigationBarQuestionnaire extends LightningElement {
 	userType;
 	showPrescriptionmenu;
 	showNotificationCentermenu;
-	acutePatient = ACUTE_PATIENT;
-	brandedDevProfile = BRANDED_DEVUI;
-	adminProfile = ADMIN_PROFILE;
-	patientProfile = PATIENT_PROFILE;
-	caregiverProfiles = CAREGIVER_PROFILES;
-	myProfile = MY_PROFILE;
-	myCaregiver = MY_CAREGIVER;
-	patientAvatar = PATIENT_AVATAR;
-	patientNotification = PATIENT_NOTIFICATION;
-	unAssignedUrl = UNASSIGNED_SITE_URL;
-	caregiverProfile = CAREGIVE_RPROFILE;
-	patientInformation = PATIENT_INFO;
-	selectAvatar = SELECT_AVATAR;
-	caregiverNotification = NOTIFICATION;
-	allPost = ALL_POST;
-	myPost = MY_POST;
-	follower = FOLLOWER;
-	following = FOLLOWING;
-	chatterSignUp = CHATTER_SIGNUP;
-	unAssigned = UNASSIGNED;
-	infoLanding = INFO_LAND;
-	acuteDashboard = ACUTE_DASHBOARD;
-	challenges = CHALLENGES;
-	trophy = TROPHY;
-	outStanding = OUTSTANDING_QUESTIONAIRE;
-	supportCase = SUPPORT_CASE;
-	messageCenter = MESSAGE_CENTER;
-	supportCenter = SUPPORT_CENTER;
-	myCase = MY_CASE;
-	summaryQues = SUMMARY_QUESTIONNAIRE;
-	wapiCompleted = WAPI_COMPLETED;
-	dlqiCompleted = DLQI_COMPLETED;
-	pssCompleted = PSS_COMPLETED;
-	qsqOneCompleted = QSQ_ONE_COMPLETED;
-	qsqTwoCompleted = QSQ_TWO_COMPLETED;
-	letPersonlize = LET_PERSONALIZE;
-	prescriptionStatus = PRESCRIPTION_STATUS;
-	symptomLanding = SYMPTOM_LANDING;
-	action = ACTION;
-	history = HISTORY;
-	articleCategory = ARTICLE_CATEGORY;
-	detailedArticle = DETAILEDARTICLE;
-	searchResult = SEARCH_RESULT;
-	symptomTrackerGraph = SYMPTOMTRACKER_GRAPH;
-	symptomTrackerMain = SYMPTOMTRACKER_MAIN;
-	pssQuestionnaire = PSS_QUESTIONNAIRE;
-	wapiQuestionnaire = WAPI_QUESTIONNAIRE;
-	qualitativeTwo = QUALITATIVE_TWO_QUESTIONNAIRE;
-	qualativeFour = QUALITATIVE_FOUR_QUESTIONNAIRE;
-	medicalInformation = MEDICAL_INFORMATION;
-	reportAdverse = REPORT_ADVERSE;
-	platFormSupport = REPORT_ADVERSE;
-	createPost = CREATE_POST;
-	unAssignedsite = BI_PSP_UNASSIGNED;
-	acute = BI_PSPB_Acute;
-	loginUrl = LOGIN_URL;
-	brandedUrl = BRANDED_URL;
-	secureLogout = BI_PSPB_SecureLogout;
-	updateRx = UPDATERX;
-	loginPageUrl = LOGIN_PAGE;
+	acutePatient = resources.ACUTE;
+	brandedDevProfile = resources.BRANDED_DEV_UI_PROFILES;
+	adminProfile = resources.SYSTEM_ADMIN_PROFILE;
+	patientProfile = resources.PATIENT_PROFILE;
+	caregiverProfiles = resources.CAREGIVER_PROFILE;
+	myProfile = resources.PATIENT_MYPROFILE_URL;
+	myCaregiver = resources.MYCAREGIVER_URL;
+	patientAvatar = resources.PATIENT_SELECT_AVATAR_URL;
+	patientNotification = resources.PATIENT_NOTIFICATION_URL;
+	unAssignedUrl = resources.UNASSIGNED_URL;
+	caregiverProfile = resources.CAREGIVER_PROFILE_URL;
+	patientInformation = resources.CAREGIVER_PATIENT_URL;
+	selectAvatar = resources.CAREGIVER_SELECT_AVATAR_URL;
+	caregiverNotification = resources.CAREGIVER_NOTIFICATION_URL;
+	allPost = resources.ALLPOST_URL;
+	myPost = resources.CHATTER_MYPOST;
+	follower = resources.FOLLOWERS_URL;
+	following = resources.FOLLOWING_URL;
+	chatterSignUp = resources.CHATTER_SIGNUP_URL;
+	unAssigned = resources.UNASSIGNED_LABEL;
+	infoLanding = resources.INFO_LANDINGPAGE_URL;
+	acuteDashboard = resources.ACUTE_DASHBOARD;
+	challenges = resources.CHALLENGES_URL;
+	trophy = resources.TROPHY_CASE_SITEURL;
+	outStanding = resources.OUTSTANDINGPAGE_URL;
+	supportCase = resources.SUPPORT_PAGE_URL;
+	messageCenter = resources.MESSAGE_CENTER_URL;
+	myCase = resources.MYCASE_PAGE_URL;
+	summaryQues = resources.SUMMARY_URL;
+	wapiCompleted = resources.WAPI_COMPLETED_SITEURL;
+	dlqiCompleted = resources.DLQI_COMPLETED_SITEURL;
+	pssCompleted = resources.PSS_COMPLETED_SITEURL;
+	qsqOneCompleted = resources.QSQ_COMPLETED_TWOMONTHS_URL;
+	qsqTwoCompleted = resources.QSQ_COMPLETED_FOURTEENWEEKS_URL;
+	letPersonlize = resources.LETSPERSONALISE_URL;
+	prescriptionStatus = resources.PRESCRIPTION_STATUS_URL;
+	symptomLanding = resources.SYMPTOM_TRACKER_LP_URL;
+	action = resources.ACTION_SITEURL;
+	history = resources.HISTORY_SITEURL;
+	articleCategory = resources.ARTICLE_CATEGORY_URL;
+	detailedArticle = resources.DETAILED_ARTICLE_URL;
+	searchResult = resources.SEARCH_RESULT_URL;
+	symptomTrackerGraph = resources.SYMPTOM_TRACKER_GRAPH_URL;
+	symptomTrackerMain = resources.SYMPTOM_TRACKER_MAINPAGE_URL;
+	pssQuestionnaire = resources.PSORIASIS_SITEURL;
+	wapiQuestionnaire = resources.WAPI_SITEURL;
+	qualitativeTwo = resources.QUALITATIVE_TWOMONTHS_URL;
+	qualativeFour = resources.QUALITATIVE_FOURTEENWEEKS_URL;
+	medicalInformation = resources.MEDICAL_INFO_ENQUIRY_URL;
+	createPost = resources.CREATEPOST_URL;
+	unAssignedsite = resources.UNASSIGNED;
+	acute = resources.ACUTE;
+	loginUrl = resources.LOGIN;
+	brandedUrl = resources.BRSITE_URL;
+	secureLogout = resources.SECURE_LOGOUT;
+	updateRx = resources.UPDATE_PRESCRIPTION_URL;
+	loginPageUrl = resources.LOGIN_PAGE;
+	errorMsg = resources.ERROR_MESSAGE;
+	errorVariant = resources.ERROR_VARIANT;
+	completed = resources.COMPLETED;
+	expired = resources.EXPIRED;
+
+	displayErrorPage = resources.BI_PSP_DISPLAYERRORPAGE;
+	beyondGpp = resources.BI_PSP_BEYONDGPP;
+	accountManager = resources.ACCOUNT_MANAGER;
+	notificationCenter = resources.NOTIFICATION_CENTER;
+	treatmentPresValue = resources.TREATMENT_PRES_VALUE;
+	updatePrescription = resources.UPDATE_PRESCRIPTION;
+	switchPatients = resources.SWITCH_PATIENTS;
+	logOut = resources.LOGOUT;
+	home = resources.HOME;
+	informationCenter = resources.INFORMATION_CENTER;
+	symptomTracker = resources.SYMPTOM_TRACKER;
+	challengesLabel = resources.CHALLENGES;
+	myQuestionnaire = resources.MY_QUESTIONNAIRE;
+	community = resources.COMMUNITY;
+	support = resources.SUPPORT;
+	loginLabel = resources.LOGIN_LABEL;
+	back = resources.BACK;
+	myProfileLabel = resources.MY_PROFILE;
+	presStatus = resources.PRES_STATUS;
+	general = resources.GENERAL;
+	actionRequired = resources.ACTION_REQUIRED;
+	historyLabel = resources.HISTORY;
+	patientInfoLabel = resources.PATIENT_INFO;
+	selectAvatarLabel = resources.SELECT_AVATAR;
+	notificSetting = resources.NOTIFIC_SETTING;
+	supportCenterLabel = resources.SUPPORT_CENTER;
+	myCaseLabel = resources.MY_CASE;
+	article = resources.ARTICLES;
+	patientTrtVideo = resources.PATIENT_TREATMENT_VIDEO;
+	trophyCase = resources.TROPHY_CASE;
+	allPosts = resources.ALL_POSTS;
+	myPosts = resources.MY_POSTS;
+	myFollowers = resources.MY_FOLLOWERS;
+	followingLabel = resources.FOLLOWING;
+	outstandingPage = resources.OUTSTANDING_PAGE;
+	summary = resources.SUMMARY;
+	completedQues = resources.COMPLETED_QUES;
+	letsPersonalize = resources.LETS_PERSONALIZE;
+	myCaregiverLabel = resources.MY_CAREGIVER;
+	patientBack = resources.PATIENT_BACK;
+	logoutWarning = resources.LOGOUT_WARNING;
+	logoutContent = resources.LOGOUT_CONTENT;
+	yes = resources.YES;
+	cancel = resources.CANCEL;
+	siteUrlBranded = resources.BRSITE_URL;
 
 	//Qualitative Date for topbar navigation
-	@wire(GET_PATIENT_AFTER_WEEKS)
-	wiredResult({ error, data }) {
-		try {
-			if (error) {
-				this.showToast(ERROR_MESSAGE, error.body.message, ERROR_VARIANT); // Catching Potential Error from Apex
-			} else if (data) {
-				this.threeMonthsVar = data.threeMonthsVar;
-				this.forteenWeeks = data.forteenWeeks;
-				this.targetTwoMonthsDate = data.targetTwoMonthsDate ?? null;
-				this.targetFourteenWeeksDate = data.targetFourteenWeeksDate ?? null;
-			}
-		} catch (err) {
-			this.showToast(ERROR_MESSAGE, err.message, ERROR_VARIANT); // Catching Potential Error from LWC
+	patientAfterThreeMonthsAndFourteenWeeks() {
+		let globalThis = window;
+		try{
+			GET_PATIENT_AFTER_WEEKS()
+				.then(data => {
+					if (data) {
+						this.targetFourteenWeeksDate = data.targetFourteenWeeksDate ?? null;
+					}
+				})
+				.catch(err => {
+					globalThis.sessionStorage.setItem('errorMessage',err.body.message);
+					globalThis.location?.assign(this.baseUrl + this.siteUrlBranded + this.displayErrorPage);
+				})
+		}
+		catch (error) {
+			//navigate to error page
+			globalThis.sessionStorage.setItem('errorMessage',error.body.message);
+			globalThis.location?.assign(this.baseUrl + this.siteUrlBranded + this.displayErrorPage);
 		}
 	}
 
 	//Used to get information regarding the loggedin caregiver
 	patientInfo() {
+		let globalThis = window;
 		try{
 			GET_CAREGIVER_ACCOUNT({ userId: Id, isActive: true })
 				.then((patient) => {
@@ -236,12 +216,14 @@ export default class BiPspbNavigationBarQuestionnaire extends LightningElement {
 					}
 				})
 				.catch((error) => {
-					this.showToast(ERROR_MESSAGE, error.body.message, ERROR_VARIANT); // Catching Potential Error from Apex
+					globalThis.sessionStorage.setItem('errorMessage',error.body.message);
+					globalThis.location?.assign(this.baseUrl + this.siteUrlBranded + this.displayErrorPage); // Catching Potential Error from Apex
 				});
 		}
-		catch (error) {
+		catch (err) {
 			//navigate to error page
-			this.showToast(this.errorMessages, error.message, this.errorVariant);
+			globalThis.sessionStorage.setItem('errorMessage',err.body.message);
+			globalThis.location?.assign(this.baseUrl + this.siteUrlBranded + this.displayErrorPage);
 		}
 	}
 	
@@ -254,74 +236,78 @@ export default class BiPspbNavigationBarQuestionnaire extends LightningElement {
 
 	connectedCallback() {
 		let globalThis = window;
-		this.currentPageUrl = globalThis.location?.href;
-		this.urlSegments = this.currentPageUrl.split("/");
-		this.baseUrl = `${this.urlSegments[0]}//${this.urlSegments[2]}`;
-		this.userType = typeof Id;
-		const REGEX = /\/([^\\/?#]+)(?:\?.*|)$/iu;
-		const MATCH = REGEX.exec(this.currentPageUrl);
-		this.lastSegment = MATCH && MATCH[1];
-		if (this.lastSegment !== null && this.lastSegment !== "") {
-			this.showUnderlineforMenus();
-		} else {
-			this.showHomeLine = true;
-		}
-		if (this.userType !== 'undefined') {
-			USER_DETAILS()
-				.then((user) => {
-					this.currentUserIfo = user;
-					this.fetchAssessmentCount();
-					if (this.currentUserIfo.BI_PSPB_Caregiver__c === true) {
-						this.patientInfo();
-					}
-					this.userName = user.FirstName + " " + user.LastName;
-					PROFILE_DETAILS()
-						.then((profile) => {
-							this.userInfo = profile;
-							if (
-								this.userInfo.Name === this.adminProfile ||
-								this.userInfo.Name === this.patientProfile ||
-								this.userInfo.Name === this.caregiverProfiles
-							) {
-								this.showMenu = true;
-								this.showNavDetails = true;
-								this.showToLogin = false;
-								if (this.currentUserIfo.BI_PSPB_Caregiver__c === false) {
-									this.caregiverDeskMenu = false;
-									this.patientDeskMenu = true;
-								} else {
-									this.caregiverDeskMenu = true;
-									this.patientDeskMenu = false;
-								}
-							} else if (this.userInfo.Name === this.brandedDevProfile) {
-								this.showMenu = false;
-								this.showNavDetails = false;
-								this.showToLogin = true;
-							}
-						})
-						.catch((error) => {
-							this.showToast(ERROR_MESSAGE, error.message, ERROR_VARIANT);
-						});
-				})
-				.catch((error) => {
-					this.showToast(ERROR_MESSAGE, error.message, ERROR_VARIANT);
-				});
-		} else {
-			this.showMenu = false;
-			this.showNavDetails = false;
-			this.showToLogin = true;
-		}
-		try {
+		try{
+			this.getPatienStatus();
 			this.currentPageUrl = globalThis.location?.href;
 			this.urlSegments = this.currentPageUrl.split("/");
 			this.baseUrl = `${this.urlSegments[0]}//${this.urlSegments[2]}`;
+			this.userType = typeof Id;
+			const REGEX = /\/([^\\/?#]+)(?:\?.*|)$/iu;
+			const MATCH = REGEX.exec(this.currentPageUrl);
+			this.lastSegment = MATCH && MATCH[1];
+			if (this.lastSegment !== null && this.lastSegment !== "") {
+				this.showUnderlineforMenus();
+			} else {
+				this.showHomeLine = true;
+			}
+			if (this.userType !== 'undefined') {
+				USER_DETAILS()
+					.then((user) => {
+						this.currentUserIfo = user;
+						this.fetchAssessmentCount();
+						if (this.currentUserIfo.BI_PSPB_Caregiver__c === true) {
+							this.patientInfo();
+						}
+						this.userName = user.FirstName + " " + user.LastName;
+						PROFILE_DETAILS()
+							.then((profile) => {
+								this.userInfo = profile;
+								if (
+									this.userInfo.Name === this.adminProfile ||
+									this.userInfo.Name === this.patientProfile ||
+									this.userInfo.Name === this.caregiverProfiles
+								) {
+									this.showMenu = true;
+									this.showNavDetails = true;
+									this.showToLogin = false;
+									if (this.currentUserIfo.BI_PSPB_Caregiver__c === false) {
+										this.caregiverDeskMenu = false;
+										this.patientDeskMenu = true;
+										this.patientAfterThreeMonthsAndFourteenWeeks();
+									} else {
+										this.caregiverDeskMenu = true;
+										this.patientDeskMenu = false;
+										this.patientAfterThreeMonthsAndFourteenWeeks();
+									}
+								} else if (this.userInfo.Name === this.brandedDevProfile) {
+									this.showMenu = false;
+									this.showNavDetails = false;
+									this.showToLogin = true;
+								}
+							})
+							.catch((err) => {
+								globalThis.sessionStorage.setItem('errorMessage',err.body.message);
+								globalThis.location?.assign(this.baseUrl + this.siteUrlBranded + this.displayErrorPage);
+							});
+					})
+					.catch((err) => {
+						globalThis.sessionStorage.setItem('errorMessage',err.body.message);
+						globalThis.location?.assign(this.baseUrl + this.siteUrlBranded + this.displayErrorPage);
+					});
+			} else {
+				this.showMenu = false;
+				this.showNavDetails = false;
+				this.showToLogin = true;
+			}	
 		} catch (error) {
-			this.showToast(ERROR_MESSAGE, error.message, ERROR_VARIANT);
+			globalThis.sessionStorage.setItem('errorMessage',error.body.message);
+			globalThis.location?.assign(this.baseUrl + this.siteUrlBranded + this.displayErrorPage);
 		}
 	}
 	// This method is used t collect the assessment deatils.
 
 	fetchAssessmentCount() {
+		let globalThis = window;
 		try{
 			COUNT_ASSESSMENT()
 				.then((result) => {
@@ -346,13 +332,15 @@ export default class BiPspbNavigationBarQuestionnaire extends LightningElement {
 					}
 				})
 				.catch((error) => {
-					this.showToast(ERROR_MESSAGE, error.message, ERROR_VARIANT); // Catching Potential Error from Apex
+					globalThis.sessionStorage.setItem('errorMessage',error.body.message);
+					globalThis.location?.assign(this.baseUrl + this.siteUrlBranded + this.displayErrorPage); // Catching Potential Error from Apex
 					this.showTabMenu = false;
 				});
 		}
 		catch (error) {
 			//navigate to error page
-			this.showToast(this.errorMessages, error.message, this.errorVariant);
+			globalThis.sessionStorage.setItem('errorMessage',error.body.message);
+			globalThis.location?.assign(this.baseUrl + this.siteUrlBranded + this.displayErrorPage);
 		}
 	}
 
@@ -390,28 +378,36 @@ export default class BiPspbNavigationBarQuestionnaire extends LightningElement {
 		this.showSupport = false;
 		this.showCommunity = false;
 	}
-	//There's no need to check for null because in Apex, we're throwing an AuraHandledException. Therefore, null data won't be encountered.
 
-	@wire(PATIENT_STATUS, { userid: `$userId` })
-	wiredPatientStatus({ error, data }) {
-		try {
-			if (data) {
-				this.patientStatusVal = data;
-				if (this.patientStatusVal === this.unAssignedsite) {
-					this.showTreatVideo = false;
-				} else {
-					this.showTreatVideo = true;
-				}
-			} else if (error) {
-				this.showToast(ERROR_MESSAGE, error.body.message, ERROR_VARIANT); // Catching Potential Error from Apex
-			}
-		} catch (err) {
-			this.showToast(ERROR_MESSAGE, err.message, ERROR_VARIANT); // Catching Potential Error from LWC
+	//There's no need to check for null because in Apex, we're throwing an AuraHandledException. Therefore, null data won't be encountered.
+	getPatienStatus()
+	{
+		let globalThis = window;
+		try{
+			PATIENT_STATUS({ userId: Id })
+				.then((data) => {
+					this.patientStatusVal = data;
+					if (this.patientStatusVal === this.unAssignedsite) {
+						this.showTreatVideo = false;
+					} else {
+						this.showTreatVideo = true;
+					}
+				})
+				.catch((error) => {
+					globalThis.sessionStorage.setItem('errorMessage',error.body.message);
+					globalThis.location?.assign(this.baseUrl + this.siteUrlBranded + this.displayErrorPage); // Catching Potential Error from Apex
+				});
+		}
+		catch (err) {
+			//navigate to error page
+			globalThis.sessionStorage.setItem('errorMessage',err.body.message);
+			globalThis.location?.assign(this.baseUrl + this.siteUrlBranded + this.displayErrorPage);
 		}
 	}
 	//Used to decide the Navigation for community chatter
 
 	openCommunity() {
+		let globalThis = window;
 		try{
 			CHECK_COMMUNITY_USERNAME({ userId: this.userId })
 				.then((result) => {
@@ -427,12 +423,14 @@ export default class BiPspbNavigationBarQuestionnaire extends LightningElement {
 					}
 				})
 				.catch((error) => {
-					this.showToast(ERROR_MESSAGE, error.body.message, ERROR_VARIANT); // Catching Potential Error from Apex
+					globalThis.sessionStorage.setItem('errorMessage',error.body.message);
+					globalThis.location?.assign(this.baseUrl + this.siteUrlBranded + this.displayErrorPage); // Catching Potential Error from Apex
 				});
 		}
 		catch (error) {
 			//navigate to error page
-			this.showToast(this.errorMessages, error.message, this.errorVariant);
+			globalThis.sessionStorage.setItem('errorMessage',error.body.message);
+			globalThis.location?.assign(this.baseUrl + this.siteUrlBranded + this.displayErrorPage);
 		}
 	}
 	//Navigation for Caregiver/Patient
@@ -554,16 +552,23 @@ export default class BiPspbNavigationBarQuestionnaire extends LightningElement {
 	//This method is used for logout functionality
 
 	logoutFromSite() {
-		this.showPopup = false;
-		let currentUrl = window.location.href;
-		let urlParts = currentUrl.split("/");
-		let index = urlParts.indexOf("s");
-		let desiredUrl;
-		if (index !== -1) {
-			desiredUrl = urlParts.slice(0, index + 1).join("/");
+		let globalThis = window;
+		try{
+			this.showPopup = false;
+			let currentUrl = window.location.href;
+			let urlParts = currentUrl.split("/");
+			let index = urlParts.indexOf("s");
+			let desiredUrl;
+			if (index !== -1) {
+				desiredUrl = urlParts.slice(0, index + 1).join("/");
+			}
+			window.location.assign(desiredUrl.replace(/\/s/gu, '/') + this.secureLogout + this.baseUrl + this.brandedUrl + this.loginUrl);
 		}
-		window.location.assign(desiredUrl.replace(/\/s/gu, '/') + this.secureLogout + this.baseUrl + this.brandedUrl + this.loginUrl);
-
+		catch(err)
+		{
+			globalThis.sessionStorage.setItem('errorMessage',err.body.message);
+			globalThis.location?.assign(this.baseUrl + this.siteUrlBranded + this.displayErrorPage);
+		}
 	}
 
 	openMyProfile() {
@@ -702,6 +707,7 @@ export default class BiPspbNavigationBarQuestionnaire extends LightningElement {
 	/*   Patient Community SubMenu */
 
 	openAllPosts() {
+		let globalThis = window;
 		try{
 			CHECK_COMMUNITY_USERNAME({ userId: this.userId })
 				.then((result) => {
@@ -717,16 +723,19 @@ export default class BiPspbNavigationBarQuestionnaire extends LightningElement {
 					}
 				})
 				.catch((error) => {
-					this.showToast(ERROR_MESSAGE, error.body.message, ERROR_VARIANT); // Catching Potential Error from Apex
+					globalThis.sessionStorage.setItem('errorMessage',error.body.message);
+					globalThis.location?.assign(this.baseUrl + this.siteUrlBranded + this.displayErrorPage); // Catching Potential Error from Apex
 				});
 		}
 		catch (error) {
 			//navigate to error page
-			this.showToast(this.errorMessages, error.message, this.errorVariant);
+			globalThis.sessionStorage.setItem('errorMessage',error.body.message);
+			globalThis.location?.assign(this.baseUrl + this.siteUrlBranded + this.displayErrorPage);
 		}
 	}
 
 	openMyPosts() {
+		let globalThis = window;
 		try{
 			CHECK_COMMUNITY_USERNAME({ userId: this.userId })
 				.then((result) => {
@@ -741,17 +750,20 @@ export default class BiPspbNavigationBarQuestionnaire extends LightningElement {
 						);
 					}
 				})
-				.catch((error) => {
-					this.showToast(ERROR_MESSAGE, error.body.message, ERROR_VARIANT); // Catching Potential Error from Apex
+				.catch((err) => {
+					globalThis.sessionStorage.setItem('errorMessage',err.body.message);
+					globalThis.location?.assign(this.baseUrl + this.siteUrlBranded + this.displayErrorPage); // Catching Potential Error from Apex
 				});
 		}
-		catch (error) {
+		catch (err) {
 			//navigate to error page
-			this.showToast(this.errorMessages, error.message, this.errorVariant);
+			globalThis.sessionStorage.setItem('errorMessage',err.body.message);
+			globalThis.location?.assign(this.baseUrl + this.siteUrlBranded + this.displayErrorPage);
 		}
 	}
 
 	openMyFollowers() {
+		let globalThis = window;
 		try{
 			CHECK_COMMUNITY_USERNAME({ userId: this.userId })
 				.then((result) => {
@@ -766,17 +778,20 @@ export default class BiPspbNavigationBarQuestionnaire extends LightningElement {
 						);
 					}
 				})
-				.catch((error) => {
-					this.showToast(ERROR_MESSAGE, error.body.message, ERROR_VARIANT); // Catching Potential Error from Apex
+				.catch((err) => {
+					globalThis.sessionStorage.setItem('errorMessage',err.body.message);
+					globalThis.location?.assign(this.baseUrl + this.siteUrlBranded + this.displayErrorPage);// Catching Potential Error from Apex
 				});
 		}
-		catch (error) {
+		catch (err) {
 			//navigate to error page
-			this.showToast(this.errorMessages, error.message, this.errorVariant);
+			globalThis.sessionStorage.setItem('errorMessage',err.body.message);
+			globalThis.location?.assign(this.baseUrl + this.siteUrlBranded + this.displayErrorPage);
 		}
 	}
 
 	openFollowing() {
+		let globalThis = window;
 		try{
 			CHECK_COMMUNITY_USERNAME({ userId: this.userId })
 				.then((result) => {
@@ -791,13 +806,15 @@ export default class BiPspbNavigationBarQuestionnaire extends LightningElement {
 						);
 					}
 				})
-				.catch((error) => {
-					this.showToast(ERROR_MESSAGE, error.body.message, ERROR_VARIANT); // Catching Potential Error from Apex
+				.catch((err) => {
+					globalThis.sessionStorage.setItem('errorMessage',err.body.message);
+					globalThis.location?.assign(this.baseUrl + this.siteUrlBranded + this.displayErrorPage); // Catching Potential Error from Apex
 				});
 		}
 		catch (error) {
 			//navigate to error page
-			this.showToast(this.errorMessages, error.message, this.errorVariant);
+			globalThis.sessionStorage.setItem('errorMessage',error.body.message);
+			globalThis.location?.assign(this.baseUrl + this.siteUrlBranded + this.displayErrorPage);
 		}
 	}
 
@@ -835,7 +852,7 @@ export default class BiPspbNavigationBarQuestionnaire extends LightningElement {
 
 	openSupportCenter() {
 		window.location.assign(
-			this.baseUrl + this.unAssignedUrl + this.supportCenter
+			this.baseUrl + this.unAssignedUrl + this.supportCase
 		);
 	}
 
@@ -955,7 +972,7 @@ export default class BiPspbNavigationBarQuestionnaire extends LightningElement {
 			);
 		} else if (this.stqsq > 0) {
 			if (this.targetFourteenWeeksDate !== null) {
-				if (this.status === COMPLETED_LABEL || this.status === EXPIRED) {
+				if (this.status === this.completed || this.status === this.expired) {
 					window.location.assign(
 						this.baseUrl + this.unAssignedUrl + this.qsqTwoCompleted
 					);
@@ -969,18 +986,6 @@ export default class BiPspbNavigationBarQuestionnaire extends LightningElement {
 					this.baseUrl + this.unAssignedUrl + this.qsqOneCompleted
 				);
 			}
-		}
-	}
-	// showToast used for all the error messages caught
-
-	showToast(title, message, variant) {
-		if (typeof window !== 'undefined') {
-			const event = new ShowToastEvent({
-				title: title,
-				message: message,
-				variant: variant
-			});
-			this.dispatchEvent(event);
 		}
 	}
 }

@@ -18,32 +18,45 @@ public inherited sharing class BI_PSP_DatabaseOperationsUtility {
     * @return List of Ids of successfully inserted records.
     * @throws DmlException If any errors occur during insert.
 */
-    public static List<Id> insertAndHandleErrors(List<SObject> records, String className,Boolean userModeLevel) {
-        if (records == null || records.isEmpty()) {
-            throw new DMLException('No records to insert');
-        }
-        if(userModeLevel ==true)
-        {
-            insertResults = Database.insert(records, false,AccessLevel.USER_MODE);
-        }
-        if(userModeLevel ==false)
-        {
+   public static List<Id> insertAndHandleErrors(List<SObject> records, String className, Boolean userModeLevel) {
+    List<Id> insertedIds = new List<Id>();
+    try {
+        Database.SaveResult[] insertResults;
+        
+        if (userModeLevel) {
+            insertResults = Database.insert(records, false, AccessLevel.USER_MODE);
+        } else {
             insertResults = Database.insert(records, false);
         }
-        
-        String errorMsg = '';
-        List<Id> insertedIds = new List<Id>();
         
         for (Database.SaveResult sr : insertResults) {
             if (sr.isSuccess()) {
                 insertedIds.add(sr.getId());
             } else {
-                return null;
+                // Handle the error here if required
+                String errorMsg = '';
+                for (Database.Error err : sr.getErrors()) {
+                    errorMsg += err.getMessage() + ' ';
+                }
+                System.debug('Error message: ' + errorMsg);
+                throw new AuraHandledException('Unable to insert records in class ' + className + ': ' + errorMsg);
             }
         }
         
         return insertedIds;
+    } catch (DmlException e) {
+        // Handle DML exceptions
+        String errorMsg = 'DML Exception occurred in class ' + className + ': ' + e.getMessage();
+        System.debug(errorMsg);
+        throw new AuraHandledException(errorMsg);
+    } catch (Exception e) {
+        // Handle other unexpected exceptions
+        String errorMsg = 'Unexpected exception occurred in class ' + className + ': ' + e.getMessage();
+        System.debug(errorMsg);
+        throw new AuraHandledException(errorMsg);
     }
+}
+
     
     /**
 * Helper method to perform delete and handle DML errors.
@@ -53,9 +66,6 @@ public inherited sharing class BI_PSP_DatabaseOperationsUtility {
 * @throws DmlException If any errors occur during delete.
 */
     public static List<Id> deleteHandleErrors(List<SObject> records,String className) {
-        if (records == null || records.isEmpty()) {
-            throw new DMLException('No records to insert');
-        }
         
         Database.DeleteResult[] deleteResults = Database.delete(records, false);
         List<Id> deletedIds = new List<Id>();
@@ -109,9 +119,9 @@ public inherited sharing class BI_PSP_DatabaseOperationsUtility {
     
     List<Database.UpsertResult> upsertResults;
     if (userModeLevel) {
-        upsertResults = Database.upsert(records, false, AccessLevel.USER_MODE);
+        upsertResults = Database.upsert(records, true, AccessLevel.USER_MODE);
     } else {
-        upsertResults = Database.upsert(records, false);
+        upsertResults = Database.upsert(records, true);
     }
     
     List<Id> updatedIds = new List<Id>();
@@ -126,4 +136,22 @@ public inherited sharing class BI_PSP_DatabaseOperationsUtility {
     return updatedIds;
 }
 
+ public static Database.SaveResult[] insertOperationAllAreTrue(List<SObject> records, String className, Boolean userModeLevel) {
+       
+     try{
+        if (userModeLevel) {
+            insertResults = Database.insert(records, true, AccessLevel.USER_MODE);
+        } else {
+            insertResults = Database.insert(records, true);
+        }
+        
+       
+     }
+     catch(DMLException ex)
+     {
+         throw new DMLException('Unable to Perform the DML Operation on Account : ' +ex.getMessage());
+     }
+        return insertResults;
+    }
+  
 }

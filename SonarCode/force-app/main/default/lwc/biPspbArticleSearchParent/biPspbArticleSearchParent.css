@@ -204,7 +204,6 @@
 	border-radius: 12px;
 	/* Add border-radius for curved edges */
 	height: 35px;
-	/* width: fit-content; */
 	border: 15px;
 }
 
@@ -714,27 +713,27 @@ article h2 {
 		font-style: normal;
 		font-weight: 400;
 		line-height: 24px;
-		/* 150% */
+		
 	}
 
 	.article p {
-		/* Body Extra Small/Grey100-Regular */
+		
 		font-family: Eina-Regular;
 		font-size: 12px;
 		font-style: normal;
 		font-weight: 400;
 		line-height: 16px;
-		/* 133.333% */
+		
 	}
 
 	.minscls {
-		/* Body Small/Grey100-Semibold */
+		
 		font-family: Eina-SemiBold;
 		font-size: 14px;
 		font-style: normal;
 		font-weight: 400;
 		line-height: 20px;
-		/* 142.857% */
+		
 	}
 
 	.minsline {
@@ -935,33 +934,33 @@ article h2 {
 	}
 
 	article h2 {
-		/* Body Default/Grey100-Semibold */
+		
 		font-family: Eina-SemiBold;
 		font-size: 16px;
 		font-style: normal;
 		font-weight: 400;
 		line-height: 24px;
-		/* 150% */
+		
 	}
 
 	.article p {
-		/* Body Extra Small/Grey100-Regular */
+		
 		font-family: Eina-Regular;
 		font-size: 12px;
 		font-style: normal;
 		font-weight: 400;
 		line-height: 16px;
-		/* 133.333% */
+		
 	}
 
 	.minscls {
-		/* Body Small/Grey100-Semibold */
+		
 		font-family: Eina-SemiBold;
 		font-size: 14px;
 		font-style: normal;
 		font-weight: 400;
 		line-height: 20px;
-		/* 142.857% */
+		
 	}
 
 	.minsline {
@@ -1032,8 +1031,7 @@ article h2 {
 	}
 
 	.flexirow {
-		/* flex-direction: row; */
-		/* display: inline; */
+		
 		height: auto;
 		width: auto;
 		padding-bottom: 27px;
@@ -1153,16 +1151,14 @@ article h2 {
 		border-radius: 12px;
 		/* Add border-radius for curved edges */
 		height: 35px;
-		/* width: fit-content; */
+		
 		border: 15px;
-		/* border-color: #ECDCA8; */
-		/* outline: 2px solid #ECDCA8; */
-		/* Add outline with the desired color on hover */
+		
 	}
 
 	.container-itembox {
 		height: auto;
-		/* width: 1031px; */
+		
 	}
 
 	.container-item {
@@ -1479,33 +1475,33 @@ article h2 {
 	}
 
 	article h2 {
-		/* Body Default/Grey100-Semibold */
+		
 		font-family: Eina-SemiBold;
 		font-size: 16px;
 		font-style: normal;
 		font-weight: 400;
 		line-height: 24px;
-		/* 150% */
+		
 	}
 
 	.article p {
-		/* Body Extra Small/Grey100-Regular */
+		
 		font-family: Eina-Regular;
 		font-size: 12px;
 		font-style: normal;
 		font-weight: 400;
 		line-height: 16px;
-		/* 133.333% */
+	
 	}
 
 	.minscls {
-		/* Body Small/Grey100-Semibold */
+		
 		font-family: Eina-SemiBold;
 		font-size: 14px;
 		font-style: normal;
 		font-weight: 400;
 		line-height: 20px;
-		/* 142.857% */
+		
 	}
 
 	.minsline {
@@ -1898,7 +1894,7 @@ article h2 {
 		border: none;
 		/* Remove border */
 		width: 100%;
-		/* height: 28px; */
+		
 		outline: none;
 		/* Remove focus outline */
 		margin-left: 20px;

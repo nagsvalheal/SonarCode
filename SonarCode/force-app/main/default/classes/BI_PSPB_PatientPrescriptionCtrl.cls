@@ -20,9 +20,7 @@ public with sharing class BI_PSPB_PatientPrescriptionCtrl {
 	private static String recordTypeName = System.Label.BI_PSPB_PrescriptionRecordType;
 	private static String errorForInsert = System.Label.BI_PSPB_InsertError;
 	private static String errorForCase = System.Label.BI_PSPB_ErrorForCase;
-	private static Id recordTypeId = Schema.SObjectType.Case.getRecordTypeInfosByName()
-		.get(recordTypeName)
-		.getRecordTypeId();
+	private static Id recordTypeId = BI_PSP_CommonQueryUtility.retrieveRecordTypeId('Case', recordTypeName);
 
 	/**
 	@description	This method creates the Case record for the prescriptions

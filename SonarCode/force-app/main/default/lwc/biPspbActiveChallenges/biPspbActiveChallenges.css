@@ -30,6 +30,9 @@ hr {
 .noDecoration {
   text-decoration: none;
   color: #ecdca8;
+  background: none;
+    box-shadow: none;
+    border: none;
 }
 .noDecoration:hover {
   text-decoration: none;

@@ -24,7 +24,7 @@
             Lead newLead = new Lead();
             newLead.FirstName = data.firstName;
             newLead.LastName = data.lastName;
-            newLead.HealthCloudGA__BirthDate__c = Date.valueOf(data.dob); // Assuming DOB is a String, convert it to Date.
+            newLead.HealthCloudGA__BirthDate__c = Date.valueOf(data.dob);
             newLead.Email = data.email;
             newLead.HealthCloudGA__Gender__c = data.sex;
             newLead.Phone = data.phone;

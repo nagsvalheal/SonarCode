@@ -3,11 +3,32 @@
 import { LightningElement, wire, api } from 'lwc';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import { resources } from 'c/biPspLabelAndResourceChallenges';
+
 //To import Apex Classes
 import INDIVIDUALSCHALLENGES from '@salesforce/apex/BI_PSP_IndividualChallengesCtrl.getIndividualChallenges';
 import COUNT_ASSESMENT from '@salesforce/apex/BI_PSP_AssessmentCtrl.getAssessmentCountsByCurrentUserName';
-import UPDATE_REACTION from '@salesforce/apex/BI_PSPB_CmsCtrl.updateReaction';
+//import UPDATE_REACTION from '@salesforce/apex/BI_PSPB_CmsCtrl.updateReaction';
 //To import Custom labels
+import CHALLENGE_LEVEL_ONE from '@salesforce/label/c.BI_PSP_ChallengeLevelOne';
+import CHALLENGE_LEVEL_TWO from '@salesforce/label/c.BI_PSP_ChallengeLevelTwo';
+import CH_BOOK_WORM from '@salesforce/label/c.BI_PSP_ChallengeBookworm';
+import IC_LANDING_PAGE from '@salesforce/label/c.BI_PSP_GppArticle';
+import WHY_BEING_ACTIVE from '@salesforce/label/c.BI_PSP_ActiveArticle';
+import BR_DITE_URL from '@salesforce/label/c.BI_PSPB_BrandedSiteNaviUrl';
+import BRANDED_URL from '@salesforce/label/c.BI_PSPB_SiteLabel';
+import UN_ASSIGNED_URL from '@salesforce/label/c.BI_PSPB_UnAssignedLabel';
+import BRANDES_URL_NAVI from '@salesforce/label/c.BI_PSPB_BrandedSiteNaviUrl';
+import UN_ASSIGNED_URL_NAVI from '@salesforce/label/c.BI_PSPB_UnAssignedNaviUrl';
+import BR_WAPI_QUESTIONNAIRE from "@salesforce/label/c.BI_PSPB_WapiQuestionnaire";
+import PSS_QUESTIONNAIRE from "@salesforce/label/c.BI_PSPB_PsoriasisQuesUrl";
+import DLQI_QUESTIONNAIRE from "@salesforce/label/c.BI_PSPB_DlqiQuestionnaireUrl";
+import CHALLENGE_LEVEL_THREE from "@salesforce/label/c.BI_PSP_ChallengeLevelThree";
+import TRACK_YOUR_GPP_LABLE from "@salesforce/label/c.BI_PSP_TrackYourGppLabel";
+import BRDLQI_COMPLETED_URL from "@salesforce/label/c.BI_PSPB_DlqiCompletedUrl";
+import BRWAPI_COMPLETED_URL from "@salesforce/label/c.BI_PSPB_WapiCompletedQuestionnaire";
+import BRPSS_COMPLETED_URL from "@salesforce/label/c.BI_PSPB_PsoriasisCompletedQuesUrl";
+import VIEW_LABEL from '@salesforce/label/c.BI_PSPB_View';
+
 
 
 
@@ -16,27 +37,23 @@ export default class BiPspbAvailableChallenges extends LightningElement {
 	// Expose properties to parent components
 	@api challengeid;
 	@api challengeidtoupdate;
-	levelOne = resources.CHALLENGE_LEVEL_ONE;
-	levelTwo = resources.CHALLENGE_LEVEL_TWO;
-	challengeBookworm = resources.CH_BOOK_WORM;
-	siteUrlBranded = resources.BR_DITE_URL;
-	gppArticle = resources.IC_LANDING_PAGE;
-	beingActive = resources.WHY_BEING_ACTIVE;
+	levelOne = CHALLENGE_LEVEL_ONE;
+	levelTwo = CHALLENGE_LEVEL_TWO;
+	challengeBookworm = CH_BOOK_WORM;
+	siteUrlBranded = BR_DITE_URL;
+	gppArticle = IC_LANDING_PAGE;
+	beingActive = WHY_BEING_ACTIVE;
 	errorMsg = resources.ERROR_MESSAGES;
 	errorVariant = resources.ERROR_VARIANT;
-	brandedUrl =resources.BRANDED_URL;
-	unAssignedUrl = resources.UNASSIGNED_URL;
-	brNaviSiteUrl = resources.BR_SITE_URL;
-	unAssignedNaviUrl = resources.UN_ASSIGNED_URL_NAVI;
-	brWapiQuestionnaire = resources.BR_WAPI_QUESTIONNAIRE;
-	pssQuestionnaire = resources.PSS_QUESTIONNAIRE;
-	dlqiQuestionnaire = resources.DLQI_QUESTIONNAIRE;
-	challengeLvlThree = resources.CHALLENGE_LEVEL_THREE;
-	trackYourGppLbl = resources.TRACK_YOUR_GPP_LABLE;
-	brdlqiCmpletedUrl = resources.BRDLQI_COMPLETED_URL;
-	brwapiCompletedUrl = resources.BRWAPI_COMPLETED_URL;
-	brpssCompletedUrl = resources.BRPSS_COMPLETED_URL;
-	viewLabel = resources.VIEW_LABEL;
+
+	beingActive = resources.BEING_ACTIVE;
+	trackYourAns = resources.TRACK_YOUR_ANSWER;
+	linkArticle =resources.LINKARTICLE;
+	gppWrkLifeLink =resources.GPPWORKLIFELINK;
+	gppSymptomsLink = resources.GPPSYMPTOMSLINK;
+	gppQualityLifeLink = resources.GPPQUALITYLIFELINK;
+	questionnairelink = resources.QuestonnaireValue;
+	acceptChallengeButton = resources.ACCEPTCHALLENGEBUTTON;
 	// Declare properties to store challenge details
 	title;
 	level;
@@ -82,7 +99,7 @@ export default class BiPspbAvailableChallenges extends LightningElement {
 
 	setChallengeVisibility() {
 		const isBookworm = this.title.includes(this.challengeBookworm);
-		const isGpp = this.title.includes(this.trackYourGppLbl);
+		const isGpp = this.title.includes(TRACK_YOUR_GPP_LABLE);
 
 		this.resetVisibility();
 
@@ -111,7 +128,7 @@ export default class BiPspbAvailableChallenges extends LightningElement {
 			this.trackYourGppDivWpai = true;
 		} else if (this.level === this.levelTwo) {
 			this.trackYourGppDivPss = true;
-		} else if (this.level === this.challengeLvlThree) {
+		} else if (this.level === CHALLENGE_LEVEL_THREE) {
 			this.trackYourGppDivDlqi = true;
 		}
 	}
@@ -170,15 +187,15 @@ export default class BiPspbAvailableChallenges extends LightningElement {
 			const path = urlObject.pathname;
 			const pathComponents = path.split('/');
 			const desiredComponent = pathComponents.find((component) =>
-				[this.brandedUrl, this.unAssignedUrl].includes(
+				[BRANDED_URL, UN_ASSIGNED_URL].includes(
 					component
 				)
 			);
 
-			if (desiredComponent === this.brandedUrl) {
-				this.urlq = this.brNaviSiteUrl;
+			if (desiredComponent === BRANDED_URL) {
+				this.urlq = BRANDES_URL_NAVI;
 			} else {
-				this.urlq = this.unAssignedNaviUrl;
+				this.urlq = UN_ASSIGNED_URL_NAVI;
 			}
 		} catch (error) {
 
@@ -198,56 +215,56 @@ export default class BiPspbAvailableChallenges extends LightningElement {
 
 	// Method to open articles
 	openArticles() {
-		UPDATE_REACTION({
-			articleName: this.gppArticle, reaction: this.viewLabel
-		})
-			.then(() => {
-				this.titlear = this.viewLabel + ': ' + this.gppArticle;
-				window.location.assign(
-					this.urlq + this.gppArticle
-				);
-			})
-			.catch((error) => {
-				this.showToast(this.errorMsg, error.body.message, this.errorVariant); // Catching Potential Error from Apex
-				// Handle error, if needed
-			});
+		// UPDATE_REACTION({
+		// 	articleName: this.gppArticle, reaction: VIEW_LABEL
+		// })
+		// 	.then(() => {
+		// 		this.titlear = VIEW_LABEL + ': ' + this.gppArticle;
+		// 		window.location.assign(
+		// 			this.urlq + this.gppArticle
+		// 		);
+		// 	})
+		// 	.catch((error) => {
+		// 		this.showToast(this.errorMsg, error.body.message, this.errorVariant); // Catching Potential Error from Apex
+		// 		// Handle error, if needed
+		// 	});
 
 	}
 	openArticlesActive() {
-		UPDATE_REACTION({
-			articleName: this.beingActive, reaction: this.viewLabel
-		})
-			.then(() => {
-				this.titlear = this.viewLabel + ': ' + this.beingActive;
-				window.location.assign(
-					this.urlq + this.beingActive
-				);
-			})
-			.catch((error) => {
-				this.showToast(this.errorMsg, error.body.message, this.errorVariant); // Catching Potential Error from Apex
-				// Handle error, if needed
-			});
+		// UPDATE_REACTION({
+		// 	articleName: this.beingActive, reaction: VIEW_LABEL
+		// })
+		// 	.then(() => {
+		// 		this.titlear = VIEW_LABEL + ': ' + this.beingActive;
+		// 		window.location.assign(
+		// 			this.urlq + this.beingActive
+		// 		);
+		// 	})
+		// 	.catch((error) => {
+		// 		this.showToast(this.errorMsg, error.body.message, this.errorVariant); // Catching Potential Error from Apex
+		// 		// Handle error, if needed
+		// 	});
 
 	}
 	TrackYourGppNavigationWPAI() {
 		if (this.stwai > 0) {
-			window.location.assign(this.urlq + this.brwapiCompletedUrl);
+			window.location.assign(this.urlq + BRWAPI_COMPLETED_URL);
 		} else {
-			window.location.assign(this.urlq + this.brWapiQuestionnaire);
+			window.location.assign(this.urlq + BR_WAPI_QUESTIONNAIRE);
 		}
 	}
 	TrackYourGppNavigationPSS() {
 		if (this.stpss > 0) {
-			window.location.assign(this.urlq + this.brpssCompletedUrl);
+			window.location.assign(this.urlq + BRPSS_COMPLETED_URL);
 		} else {
-			window.location.assign(this.urlq + this.pssQuestionnaire);
+			window.location.assign(this.urlq + PSS_QUESTIONNAIRE);
 		}
 	}
 	TrackYourGppNavigationDLQI() {
 		if (this.stdlq > 0) {
-			window.location.assign(this.urlq + this.brdlqiCmpletedUrl);
+			window.location.assign(this.urlq + BRDLQI_COMPLETED_URL);
 		} else {
-			window.location.assign(this.urlq + this.dlqiQuestionnaire);
+			window.location.assign(this.urlq + DLQI_QUESTIONNAIRE);
 		}
 	}
 	// showToast used for all the error messages caught

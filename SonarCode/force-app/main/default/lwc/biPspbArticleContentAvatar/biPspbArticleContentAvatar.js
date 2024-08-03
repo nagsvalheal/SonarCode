@@ -147,8 +147,19 @@ export default class BiPspbArticleContentAvatar extends LightningElement {
 					this.name = data.length > 0 ? data[0].Name : "";
 					this.currentUserName = this.name;
 
-					this.replacePlaceHolder();
+					if (this.genMessageRecord.includes("{!username}")) {
+						this.genMessageRecord = this.genMessageRecord.replace(
+							/\{!username\}/gu,
+							this.currentUserName
+						);
+					}
 
+					if (this.genMessageRecord.includes("XXX")) {
+						this.genMessageRecord = this.genMessageRecord.replace(
+							/XXX/gu,
+							this.currentUserName
+						);
+					}
 					this.cardImage = data[0]?.BI_PSP_AvatarUrl__c
 						? data[0]?.BI_PSP_AvatarUrl__c
 						: DEFAULT_IMG;
@@ -178,7 +189,20 @@ export default class BiPspbArticleContentAvatar extends LightningElement {
 					this.name =
 						this.userAccounts.length > 0 ? this.userAccounts[0]?.Name : "";
 					this.currentUserName = this.name;
-					this.replacePlaceHolder();
+
+					if (this.genMessageRecord.includes("{!username}")) {
+						this.genMessageRecord = this.genMessageRecord.replace(
+							/\{!username\}/gu,
+							this.currentUserName
+						);
+					}
+
+					if (this.genMessageRecord.includes("XXX")) {
+						this.genMessageRecord = this.genMessageRecord.replace(
+							/XXX/gu,
+							this.currentUserName
+						);
+					}
 
 					if (this.userAccounts[0]?.BI_PSP_AvatarUrl__c) {
 						this.cardImage = this.userAccounts[0]?.BI_PSP_AvatarUrl__c;
@@ -194,9 +218,14 @@ export default class BiPspbArticleContentAvatar extends LightningElement {
 		}
 	}
 
+	secureRandom() {
+		const array = new Uint32Array(1);
+		window.crypto.getRandomValues(array); // Generate a random value
+		return array[0] / (0xFFFFFFFF + 1); // Normalize to 0 to 1
+	}
 	// Generate a random decimal between 0 (inclusive) and 1 (exclusive)
 	getRandomNumber(min, max) {
-		let randomDecimal = Math.random();
+		let randomDecimal = this.secureRandom();
 
 		// Scale the random decimal to the range [min, max)
 		let randomNumber = Math.floor(randomDecimal * (max - min + 1)) + min;
@@ -208,7 +237,7 @@ export default class BiPspbArticleContentAvatar extends LightningElement {
 	@wire(CurrentPageReference)
 	pageReference({ state }) {
 		try {
-			if (state?.id) {
+			if (state && state.id) {
 				this.articleTitle = state.id;
 				this.findCategory();
 			}
@@ -285,11 +314,28 @@ export default class BiPspbArticleContentAvatar extends LightningElement {
 				this.result = this.getRandomNumber(0, this.generalMessages.length - 1);
 				this.genMessageRecord = this.generalMessages[this.result];
 
+				// Replace placeholders in message
+				if (this.genMessageRecord.includes("{!username}")) {
+					if (this.currentUserName !== "") {
+						this.genMessageRecord = this.genMessageRecord.replace(
+							/\{!username\}/gu,
+							this.currentUserName
+						);
+					}
+				}
+
+				if (this.genMessageRecord.includes("XXX")) {
+					if (this.currentUserName !== "") {
+						this.genMessageRecord = this.genMessageRecord.replace(
+							/XXX/gu,
+							this.currentUserName
+						);
+					}
+				}
+
 				if (this.genMessageRecord === this.message) {
 					this.genMessageRecord = this.generalMessages[this.result - 1];
 				}
-
-				this.replacePlaceHolder();
 
 				// Handle other replacements as needed
 			} else if (error) {
@@ -301,23 +347,6 @@ export default class BiPspbArticleContentAvatar extends LightningElement {
 		}
 	}
 
-	replacePlaceHolder(){
-		if(this.currentUserName){
-		if (this.genMessageRecord.includes("{!username}")) {
-			this.genMessageRecord = this.genMessageRecord.replace(
-				/\{!username\}/gu,
-				this.currentUserName
-			);
-		}
-
-		if (this.genMessageRecord.includes("XXX")) {
-			this.genMessageRecord = this.genMessageRecord.replace(
-				/XXX/gu,
-				this.currentUserName
-			);
-		}
-	}
-	}
 	// To navigate information center search results page
 	handleSearch(event) {
 		let searchTerm = event.target.value.toLowerCase();

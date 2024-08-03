@@ -5,7 +5,7 @@
 	<template if:true={updatePopup}>
 		<div data-it-uid={userId} class="toast">
 			<p class="para">
-				<img class="img4" src={rightImg} />&nbsp;&nbsp; {profileUpdate}
+				<img class="TicImage" src={rightImg}  alt="Tic Icon"/>&nbsp;&nbsp; {profileUpdate}
 			</p>
 			<div class="notify">
 				<button class="buttonclass btncls" type="button" onclick={handleClose}>
@@ -31,28 +31,28 @@
 
 									<label for="FirstName" data-field="FirstName" class="input-label">{firstnamelabel}</label>
 									<lightning-input class="textInput" field-name="FirstName" data-field="FirstName"
-										placeholder="Enter First Name" variant="label-hidden" value={firstName}
+										placeholder={enterFirstName} variant="label-hidden" value={firstName}
 										onchange={handleNameChange} max-length="16" >
 									</lightning-input>
 									<span class="slds-form-element__help" if:true={firstNameErrorMessage}>
-										<img src={warning} />{firstNameError}
+										<img src={warning} alt="warning Icon" />{firstNameError}
 									</span>
 									<div class="slds-form-element__help" if:true={firstNameErrorMessageValid}>
-										<img class="css" src={warning} width="12px" height="12px">
+										<img class="css" src={warning} alt="warning Icon" width="12px" height="12px">
 										<span class="slds-form-element__helps">{validFirstname}</span>
 									</div>
 								</div>
 								<div class="input-div">
 									<label for="LastName" data-field="LastName" class="input-label">{lastnameLabel}</label>
 									<lightning-input class="textInput" field-name="LastName" data-field="LastName"
-										placeholder="Enter Last Name" value={lastName} variant="label-hidden"
+										placeholder={enterLastName} value={lastName} variant="label-hidden"
 										onchange={handleLastNameChange}  maxlength="16" >
 									</lightning-input>
 									<span class="slds-form-element__help" if:true={lastNameErrorMessage}>
-										<img src={warning} />{lastNameError}
+										<img src={warning} alt="warning Icon" />{lastNameError}
 									</span>
 									<div class="slds-form-element__help" if:true={lastNameErrorMessageValid}>
-										<img class="css" src={warning} width="12px" height="12px">
+										<img class="css" src={warning} alt="warning Icon" width="12px" height="12px">
 										<span class="slds-form-element__helps">{validLastname}</span>
 									</div>
 								</div>
@@ -61,15 +61,15 @@
 									<lightning-input field-name="BI_PSP_Birthdate__c" label="Date of Birth"
 										onchange={ageCalculationEvent} value={birthDate} onkeydown={handleKeyDownThree}										data-field="Birthdate"
 										class="textInput" variant="label-hidden" type="date"
-										placeholder="DD.MM.YYYY" date-style="short"></lightning-input>
+										placeholder={enterDob} date-style="short"></lightning-input>
 									<span if:true={minorerror} class="slds-form-element__help">
-										<img src={warning} />{dobError}</span>
+										<img src={warning} alt="warning Icon" />{dobError}</span>
 									<span if:true={futureError} class="slds-form-element__help">
-										<img src={warning} />{futuredateError}</span>
+										<img src={warning} alt="warning Icon" />{futuredateError}</span>
 									<span if:true={majorError} class="slds-form-element__help">
-										<img src={warning} />{majorDateError}</span>
+										<img src={warning} alt="warning Icon" />{majorDateError}</span>
 									<span if:true={dobErrorMessage} class="slds-form-element__help">
-										<img src={warning} />
+										<img src={warning} alt="warning Icon" />
 										{dateError}
 									</span>
 								</div>
@@ -78,13 +78,13 @@
 										with {name}*</label>
 
 									<lightning-combobox field-name="BI_PSPB_Relationship_to_Patient__c"
-										name="CaregiverRelationship" placeholder="Select" data-field="Relationship"
+										name="CaregiverRelationship" placeholder={select} data-field="Relationship"
 										value={relationshipVal} options={leadPmc} onchange={relationshipEvent}
 										variant="label-hidden" class="textInput">
 									</lightning-combobox>
 
 									<span class="slds-form-element__help" if:true={relationshipErrorMessage}>
-										<img src={warning} />{relationshipError}
+										<img src={warning} alt="warning Icon" />{relationshipError}
 									</span>
 								</div>
 								<br />
@@ -97,7 +97,7 @@
 										data-field="email" variant="label-hidden" value={personEmailVal}>
 									</lightning-input>
 									<span class="slds-form-element__help" if:true={emailErrorMessage}>
-										<img src={warning} />{emailError}
+										<img src={warning} alt="warning Icon" />{emailError}
 									</span>
 								</div>
 								<!-- </div>  -->
@@ -116,7 +116,7 @@
 										  class="textInput"
 										  variant="label-hidden"
 										  data-field="MobilePhone"
-										  placeholder="Enter Phone Number"
+										  placeholder={enterPhone}
 										  value={phoneRecord}
 										  onchange={phoneChangeEvent}
 										  onkeydown={handleKeyDown}
@@ -127,7 +127,7 @@
 										  class="slds-form-element__help"
 										  if:true={phoneErrorMessage}
 										>
-										  <img src={warning} />{phoneFieldError}
+										  <img src={warning} alt="warning Icon" />{phoneFieldError}
 										</span>
 									  </div>
 									</div>
@@ -139,9 +139,9 @@
 									<lightning-combobox options={preffer} value={communicationMode}
 										onchange={handleCommunicationMethodChange} variant="label-hidden"
 										class="textInput" data-field="PreferredMethodofCommunication"
-										placeholder="Enter Preferred mode of communication"></lightning-combobox>
+										placeholder={enterPreferredMode}></lightning-combobox>
 									<span class="slds-form-element__help" if:true={pcmErrorMessage}>
-										<img src={warning} />{preferredMode}
+										<img src={warning} alt="warning Icon" />{preferredMode}
 									</span>
 								</div>
 							</div>

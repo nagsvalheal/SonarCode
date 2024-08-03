@@ -8,8 +8,10 @@
 */
 public with sharing class BI_PSPB_SmsAndEmailNotificationSetting {
 	/**
-	 * @description  Used to create task when a video is uploaded and calling the
-	 * method to send sms and email.
+	 * @description  Retrieves treatment reminders based on the given criteria.
+	 * @param accountRec The ID of the record related to the treatment reminders.
+	 * @param notificationType The type of reminder to filter by.
+	 * @return A list of BI_PSPB_Treatment_Reminder__c objects that match the criteria.
 	 */
 	public static Map<Id, List<BI_PSP_Notification_Setting__c>> getAccountToNotificationsMap(
 		List<Id> accountRec,
@@ -38,7 +40,6 @@ public with sharing class BI_PSPB_SmsAndEmailNotificationSetting {
 				conditions,
 				false
 			);
-            System.debug('setting result ' + results);
 			for (BI_PSP_Notification_Setting__c setting : results) {
 				if (
 					!accountToNotificationsMap.containsKey(
@@ -52,7 +53,6 @@ public with sharing class BI_PSPB_SmsAndEmailNotificationSetting {
 				}
 				accountToNotificationsMap.get(setting.BI_PSP_Enrollee__c)
 					.add(setting);
-                System.debug('accountToNotificationsMap ' + accountToNotificationsMap);
 			}
 		} catch (Exception ex) {
 			BI_PSP_LogMessagesUtility.exceptionLogMessage(

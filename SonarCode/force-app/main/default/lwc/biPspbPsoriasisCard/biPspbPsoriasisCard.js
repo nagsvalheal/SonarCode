@@ -1,6 +1,6 @@
 //This Card displays information related to the Psoriasis Symptom Scale (PSS), aiding in the presentation and understanding of its contents.
 //To import Libraries
-import { LightningElement, wire, track } from 'lwc';
+import { LightningElement, wire } from 'lwc';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 //To import Apex classes
 import GET_CATEGORY_STATUS from '@salesforce/apex/BI_PSP_AssessmentCtrl.getCategoryStatus';

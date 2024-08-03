@@ -9,6 +9,7 @@ import SUBMIT_CONFIRMED_RESPONSES from '@salesforce/apex/BI_PSP_AssessmentManage
 import DRAFT_RESPONSE_OF_DERMATOLOGY from '@salesforce/apex/BI_PSP_DraftResponseCtrl.retrieveDrfatResponses';
 import COUNT_ASSESSMENT from '@salesforce/apex/BI_PSP_AssessmentCtrl.getCompletedAssessmentCountsByCurrentUserName';
 import GET_ASSMNT_BY_CURRENT_USER_NAME from '@salesforce/apex/BI_PSP_CaregiverAndPatientCtrl.getAssessmentsByCurrentUserName';
+import GET_ROLLOUT_DATE from '@salesforce/apex/BI_PSP_AssessmentCtrl.getRolloutdate';
 import GET_PATIENT_AFTER_THREE_MONTHS_AND_FOURTEEN_WEEKS from '@salesforce/apex/BI_PSP_QualitativeSatisfactionCtrl.getPatientEnrolleeDateAfterTwoMonthsAndFourteenWeeks';
 //To import Static Resource
 import PSS_IMAGE from '@salesforce/resourceUrl/BI_PSP_PssImage';
@@ -16,53 +17,9 @@ import DLQI_IMAGE from '@salesforce/resourceUrl/BI_PSP_DlqiImage';
 import WPAI_IMAGE from '@salesforce/resourceUrl/BI_PSP_WpaiImage';
 import QUALITATIVE_IMAGE from '@salesforce/resourceUrl/BI_PSP_QualitativeImage';
 //To import Custom labels
-import INTRODUCTION_CATEGORY from '@salesforce/label/c.BI_PSP_IntroductionTxt';
-import PSS_CATEGORY from '@salesforce/label/c.BI_PSP_PssCategory';
-import WAPI_CATEGORY from '@salesforce/label/c.BI_PSP_WapiCategory';
-import DLQI_CATEGORY from '@salesforce/label/c.BI_PSP_DlqiCategory';
-import QUALITATIVE_CATEGORY from '@salesforce/label/c.BI_PSP_QualitativeCategory';
-import WPAI_QSTNR_TXT from '@salesforce/label/c.BI_PSP_WpaiQstnrTxt';
-import YES from '@salesforce/label/c.BI_PSP_OptionValueYes';
-import OPTION_VALUE_NO from '@salesforce/label/c.BI_PSP_OptionValueNo';
-import VERY_MUCH from '@salesforce/label/c.BI_PSP_RbVeryMuch';
-import A_LOT from '@salesforce/label/c.BI_PSP_RbAlot';
-import A_LITTLE from '@salesforce/label/c.BI_PSP_RbAlittle';
-import NOT_AT_ALL from '@salesforce/label/c.BI_PSP_RbNotAtAll';
-import NOT_RELEVANT from '@salesforce/label/c.BI_PSP_RbNotRelevant';
-import ANSWERED from '@salesforce/label/c.BI_PSP_NumOfAnsrdQstn';
-import SUBMIT from '@salesforce/label/c.BI_PSP_ButtonSubmit';
-import SAVE_AS_DRAFT from '@salesforce/label/c.BI_PSP_DraftButton';
-import ROLLOUT_DATE from '@salesforce/label/c.BI_PSP_QuestnrRollOutDate';
-import EXPIRES_ON from '@salesforce/label/c.BI_PSP_QuestnrExpiresOn';
-import OUTSTANDING_QUESTIONNAIRE from '@salesforce/label/c.BI_PSP_OutstndngPageTxt';
-import BUTTON_RETURN_BACK from '@salesforce/label/c.BI_PSP_ButtonReturnback';
-import BUTTON_CONFIRM_SUB from '@salesforce/label/c.BI_PSP_ButtonConfirmSub';
-import CANCEL_BUTTON from '@salesforce/label/c.BI_PSP_CancelButton';
-import CONFIRM_BUTTON from '@salesforce/label/c.BI_PSP_ConfirmButton';
-import DLQI_FIRST_BOTTOM_MSG from '@salesforce/label/c.BI_PSP_DlqiFirstBottomMsg';
-import DLQI_SEC_BOTTOM_MSG from '@salesforce/label/c.BI_PSP_DlqiSecBottomMsg';
-import DLQI_BOTTOM_THIRD_MSG from '@salesforce/label/c.BI_PSP_PssBottomSecndMsg';
-import DLQI_FOUR_BOTTOM_MSG from '@salesforce/label/c.BI_PSP_DlqiThreeBottomMsg';
-import GET_ROLLOUT_DATE from '@salesforce/apex/BI_PSP_AssessmentCtrl.getRolloutdate';
-import DLQI_QUES_CATEGORY from '@salesforce/label/c.BI_PSP_DlqiCategory';
-import BRANDED_URL from '@salesforce/label/c.BI_PSPB_SiteLabel';
-import UNASSIGNED_URL from '@salesforce/label/c.BI_PSPB_UnAssignedLabel';
-import POPUP_MESSAGE from '@salesforce/label/c.BI_PSP_MsgPopupTxt';
-import SUBMIT_LABEL from '@salesforce/label/c.BI_PSP_SubmitLabel';
-import CANNOT_EDIT_MSG from '@salesforce/label/c.BI_PSP_CannotEditMsg';
 import CONSOLE_ERROR_MESSAGE from '@salesforce/label/c.BI_PSP_ConsoleError';
 import ERROR_VARIANT from '@salesforce/label/c.BI_PSP_ErrorVariantToast';
-import COMPLETED_LABEL from '@salesforce/label/c.BI_PSP_Completed';
-import IN_PROGRESS from '@salesforce/label/c.BI_PSP_InProgressTxt';
-import COMPLETED_ALL from '@salesforce/label/c.BI_PSP_CompleteAll';
-import OUTSTANDING_PAGE from '@salesforce/label/c.BI_PSPB_OutstndngPageUrl';
-import BRANDED_URL_NAVI from '@salesforce/label/c.BI_PSPB_BrandedSiteNaviUrl';
-import UNASSIGNED_URL_NAVI from '@salesforce/label/c.BI_PSPB_UnAssignedNaviUrl';
-import PSS_QUESTIONNAIRE_URL from '@salesforce/label/c.BI_PSPB_PsoriasisQuesUrl';
-import QUALITATIVE_TWO_MONTHS from '@salesforce/label/c.BI_PSPB_QualitativeTwoMonths';
-import QUALITATIVE_FOURTEEN_WEEKS from '@salesforce/label/c.BI_PSPB_QualitativeFourteenWeeks';
-import WAPI_QUESTIONNAIRE from '@salesforce/label/c.BI_PSPB_WapiQuestionnaire';
-import EXPIRED from '@salesforce/label/c.BI_PSP_Expired';
+import * as labels from 'c/biPspbLabelAndResourceForQuestionnaire'; 
 //To get UserId
 import Id from '@salesforce/user/Id';
 export default class BiPspbDlqiQuestionnaire extends LightningElement {
@@ -209,11 +166,11 @@ export default class BiPspbDlqiQuestionnaire extends LightningElement {
 	tenthRadNotRelevent = false;
 	isConfirmationDialogOpen = false;
 	customFormModal = false;
-	message = COMPLETED_ALL;
-	submitLabel = SUBMIT_LABEL;
+	message = labels.COMPLETED_ALL;
+	submitLabel = labels.SUBMIT_LABEL;
 	cardRollOutDate;
 	isDraftSavedPopupOpen = false;
-	draftSavedMessage = POPUP_MESSAGE;
+	draftSavedMessage = labels.POPUP_MESSAGE;
 	//Global variables(without does not trigger automatic re-renders)
 	isTenthRespnseTrue = false;
 	isFirstRespnseTrue = false;
@@ -224,34 +181,34 @@ export default class BiPspbDlqiQuestionnaire extends LightningElement {
 	wpaiCardImage = WPAI_IMAGE;
 	qsqCardImage = QUALITATIVE_IMAGE;
 	userId = Id;
-	introduction = INTRODUCTION_CATEGORY;
-	pss = PSS_CATEGORY;
-	dlqi = DLQI_CATEGORY;
-	wapi = WAPI_CATEGORY;
-	qsq = QUALITATIVE_CATEGORY;
-	wapiQstnrTxt = WPAI_QSTNR_TXT;
-	dlqiFirstMsg = DLQI_FIRST_BOTTOM_MSG;
-	dlqiSecMsg = DLQI_SEC_BOTTOM_MSG;
-	dlqiThirdMsg = DLQI_BOTTOM_THIRD_MSG;
-	dlqiFourthMsg = DLQI_FOUR_BOTTOM_MSG;
-	verymuch = VERY_MUCH;
-	alot = A_LOT;
-	alittle = A_LITTLE;
-	notatall = NOT_AT_ALL;
-	notrelevant = NOT_RELEVANT;
-	yes = YES;
-	no = OPTION_VALUE_NO;
-	answered = ANSWERED;
-	submit = SUBMIT;
-	saveasdraft = SAVE_AS_DRAFT;
-	rolloutdate = ROLLOUT_DATE;
-	expireson = EXPIRES_ON;
-	outstandingque = OUTSTANDING_QUESTIONNAIRE;
-	returnbackc = BUTTON_RETURN_BACK;
-	confirmsub = BUTTON_CONFIRM_SUB;
-	cannotedit = CANNOT_EDIT_MSG;
-	cancelbt = CANCEL_BUTTON;
-	confirmbt = CONFIRM_BUTTON;
+	introduction = labels.INTRODUCTION_CATEGORY;
+	pss = labels.PSS_CATEGORY;
+	dlqi = labels.DLQI_CATEGORY;
+	wapi = labels.WPAI_CATEGORY;
+	qsq = labels.QUALITATIVE_LABEL;
+	wapiQstnrTxt = labels.WPAI_TXT;
+	dlqiFirstMsg = labels.DLQI_BOTTOM;
+	dlqiSecMsg = labels.DLQI_BOTTOM_TEXT_TWO;
+	dlqiThirdMsg = labels.WPAI_BOTTOM_TXT_TWO;
+	dlqiFourthMsg = labels.BI_PSP_dlqibottom4;
+	verymuch = labels.VERY_MUCH;
+	alot = labels.A_LOT;
+	alittle = labels.A_LITTLE;
+	notatall = labels.NOT_AT_ALL;
+	notrelevant = labels.NOT_RELEVANT;
+	yes = labels.YES_LABEL;
+	no = labels.NO_LABEL;
+	answered = labels.ANSWERED;
+	submit = labels.SUBMIT;
+	saveasdraft = labels.SAVE_AS_DRAFT;
+	rolloutdate = labels.ROLLOUT_DATE;
+	expireson = labels.EXPIRES_ON;
+	outstandingque = labels.OUTSTANDING_QUESTIONNAIRE;
+	returnbackc = labels.BUTTON_RETURN_BACK;
+	confirmsub = labels.BUTTON_CONFIRM_SUB;
+	cannotedit = labels.CANNOT_EDIT_MSG;
+	cancelbt = labels.CANCEL_BUTTON;
+	confirmbt = labels.CONFIRM_BUTTON;
 	popupmenu = false;
 	firstDraftResp;
 	firstDraftVerionId;
@@ -284,11 +241,10 @@ export default class BiPspbDlqiQuestionnaire extends LightningElement {
 	dateResponses = [];
 	storeDate;
 	responsOfDlqi = [];
-	categoryname = DLQI_QUES_CATEGORY;
+	categoryname = labels.DLQI_CATEGORY;
 	dlqiRollOutDate;
 	rolloutDate;
 	expireDate;
-	isDataLoaded = false;
 	urlq;
 	handleResizeBound;
 
@@ -306,16 +262,16 @@ export default class BiPspbDlqiQuestionnaire extends LightningElement {
 			let pathComponents = path.split('/');
 			// Find the desired component ('Branded' or 'Unassigned') in the pathname
 			let desiredComponent = pathComponents.find((component) =>
-				[BRANDED_URL.toLowerCase(), UNASSIGNED_URL.toLowerCase()].includes(
+				[labels.BRANDED_URL.toLowerCase(), labels.UN_ASSIGNED_URL.toLowerCase()].includes(
 					component.toLowerCase()
 				)
 			);
 
 			// Determine which URL component is currently active and assign it to 'this.urlq'
-			if (desiredComponent.toLowerCase() === BRANDED_URL.toLowerCase()) {
-				this.urlq = BRANDED_URL_NAVI;
+			if (desiredComponent.toLowerCase() === labels.BRANDED_URL.toLowerCase()) {
+				this.urlq = labels.BRANDED_NAVI_URL;
 			} else {
-				this.urlq = UNASSIGNED_URL_NAVI;
+				this.urlq = labels.UN_ASSIGNED_URL_NAVI;
 			}
 
 			// Check if the current view is on desktop or not
@@ -446,10 +402,10 @@ export default class BiPspbDlqiQuestionnaire extends LightningElement {
 		this.assessmentId = data.length > 0 ? data[0].Id : null;
 		this.status = data.length > 0 ? data[0].AssessmentStatus : null;
 
-		if (this.status === EXPIRED) {
+		if (this.status === labels.EXPIRED) {
 			this.calculateDates(data[0].ExpirationDateTime);
 		}
-		else if (this.status === IN_PROGRESS || this.status === COMPLETED_LABEL) {
+		else if (this.status === labels.IN_PROGRESS || this.status === labels.COMPLETED_LABEL) {
 			this.calculateDates(data[0].BI_PSP_RolloutforCompletedQuestionnarie__c)
 		}
 	}
@@ -540,144 +496,82 @@ export default class BiPspbDlqiQuestionnaire extends LightningElement {
 	// Wire method to fetch draft responses of Drmatology
 	//There's no need to check for null because in Apex, we're throwing an AuraHandledException. Therefore, null data won't be encountered.
 	@wire(DRAFT_RESPONSE_OF_DERMATOLOGY, { questCatgryName: '$dlqi', someBooleanParam: '$twoMonthsTrueFalse' })
-	wiredDraftResponses({ error, data }) {
-		try {
-			if (data) {
-				let objectsWithResponseOrder7 = data.filter(
-					(item) => item.BI_PSP_ResponseOrder__c === 7
-				);
-				this.responsOfDlqi = data;
-				this.draftResonsesForLaterSubmission();
-				this.draftResponses = data.map((response) => ({
-					id: response.Id,
-					questionText: response.ResponseValue,
-					activeVersionId: response.AssessmentQuestion
-						? response.AssessmentQuestion.Id
-						: null
-				}));
+wiredDraftResponses({ error, data }) {
+    try {
+        if (data) {
+            this.responsOfDlqi = data;
+            this.draftResonsesForLaterSubmission();
+            
+            // Map draft responses to a structured format
+            this.draftResponses = data.map((response) => ({
+                id: response.Id,
+                questionText: response.ResponseValue,
+                activeVersionId: response.AssessmentQuestion ? response.AssessmentQuestion.Id : null
+            }));
 
-				// Update the totalDraftResponses property
-				this.totalDraftResponses = this.draftResponses.length;
-				if (objectsWithResponseOrder7.length > 0) {
-					if (
-						this.draftResponses.length > this.countQuestion ||
-						objectsWithResponseOrder7[0].ResponseText === this.no
-					) {
-						this.countQuestion = 11;
-					} else {
-						this.countQuestion = 10;
-					}
-				}
-				if (this.draftResponses.length >= 1) {
-					let firstQuestion = this.draftResponses[0];
+            // Update the totalDraftResponses property
+            this.totalDraftResponses = this.draftResponses.length;
 
-					this.firstResponseText = firstQuestion.questionText;
-					this.firstResponseVersinId = firstQuestion.activeVersionId;
+            // Determine countQuestion based on conditions
+            const objectsWithResponseOrder7 = data.filter(
+                (item) => item.BI_PSP_ResponseOrder__c === 7
+            );
 
-					// Check if the array has the expected length before accessing the elements
-					if (this.draftResponses.length >= 2) {
-						let secondQuestion = this.draftResponses[1];
+            if (objectsWithResponseOrder7.length > 0) {
+                if (this.draftResponses.length > this.countQuestion ||
+                    objectsWithResponseOrder7[0].ResponseText === this.no) {
+                    this.countQuestion = 11;
+                } else {
+                    this.countQuestion = 10;
+                }
+            }
 
-						this.secondResponseText = secondQuestion.questionText;
+            // Handle each response using a loop
+            this.draftResponses.forEach((response, index) => {
+                if (index === 0) {
+                    this.firstResponseText = response.questionText;
+                    this.firstResponseVersionId = response.activeVersionId;
+                } else if (index === 1) {
+                    this.secondResponseText = response.questionText;
+                    this.secondResponseVersionId = response.activeVersionId;
+                } else if (index === 2) {
+                    this.thirdResponseText = response.questionText;
+                    this.thirdResponseVersionId = response.activeVersionId;
+                } else if (index === 3) {
+                    this.fourthResponseText = response.questionText;
+                    this.fourthResponseVersionId = response.activeVersionId;
+                } else if (index === 4) {
+                    this.fifthResponseText = response.questionText;
+                    this.fifthResponseVersionId = response.activeVersionId;
+                } else if (index === 5) {
+                    this.sixthResponseText = response.questionText;
+                    this.sixthResponseVersionId = response.activeVersionId;
+                } else if (index === 6) {
+                    this.seventhResponseText = response.questionText;
+                    this.seventhResponseVersionId = response.activeVersionId;
+                } else if (index === 7) {
+                    this.eighthResponseText = response.questionText;
+                    this.eighthResponseVersionId = response.activeVersionId;
+                } else if (index === 8) {
+                    this.ninthResponseText = response.questionText;
+                    this.ninthResponseVersionId = response.activeVersionId;
+                } else if (index === 9) {
+                    this.tenthResponseText = response.questionText;
+                    this.tenthResponseVersionId = response.activeVersionId;
+                } else if (index === 10) {
+                    this.eleventhResponseText = response.questionText;
+                    this.eleventhResponseVersionId = response.activeVersionId;
+                }
+            });
+        } else if (error) {
+            this.showToast(CONSOLE_ERROR_MESSAGE, error.body.message, ERROR_VARIANT); // Catching Potential Error from Apex
+        }
+    } catch (err) {
+        // Catch any errors that occur during processing
+        this.showToast(CONSOLE_ERROR_MESSAGE, err.message, ERROR_VARIANT); // Catching Potential Error from LWC
+    }
+}
 
-						this.secondResponseVersinId = secondQuestion.activeVersionId;
-
-						// Continue similarly for the third question
-						if (this.draftResponses.length >= 3) {
-							let thirdQuestion = this.draftResponses[2];
-
-							this.thirdResponseText = thirdQuestion.questionText;
-
-							this.thirdResponseVersinId = thirdQuestion.activeVersionId;
-
-							// Continue similarly for the fourth question
-							if (this.draftResponses.length >= 4) {
-								let fourthQuestion = this.draftResponses[3];
-
-								this.fourthResponseText = fourthQuestion.questionText;
-
-								this.fourthResponseVersinId = fourthQuestion.activeVersionId;
-
-								// Continue similarly for the fifth question
-								if (this.draftResponses.length >= 5) {
-									let fifthResponse = this.draftResponses[4];
-
-									this.fifthResponseText = fifthResponse.questionText;
-
-									this.fifthResponseVersionId = fifthResponse.activeVersionId;
-
-									// Continue similarly for the sixth question
-									if (this.draftResponses.length >= 6) {
-										let sixthQuestion = this.draftResponses[5];
-
-										this.sixthResponseText = sixthQuestion.questionText;
-
-										this.SixthResponseVersionId = sixthQuestion.activeVersionId;
-
-										// Continue similarly for the seventh question
-										if (this.draftResponses.length >= 7) {
-											let seventhQuestion = this.draftResponses[6];
-
-											this.seventhResponseText = seventhQuestion.questionText;
-
-											this.SeventhResponseVersionId =
-												seventhQuestion.activeVersionId;
-
-											// Continue similarly for the eigth question
-											if (this.draftResponses.length >= 8) {
-												let eighthQuestion = this.draftResponses[7];
-
-												this.eighthResponseText = eighthQuestion.questionText;
-
-												this.EigthResponseVersionId =
-													eighthQuestion.activeVersionId;
-
-												// Continue similarly for the ninth question
-												if (this.draftResponses.length >= 9) {
-													let ninthQuestion = this.draftResponses[8];
-
-													this.ninthResponseText = ninthQuestion.questionText;
-
-													this.NinthResponseVersionId =
-														ninthQuestion.activeVersionId;
-
-													// Continue similarly for the tenth question
-													if (this.draftResponses.length >= 10) {
-														let tenthQuestion = this.draftResponses[9];
-
-														this.tenthResponseText = tenthQuestion.questionText;
-
-														this.tenthResponseVersionId =
-															tenthQuestion.activeVersionId;
-
-														// Continue similarly for the elevnth question
-														if (this.draftResponses.length >= 11) {
-															let eleventhQuestion = this.draftResponses[10];
-
-															this.eleventhResponseText =
-																eleventhQuestion.questionText;
-
-															this.eleventhResponseVersionId =
-																tenthQuestion.activeVersionId;
-														}
-													}
-												}
-											}
-										}
-									}
-								}
-							}
-						}
-					}
-				}
-			} else if (error) {
-				this.showToast(CONSOLE_ERROR_MESSAGE, error.body.message, ERROR_VARIANT); // Catching Potential Error from Apex
-			}
-		} catch (err) {
-			// Catch any errors that occur during processing
-			this.showToast(CONSOLE_ERROR_MESSAGE, err.message, ERROR_VARIANT); // Catching Potential Error from LWC
-		}
-	}
 
 	//this method is for storing the draft response and its version id to class variables so that we can use these variables to save the draft response later ,also in this method we will be making the radio buttons as checked if the draft values matches with the values that are stored in to variables with their respective radio option values.
 	setResponseValues(order, responseValue, assessmentQuestionId) {
@@ -924,22 +818,22 @@ export default class BiPspbDlqiQuestionnaire extends LightningElement {
 
 	navigateToCategory3() {
 		// Navigate to Category pss questionnaire
-		window.location.assign(this.urlq + PSS_QUESTIONNAIRE_URL);
+		window.location.assign(this.urlq + labels.PSS_QUESTIONNAIRE_URL);
 	}
 
 	navigateToCategory4() {
 		// Navigate to Category wapi questionnaire
-		window.location.assign(this.urlq + WAPI_QUESTIONNAIRE);
+		window.location.assign(this.urlq + labels.WPAI_QUESTIONAIRE);
 	}
 
 	navigateToCategory5() {
 		// Check if fourteenWeeksDate is not null
 		if (this.fourteenWeeksDate !== null) {
 			// Navigate to Category qsq 2 questionnaire - Page 2
-			window.location.assign(this.urlq + QUALITATIVE_FOURTEEN_WEEKS); // Navigate to page 2
+			window.location.assign(this.urlq + labels.QUALITATIVE_FOURTEENWEEKS); // Navigate to page 2
 		} else {
 			// Navigate to Category qsq 1 questionnaire - Page 1
-			window.location.assign(this.urlq + QUALITATIVE_TWO_MONTHS); // Navigate to page 1
+			window.location.assign(this.urlq + labels.QUALITATIVE_TWO_MONTHS); // Navigate to page 1
 		}
 	}
 
@@ -1815,7 +1709,7 @@ export default class BiPspbDlqiQuestionnaire extends LightningElement {
 
 	// Helper method to redirect to the outstanding page
 	redirectToOutstandingPage() {
-		window.location.assign(this.urlq + OUTSTANDING_PAGE);
+		window.location.assign(this.urlq + labels.OUT_STANDING_URL);
 	}
 
 	//this method is for the custom pop up message when clicked on the save as draft button.
@@ -1845,7 +1739,7 @@ export default class BiPspbDlqiQuestionnaire extends LightningElement {
 	//this method will close the save as drfat custom pop up
 	closeDraftSavedPopup() {
 		this.isDraftSavedPopupOpen = false;
-		window.location.assign(this.urlq + OUTSTANDING_PAGE);
+		window.location.assign(this.urlq + labels.OUT_STANDING_URL);
 	}
 	// showToast used for all the error messages caught
 	showToast(title, message, variant) {

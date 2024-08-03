@@ -6,7 +6,7 @@
 	<lightning-layout-item size="12" small-device-size="12" medium-device-size="12" large-device-size="12">
 	  <div class="grid-containerNavPatient">
 		<div class="display-text">
-		  <p class="textp">Beyond GPP: The Spevigo® Patient Support Program</p>
+		  <p class="textp">{beyondGpp}</p>
 		</div>
 		<div class="custom-box">
 		  <template if:true={showNavDetails}>
@@ -23,17 +23,17 @@
 					<!-- User menus -->
 					<div>
 					  <p class="headMenu" onclick={userNavigation}>
-						Account Manager
+						{accountManager}
 					  </p>
 					</div>
 					<div>
 					  <p class="headMenu" onclick={openCarNotSettingsOne}>
-						Notification Center
+						{notificationCenter}
 					  </p>
 					</div>
 					<div>
 					  <p class="headMenu" onclick={openUpdatePrescription}>
-						Update Prescription
+						{updatePrescription}
 					  </p>
 					</div>
 
@@ -41,7 +41,7 @@
 					  <div class="grid-containerMenuProfile">
 						<div>
 						  <!-- Caregiver switch patient -->
-						  <p class="headMenu">Switch Patients</p>
+						  <p class="headMenu">{switchPatients}</p>
 						</div>
 
 						<template for:each={activeData} for:item="active" for:index="index">
@@ -56,7 +56,7 @@
 				  </div>
 				</div>
 			  </div>
-			  <div><a onclick={logoutFunc} class="logoutFunc">Logout</a></div>
+			  <div><a onclick={logoutFunc} class="logoutFunc">{logOut}</a></div>
 			</div>
 		  </template>
 		</div>
@@ -78,39 +78,39 @@
 				<div class="grid-containerMenu">
 				  <!-- Navigation Menus -->
 				  <div style="display: block">
-					<a class="menu" onclick={openHome}>Home</a><template if:true={showHomeLine}>
+					<a class="menu" onclick={openHome}>{home}</a><template if:true={showHomeLine}>
 					  <hr />
 					</template>
 				  </div>
 				  <div style="display: block">
-					<a class="menu" onclick={openInformationCenter}>Information Center</a><template
+					<a class="menu" onclick={openInformationCenter}>{informationCenter}</a><template
 					  if:true={showInformationCenter}>
 					  <hr />
 					</template>
 				  </div>
 				  <div style="display: block">
-					<a class="menu" onclick={openSymptomTracker}>Symptom Tracker</a><template
+					<a class="menu" onclick={openSymptomTracker}>{symptomTracker}</a><template
 					  if:true={showSymptomTracker}>
 					  <hr />
 					</template>
 				  </div>
 				  <div style="display: block">
-					<a class="menu" onclick={openChallenges}>Challenges</a><template if:true={showChallenge}>
+					<a class="menu" onclick={openChallenges}>{challengesLabel}</a><template if:true={showChallenge}>
 					  <hr />
 					</template>
 				  </div>
 				  <div style="display: block">
-					<a class="menu" onclick={openQuestions}>My Questionnaires</a><template if:true={showQuestionnaires}>
+					<a class="menu" onclick={openQuestions}>{myQuestionnaire}</a><template if:true={showQuestionnaires}>
 					  <hr />
 					</template>
 				  </div>
 				  <div style="display: block">
-					<a class="menu" onclick={openCommunity}>Community</a><template if:true={showCommunity}>
+					<a class="menu" onclick={openCommunity}>{community}</a><template if:true={showCommunity}>
 					  <hr />
 					</template>
 				  </div>
 				  <div style="display: block">
-					<a class="menu" onclick={openSupport}>Support</a><template if:true={showSupport}>
+					<a class="menu" onclick={openSupport}>{support}</a><template if:true={showSupport}>
 					  <hr />
 					</template>
 				  </div>
@@ -118,7 +118,7 @@
 			  </template>
 			  <template if:true={showToLogin}>
 				<div>
-				  <button class="button-Div" onclick={checkUser}>Login</button>
+				  <button class="button-Div" onclick={checkUser}>{loginLabel}</button>
 				</div>
 			  </template>
 			</div>
@@ -161,11 +161,11 @@
 		<div class="menuList padding">
 		  <template if:true={showMenu}>
 			<ul>
-			  <li><a class="textStyle" onclick={openHome}>Home</a></li>
+			  <li><a class="textStyle" onclick={openHome}>{home}</a></li>
 			  <li>
 				<div class="grid-containerMobileMenuList">
 				  <div>
-					<a class="textStyle" onclick={openInformationCenterTwo}>Information center</a>
+					<a class="textStyle" onclick={openInformationCenterTwo}>{informationCenter}</a>
 				  </div>
 				  <div>
 					<span style="float: right" onclick={openInformationCenterTwo}>&#10095;</span>
@@ -173,12 +173,12 @@
 				</div>
 			  </li>
 			  <li>
-				<a class="textStyle" onclick={openSymptomTracker}>Symptom tracker</a>
+				<a class="textStyle" onclick={openSymptomTracker}>{symptomTracker}</a>
 			  </li>
 			  <li>
 				<div class="grid-containerMobileMenuList">
 				  <div>
-					<a class="textStyle" onclick={openChallengesTwo}>Challenges</a>
+					<a class="textStyle" onclick={openChallengesTwo}>{challengesLabel}</a>
 				  </div>
 				  <div>
 					<span style="float: right" onclick={openChallengesTwo}>&#10095;</span>
@@ -188,7 +188,7 @@
 			  <li>
 				<div class="grid-containerMobileMenuList">
 				  <div>
-					<a class="textStyle" onclick={openQuestionsTwo}>My questionnaries</a>
+					<a class="textStyle" onclick={openQuestionsTwo}>{myQuestionnaire}</a>
 				  </div>
 				  <div>
 					<span style="float: right" onclick={openQuestionsTwo}>&#10095;</span>
@@ -198,7 +198,7 @@
 			  <li>
 				<div class="grid-containerMobileMenuList">
 				  <div>
-					<a class="textStyle" onclick={openCommunities}>Community</a>
+					<a class="textStyle" onclick={openCommunities}>{community}</a>
 				  </div>
 				  <div>
 					<span style="float: right" onclick={openCommunities}>&#10095;</span>
@@ -208,7 +208,7 @@
 			  <li>
 				<div class="grid-containerMobileMenuList">
 				  <div>
-					<a class="textStyle" onclick={openSupportTwo}>Support</a>
+					<a class="textStyle" onclick={openSupportTwo}>{support}</a>
 				  </div>
 				  <div>
 					<span style="float: right" onclick={openSupportTwo}>&#10095;</span>
@@ -228,7 +228,7 @@
 				</div>
 			  </li>
 			  <hr />
-			  <li><a class="textStyle" onclick={logoutFunc}>Logout</a></li>
+			  <li><a class="textStyle" onclick={logoutFunc}>{logOut}</a></li>
 			</ul>
 		  </template>
 		  <template if:true={showuserSubmenu}>
@@ -239,7 +239,7 @@
 					<span style="float: left" onclick={backtoMainMenu}>&#10094;</span>
 				  </div>
 				  <div>
-					<a class="textStyleback" onclick={backtoMainMenu}>Back</a>
+					<a class="textStyleback" onclick={backtoMainMenu}>{back}</a>
 				  </div>
 				</div>
 			  </li>
@@ -250,7 +250,7 @@
 			  <li>
 				<div class="grid-containerMobileMenuList">
 				  <div>
-					<a class="textStyle" onclick={userMenuNavigation}>Account Manager</a>
+					<a class="textStyle" onclick={userMenuNavigation}>{accountManager}</a>
 				  </div>
 				  <div>
 					<span style="float: right" onclick={userMenuNavigation}>&#10095;</span>
@@ -260,7 +260,7 @@
 			  <li>
 				<div class="grid-containerMobileMenuList">
 				  <div>
-					<a class="textStyle" onclick={openNotificationCenterMenu}>Notification Center</a>
+					<a class="textStyle" onclick={openNotificationCenterMenu}>{notificationCenter}</a>
 				  </div>
 				  <div>
 					<span style="float: right" onclick={openNotificationCenterMenu}>&#10095;</span>
@@ -270,7 +270,7 @@
 			  <li>
 				<div class="grid-containerMobileMenuList">
 				  <div>
-					<a class="textStyle" onclick={openUpdatePrescriptionMenu}>Update Prescription</a>
+					<a class="textStyle" onclick={openUpdatePrescriptionMenu}>{updatePrescription}</a>
 				  </div>
 				  <div>
 					<span style="float: right" onclick={openUpdatePrescriptionMenu}>&#10095;</span>
@@ -282,7 +282,7 @@
 				<template if:true={showCareGiverMenus}>
 				  <div class="grid-containerMenuProfileMobile">
 					<div>
-					  <p class="textStyleExtra">Switch Patients</p>
+					  <p class="textStyleExtra">{switchPatients}</p>
 					</div>
 					<template for:each={activeData} for:item="active" for:index="index">
 					  <div key={active.Id}>
@@ -304,19 +304,19 @@
 					<span style="float: left" onclick={backtoHomeMenu}>&#10094;</span>
 				  </div>
 				  <div>
-					<a class="textStyleback" onclick={backtoHomeMenu}>Back</a>
+					<a class="textStyleback" onclick={backtoHomeMenu}>{back}</a>
 				  </div>
 				</div>
 			  </li>
 			  <li>
-				<a class="textStyle"><b>Update Prescription</b></a>
+				<a class="textStyle"><b>{updatePrescription}</b></a>
 			  </li>
 			  <hr />
 			  <li>
-				<a class="textStyle" onclick={updatePrescriptionLink}>Update Prescription</a>
+				<a class="textStyle" onclick={updatePrescriptionLink}>{updatePrescription}</a>
 			  </li>
 			  <li>
-				<a class="textStyle" onclick={prescriptionStatusLink}>Prescription Status</a>
+				<a class="textStyle" onclick={prescriptionStatusLink}>{presStatus}</a>
 			  </li>
 			</ul>
 		  </template>
@@ -328,47 +328,47 @@
 					<span style="float: left" onclick={backtoHomeMenu}>&#10094;</span>
 				  </div>
 				  <div>
-					<a class="textStyleback" onclick={backtoHomeMenu}>Back</a>
+					<a class="textStyleback" onclick={backtoHomeMenu}>{back}</a>
 				  </div>
 				</div>
 			  </li>
 			  <li>
-				<a class="textStyle"><b>Notification Center</b></a>
+				<a class="textStyle"><b>{notificationCenter}</b></a>
 			  </li>
 			  <hr />
-			  <li><a class="textStyle" onclick={openGeneralNC}>General</a></li>
+			  <li><a class="textStyle" onclick={openGeneralNC}>{general}</a></li>
 			  <li>
-				<a class="textStyle" onclick={openActionRequiredNC}>Action Required</a>
+				<a class="textStyle" onclick={openActionRequiredNC}>{actionRequired}</a>
 			  </li>
-			  <li><a class="textStyle" onclick={openHistoryNC}>History</a></li>
+			  <li><a class="textStyle" onclick={openHistoryNC}>{historyLabel}</a></li>
 			</ul>
 		  </template>
 		  <template if:true={caregiverMenuList}>
 			<div class="menuList">
 			  <ul>
 				<li>
-				  <a class="textStyle" onclick={backtoMenu}>&#10094;&nbsp;Back</a>
+				  <a class="textStyle" onclick={backtoMenu}>&#10094;&nbsp;{back}</a>
 				</li>
 				<li>
 				  <div class="grid-containerMobileMenuList">
 					<div>
-					  <a class="textStyleExtra" onclick={openMenuList}>Account Manager</a>
+					  <a class="textStyleExtra" onclick={openMenuList}>{accountManager}</a>
 					</div>
 				  </div>
 				</li>
 				<hr />
 				<li>
-				  <a class="textStyle" onclick={openCarMyProfile}>My Profile
+				  <a class="textStyle" onclick={openCarMyProfile}>{myProfileLabel}
 				  </a>
 				</li>
 				<li>
-				  <a class="textStyle" onclick={openCarMyCaregiver}>Patient Information</a>
+				  <a class="textStyle" onclick={openCarMyCaregiver}>{patientInfoLabel}</a>
 				</li>
 				<li>
-				  <a class="textStyle" onclick={openCarSelectAvatar}>Select Avatar</a>
+				  <a class="textStyle" onclick={openCarSelectAvatar}>{selectAvatarLabel}</a>
 				</li>
 				<li>
-				  <a class="textStyle" onclick={openCarNotSettings}>Notification Settings</a>
+				  <a class="textStyle" onclick={openCarNotSettings}>{notificSetting}</a>
 				</li>
 				
 			  </ul>
@@ -382,18 +382,18 @@
 					<span style="float: left" onclick={handlebackSupport}>&#10094;</span>
 				  </div>
 				  <div>
-					<a class="textStyleback" onclick={handlebackSupport}>Back</a>
+					<a class="textStyleback" onclick={handlebackSupport}>{back}</a>
 				  </div>
 				</div>
 			  </li>
 			  <li>
-				<a class="textStyle"><b>Support</b></a>
+				<a class="textStyle"><b>{support}</b></a>
 			  </li>
 			  <hr />
 			  <li>
-				<a class="textStyle" onclick={openSupportCenter}>Support Center</a>
+				<a class="textStyle" onclick={openSupportCenter}>{supportCenterLabel}</a>
 			  </li>
-			  <li><a class="textStyle" onclick={openMyCases}>My Cases</a></li>
+			  <li><a class="textStyle" onclick={openMyCases}>{myCaseLabel}</a></li>
 			</ul>
 		  </template>
 		  <template if:true={showInformationCentermenu}>
@@ -404,17 +404,17 @@
 					<span style="float: left" onclick={handlebackInformationCenter}>&#10094;</span>
 				  </div>
 				  <div>
-					<a class="textStyleback" onclick={handlebackInformationCenter}>Back</a>
+					<a class="textStyleback" onclick={handlebackInformationCenter}>{back}</a>
 				  </div>
 				</div>
 			  </li>
 			  <li>
-				<a class="textStyle"><b>Information Center</b></a>
+				<a class="textStyle"><b>{informationCenter}</b></a>
 			  </li>
 			  <hr />
-			  <li><a class="textStyle" onclick={openArticles}>Articles</a></li>
+			  <li><a class="textStyle" onclick={openArticles}>{article}</a></li>
 			  <li if:true={showtreatvideo}>
-				<a class="textStyle" onclick={openPTV}>Patient Treatment Videos</a>
+				<a class="textStyle" onclick={openPTV}>{patientTrtVideo}</a>
 			  </li>
 			</ul>
 		  </template>
@@ -426,19 +426,19 @@
 					<span style="float: left" onclick={handlebackChallenges}>&#10094;</span>
 				  </div>
 				  <div>
-					<a class="textStyleback" onclick={handlebackChallenges}>Back</a>
+					<a class="textStyleback" onclick={handlebackChallenges}>{back}</a>
 				  </div>
 				</div>
 			  </li>
 			  <li>
-				<a class="textStyle"><b>Challenges</b></a>
+				<a class="textStyle"><b>{challengesLabel}</b></a>
 			  </li>
 			  <hr />
 			  <li>
-				<a class="textStyle" onclick={openChallenges}>Challenges</a>
+				<a class="textStyle" onclick={openChallenges}>{challengesLabel}</a>
 			  </li>
 			  <li>
-				<a class="textStyle" onclick={openTrophycase}>Trophy Case</a>
+				<a class="textStyle" onclick={openTrophycase}>{trophyCase}</a>
 			  </li>
 			</ul>
 		  </template>
@@ -450,21 +450,21 @@
 					<span style="float: left" onclick={handlebackCommunity}>&#10094;</span>
 				  </div>
 				  <div>
-					<a class="textStyleback" onclick={handlebackCommunity}>Back</a>
+					<a class="textStyleback" onclick={handlebackCommunity}>{back}</a>
 				  </div>
 				</div>
 			  </li>
 			  <li>
-				<a class="textStyle"><b>Community</b></a>
+				<a class="textStyle"><b>{community}</b></a>
 			  </li>
 			  <hr />
-			  <li><a class="textStyle" onclick={openAllPosts}>All Posts</a></li>
-			  <li><a class="textStyle" onclick={openMyPosts}>My Posts</a></li>
+			  <li><a class="textStyle" onclick={openAllPosts}>{allPosts}</a></li>
+			  <li><a class="textStyle" onclick={openMyPosts}>{myPosts}</a></li>
 			  <li>
-				<a class="textStyle" onclick={openMyFollowers}>My Followers</a>
+				<a class="textStyle" onclick={openMyFollowers}>{myFollowers}</a>
 			  </li>
 			  <li>
-				<a class="textStyle" onclick={openFollowing}>Following</a>
+				<a class="textStyle" onclick={openFollowing}>{followingLabel}</a>
 			  </li>
 			</ul>
 		  </template>
@@ -477,33 +477,33 @@
 					<span style="float: left" onclick={handleBack}>&#10094;</span>
 				  </div>
 				  <div>
-					<a class="textStyleback" onclick={handleBack}>Back</a>
+					<a class="textStyleback" onclick={handleBack}>{back}</a>
 				  </div>
 				</div>
 			  </li>
 			  <li>
-				<a class="textStyle"><b>My Questionnaires</b></a>
+				<a class="textStyle"><b>{myQuestionnaire}</b></a>
 			  </li>
 			  <hr />
 			  <li>
-				<a class="textStyle" onclick={openOutstandingQuestionnaire}>Outstanding Questionnaires
+				<a class="textStyle" onclick={openOutstandingQuestionnaire}>{outstandingPage}
 				</a>
 			  </li>
 			  <template if:true={showTabMenu}>
-				<li><a class="textStyle" onclick={openSummary}>Summary</a></li>
+				<li><a class="textStyle" onclick={openSummary}>{summary}</a></li>
 				<li>
-				  <a class="textStyle" onclick={openComQuestionnaires}>Completed Questionnaires
+				  <a class="textStyle" onclick={openComQuestionnaires}>{completedQues}
 				  </a>
 				</li>
 			  </template>
 			  <template if:false={showTabMenu}>
-				<li><a class="textStyle disabled">Summary</a></li>
+				<li><a class="textStyle disabled">{summary}</a></li>
 				<li>
-				  <a class="textStyle disabled">Completed Questionnaires </a>
+				  <a class="textStyle disabled">{completedQues}</a>
 				</li>
 			  </template>
 			  <li>
-				<a class="textStyle" onclick={openLetsPersonalize}>Let’s Personalize</a>
+				<a class="textStyle" onclick={openLetsPersonalize}>{letsPersonalize}</a>
 			  </li>
 			</ul>
 		  </template>
@@ -511,28 +511,28 @@
 			<div class="menuList">
 			  <ul>
 				<li>
-				  <a class="textStyle" onclick={backtoMenu}>&#10094;&nbsp;Patient Back</a>
+				  <a class="textStyle" onclick={backtoMenu}>&#10094;&nbsp;{patientBack}</a>
 				</li>
 				<li>
 				  <div class="grid-containerMobileMenuList">
 					<div>
-					  <a class="textStyleExtra" onclick={openMenuList}>Account Manager</a>
+					  <a class="textStyleExtra" onclick={openMenuList}>{accountManager}</a>
 					</div>
 				  </div>
 				</li>
 				<hr />
 				<li>
-				  <a class="textStyle" onclick={openPatMyProfile}>My Profile
+				  <a class="textStyle" onclick={openPatMyProfile}>{myProfileLabel}
 				  </a>
 				</li>
 				<li>
-				  <a class="textStyle" onclick={openPatMyCaregiver}>My Caregiver</a>
+				  <a class="textStyle" onclick={openPatMyCaregiver}>{myCaregiverLabel}</a>
 				</li>
 				<li>
-				  <a class="textStyle" onclick={openPatSelectAvatar}>Select Avatar</a>
+				  <a class="textStyle" onclick={openPatSelectAvatar}>{selectAvatarLabel}</a>
 				</li>
 				<li>
-				  <a class="textStyle" onclick={openPatNotSettings}>Notification Settings</a>
+				  <a class="textStyle" onclick={openPatNotSettings}>{notificSetting}</a>
 				</li>
 				
 			  </ul>
@@ -540,7 +540,7 @@
 		  </template>
 		  <template if:true={showToLogin}>
 			<ul>
-			  <li><a class="textStyle" onclick={checkUser}>Login</a></li>
+			  <li><a class="textStyle" onclick={checkUser}>{loginLabel}</a></li>
 			</ul>
 		  </template>
 		</div>
@@ -555,15 +555,15 @@
 		<a onclick={doNotLogout} class="nodecoration"><span class='crossicon'>&times;</span></a>
 	  </div>
 	  <div class="modal-content">
-		<p class="modalHead">Logout Warning !</p>
-		<p class="modalPara">Are you sure you want to Logout ?</p>
+		<p class="modalHead">{logoutWarning}</p>
+		<p class="modalPara">{logoutContent}</p>
 		<div class="width100">
 		  <div class="grid-containermodals">
 			<button class="buttonLogoutCancel" onclick={doNotLogout}>
-			  Cancel
+				{cancel}
 			</button>
 			<button class="ButtonLogoutYes" onclick={logoutFromSite}>
-			  Yes
+				{yes}
 			</button>
 		  </div>
 		</div>

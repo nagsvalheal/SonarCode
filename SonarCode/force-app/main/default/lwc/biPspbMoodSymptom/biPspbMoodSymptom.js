@@ -80,26 +80,30 @@ export default class BiPspbMoodSymptom extends NavigationMixin(LightningElement)
         this.emojiName = moodSymptom;
     }
 
-    updateImageUrlsBasedOnMood(moodSymptom) {
-        switch (moodSymptom) {
-            case label.SAD_MOOD:
-                this.imgUrlSad = label.REPLACE_WORRIED;
-                break;
-            case label.HAPPY_MOOD:
-                this.imgUrlHappy = label.REPLACE_HAPPY;
-                break;
-            case label.JOYFULL_MOOD:
-                this.imgUrlJoyfull = label.REPLACE_JOYFUL;
-                break;
-            case label.SPEECHLESS_MOOD:
-                this.imgUrlSpeechless = label.REPLACE_SPEECHLESS;
-                break;
-            case label.WORRIED_MOOD:
-                this.imgUrlWorried = label.REPLACE_SAD;
-                this.currentMoodErrorSad = true;
-                break;
-        }
+  updateImageUrlsBasedOnMood(moodSymptom) {
+    switch (moodSymptom) {
+        case label.SAD_MOOD:
+            this.imgUrlSad = label.REPLACE_WORRIED;
+            break;
+        case label.HAPPY_MOOD:
+            this.imgUrlHappy = label.REPLACE_HAPPY;
+            break;
+        case label.JOYFULL_MOOD:
+            this.imgUrlJoyfull = label.REPLACE_JOYFUL;
+            break;
+        case label.SPEECHLESS_MOOD:
+            this.imgUrlSpeechless = label.REPLACE_SPEECHLESS;
+            break;
+        case label.WORRIED_MOOD:
+            this.imgUrlWorried = label.REPLACE_SAD;
+            this.currentMoodErrorSad = true;
+            break;
+        default:
+          
+            break;
     }
+}
+
 
     fetchEnrolleeData() {
         GET_ENROLLEE({ userId: this.userId })
@@ -161,51 +165,58 @@ export default class BiPspbMoodSymptom extends NavigationMixin(LightningElement)
         this.imgUrlSad = label.WORRIED;
     }
 
-    onchangeAccept() {
-        const globalThis = window;
-        const itchinessAllRecord = {
-            valueOfSlider: parseFloat(this.sliderValue),
-            careProgramId: this.accountId,
-            sliderValue: parseFloat(this.valueOfTemperature) || 0,
-            symptomId: this.localStorageValueItchiness || this.lastSymptomId,
-            symptomName: this.itchinessValues || '',
-            moodvalues: this.emojiName || '',
-        };
-        this.partsOfBody = this.humanParts;
+  onchangeAccept() {
+    const globalThis = window;
+    const itchinessAllRecord = {
+        valueOfSlider: parseFloat(this.sliderValue),
+        careProgramId: this.accountId,
+        sliderValue: parseFloat(this.valueOfTemperature) || 0,
+        symptomId: this.localStorageValueItchiness || this.lastSymptomId,
+        symptomName: this.itchinessValues || '',
+        moodvalues: this.emojiName || '',
+    };
+    this.partsOfBody = this.humanParts;
 
-        if (this.insertCount === '1') {
-            RECORD_UPDATE_ALLERGY_INTOLERANCE({
-                itchinessallrecordupdate: itchinessAllRecord,
-                bodyParts: this.partsOfBody
-            })
-            .then(result => {
-                this.updateSessionStorage();
-            })
-            .catch(error => this.showToast(label.ERROR_MESSAGE, error.message, label.ERROR_VARIANT));
-        } else {
-            if (this.lastSymptomId) {
-                RECORD_UPDATE_ALLERGY_INTOLERANCE({
-                    itchinessallrecordupdate: itchinessAllRecord,
-                    bodyParts: this.humanParts
-                })
-                .then(result => {
-                    this.updateSessionStorage();
-                })
-                .catch(error => this.showToast(label.ERROR_MESSAGE, error.message, label.ERROR_VARIANT));
-            } else {
-                RECORD_INSERT_ALLERGY_INTOLERANCE({
-                    itchinessallrecordinsert: itchinessAllRecord,
-                    bodyParts: this.humanParts
-                })
-                .then(result => {
-                    this.recordInsertCount++;
-                    globalThis?.sessionStorage.setItem('countmood', this.recordInsertCount);
-                    this.updateSessionStorage();
-                })
-                .catch(error => this.showToast(label.ERROR_MESSAGE, error.message, label.ERROR_VARIANT));
+    const handleResult = (result) => {
+        if (result) {
+            this.updateSessionStorage();
+            if (!this.lastSymptomId && this.recordInsertCount !== undefined) {
+                this.recordInsertCount++;
+                globalThis?.sessionStorage.setItem('countmood', this.recordInsertCount);
             }
         }
+    };
+
+    const handleError = (error) => {
+        this.showToast(label.ERROR_MESSAGE, error.message, label.ERROR_VARIANT);
+    };
+
+    if (this.insertCount === '1') {
+        RECORD_UPDATE_ALLERGY_INTOLERANCE({
+            itchinessallrecordupdate: itchinessAllRecord,
+            bodyParts: this.partsOfBody
+        })
+        .then(handleResult)
+        .catch(handleError);
+    } else {
+        if (this.lastSymptomId) {
+            RECORD_UPDATE_ALLERGY_INTOLERANCE({
+                itchinessallrecordupdate: itchinessAllRecord,
+                bodyParts: this.humanParts
+            })
+            .then(handleResult)
+            .catch(handleError);
+        } else {
+            RECORD_INSERT_ALLERGY_INTOLERANCE({
+                itchinessallrecordinsert: itchinessAllRecord,
+                bodyParts: this.humanParts
+            })
+            .then(handleResult)
+            .catch(handleError);
+        }
     }
+}
+
 
     updateSessionStorage() {
         const globalThis = window;

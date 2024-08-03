@@ -15,7 +15,7 @@
 
 					</p>
 					<p class="text-content">
-						Fields with <b class="Btag">*</b> are mandatory
+						{fieldWidth}<b class="Btag">*</b> {areMandotory}
 					</p>
 					<div class="text-content-div-for-mobile">
 						<div class="formobile">
@@ -23,7 +23,7 @@
 							<div class="flex">
 								<p class="text-content-for-mobile">{mobileView}</p>
 								<p if:true={fieldBox} class="text-content1">
-									Fields with <b class="Btag">*</b> are mandatory
+									{fieldWidth} <b class="Btag">*</b> {areMandotory}
 								</p>
 							</div>
 
@@ -40,274 +40,256 @@
 			<div class="sidebar-container1"></div>
 			<div class="stepOne step-container">
 				<img src={BEYOND_GPP_LOGO} class="marTB20" alt="Beyond Gpp" />
-				<h1 class="heading">Patient Enrollment</h1>
+				<h1 class="heading">{patientEnrollHead}</h1>
 				<br />
-				<h1 class="mobile-heading1">Patient Enrollment</h1>
+				<h1 class="mobile-heading1">{patientEnrollHead}</h1>
 				<h1 if:true={normalHeading} class="demoFont">
-					Please provide your patient information for verification
+					{patientVerify}
 				</h1>
 				<h2 if:true={normalHeadingOne} class="errorclass">
-					Invalid Information, Please provide the correct details to proceed
+					{invalidInfo}
 				</h2>
 				<div class="input-div">
-					<label class="input-label" data-field="FN">First Name*</label>
+					<label class="input-label" data-field="FN">{firstNameLabel}</label>
 					<lightning-input name="FirstName" value={firstName} class="textInput"
-						onchange={handleFirstNameChange} placeholder="Enter First Name " data-field="FN"
+						onchange={handleFirstNameChange} placeholder={placeFirst} data-field="FN"
 						variant="label-hidden" maxlength="35">
 					</lightning-input>
 					<div class="input-error-label" if:true={firstNameRequire}>
-						<img src={warningIcons} width="12px" height="12px" /><span class="sp">First name field is
-							required</span>
+						<img src={warningIcons} width="12px" height="12px" /><span class="sp">{patientFirstName}</span>
 					</div>
 					<div class="input-error-label" if:true={firstNameValid}>
-						<img src={warningIcons} width="12px" height="12px" /><span class="sp">Please enter a valid first
-							name</span>
+						<img src={warningIcons} width="12px" height="12px" /><span class="sp">{firstNameRequired}</span>
 					</div>
 				</div>
 				<div class="input-div">
-					<label class="input-label" data-field="LN">Last Name*</label>
+					<label class="input-label" data-field="LN">{lastNameLabel}</label>
 					<lightning-input name="LastName" value={lastName} class="textInput" onchange={handleLastNameChange}
-						placeholder="Enter Last Name" data-field="LN" variant="label-hidden" maxlength="60">
+						placeholder={placeLast} data-field="LN" variant="label-hidden" maxlength="60">
 					</lightning-input>
 					<div class="input-error-label" if:true={lastNameChangeRequire}>
-						<img src={warningIcons} width="12px" height="12px" /><span class="sp">Last name field is
-							required</span>
+						<img src={warningIcons} width="12px" height="12px" /><span class="sp">{patientLastName}</span>
 					</div>
 					<div class="input-error-label" if:true={lastNameChangeValid}>
-						<img src={warningIcons} width="12px" height="12px" /><span class="sp">Please enter a valid last
-							name</span>
+						<img src={warningIcons} width="12px" height="12px" /><span class="sp">{lastNameValid}</span>
 					</div>
 				</div>
 				<div class="input-div">
-					<label class="input-label" data-field="dob">Date of Birth*</label>
+					<label class="input-label" data-field="dob">{dobLabel}</label>
 					<lightning-input type="date" name="dob" value={leadFields.dob} class="textInput"
-						onchange={handleDobChange} placeholder="DD.MM.YYYY" data-field="dob" variant="label-hidden"
+						onchange={handleDobChange} placeholder={placeDob} data-field="dob" variant="label-hidden"
 						onkeydown={handleKeyDownThree}>
 					</lightning-input>
 					<div class="input-error-label" if:true={dateOfBirthRequire}>
-						<img src={warningIcons} width="12px" height="12px" /><span class="sp">Date of birth field is
-							required</span>
+						<img src={warningIcons} width="12px" height="12px" /><span class="sp">{patientDob}</span>
 					</div>
 					<div class="input-error-label" if:true={dateOfBirthVaild}>
-						<img src={warningIcons} width="12px" height="12px" /><span class="sp">&nbsp;Please enter a valid
-							date of birth</span>
+						<img src={warningIcons} width="12px" height="12px" /><span class="sp">&nbsp;{validDob}</span>
 					</div>
 				</div>
 				<div class="btn-div">
 					&nbsp;&nbsp;
-					<button class="next-button" onclick={goToStepTwo}>Next</button>
+					<button class="next-button" onclick={goToStepTwo}>{nextLabel}</button>
 				</div>
 			</div>
 			<div class="stepTwo step-container slds-hide">
-				<h1 class="heading">Patient Enrollment</h1>
+				<h1 class="heading">{patientEnrollHead}</h1>
 				<br />
 				<div class="PI">
-					<div class="progress-label-count1">01&nbsp;</div>
-					<div class="PI">Caregiver Information</div>
+					<div class="progress-label-count1">{numOne}&nbsp;</div>
+					<div class="PI">{caregiverInfo}</div>
 				</div>
-				<h1 class="demo-head">Caregiver Information</h1>
+				<h1 class="demo-head">{caregiverInfo}</h1>
 
 				<div class="input-div">
-					<label class="input-label">First Name*</label>
+					<label class="input-label">{firstNameLabel}</label>
 					<lightning-input name="FirstName" value={leadCareFirstName} class="textInput" variant="label-hidden"
-						onchange={handleInputChangecaregiver} placeholder="Enter first name" disabled data-field=""
+						onchange={handleInputChangecaregiver} placeholder={placeFirst} disabled data-field=""
 						maxlength="35">
 					</lightning-input>
 				</div>
 				<div class="input-div">
-					<label class="input-label">Last Name*</label>
+					<label class="input-label">{lastNameLabel}</label>
 					<lightning-input name="LastName" value={leadCareLastName} class="textInput" variant="label-hidden"
-						onchange={handleInputChangecaregiver} placeholder="Enter last name" disabled maxlength="60">
+						onchange={handleInputChangecaregiver} placeholder={placeLast} disabled maxlength="60">
 					</lightning-input>
 				</div>
 				<div class="input-div">
-					<label class="input-label">Date of Birth*</label>
+					<label class="input-label">{dobLabel}</label>
 					<lightning-input type="date" name="dob" value={leadCareDob} class="textInput" variant="label-hidden"
-						onchange={handleInputChangecaregiver} placeholder="DD.MM.YYYY" disabled>
+						onchange={handleInputChangecaregiver} placeholder={placeDob} disabled>
 					</lightning-input>
 				</div>
 				<div class="input-div">
-					<label class="input-label" data-field="rwp">Relationship with the patient*</label>
-					<lightning-combobox name="Relationship with the patient" placeholder="Select" class="textInput"
+					<label class="input-label" data-field="rwp">{relationLabel}</label>
+					<lightning-combobox name="Relationship with the patient" placeholder={placeSelect} class="textInput"
 						options={rswp} value={rwp} onchange={handlerwcChange} data-field="rwp" variant="label-hidden">
 					</lightning-combobox>
 					<div class="input-error-label" if:true={rwpRequire}>
-						<img src={warningIcons} width="12px" height="12px" /><span class="sp">Relationship with the
-							patient field is required</span>
+						<img src={warningIcons} width="12px" height="12px" /><span class="sp">{relationValue}</span>
 					</div>
 				</div>
 				<div class="input-div">
-					<label class="input-label">Email*</label>
+					<label class="input-label">{emailLabelMand}</label>
 					<lightning-input type="email" name="Email" value={leadCareEmail} class="textInput"
-						variant="label-hidden" onchange={handleInputChangecaregiver} placeholder="Enter email ID"
+						variant="label-hidden" onchange={handleInputChangecaregiver} placeholder={placeEmail}
 						disabled>
 					</lightning-input>
 				</div>
 				<div class="input-div" if:true={phoneNumberVisible}>
-					<label class="input-label" data-field="phone">Phone Number</label>
+					<label class="input-label" data-field="phone">{phoneNum}</label>
 					<lightning-input name="Phone Number" value={phoneNumber} class="textInput" variant="label-hidden"
 						onchange={handlePhoneChangeEmpty} maxlength="16" onkeypress={handleKeyDown}
-						placeholder="Enter Phone Number" data-field="phone" disabled={Phonedisable}>
+						placeholder={placePhone} data-field="phone" disabled={Phonedisable}>
 					</lightning-input>
 				</div>
 				<div class="input-div" if:true={phoneNumberMandatory}>
-					<label class="input-label" data-field="phone">Phone Number*</label>
+					<label class="input-label" data-field="phone">{phoneNumMandotory}</label>
 					<lightning-input name="Phone Number" value={phoneNumber} class="textInput" variant="label-hidden"
 						onchange={handlephoneChange} maxlength="16" onkeypress={handleKeyDown}
-						placeholder="Enter Phone Number" data-field="phone" disabled={Phonedisable}>
+						placeholder={placePhone} data-field="phone" disabled={Phonedisable}>
 					</lightning-input>
 					<div class="input-error-label" if:true={phoneRequire}>
-						<img src={warningIcons} width="12px" height="12px" /><span class="sp">Phone number field is
-							required</span>
+						<img src={warningIcons} width="12px" height="12px" /><span class="sp">{phoneRequired}</span>
 					</div>
 				</div>
 				<div class="input-div">
-					<label class="input-label" data-field="pmoc">Preferred Mode of Communication*</label>
-					<lightning-combobox name="Preferred mode of communication" placeholder="Select" class="textInput"
+					<label class="input-label" data-field="pmoc">{pmcLabel}</label>
+					<lightning-combobox name="Preferred mode of communication" placeholder={placeSelect} class="textInput"
 						options={leadPmc} value={pmocValue} onchange={handlepmocChange} data-field="pmoc"
 						variant="label-hidden">
 					</lightning-combobox>
 					<div class="input-error-label" if:true={pmocRequire}>
-						<img src={warningIcons} width="12px" height="12px" /><span class="sp">Preferred mode of
-							communication field is required</span>
+						<img src={warningIcons} width="12px" height="12px" /><span class="sp">{pmcRequired}</span>
 					</div>
 				</div>
 				<div class="btn-div">
 					<button class="prev-button" onclick={goBackToStepOne}>
-						Previous
+						{previousValue}
 					</button>
 					&nbsp; &nbsp;
-					<button class="next-button" onclick={goToStepThree}>Next</button>
+					<button class="next-button" onclick={goToStepThree}>{nextLabel}</button>
 				</div>
 			</div>
 			<div class="stepThree step-container slds-hide">
-				<h1 class="heading">Patient Enrollment</h1>
+				<h1 class="heading">{patientEnrollHead}</h1>
 				<br />
 				<div class="PI">
-					<div class="progress-label-count1">02&nbsp;</div>
-					<div class="PI">Patient Information</div>
+					<div class="progress-label-count1">{numTwo}&nbsp;</div>
+					<div class="PI">{patientinfo}</div>
 				</div>
-				<h1 class="demo-head">Patient Information</h1>
+				<h1 class="demo-head">{patientinfo}</h1>
 
 				<div class="input-div">
-					<label class="input-label">First Name*</label>
+					<label class="input-label">{firstNameLabel}</label>
 					<lightning-input name="FirstName" value={leadFirstName} class="textInput"
-						onchange={handleInputChange} placeholder="Enter first name" disabled variant="label-hidden"
+						onchange={handleInputChange} placeholder={placeFirst} disabled variant="label-hidden"
 						maxlength="35">
 					</lightning-input>
 				</div>
 				<div class="input-div">
-					<label class="input-label">Last Name*</label>
+					<label class="input-label">{lastNameLabel}</label>
 					<lightning-input name="LastName" value={leadLastName} class="textInput" onchange={handleInputChange}
-						placeholder="Enter last name" disabled variant="label-hidden" maxlength="60">
+						placeholder={placeLast} disabled variant="label-hidden" maxlength="60">
 					</lightning-input>
 				</div>
 				<div class="input-div">
-					<label class="input-label">Date of Birth*</label>
+					<label class="input-label">{dobLabel}</label>
 					<lightning-input type="date" name="dob" value={leadDob} class="textInput"
-						onchange={agecalculationEvent} placeholder="MM/DD/YYYY" disabled variant="label-hidden">
+						onchange={agecalculationEvent} placeholder={placeDob} disabled variant="label-hidden">
 					</lightning-input>
 				</div>
 				<div class="input-div">
-					<label class="input-label" data-field="GN">Gender*</label>
-					<lightning-combobox name="Gender" placeholder="Select" class="textInput" options={leadGender}
+					<label class="input-label" data-field="GN">{generalLabel}</label>
+					<lightning-combobox name="Gender" placeholder={placeSelect} class="textInput" options={leadGender}
 						value={selectedValue} onchange={handleGenderChange} data-field="GN" variant="label-hidden">
 					</lightning-combobox>
 					<div class="input-error-label" if:true={genderRequire}>
-						<img src={warningIcons} width="12px" height="12px" /><span class="sp">Gender field is
-							required</span>
+						<img src={warningIcons} width="12px" height="12px" /><span class="sp">{genderRequired}</span>
 					</div>
 				</div>
 
 				<div class="btn-div">
 					<button class="prev-button" onclick={goBackToStepTwo}>
-						Previous
+						{previousValue}
 					</button>
 					&nbsp; &nbsp;
-					<button class="next-button" onclick={goToStepFour}>Next</button>
+					<button class="next-button" onclick={goToStepFour}>{nextLabel}</button>
 				</div>
 			</div>
 			<div class="stepFour step-container slds-hide">
-				<h1 class="heading">Patient Enrollment</h1>
+				<h1 class="heading">{patientEnrollHead}</h1>
 				<br />
 				<div class="PI">
-					<div class="progress-label-count1">03&nbsp;</div>
-					<div class="PI">Contact Information</div>
+					<div class="progress-label-count1">{numThree}&nbsp;</div>
+					<div class="PI">{contactInfo}</div>
 				</div>
-				<h1 class="demo-head">Contact Information</h1>
+				<h1 class="demo-head">{contactInfo}</h1>
 				<div class="input-div">
-					<div if:false={clabelError}>
-						<label class={clabelErrors}>Country*</label>
-					</div>
-					<div if:true={clabelError}>
-						<label class={clabelErrors}>Country*</label>
-					</div>
-					<lightning-combobox name="Country" placeholder="Select Country Name" class="textInput"
+					<label class={clabelErrors}>{countryLabel}</label>
+					<lightning-combobox name="Country" placeholder={placeCountry} class="textInput"
 						options={countryCode} value={country} onchange={handleCountryChange} data-field="Country"
 						variant="label-hidden">
 					</lightning-combobox>
 					<div class="input-error-label" if:true={countryRequire}>
-						<img src={warningIcons} width="12px" height="12px" /><span class="sp">Country field is
-							required</span>
+						<img src={warningIcons} width="12px" height="12px" /><span class="sp">{countryfield}</span>
 					</div>
 				</div>
 				<div class="input-div">
-					<label if:false={slabelError} class={slabelErrors}>State*</label>
-					<label if:true={slabelError} class={slabelErrors}>State*</label>
-					<lightning-combobox label="State Code" value={state} placeholder="Select State Name"
+					<label class={slabelErrors}>{stateLabel}</label>
+					<lightning-combobox label="State Code" value={state} placeholder={placeState}
 						options={stateCode} onchange={handleStateChange} class="textInput" variant="label-hidden"
 						data-field="State">
 					</lightning-combobox>
 					<div class="input-error-label" if:true={stateRequire}>
-						<img src={warningIcons} width="12px" height="12px" /><span class="sp">State field is
-							required</span>
+						<img src={warningIcons} width="12px" height="12px" /><span class="sp">{statecode}</span>
 					</div>
 				</div>
 				<div class="input-div">
-					<label class={cilabelErrors} data-field="City">City*</label>
+					<label class={cilabelErrors} data-field="City">{cityLabel}</label>
 					<lightning-input name="City" value={city} class="textInput" onchange={handleCityChange}
-						placeholder="Enter City Name" data-field="City" variant="label-hidden" maxlength="35">
+						placeholder={placeCity} data-field="City" variant="label-hidden" maxlength="35">
 					</lightning-input>
 					<div class="input-error-label" if:true={cityRequire}>
 						<img src={warningIcons} width="12px" height="12px" /><span class="sp">
-							City field is required</span>
+							{cityCode}</span>
 					</div>
 					<div class="input-error-label" if:true={cityValid}>
 						<img src={warningIcons} width="12px" height="12px" />
 						<p class="input-error-label1">
-							<span class="sp">Please enter a valid city</span>
+							<span class="sp">{validCity}</span>
 						</p>
 					</div>
 				</div>
 				<div class="input-div">
-					<label class={stlabelErrors}>Street Address*</label>
+					<label class={stlabelErrors}>{streetLabel}</label>
 					<lightning-textarea name="StreetAddress" value={street} class="textInput"
-						onchange={handleStreetChange} placeholder="Enter Address" data-field="Street"
+						onchange={handleStreetChange} placeholder={placeStreet} data-field="Street"
 						variant="label-hidden">
 					</lightning-textarea>
 					<div class="input-error-label" if:true={streetRequire}>
 						<img src={warningIcons} width="12px" height="12px" /><span class="sp">
-							Street address field is required</span>
+							{streetcode}</span>
 					</div>
 				</div>
 				<div class="input-div">
-					<label class={zlabelerrors} data-field="ZipCode">Zip Code*</label>
+					<label class={zlabelerrors} data-field="ZipCode">{zipCodeValue}</label>
 					<lightning-input name="ZipCode" value={zipCode} class="textInput" onchange={handleZipCodeChange}
-						placeholder="Enter Zip Code" data-field="ZipCode" variant="label-hidden">
+						placeholder={placeZip} data-field="ZipCode" variant="label-hidden">
 					</lightning-input>
 					<div class="input-error-label" if:true={zipCodeRequire}>
 						<img src={warningIcons} width="12px" height="12px" /><span class="sp">
-							Zip code field is required
+							{pinCode}
 						</span>
 					</div>
 					<div class="input-error-label" if:true={zipCodeValid}>
 						<img src={warningIcons} width="12px" height="12px" />
 						<p class="input-error-label1">
-							<span class="sp">Please enter a valid zip code</span>
+							<span class="sp">{validZipCode}</span>
 						</p>
 					</div>
 				</div>
-				<h1 class="demo-head">Consent Information</h1>
+				<h1 class="demo-head">{consentInfo}</h1>
 				<div class="color1-properties">
 					<div class="custom-checkbox-container">
 						<input type="checkbox" id="customCheckbox" class="custom-checkbox"
@@ -316,18 +298,15 @@
 							<span class="custom-checkbox-box" data-field="checkbox"></span>
 						</label>
 					</div>
-					<span class="agreeclass">Agree to the&nbsp;</span>
-					<label onclick={showModal} class="termsclass">terms and Conditions
+					<span class="agreeclass">{agree}&nbsp;</span>
+					<label onclick={showModal} class="termsclass">{terms}
 					</label>
 				</div>
-				<div class="input-error-label1" if:true={checkBoxName}>
-					⚠ <span class="sp1"> Please agree to the terms and conditions </span>
-				</div>
-
-				<div class="input-error-label" if:true={authorizeerrorMessage}>
-					⚠
-					<span class="sp1">
-						Please agree to the terms of use to enroll the Patient.</span>
+				<div class="input-error-label" if:true={checkBoxName}>
+					<img src={warningIcons} width="12px" height="12px" />
+								<p class="input-error-labelOne">
+									{agreeMsg}
+								</p>
 				</div>
 				<template if:true={openModal}>
 					<div class="slds-modal slds-fade-in-open slds-backdrop">
@@ -467,19 +446,19 @@
 
 				<div class="btn-div" if:false={isButtonDisabled}>
 					<button class="prev-button" onclick={goBackToStepThree}>
-						Previous
+						{previousValue}
 					</button>
 					&nbsp; &nbsp;
 					<button class="submit-button" onclick={handleCreateLead}>
-						Submit
+						{submit}
 					</button>
 				</div>
 				<div class="btn-div" if:true={isButtonDisabled}>
 					<button class="prev-button" onclick={goBackToStepThree}>
-						Previous
+						{previousValue}
 					</button>
 					<button type="button" onclick={handleCreateLead} disabled={isButtonDisabled} class="disable-button">
-						Submit
+						{submit}
 					</button>
 				</div>
 				<template if:true={isLoaded}>
@@ -490,30 +469,30 @@
 			<div class="progress-bar-container-parent">
 				<div class="slds-progress slds-progress_vertical progress-bar-container slds-hide">
 					<img src={BEYOND_GPP_LOGO} class="marTB201" alt="Beyond Gpp" />
-					<h1 class="mobile-heading">Patient Enrollment</h1>
-					<div class="progress-label">Progress</div>
+					<h1 class="mobile-heading">{patientEnrollHead}</h1>
+					<div class="progress-label">{progressLabel}</div>
 					<ol class="slds-progress__list progress-ol">
 						<li class="slds-progress__item slds-is-active li-one">
 							<div class="slds-progress__marker"></div>
-							<div class="progress-label-count">01&nbsp;</div>
+							<div class="progress-label-count">{numOne}&nbsp;</div>
 							<div class="slds-progress__item_content slds-grid slds-grid_align-spread progress-label">
-								<p class="CGtitle">Caregiver Information</p>
+								<p class="CGtitle">{caregiverInfo}</p>
 							</div>
 						</li>
 						<li class="slds-progress__item li-two">
 							<div class="slds-progress__marker"></div>
-							<div class="progress-label-count">02&nbsp;</div>
+							<div class="progress-label-count">{numTwo}&nbsp;</div>
 							<div class="slds-progress__item_content slds-grid slds-grid_align-spread progress-label">
-								<p class="CGtitle">Patient Information</p>
+								<p class="CGtitle">{patientinfo}</p>
 							</div>
 						</li>
 						<li class="slds-progress__item li-three">
 							<div class="slds-progress__marker"></div>
 							<div class="prescription-label progress-label-count">
-								03&nbsp;
+								{numThree}&nbsp;
 							</div>
 							<div class="slds-progress__item_content slds-grid slds-grid_align-spread progress-label">
-								<p class="CGtitle">Contact Information</p>
+								<p class="CGtitle">{contactInfo}</p>
 							</div>
 						</li>
 					</ol>

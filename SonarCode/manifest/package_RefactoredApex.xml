@@ -7,7 +7,7 @@
         <members>BI_PSPB_OutlookReminderCalendarCtrl</members>
         <members>BI_PSPB_CommunityConstantCtrl</members>
         <members>BI_PSPB_GoogleCalendarCtrl</members>
-        <members>BI_PSPB_PersonalizedArticlesCtrl</members>
+        <members>BI_PSPB_GoogleCalendarCtrl</members>
         <members>BI_PSPB_PersonalizedMessagesCtrl</members>
         <members>BI_PSPB_PersonalizationConstantCtrl</members>
         <members>BI_PSPB_TreatmentVideoCtrl</members>
@@ -63,7 +63,7 @@
         <members>BI_PSPB_ReferringPractitionerCtrl</members>
         <members>BI_PSP_AssessmentManagementCtrl</members>
         <members>BI_PSPB_InsiteTaskFetcher</members>
-        <members>BI_PSP_GraphCtrl</members>
+        <members>BI_PSP_QuestionnaireGraphCtrl</members>
         <members>BI_PSP_QualitativeSatisfactionCtrl</members>
         <members>BI_PSPB_EnrollmentConsent</members>
         <members>BI_PSPB_EnrollmentHcpAndPatient</members>
@@ -134,12 +134,11 @@
         <members>BI_PSPB_TreatmentPastDueService</members>
         <members>BI_PSPB_TreatmentPastRemindersSched</members>
         <members>BI_PSPB_EnrollmentConstantCtrl</members>
-        <members>BI_PSPB_TransactionDataSupportCtrl</members>
+        <members>BI_PSPB_DraftSupportCtrl</members>
         <members>BI_PSP_AssessmentTriggerHandlerTest</members>
         <members>BI_PSP_DraftResponseCtrlTest</members>
         <members>BI_PSP_CompletedQuestionnaireCtrlTest</members>
         <members>BI_PSP_AssessmentCtrlTest</members>
-        <members>BI_PSP_AssessmentManagementCtrlTest</members>
         <members>BI_PSP_GraphCtrlTest</members>
         <members>BI_PSP_QualitativeSatisfactionCtrlTest</members>
         <members>BI_PSP_CurrentUserTest</members>

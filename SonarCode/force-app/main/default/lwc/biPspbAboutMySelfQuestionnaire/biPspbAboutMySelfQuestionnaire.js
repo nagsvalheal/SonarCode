@@ -4,7 +4,7 @@ import { LightningElement, track, wire } from 'lwc';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 
 //  To import Apex Classes
-//import CREATE_TASK from '@salesforce/apex/BI_PSPB_TreatmentReminderCtrl.createTaskIfNoAssessment';
+import CREATE_TASK from '@salesforce/apex/BI_PSPB_LetPersonaliseNotification.createTaskIfNoAssessment';
 import GET_ENROLLEE from '@salesforce/apex/BI_PSP_CurrentUser.getEnrolleeRecords';
 import INTRODUCTION_QUESTIONARE from '@salesforce/apex/BI_PSP_AssessmentQuestionsCtrl.getTheAssesmentQuestion';
 import SUBMIT_ASSESSMENT_RESPONSE from '@salesforce/apex/BI_PSP_AssessmentManagementCtrl.mulitipleDraftRecordsInsertion';
@@ -67,7 +67,7 @@ import Id from '@salesforce/user/Id';
 
 export default class BiPspbAboutMySelfQuestionnaire extends LightningElement {
 
-	twoMonthsTrueFalse=false;
+	twoMonthsTrueFalse = false;
 	cpeId;
 	taskId;
 	urlObject;
@@ -223,56 +223,21 @@ export default class BiPspbAboutMySelfQuestionnaire extends LightningElement {
 	@track arrayForPushResp = [];
 	@track arrayForPushId = [];
 
-	firstRspValue;
-	firstRespVersId;
-	secondRspValue;
-	secondRespVersId;
-	thirdRspValue;
-	thirdVersionId;
-	fourthRspValue;
-	fourthVersionId;
-	fifthResonseValue;
-	fifthVersionId;
-	sixthResponseValue;
-	sixthVersiD;
-	seventhRespalue;
-	seventhVersiD;
-	eghtResponseValue;
-	eightVersiId;
-	ninthResponseValue;
-	ninthVersId;
-	tenthResponseValue;
-	tenthVersId;
-	eleventhResponseValue;
-	eleventhVersiD;
-	twelvthRespalue;
-	twelvthVersiD;
-	thirteenthResponseValue;
-	thirteenthVersiId;
-	fourteenthResponseValue;
-	fourteenthVersId;
-	fifteenthResponseValue;
-	fifteenthVersId;
-	sixteenthResponseValue;
-	sixteenthVersId;
 
-	nameToDraftFirst;
-	nameToDraftSecond;
-	nameToDraftThird;
-	nameToDraftFourth;
-	nameToDraftFifth;
-	nameToDraftSixth;
-	nameToDraftSeventh;
-	nameToDraftEighth;
-	nameToDraftNinth;
-	nameToDrafttenth;
-	nameToDrafteEleventh;
-	nameToDrafttwelvth;
-	nameToDraftThirteenth;
-	nameToDraftFourteenth;
-	nameToDraftFifteenth;
-	nameToDraftSixteenth;
-	nameToDraftSeventeeth;
+
+	firstRspValue = '';
+	firstRespVersId = '';
+	secondRspValue = '';
+	secondRespVersId = '';
+	thirdRspValue = '';
+	thirdVersionId = '';
+	fourthRspValue = '';
+	fourthVersionId = '';
+	fifthResonseValue = '';
+	fifthVersionId = '';
+	sixthResponseValue = '';
+	sixthVersiD = '';
+
 	eventCheck = false;
 	numberOfResponses;
 	checkYesOrNo = false;
@@ -389,32 +354,22 @@ export default class BiPspbAboutMySelfQuestionnaire extends LightningElement {
 	sixthUnchekedArray = [];
 	checkedResVal;
 
-	firstQResForEach;
-	secQResForEach;
-	secQRes;
-	secQVersionResForEach;
+	firstQResForEach = '';
+	firstQVersionResForEach = '';
 
-	thirdQResForEach;
-	thirdQVersionResForEach;
+	secQResForEach = '';
+	secQVersionResForEach = '';
 
-	fourQResForEach;
-	fourQVersionResForEach;
+	thirdQResForEach = '';
+	thirdQVersionResForEach = '';
 
-	fifthQResForEach;
-	sixthQResForEach;
+	fourQResForEach = '';
+	fourQVersionResForEach = '';
 
-	sevenQResForEach;
-	sevenQVersionResForEach;
-
-	eigthQResForEach;
-	nineQResForEach;
-	tenthQResForEach;
-	eleventhQResForEach;
-	twelthQResForEach;
-	thirteenthQResForEach;
-	fourteenthQResForEach;
-	fifteenthQResForEach;
-	sixteenthQResForEach;
+	fifthQResForEach = '';
+	fifthQVersionResForEach = '';
+	sixthQResForEach = '';
+	sixthQVersionResForEach = '';
 
 	//Below defined getter method to determine the CSS class for the  popup container based on its visibility
 	get popupClass() {
@@ -473,22 +428,22 @@ export default class BiPspbAboutMySelfQuestionnaire extends LightningElement {
 
 			// Null data is checked and AuraHandledException is thrown from the Apex
 			GET_ENROLLEE()
-    .then(result => {
-        if (result !== null) {
-            if (result[0]!== null) {
-                this.cpeId = result[0];
+				.then(result => {
+					if (result !== null) {
+						if (result[0] !== null) {
+							this.cpeId = result[0];
 
-                // this.fetchEvents();                       
-            } else if (result[0].error !== null) {
-                this.showError = true;
-                this.errorMessage = result[0].error;
-            }
-        }
-    })
-    .catch(error => {
-        // Handle the error
-        this.showToast(ERROR_MESSAGE, error.message, ERROR_VARIANT); // Catching Potential Error from Apex
-    });
+							// this.fetchEvents();                       
+						} else if (result[0].error !== null) {
+							this.showError = true;
+							this.errorMessage = result[0].error;
+						}
+					}
+				})
+				.catch(error => {
+					// Handle the error
+					this.showToast(ERROR_MESSAGE, error.message, ERROR_VARIANT); // Catching Potential Error from Apex
+				});
 
 
 		} catch (error) {
@@ -592,7 +547,7 @@ export default class BiPspbAboutMySelfQuestionnaire extends LightningElement {
 	}
 
 	// Wire adapter to fetch draft responses of introduction
-	@wire(DRAFT_RESPONSE_OF_INTRODUCTION,{ questCatgryName: '$introduction', twoMonths: '$twoMonthsTrueFalse' })
+	@wire(DRAFT_RESPONSE_OF_INTRODUCTION, { questCatgryName: '$introduction', twoMonths: '$twoMonthsTrueFalse' })
 	wiredDraftResponses({ data, error }) {
 		try {
 			// Null data is checked and AuraHandledException is thrown from the Apex
@@ -633,621 +588,396 @@ export default class BiPspbAboutMySelfQuestionnaire extends LightningElement {
 	//this method is for storing the draft response and its version id so that we can use these variables to save the draft response later ,also in this method we will be making the radio buttons as checked if the draft values matches with the values that are stored in to variables with their respective radio option values.
 
 	draftResponsesforlater() {
-		let targetFemale = this.female;
-		let targetMale = this.male;
-		let targetOther = this.other;
-		let prefferNotTosay = this.prefernot;
+		const responseMappings = {
+			2: this.handleSecondQuestionResponse,
+			1: this.handleFirstQuestionResponse,
+			4: this.handleFourthQuestionResponse,
+			6: this.handleSixthQuestionResponse,
+			3: this.handleThirdQuestionResponse,
+			5: this.handleFifthQuestionResponse,
+			7: this.handleSeventhQuestionResponse,
+			9: this.handleNinthQuestionResponse,
+			8: this.handleEighthQuestionResponse,
+			10: this.handleTenthQuestionResponse,
+			11: this.handleEleventhQuestionResponse,
+			12: this.handleTwelfthQuestionResponse,
+			13: this.handleThirteenthQuestionResponse,
+			14: this.handleFourteenthQuestionResponse,
+			15: this.handleFifteenthQuestionResponse,
+			16: this.handleSixteenthQuestionResponse
+		};
 
-		let firstLessThanMonth = this.lessthanamonth;
-		let firstLessThanSix = this.lessthan6months;
-		let firstLessThanYr = this.lessthanyear;
-		let firstMoreThan = this.morethanyear;
-
-		let thirdAnswerRF = this.relationshipwithff;
-		let thirdRWP = this.relationshipwithpartner;
-		let thirdSelEstee = this.selfesteem;
-
-		let asthmaVar = this.asthma;
-		let duabetesVar = this.diabetes;
-		let depressionVar = this.depression;
-		let hayFever = this.hayFever;
-		let highBp = this.hypertension;
-		let highChol = this.highcholestrol;
-		let Obesity = this.obesityc;
-		let Osteoporosis = this.osteoporosisc;
-		let peptic = this.ulcer;
-		let plaque = this.psoriasis;
-		let psoriasiArthritis = this.psoriaticarthritis;
-		let Others = this.others;
-
-		let thirdYes = this.yes;
-		let thirdNo = this.no;
-
-		let seventhYes = this.yes;
-		let seventhNo = this.no;
-
-		let eigthYes = this.yes;
-		let eigthNo = this.no;
-		let eigthMaybe = this.maybe;
-
-		let ninthYes = this.yes;
-		let ninthNo = this.no;
-		let ninthMaybe = this.maybe;
-
-		let tenthYes = this.yes;
-		let tenthNo = this.no;
-		let tenthMaybe = this.maybe;
-
-		let eleventhYes = this.yes;
-		let eleventhNo = this.no;
-		let eleventhMaybe = this.maybe;
-
-		let twelthYes = this.yes;
-		let twelthNo = this.no;
-		let twelthMaybe = this.maybe;
-
-		let thirteenthYes = this.yes;
-		let thirteenthNo = this.no;
-		let thirteenthMaybe = this.maybe;
-
-		let fourteenthYes = this.yes;
-		let fourteenthNo = this.no;
-		let fourteenthMaybe = this.maybe;
-
-		let fifteenthYes = this.yes;
-		let fifteenthNo = this.no;
-		let fifteenthMaybe = this.maybe;
-
-		let sixteenthYes = this.yes;
-		let sixteenthNo = this.no;
-		let sixteenthMaybe = this.maybe;
-
-		let seventeethYes = this.yes;
-		let seventeethNo = this.no;
-		let seventeethMaybe = this.maybe;
-		//the below for each will iterate through each of the response and stores the response and id if criteria gets matched.
 		this.records.forEach((record) => {
-			if (record.BI_PSP_ResponseOrder__c === 2) {
-				if (
-					record.ResponseValue === targetFemale &&
-					record.AssessmentQuestion.Id !== null
-				) {
-					this.secQResForEach = record.ResponseValue;
-					this.secQVersionResForEach = record.AssessmentQuestion.Id;
-					this.isFemale = true;
-				}
-
-				if (
-					record.ResponseValue === targetMale &&
-					record.AssessmentQuestion.Id !== null
-				) {
-					this.isMale = true;
-					this.secQResForEach = record.ResponseValue;
-					this.secQVersionResForEach = record.AssessmentQuestion.Id;
-				}
-				if (
-					record.ResponseValue === targetOther &&
-					record.AssessmentQuestion.Id !== null
-				) {
-					this.secQResForEach = record.ResponseValue;
-					this.secQVersionResForEach = record.AssessmentQuestion.Id;
-					this.isOther = true;
-				}
-				if (
-					record.ResponseValue === prefferNotTosay &&
-					record.AssessmentQuestion.Id !== null
-				) {
-					this.iSPrefferNotToSay = true;
-					this.secQVersionResForEach = record.AssessmentQuestion.Id;
-					this.secQResForEach = record.ResponseValue;
-				}
-			}
-			if (record.BI_PSP_ResponseOrder__c === 1) {
-				if (
-					record.ResponseValue === firstLessThanMonth &&
-					record.AssessmentQuestion.Id !== null
-				) {
-					this.firstQResForEach = record.ResponseValue;
-
-					this.firstQVersionResForEach = record.AssessmentQuestion.Id;
-					this.isFirstLessThanMonth = true;
-				}
-
-				if (
-					record.ResponseValue === firstLessThanSix &&
-					record.AssessmentQuestion.Id !== null
-				) {
-					this.firstQResForEach = record.ResponseValue;
-					this.firstQVersionResForEach = record.AssessmentQuestion.Id;
-					this.isFirstLessSix = true;
-				}
-
-				if (
-					record.ResponseValue === firstLessThanYr &&
-					record.AssessmentQuestion.Id !== null
-				) {
-					this.firstQResForEach = record.ResponseValue;
-					this.firstQVersionResForEach = record.AssessmentQuestion.Id;
-
-					this.isFirstLessYear = true;
-				}
-
-				if (
-					record.ResponseValue === firstMoreThan &&
-					record.AssessmentQuestion.Id !== null
-				) {
-					this.firstQResForEach = record.ResponseValue;
-
-					this.firstQVersionResForEach = record.AssessmentQuestion.Id;
-
-					this.isFirstMoreYear = true;
-				}
-			}
-
-			if (record.BI_PSP_ResponseOrder__c === 4) {
-				this.idoFfORU = record.Id;
-				if (
-					record.ResponseValue.includes(thirdAnswerRF) &&
-					record.AssessmentQuestion.Id !== null
-				) {
-					this.fourthCheckRelatFam = true;
-					this.fourQResForEach = record.ResponseValue;
-
-					this.fourQVersionResForEach = record.AssessmentQuestion.Id;
-				}
-
-				if (
-					record.ResponseValue.includes(thirdRWP) &&
-					record.AssessmentQuestion.Id !== null
-				) {
-					this.fourthCheckWithPartner = true;
-					this.fourQResForEach = record.ResponseValue;
-
-					this.fourQVersionResForEach = record.AssessmentQuestion.Id;
-				}
-
-				if (
-					record.ResponseValue.includes(thirdSelEstee) &&
-					record.AssessmentQuestion.Id !== null
-				) {
-					this.fourthCheckSelfEsteem = true;
-					this.fourQResForEach = record.ResponseValue;
-
-					this.fourQVersionResForEach = record.AssessmentQuestion.Id;
-				}
-			}
-
-			if (record.BI_PSP_ResponseOrder__c === 6) {
-				this.storeid5 = record.Id;
-
-				if (
-					record.ResponseValue.includes(asthmaVar) &&
-					record.AssessmentQuestion.Id !== null
-				) {
-					this.tenthCheckAsthma = true;
-					this.sixthQResForEach = record.ResponseValue;
-					this.sixthQVersionResForEach = record.AssessmentQuestion.Id;
-				}
-				if (
-					record.ResponseValue.includes(duabetesVar) &&
-					record.AssessmentQuestion.Id !== null
-				) {
-					this.tenthCheckDiabetes = true;
-					this.sixthQResForEach = record.ResponseValue;
-					this.sixthQVersionResForEach = record.AssessmentQuestion.Id;
-				}
-				if (
-					record.ResponseValue.includes(depressionVar) &&
-					record.AssessmentQuestion.Id !== null
-				) {
-					this.tenthCheckDepression = true;
-					this.sixthQResForEach = record.ResponseValue;
-					this.sixthQVersionResForEach = record.AssessmentQuestion.Id;
-				}
-				if (
-					record.ResponseValue.includes(hayFever) &&
-					record.AssessmentQuestion.Id !== null
-				) {
-					this.tenthCheckHayFever = true;
-					this.sixthQResForEach = record.ResponseValue;
-					this.sixthQVersionResForEach = record.AssessmentQuestion.Id;
-				}
-				if (
-					record.ResponseValue.includes(highBp) &&
-					record.AssessmentQuestion.Id !== null
-				) {
-					this.tenthCheckBp = true;
-					this.sixthQResForEach = record.ResponseValue;
-					this.sixthQVersionResForEach = record.AssessmentQuestion.Id;
-				}
-				if (
-					record.ResponseValue.includes(highChol) &&
-					record.AssessmentQuestion.Id !== null
-				) {
-					this.tenthCheckHighChol = true;
-					this.sixthQResForEach = record.ResponseValue;
-					this.sixthQVersionResForEach = record.AssessmentQuestion.Id;
-				}
-				if (
-					record.ResponseValue.includes(Obesity) &&
-					record.AssessmentQuestion.Id !== null
-				) {
-					this.tenthCheckObesity = true;
-					this.sixthQResForEach = record.ResponseValue;
-					this.sixthQVersionResForEach = record.AssessmentQuestion.Id;
-				}
-				if (
-					record.ResponseValue.includes(Osteoporosis) &&
-					record.AssessmentQuestion.Id !== null
-				) {
-					this.tenthCheckOsteo = true;
-					this.sixthQResForEach = record.ResponseValue;
-					this.sixthQVersionResForEach = record.AssessmentQuestion.Id;
-				}
-				if (
-					record.ResponseValue.includes(peptic) &&
-					record.AssessmentQuestion.Id !== null
-				) {
-					this.tenthCheckPeptic = true;
-					this.sixthQResForEach = record.ResponseValue;
-					this.sixthQVersionResForEach = record.AssessmentQuestion.Id;
-				}
-				if (
-					record.ResponseValue.includes(plaque) &&
-					record.AssessmentQuestion.Id !== null
-				) {
-					this.tenthCheckplaque = true;
-					this.sixthQResForEach = record.ResponseValue;
-					this.sixthQVersionResForEach = record.AssessmentQuestion.Id;
-				}
-				if (
-					record.ResponseValue.includes(psoriasiArthritis) &&
-					record.AssessmentQuestion.Id !== null
-				) {
-					this.tenthCheckpsoriatic = true;
-					this.sixthQResForEach = record.ResponseValue;
-					this.sixthQVersionResForEach = record.AssessmentQuestion.Id;
-				}
-				if (
-					record.ResponseValue.includes(Others) &&
-					record.AssessmentQuestion.Id !== null
-				) {
-					this.tenthCheckOthers = true;
-					this.sixthQResForEach = record.ResponseValue;
-					this.sixthQVersionResForEach = record.AssessmentQuestion.Id;
-				}
-			}
-
-			if (record.BI_PSP_ResponseOrder__c === 3) {
-				if (
-					record.ResponseValue === thirdYes &&
-					record.AssessmentQuestion.Id !== null
-				) {
-					this.thirdQResForEach = record.ResponseValue;
-					this.thirdQVersionResForEach = record.AssessmentQuestion.Id;
-					this.thirdIsYes = true;
-				}
-				if (
-					record.ResponseValue === thirdNo &&
-					record.AssessmentQuestion.Id !== null
-				) {
-					this.thirdQResForEach = record.ResponseValue;
-					this.thirdQVersionResForEach = record.AssessmentQuestion.Id;
-					this.thirdIsNo = true;
-				}
-			}
-
-			if (record.BI_PSP_ResponseOrder__c === 5) {
-				if (
-					record.ResponseValue === seventhYes &&
-					record.AssessmentQuestion.Id !== null
-				) {
-					this.fifthQResForEach = record.ResponseValue;
-					this.fifthQVersionResForEach = record.AssessmentQuestion.Id;
-					this.fifthRadYes = true;
-					this.sixthQuestionVisible = this.fifthQResForEach === this.yes;
-				}
-				if (
-					record.ResponseValue === seventhNo &&
-					record.AssessmentQuestion.Id !== null
-				) {
-					this.fifthRadNo = true;
-					this.fifthQResForEach = record.ResponseValue;
-					this.fifthQVersionResForEach = record.AssessmentQuestion.Id;
-					if (this.fifthQResForEach === this.no) {
-						this.sixthQResForEach = '';
-						this.sixthQVersionResForEach = '';
-					}
-				}
-			}
-
-			if (record.BI_PSP_ResponseOrder__c === 7) {
-				if (
-					record.ResponseValue === eigthYes &&
-					record.AssessmentQuestion.Id !== null
-				) {
-					this.sevenQResForEach = record.ResponseValue;
-					if (this.sevenQResForEach !== null) {
-						this.afterSixthRadYes = true;
-					}
-
-					this.sevenQVersionResForEach = record.AssessmentQuestion.Id;
-				}
-				if (
-					record.ResponseValue === eigthNo &&
-					record.AssessmentQuestion.Id !== null
-				) {
-					this.sevenQResForEach = record.ResponseValue;
-					this.sevenQVersionResForEach = record.AssessmentQuestion.Id;
-
-					this.afterSixthRadNo = true;
-				}
-				if (
-					record.ResponseValue === eigthMaybe &&
-					record.AssessmentQuestion.Id !== null
-				) {
-					this.sevenQResForEach = record.ResponseValue;
-					this.sevenQVersionResForEach = record.AssessmentQuestion.Id;
-
-					this.afterSixthRadMaybe = true;
-				}
-			}
-
-			if (record.BI_PSP_ResponseOrder__c === 9) {
-				if (
-					record.ResponseValue === tenthYes &&
-					record.AssessmentQuestion.Id !== null
-				) {
-					this.nineQResForEach = record.ResponseValue;
-					this.nineQVersionResForEach = record.AssessmentQuestion.Id;
-
-					this.eleventhRadYes = true;
-				}
-				if (
-					record.ResponseValue === tenthNo &&
-					record.AssessmentQuestion.Id !== null
-				) {
-					this.eleventhRadNo = true;
-					this.nineQResForEach = record.ResponseValue;
-					this.nineQVersionResForEach = record.AssessmentQuestion.Id;
-				}
-				if (
-					record.ResponseValue === tenthMaybe &&
-					record.AssessmentQuestion.Id !== null
-				) {
-					this.nineQResForEach = record.ResponseValue;
-					this.nineQVersionResForEach = record.AssessmentQuestion.Id;
-
-					this.eleventhRadMaybe = true;
-				}
-			}
-
-			if (record.BI_PSP_ResponseOrder__c === 8) {
-				if (
-					record.ResponseValue === ninthYes &&
-					record.AssessmentQuestion.Id !== null
-				) {
-					this.eigthQResForEach = record.ResponseValue;
-					this.eigthQVersionResForEach = record.AssessmentQuestion.Id;
-
-					this.sixthRadYes = true;
-				}
-				if (
-					record.ResponseValue === ninthNo &&
-					record.AssessmentQuestion.Id !== null
-				) {
-					this.eigthQResForEach = record.ResponseValue;
-					this.eigthQVersionResForEach = record.AssessmentQuestion.Id;
-					this.sixthRadNo = true;
-				}
-				if (
-					record.ResponseValue === ninthMaybe &&
-					record.AssessmentQuestion.Id !== null
-				) {
-					this.eigthQResForEach = record.ResponseValue;
-					this.eigthQVersionResForEach = record.AssessmentQuestion.Id;
-
-					this.sixthRadMayBe = true;
-				}
-			}
-			if (record.BI_PSP_ResponseOrder__c === 10) {
-				if (
-					record.ResponseValue === eleventhYes &&
-					record.AssessmentQuestion.Id !== null
-				) {
-					this.tenthQResForEach = record.ResponseValue;
-					this.tenthQVersionResForEach = record.AssessmentQuestion.Id;
-
-					this.secondRadYes = true;
-				}
-				if (
-					record.ResponseValue === eleventhNo &&
-					record.AssessmentQuestion.Id !== null
-				) {
-					this.secondRadNo = true;
-					this.tenthQResForEach = record.ResponseValue;
-					this.tenthQVersionResForEach = record.AssessmentQuestion.Id;
-				}
-				if (
-					record.ResponseValue === eleventhMaybe &&
-					record.AssessmentQuestion.Id !== null
-				) {
-					this.secondRadMaybe = true;
-					this.tenthQResForEach = record.ResponseValue;
-					this.tenthQVersionResForEach = record.AssessmentQuestion.Id;
-				}
-			}
-
-			if (record.BI_PSP_ResponseOrder__c === 11) {
-				if (
-					record.ResponseValue === twelthYes &&
-					record.AssessmentQuestion.Id !== null
-				) {
-					this.eleventhQResForEach = record.ResponseValue;
-					this.eleventhQVersionResForEach = record.AssessmentQuestion.Id;
-
-					this.thirdRadYes = true;
-				}
-				if (
-					record.ResponseValue === twelthNo &&
-					record.AssessmentQuestion.Id !== null
-				) {
-					this.thirdRadNo = true;
-					this.eleventhQResForEach = record.ResponseValue;
-					this.eleventhQVersionResForEach = record.AssessmentQuestion.Id;
-				}
-				if (
-					record.ResponseValue === twelthMaybe &&
-					record.AssessmentQuestion.Id !== null
-				) {
-					this.thirdRadMaybe = true;
-					this.eleventhQResForEach = record.ResponseValue;
-					this.eleventhQVersionResForEach = record.AssessmentQuestion.Id;
-				}
-			}
-
-			if (record.BI_PSP_ResponseOrder__c === 12) {
-				if (
-					record.ResponseValue === thirteenthYes &&
-					record.AssessmentQuestion.Id !== null
-				) {
-					this.twelthQResForEach = record.ResponseValue;
-					this.twelthQVersionResForEach = record.AssessmentQuestion.Id;
-
-					this.fourthRadYes = true;
-				}
-				if (
-					record.ResponseValue === thirteenthNo &&
-					record.AssessmentQuestion.Id !== null
-				) {
-					this.fourthRadNo = true;
-					this.twelthQResForEach = record.ResponseValue;
-					this.twelthQVersionResForEach = record.AssessmentQuestion.Id;
-				}
-				if (
-					record.ResponseValue === thirteenthMaybe &&
-					record.AssessmentQuestion.Id !== null
-				) {
-					this.fourthRadMaybe = true;
-					this.twelthQResForEach = record.ResponseValue;
-					this.twelthQVersionResForEach = record.AssessmentQuestion.Id;
-				}
-			}
-
-			if (record.BI_PSP_ResponseOrder__c === 13) {
-				if (
-					record.ResponseValue === fourteenthYes &&
-					record.AssessmentQuestion.Id !== null
-				) {
-					this.thirteenthQResForEach = record.ResponseValue;
-					this.thirteenthQVersionResForEach = record.AssessmentQuestion.Id;
-
-					this.seventhRadYes = true;
-				}
-				if (
-					record.ResponseValue === fourteenthNo &&
-					record.AssessmentQuestion.Id !== null
-				) {
-					this.seventhRadNo = true;
-					this.thirteenthQResForEach = record.ResponseValue;
-					this.thirteenthQVersionResForEach = record.AssessmentQuestion.Id;
-				}
-				if (
-					record.ResponseValue === fourteenthMaybe &&
-					record.AssessmentQuestion.Id !== null
-				) {
-					this.seventhRadMaybe = true;
-					this.thirteenthQResForEach = record.ResponseValue;
-					this.thirteenthQVersionResForEach = record.AssessmentQuestion.Id;
-				}
-			}
-
-			if (record.BI_PSP_ResponseOrder__c === 14) {
-				if (
-					record.ResponseValue === fifteenthYes &&
-					record.AssessmentQuestion.Id !== null
-				) {
-					this.fourteenthQResForEach = record.ResponseValue;
-					this.fourteenthQVersionResForEach = record.AssessmentQuestion.Id;
-					this.twelthRadYes = true;
-				}
-				if (
-					record.ResponseValue === fifteenthNo &&
-					record.AssessmentQuestion.Id !== null
-				) {
-					this.twelthRadNo = true;
-					this.fourteenthQResForEach = record.ResponseValue;
-					this.fourteenthQVersionResForEach = record.AssessmentQuestion.Id;
-				}
-				if (
-					record.ResponseValue === fifteenthMaybe &&
-					record.AssessmentQuestion.Id !== null
-				) {
-					this.twelthRadMaybe = true;
-					this.fourteenthQResForEach = record.ResponseValue;
-					this.fourteenthQVersionResForEach = record.AssessmentQuestion.Id;
-				}
-			}
-
-			if (record.BI_PSP_ResponseOrder__c === 15) {
-				if (
-					record.ResponseValue === sixteenthYes &&
-					record.AssessmentQuestion.Id !== null
-				) {
-					this.fifteenthQResForEach = record.ResponseValue;
-					this.fifteenthQVersionResForEach = record.AssessmentQuestion.Id;
-
-					this.thirteenththRadYes = true;
-				}
-				if (
-					record.ResponseValue === sixteenthNo &&
-					record.AssessmentQuestion.Id !== null
-				) {
-					this.thirteenththRadNo = true;
-					this.fifteenthQResForEach = record.ResponseValue;
-					this.fifteenthQVersionResForEach = record.AssessmentQuestion.Id;
-				}
-				if (
-					record.ResponseValue === sixteenthMaybe &&
-					record.AssessmentQuestion.Id !== null
-				) {
-					this.thirteenththRadMaybe = true;
-					this.fifteenthQResForEach = record.ResponseValue;
-					this.fifteenthQVersionResForEach = record.AssessmentQuestion.Id;
-				}
-			}
-
-			if (record.BI_PSP_ResponseOrder__c === 16) {
-				//16
-				if (
-					record.ResponseValue === seventeethYes &&
-					record.AssessmentQuestion.Id !== null
-				) {
-					this.sixteenthQResForEach = record.ResponseValue;
-
-					this.sixteenthQVersionResForEach = record.AssessmentQuestion.Id;
-
-					this.forteenththRadYes = true;
-				}
-				if (
-					record.ResponseValue === seventeethNo &&
-					record.AssessmentQuestion.Id !== null
-				) {
-					this.forteenthRadNo = true;
-					this.sixteenthQResForEach = record.ResponseValue;
-					this.sixteenthQVersionResForEach = record.AssessmentQuestion.Id;
-				}
-				if (
-					record.ResponseValue === seventeethMaybe &&
-					record.AssessmentQuestion.Id !== null
-				) {
-					this.forteenthRadMaybe = true;
-					this.sixteenthQResForEach = record.ResponseValue;
-					this.sixteenthQVersionResForEach = record.AssessmentQuestion.Id;
-				}
+			const handler = responseMappings[record.BI_PSP_ResponseOrder__c];
+			if (handler) {
+				handler.call(this, record);
 			}
 		});
 	}
+
+	handleSixthQuestionResponse(record) {
+		const conditionMapping = {
+			"Asthma": "tenthCheckAsthma",
+			"Diabetes mellitus": "tenthCheckDiabetes",
+			"Depression": "tenthCheckDepression",
+			"Hay fever / Allergic conditions": "tenthCheckHayFever",
+			"High blood pressure / Hypertension": "tenthCheckBp",
+			"High Cholesterol": "tenthCheckHighChol",
+			"Obesity": "tenthCheckObesity",
+			"Osteoporosis": "tenthCheckOsteo",
+			"Peptic ulcer / Gastric ulcer": "tenthCheckPeptic",
+			"Plaque psoriasis": "tenthCheckplaque",
+			"Psoriatic arthritis": "tenthCheckpsoriatic",
+			"Others": "tenthCheckOthers"
+		};
+
+		Object.entries(conditionMapping).forEach(([key, value]) => {
+			if (record.ResponseValue.includes(key) && record.AssessmentQuestion.Id) {
+				this[value] = true;
+				this.sixthQResForEach = record.ResponseValue;
+				this.sixthQVersionResForEach = record.AssessmentQuestion.Id;
+			}
+		});
+	}
+
+	// The other handler functions remain unchanged
+	handleSecondQuestionResponse(record) {
+		const targetFemale = this.female;
+		const targetMale = this.male;
+		const targetOther = this.other;
+		const prefferNotTosay = this.prefernot;
+
+		if (record.ResponseValue === targetFemale && record.AssessmentQuestion.Id) {
+			this.secQResForEach = record.ResponseValue;
+			this.secQVersionResForEach = record.AssessmentQuestion.Id;
+			this.isFemale = true;
+		}
+		if (record.ResponseValue === targetMale && record.AssessmentQuestion.Id) {
+			this.isMale = true;
+			this.secQResForEach = record.ResponseValue;
+			this.secQVersionResForEach = record.AssessmentQuestion.Id;
+		}
+		if (record.ResponseValue === targetOther && record.AssessmentQuestion.Id) {
+			this.secQResForEach = record.ResponseValue;
+			this.secQVersionResForEach = record.AssessmentQuestion.Id;
+			this.isOther = true;
+		}
+		if (record.ResponseValue === prefferNotTosay && record.AssessmentQuestion.Id) {
+			this.iSPrefferNotToSay = true;
+			this.secQVersionResForEach = record.AssessmentQuestion.Id;
+			this.secQResForEach = record.ResponseValue;
+		}
+	}
+
+	handleFirstQuestionResponse(record) {
+		const firstLessThanMonth = this.lessthanamonth;
+		const firstLessThanSix = this.lessthan6months;
+		const firstLessThanYr = this.lessthanyear;
+		const firstMoreThan = this.morethanyear;
+
+		if (record.ResponseValue === firstLessThanMonth && record.AssessmentQuestion.Id) {
+			this.firstQResForEach = record.ResponseValue;
+			this.firstQVersionResForEach = record.AssessmentQuestion.Id;
+			this.isFirstLessThanMonth = true;
+		}
+		if (record.ResponseValue === firstLessThanSix && record.AssessmentQuestion.Id) {
+			this.firstQResForEach = record.ResponseValue;
+			this.firstQVersionResForEach = record.AssessmentQuestion.Id;
+			this.isFirstLessSix = true;
+		}
+		if (record.ResponseValue === firstLessThanYr && record.AssessmentQuestion.Id) {
+			this.firstQResForEach = record.ResponseValue;
+			this.firstQVersionResForEach = record.AssessmentQuestion.Id;
+			this.isFirstLessYear = true;
+		}
+		if (record.ResponseValue === firstMoreThan && record.AssessmentQuestion.Id) {
+			this.firstQResForEach = record.ResponseValue;
+			this.firstQVersionResForEach = record.AssessmentQuestion.Id;
+			this.isFirstMoreYear = true;
+		}
+	}
+
+	handleFourthQuestionResponse(record) {
+		const thirdAnswerRF = this.relationshipwithff;
+		const thirdRWP = this.relationshipwithpartner;
+		const thirdSelEstee = this.selfesteem;
+
+		if (record.ResponseValue.includes(thirdAnswerRF) && record.AssessmentQuestion.Id) {
+			this.fourthCheckRelatFam = true;
+			this.fourQResForEach = record.ResponseValue;
+			this.fourQVersionResForEach = record.AssessmentQuestion.Id;
+		}
+		if (record.ResponseValue.includes(thirdRWP) && record.AssessmentQuestion.Id) {
+			this.fourthCheckWithPartner = true;
+			this.fourQResForEach = record.ResponseValue;
+			this.fourQVersionResForEach = record.AssessmentQuestion.Id;
+		}
+		if (record.ResponseValue.includes(thirdSelEstee) && record.AssessmentQuestion.Id) {
+			this.fourthCheckSelfEsteem = true;
+			this.fourQResForEach = record.ResponseValue;
+			this.fourQVersionResForEach = record.AssessmentQuestion.Id;
+		}
+	}
+
+	handleThirdQuestionResponse(record) {
+		const thirdYes = this.yes;
+		const thirdNo = this.no;
+
+		if (record.ResponseValue === thirdYes && record.AssessmentQuestion.Id) {
+			this.thirdQResForEach = record.ResponseValue;
+			this.thirdQVersionResForEach = record.AssessmentQuestion.Id;
+			this.thirdIsYes = true;
+		}
+		if (record.ResponseValue === thirdNo && record.AssessmentQuestion.Id) {
+			this.thirdQResForEach = record.ResponseValue;
+			this.thirdQVersionResForEach = record.AssessmentQuestion.Id;
+			this.thirdIsNo = true;
+		}
+	}
+
+	handleFifthQuestionResponse(record) {
+		const seventhYes = this.yes;
+		const seventhNo = this.no;
+
+		if (record.ResponseValue === seventhYes && record.AssessmentQuestion.Id) {
+			this.fifthQResForEach = record.ResponseValue;
+			this.fifthQVersionResForEach = record.AssessmentQuestion.Id;
+			this.fifthRadYes = true;
+			this.sixthQuestionVisible = this.fifthQResForEach === this.yes;
+		}
+		if (record.ResponseValue === seventhNo && record.AssessmentQuestion.Id) {
+			this.fifthRadNo = true;
+			this.fifthQResForEach = record.ResponseValue;
+			this.fifthQVersionResForEach = record.AssessmentQuestion.Id;
+			if (this.fifthQResForEach === this.no) {
+				this.sixthQResForEach = '';
+				this.sixthQVersionResForEach = '';
+			}
+		}
+	}
+
+	handleSeventhQuestionResponse(record) {
+		const eigthYes = this.yes;
+		const eigthNo = this.no;
+		const eigthMaybe = this.maybe;
+
+		if (record.ResponseValue === eigthYes && record.AssessmentQuestion.Id) {
+			this.sevenQResForEach = record.ResponseValue;
+			if (this.sevenQResForEach !== null) {
+				this.afterSixthRadYes = true;
+			}
+			this.sevenQVersionResForEach = record.AssessmentQuestion.Id;
+		}
+		if (record.ResponseValue === eigthNo && record.AssessmentQuestion.Id) {
+			this.sevenQResForEach = record.ResponseValue;
+			this.sevenQVersionResForEach = record.AssessmentQuestion.Id;
+			this.afterSixthRadNo = true;
+		}
+		if (record.ResponseValue === eigthMaybe && record.AssessmentQuestion.Id) {
+			this.sevenQResForEach = record.ResponseValue;
+			this.sevenQVersionResForEach = record.AssessmentQuestion.Id;
+			this.afterSixthRadMaybe = true;
+		}
+	}
+
+	handleNinthQuestionResponse(record) {
+		const ninthYes = this.yes;
+		const ninthNo = this.no;
+		const ninthMaybe = this.maybe;
+
+		if (record.ResponseValue === ninthYes && record.AssessmentQuestion.Id) {
+			this.eigthQResForEach = record.ResponseValue;
+			this.eigthQVersionResForEach = record.AssessmentQuestion.Id;
+			this.sixthRadYes = true;
+		}
+		if (record.ResponseValue === ninthNo && record.AssessmentQuestion.Id) {
+			this.eigthQResForEach = record.ResponseValue;
+			this.eigthQVersionResForEach = record.AssessmentQuestion.Id;
+			this.sixthRadNo = true;
+		}
+		if (record.ResponseValue === ninthMaybe && record.AssessmentQuestion.Id) {
+			this.eigthQResForEach = record.ResponseValue;
+			this.eigthQVersionResForEach = record.AssessmentQuestion.Id;
+			this.sixthRadMayBe = true;
+		}
+	}
+
+	handleEighthQuestionResponse(record) {
+		const tenthYes = this.yes;
+		const tenthNo = this.no;
+		const tenthMaybe = this.maybe;
+
+		if (record.ResponseValue === tenthYes && record.AssessmentQuestion.Id) {
+			this.nineQResForEach = record.ResponseValue;
+			this.nineQVersionResForEach = record.AssessmentQuestion.Id;
+			this.eleventhRadYes = true;
+		}
+		if (record.ResponseValue === tenthNo && record.AssessmentQuestion.Id) {
+			this.eleventhRadNo = true;
+			this.nineQResForEach = record.ResponseValue;
+			this.nineQVersionResForEach = record.AssessmentQuestion.Id;
+		}
+		if (record.ResponseValue === tenthMaybe && record.AssessmentQuestion.Id) {
+			this.nineQResForEach = record.ResponseValue;
+			this.nineQVersionResForEach = record.AssessmentQuestion.Id;
+			this.eleventhRadMaybe = true;
+		}
+	}
+
+	handleTenthQuestionResponse(record) {
+		const eleventhYes = this.yes;
+		const eleventhNo = this.no;
+		const eleventhMaybe = this.maybe;
+
+		if (record.ResponseValue === eleventhYes && record.AssessmentQuestion.Id) {
+			this.tenthQResForEach = record.ResponseValue;
+			this.tenthQVersionResForEach = record.AssessmentQuestion.Id;
+			this.secondRadYes = true;
+		}
+		if (record.ResponseValue === eleventhNo && record.AssessmentQuestion.Id) {
+			this.secondRadNo = true;
+			this.tenthQResForEach = record.ResponseValue;
+			this.tenthQVersionResForEach = record.AssessmentQuestion.Id;
+		}
+		if (record.ResponseValue === eleventhMaybe && record.AssessmentQuestion.Id) {
+			this.secondRadMaybe = true;
+			this.tenthQResForEach = record.ResponseValue;
+			this.tenthQVersionResForEach = record.AssessmentQuestion.Id;
+		}
+	}
+
+	handleEleventhQuestionResponse(record) {
+		const twelthYes = this.yes;
+		const twelthNo = this.no;
+		const twelthMaybe = this.maybe;
+
+		if (record.ResponseValue === twelthYes && record.AssessmentQuestion.Id) {
+			this.eleventhQResForEach = record.ResponseValue;
+			this.eleventhQVersionResForEach = record.AssessmentQuestion.Id;
+			this.thirdRadYes = true;
+		}
+		if (record.ResponseValue === twelthNo && record.AssessmentQuestion.Id) {
+			this.thirdRadNo = true;
+			this.eleventhQResForEach = record.ResponseValue;
+			this.eleventhQVersionResForEach = record.AssessmentQuestion.Id;
+		}
+		if (record.ResponseValue === twelthMaybe && record.AssessmentQuestion.Id) {
+			this.thirdRadMaybe = true;
+			this.eleventhQResForEach = record.ResponseValue;
+			this.eleventhQVersionResForEach = record.AssessmentQuestion.Id;
+		}
+	}
+
+	handleTwelfthQuestionResponse(record) {
+		const thirteenthYes = this.yes;
+		const thirteenthNo = this.no;
+		const thirteenthMaybe = this.maybe;
+
+		if (record.ResponseValue === thirteenthYes && record.AssessmentQuestion.Id) {
+			this.twelthQResForEach = record.ResponseValue;
+			this.twelthQVersionResForEach = record.AssessmentQuestion.Id;
+			this.fourthRadYes = true;
+		}
+		if (record.ResponseValue === thirteenthNo && record.AssessmentQuestion.Id) {
+			this.fourthRadNo = true;
+			this.twelthQResForEach = record.ResponseValue;
+			this.twelthQVersionResForEach = record.AssessmentQuestion.Id;
+		}
+		if (record.ResponseValue === thirteenthMaybe && record.AssessmentQuestion.Id) {
+			this.fourthRadMaybe = true;
+			this.twelthQResForEach = record.ResponseValue;
+			this.twelthQVersionResForEach = record.AssessmentQuestion.Id;
+		}
+	}
+
+	handleThirteenthQuestionResponse(record) {
+		const fourteenthYes = this.yes;
+		const fourteenthNo = this.no;
+		const fourteenthMaybe = this.maybe;
+
+		if (record.ResponseValue === fourteenthYes && record.AssessmentQuestion.Id) {
+			this.thirteenthQResForEach = record.ResponseValue;
+			this.thirteenthQVersionResForEach = record.AssessmentQuestion.Id;
+			this.seventhRadYes = true;
+		}
+		if (record.ResponseValue === fourteenthNo && record.AssessmentQuestion.Id) {
+			this.seventhRadNo = true;
+			this.thirteenthQResForEach = record.ResponseValue;
+			this.thirteenthQVersionResForEach = record.AssessmentQuestion.Id;
+		}
+		if (record.ResponseValue === fourteenthMaybe && record.AssessmentQuestion.Id) {
+			this.seventhRadMaybe = true;
+			this.thirteenthQResForEach = record.ResponseValue;
+			this.thirteenthQVersionResForEach = record.AssessmentQuestion.Id;
+		}
+	}
+
+	handleFourteenthQuestionResponse(record) {
+		const fifteenthYes = this.yes;
+		const fifteenthNo = this.no;
+		const fifteenthMaybe = this.maybe;
+
+		if (record.ResponseValue === fifteenthYes && record.AssessmentQuestion.Id) {
+			this.fourteenthQResForEach = record.ResponseValue;
+			this.fourteenthQVersionResForEach = record.AssessmentQuestion.Id;
+			this.twelthRadYes = true;
+		}
+		if (record.ResponseValue === fifteenthNo && record.AssessmentQuestion.Id) {
+			this.twelthRadNo = true;
+			this.fourteenthQResForEach = record.ResponseValue;
+			this.fourteenthQVersionResForEach = record.AssessmentQuestion.Id;
+		}
+		if (record.ResponseValue === fifteenthMaybe && record.AssessmentQuestion.Id) {
+			this.twelthRadMaybe = true;
+			this.fourteenthQResForEach = record.ResponseValue;
+			this.fourteenthQVersionResForEach = record.AssessmentQuestion.Id;
+		}
+	}
+
+	handleFifteenthQuestionResponse(record) {
+		const sixteenthYes = this.yes;
+		const sixteenthNo = this.no;
+		const sixteenthMaybe = this.maybe;
+
+		if (record.ResponseValue === sixteenthYes && record.AssessmentQuestion.Id) {
+			this.fifteenthQResForEach = record.ResponseValue;
+			this.fifteenthQVersionResForEach = record.AssessmentQuestion.Id;
+			this.thirteenththRadYes = true;
+		}
+		if (record.ResponseValue === sixteenthNo && record.AssessmentQuestion.Id) {
+			this.thirteenththRadNo = true;
+			this.fifteenthQResForEach = record.ResponseValue;
+			this.fifteenthQVersionResForEach = record.AssessmentQuestion.Id;
+		}
+		if (record.ResponseValue === sixteenthMaybe && record.AssessmentQuestion.Id) {
+			this.thirteenththRadMaybe = true;
+			this.fifteenthQResForEach = record.ResponseValue;
+			this.fifteenthQVersionResForEach = record.AssessmentQuestion.Id;
+		}
+	}
+
+	handleSixteenthQuestionResponse(record) {
+		const seventeethYes = this.yes;
+		const seventeethNo = this.no;
+		const seventeethMaybe = this.maybe;
+
+		if (record.ResponseValue === seventeethYes && record.AssessmentQuestion.Id) {
+			this.sixteenthQResForEach = record.ResponseValue;
+			this.sixteenthQVersionResForEach = record.AssessmentQuestion.Id;
+			this.forteenththRadYes = true;
+		}
+		if (record.ResponseValue === seventeethNo && record.AssessmentQuestion.Id) {
+			this.forteenthRadNo = true;
+			this.sixteenthQResForEach = record.ResponseValue;
+			this.sixteenthQVersionResForEach = record.AssessmentQuestion.Id;
+		}
+		if (record.ResponseValue === seventeethMaybe && record.AssessmentQuestion.Id) {
+			this.forteenthRadMaybe = true;
+			this.sixteenthQResForEach = record.ResponseValue;
+			this.sixteenthQVersionResForEach = record.AssessmentQuestion.Id;
+		}
+	}
+
 
 	//this wire method is for retrieving the introduction Questions and storing them to different variables one by one
 	@wire(INTRODUCTION_QUESTIONARE, { questionnaireName: '$introduction' })
@@ -1348,9 +1078,12 @@ export default class BiPspbAboutMySelfQuestionnaire extends LightningElement {
 		}
 	}
 
+	getLastItem(array) {
+		return array.length > 0 ? array[array.length - 1] : null;
+	}
+	//valid
 	//below are the handlers that handles the resposnes from user input(16 hhandlers)
 	handleFirstQuestionChange(event) {
-		this.nameOfQuestion = event.target.name;
 		let chekVal = event.target.value;
 		if (chekVal === this.lessthanamonth) {
 			this.isFirstLessThanMonth = true;
@@ -1376,33 +1109,18 @@ export default class BiPspbAboutMySelfQuestionnaire extends LightningElement {
 			this.isFirstMoreYear = false;
 		}
 
-		if (this.nameOfQuestion === 'firstQuestionResponse') {
-			this.firstQuestionResponse = event.target.value;
+		this.firstQuestionResponse = event.target.value;
 
-			this.nameToDraftFirst = event.target.name;
+		//pushes the responses and version ids to arrays
+		this.arrayForPushResp.push(this.firstQuestionResponse);
+		this.arrayForPushId.push(this.firstQuestionVersinId);
 
-			if (this.firstQuestionResponse !== '') {
-				//pushes the responses and version ids to arrays
-				this.arrayForPushResp.push(this.firstQuestionResponse);
-				this.arrayForPushId.push(this.firstQuestionVersinId);
-			}
-			this.firstRspValue = this.getLastRespValue();
-			this.firstRespVersId = this.getLastIdValue();
-		}
-	}
-	//getLastRespValue will extract the last input response of the user, its the same for remaining hanler
-	getLastRespValue() {
-		return this.arrayForPushResp.length > 0
-			? this.arrayForPushResp[this.arrayForPushResp.length - 1]
-			: null;
-	}
-	//getLastIdValue will extract the last input response version  id of the user, its the same for remaining hanler
-	getLastIdValue() {
-		return this.arrayForPushId.length > 0
-			? this.arrayForPushId[this.arrayForPushId.length - 1]
-			: null;
+		this.firstRspValue = this.getLastItem(this.arrayForPushResp);
+		this.firstRespVersId = this.getLastItem(this.arrayForPushId);
+
 	}
 
+	//valid
 	handleSecondQuestionChange(event) {
 		let checkedVal = event.target.value;
 		if (checkedVal === this.male) {
@@ -1429,78 +1147,18 @@ export default class BiPspbAboutMySelfQuestionnaire extends LightningElement {
 			this.iSPrefferNotToSay = false;
 		}
 
-		this.nameOfQuestion = event.target.name;
+		this.secondQuestionResponse = event.target.value;
+		this.arrayForPushResp.push(this.secondQuestionResponse);
+		this.arrayForPushId.push(this.secondQuestionVersinId);
+		// Get the last response value
+		this.secondRspValue = this.getLastItem(this.arrayForPushResp);
+		// Get the last response version id
+		this.secondRespVersId = this.getLastItem(this.arrayForPushId);
 
-		if (this.nameOfQuestion === 'secondQuestionResponse') {
-			this.secondQuestionResponse = event.target.value;
-			this.nameToDraftSecond = event.target.name;
-			if (this.secondQuestionResponse !== '') {
-				this.arrayForPushResp.push(this.secondQuestionResponse);
-				this.arrayForPushId.push(this.secondQuestionVersinId);
-			}
-			// Get the last response value
-			this.secondRspValue = this.getSecondRespValue();
-			// Get the last response version id
-			this.secondRespVersId = this.getSecondIdValue();
-		}
 	}
 
-	getSecondRespValue() {
-		return this.arrayForPushResp.length > 0
-			? this.arrayForPushResp[this.arrayForPushResp.length - 1]
-			: null;
-	}
 
-	getSecondIdValue() {
-		return this.arrayForPushId.length > 0
-			? this.arrayForPushId[this.arrayForPushId.length - 1]
-			: null;
-	}
-
-	handleEigthQuestionChange(event) {
-		this.nameOfQuestion = event.target.name;
-
-		let checkedVal = event.target.value;
-		if (checkedVal === this.yes) {
-			this.sixthRadYes = true;
-		} else {
-			this.sixthRadYes = false;
-		}
-
-		if (checkedVal === this.no) {
-			this.sixthRadNo = true;
-		} else {
-			this.sixthRadNo = false;
-		}
-		if (checkedVal === this.maybe) {
-			this.sixthRadMayBe = true;
-		} else {
-			this.sixthRadMayBe = false;
-		}
-
-		this.eightQuestionResponse = event.target.value;
-		this.nameToDraftEighth = event.target.name;
-		if (this.eightQuestionResponse !== '') {
-			this.arrayForPushResp.push(this.eightQuestionResponse);
-			this.arrayForPushId.push(this.eightQuestionVersinId);
-		}
-		// Get the last values separately
-		this.eghtResponseValue = this.getEigthRespValue();
-		this.eightVersiId = this.getEigthIdValue();
-	}
-
-	getEigthRespValue() {
-		return this.arrayForPushResp.length > 0
-			? this.arrayForPushResp[this.arrayForPushResp.length - 1]
-			: null;
-	}
-
-	getEigthIdValue() {
-		return this.arrayForPushId.length > 0
-			? this.arrayForPushId[this.arrayForPushId.length - 1]
-			: null;
-	}
-
+	//valid
 	//this handler handles the user input
 	handlethirdQuestionChange(event) {
 		let checkedval = event.target.value;
@@ -1516,508 +1174,36 @@ export default class BiPspbAboutMySelfQuestionnaire extends LightningElement {
 			this.thirdIsNo = false;
 		}
 
-		this.nameOfQuestion = event.target.name;
-
-		if (this.nameOfQuestion === 'thirdQuestionRespo') {
-			this.thirdQuestionResponse = event.target.value;
-			this.nameToDraftThird = event.target.name;
-			if (this.thirdQuestionResponse !== '') {
-				this.arrayForPushResp.push(this.thirdQuestionResponse);
-				this.arrayForPushId.push(this.thirdQuestionVersinId);
-			}
-			// Get the last values separately
-			this.thirdRspValue = this.getThirdRespValue();
-			this.thirdVersionId = this.getThirdIdValue();
-		}
-	}
-
-	getThirdRespValue() {
-		return this.arrayForPushResp.length > 0
-			? this.arrayForPushResp[this.arrayForPushResp.length - 1]
-			: null;
-	}
-
-	getThirdIdValue() {
-		return this.arrayForPushId.length > 0
-			? this.arrayForPushId[this.arrayForPushId.length - 1]
-			: null;
-	}
-
-	//this handler handles the user input Response
-	handleNinthQuestionChange(event) {
-		let checkedVal = event.target.value;
-		if (checkedVal === this.yes) {
-			this.eleventhRadYes = true;
-		} else {
-			this.eleventhRadYes = false;
-		}
-
-		if (checkedVal === this.no) {
-			this.eleventhRadNo = true;
-		} else {
-			this.eleventhRadNo = false;
-		}
-		if (checkedVal === this.maybe) {
-			this.eleventhRadMaybe = true;
-		} else {
-			this.eleventhRadMaybe = false;
-		}
-
-		this.ninthQuestionResponse = event.target.value;
-		this.nameToDraftNinth = event.target.name;
-		if (this.ninthQuestionResponse !== '') {
-			this.arrayForPushResp.push(this.ninthQuestionResponse);
-			this.arrayForPushId.push(this.ninthQuestionVersinId);
-		}
+		this.thirdQuestionResponse = event.target.value;
+		this.arrayForPushResp.push(this.thirdQuestionResponse);
+		this.arrayForPushId.push(this.thirdQuestionVersinId);
 		// Get the last values separately
-		this.ninthResponseValue = this.getNinthRespValue();
-		this.ninthVersId = this.getNinthIdValue();
+		this.thirdRspValue = this.getLastItem(this.arrayForPushResp);
+		this.thirdVersionId = this.getLastItem(this.arrayForPushId);
+
 	}
 
-	getNinthRespValue() {
-		return this.arrayForPushResp.length > 0
-			? this.arrayForPushResp[this.arrayForPushResp.length - 1]
-			: null;
-	}
 
-	getNinthIdValue() {
-		return this.arrayForPushId.length > 0
-			? this.arrayForPushId[this.arrayForPushId.length - 1]
-			: null;
-	}
-
-	handleFifteenthQuestionChange(event) {
-		let checkedVal = event.target.value;
-		//the below if conditions checks the value if it is true then set the radion buttons as checked otherwise unchecked.
-		if (checkedVal === this.yes) {
-			this.thirteenththRadYes = true;
-		} else {
-			this.thirteenththRadYes = false;
-		}
-
-		if (checkedVal === this.no) {
-			this.thirteenththRadNo = true;
-		} else {
-			this.thirteenththRadNo = false;
-		}
-		if (checkedVal === this.maybe) {
-			this.thirteenththRadMaybe = true;
-		} else {
-			this.thirteenththRadMaybe = false;
-		}
-
-		this.fifteenthQuestionResponse = event.target.value;
-		this.nameToDraftFifteenth = event.target.name;
-
-		if (this.fifteenthQuestionResponse !== '') {
-			this.arrayForPushResp.push(this.fifteenthQuestionResponse);
-			this.arrayForPushId.push(this.fifteenthQuestionVersinId);
-		}
-
-		// Get the last values separately
-		this.fifteenthResponseValue = this.getFifteenthRespValue();
-		this.fifteenthVersId = this.getFifteenthIdValue();
-	}
-
-	getFifteenthRespValue() {
-		return this.checkBoxArray.length > 0
-			? this.arrayForPushResp[this.arrayForPushResp.length - 1]
-			: null;
-	}
-
-	getFifteenthIdValue() {
-		return this.arrayForPushId.length > 0
-			? this.arrayForPushId[this.arrayForPushId.length - 1]
-			: null;
-	}
-
-	handleFourteenthQuestionChange(event) {
-		let checkedVal = event.target.value;
-		if (checkedVal === this.yes) {
-			this.twelthRadYes = true;
-		} else {
-			this.twelthRadYes = false;
-		}
-
-		if (checkedVal === this.no) {
-			this.twelthRadNo = true;
-		} else {
-			this.twelthRadNo = false;
-		}
-		if (checkedVal === this.maybe) {
-			this.twelthRadMaybe = true;
-		} else {
-			this.twelthRadMaybe = false;
-		}
-
-		this.fourteenthQuestionResponse = event.target.value;
-		this.nameToDraftFourteenth = event.target.name;
-
-		if (this.fourteenthQuestionResponse !== '') {
-			this.arrayForPushResp.push(this.fourteenthQuestionResponse);
-			this.arrayForPushId.push(this.foteenthQuestionVersinId);
-		}
-		// Get the last values separately
-		this.fourteenthResponseValue = this.getFourteenthRespValue();
-		this.fourteenthVersId = this.getFourteenthIdValue();
-	}
-
-	getFourteenthRespValue() {
-		return this.arrayForPushResp.length > 0
-			? this.arrayForPushResp[this.arrayForPushResp.length - 1]
-			: null;
-	}
-
-	getFourteenthIdValue() {
-		return this.arrayForPushId.length > 0
-			? this.arrayForPushId[this.arrayForPushId.length - 1]
-			: null;
-	}
-
-	handleThirteenthQuestionChange(event) {
-		let checkedVal = event.target.value;
-		if (checkedVal === this.yes) {
-			this.seventhRadYes = true;
-		} else {
-			this.seventhRadYes = false;
-		}
-
-		if (checkedVal === this.no) {
-			this.seventhRadNo = true;
-		} else {
-			this.seventhRadNo = false;
-		}
-		if (checkedVal === this.maybe) {
-			this.seventhRadMaybe = true;
-		} else {
-			this.seventhRadMaybe = false;
-		}
-
-		this.thirteenthQuestionResponse = event.target.value;
-		this.nameToDraftThirteenth = event.target.name;
-
-		if (this.thirteenthQuestionResponse !== '') {
-			this.arrayForPushResp.push(this.thirteenthQuestionResponse);
-			this.arrayForPushId.push(this.thirteeenthQuestionVersinId);
-		}
-
-		this.thirteenthResponseValue = this.getThirteenthRespValue();
-		this.thirteenthVersiId = this.getThirteenthIdValue();
-	}
-
-	getThirteenthRespValue() {
-		return this.arrayForPushResp.length > 0
-			? this.arrayForPushResp[this.arrayForPushResp.length - 1]
-			: null;
-	}
-
-	getThirteenthIdValue() {
-		return this.arrayForPushId.length > 0
-			? this.arrayForPushId[this.arrayForPushId.length - 1]
-			: null;
-	}
-
-	handleTwelthQuestionChange(event) {
-		let checkedVal = event.target.value;
-		if (checkedVal === this.yes) {
-			this.fourthRadYes = true;
-		} else {
-			this.fourthRadYes = false;
-		}
-
-		if (checkedVal === this.no) {
-			this.fourthRadNo = true;
-		} else {
-			this.fourthRadNo = false;
-		}
-		if (checkedVal === this.maybe) {
-			this.fourthRadMaybe = true;
-		} else {
-			this.fourthRadMaybe = false;
-		}
-
-		this.twelvthQuestionResponse = event.target.value;
-		this.nameToDrafttwelvth = event.target.name;
-
-		if (this.twelvthQuestionResponse !== '') {
-			this.arrayForPushResp.push(this.twelvthQuestionResponse);
-			this.arrayForPushId.push(this.twelthQuestionVersinId);
-		}
-
-		this.twelvthRespalue = this.getTwelthRespValue();
-		this.twelvthVersiD = this.getTwelthIdValue();
-	}
-
-	getTwelthRespValue() {
-		return this.arrayForPushResp.length > 0
-			? this.arrayForPushResp[this.arrayForPushResp.length - 1]
-			: null;
-	}
-
-	getTwelthIdValue() {
-		return this.arrayForPushId.length > 0
-			? this.arrayForPushId[this.arrayForPushId.length - 1]
-			: null;
-	}
-
-	handleEleventhQuestionChange(event) {
-		let checkedVal = event.target.value;
-		if (checkedVal === this.yes) {
-			this.thirdRadYes = true;
-		} else {
-			this.thirdRadYes = false;
-		}
-
-		if (checkedVal === this.no) {
-			this.thirdRadNo = true;
-		} else {
-			this.thirdRadNo = false;
-		}
-		if (checkedVal === this.maybe) {
-			this.thirdRadMaybe = true;
-		} else {
-			this.thirdRadMaybe = false;
-		}
-
-		this.eleventhQuestionResponse = event.target.value;
-		this.nameToDrafteEleventh = event.target.name;
-
-		if (this.eleventhQuestionResponse !== '') {
-			this.arrayForPushResp.push(this.eleventhQuestionResponse);
-			this.arrayForPushId.push(this.eleventhQuestionVersinId);
-		}
-		// Get the last values separately
-		this.eleventhResponseValue = this.getEleventhRespValue();
-		this.eleventhVersiD = this.getEleventhIdValue();
-	}
-
-	getEleventhRespValue() {
-		return this.arrayForPushResp.length > 0
-			? this.arrayForPushResp[this.arrayForPushResp.length - 1]
-			: null;
-	}
-
-	getEleventhIdValue() {
-		return this.arrayForPushId.length > 0
-			? this.arrayForPushId[this.arrayForPushId.length - 1]
-			: null;
-	}
-
-	handleTenthQuestionChange(event) {
-		let checkedVal = event.target.value;
-		if (checkedVal === this.yes) {
-			this.secondRadYes = true;
-		} else {
-			this.secondRadYes = false;
-		}
-
-		if (checkedVal === this.no) {
-			this.secondRadNo = true;
-		} else {
-			this.secondRadNo = false;
-		}
-		if (checkedVal === this.maybe) {
-			this.secondRadMaybe = true;
-		} else {
-			this.secondRadMaybe = false;
-		}
-
-		this.tenthQuestionResponse = event.target.value;
-		this.nameToDrafttenth = event.target.name;
-		if (this.tenthQuestionResponse !== '') {
-			this.arrayForPushResp.push(this.tenthQuestionResponse);
-			this.arrayForPushId.push(this.tenthQuestionVersinId);
-		}
-
-		this.tenthResponseValue = this.getTenthRespValue();
-		this.tenthVersId = this.getTenthIdValue();
-	}
-
-	getTenthRespValue() {
-		return this.arrayForPushResp.length > 0
-			? this.arrayForPushResp[this.arrayForPushResp.length - 1]
-			: null;
-	}
-
-	getTenthIdValue() {
-		return this.arrayForPushId.length > 0
-			? this.arrayForPushId[this.arrayForPushId.length - 1]
-			: null;
-	}
-
-	handleSeventhQuestionChange(event) {
-		let checkedVal = event.target.value;
-		if (checkedVal === this.yes) {
-			this.afterSixthRadYes = true;
-		} else {
-			this.afterSixthRadYes = false;
-		}
-
-		if (checkedVal === this.no) {
-			this.afterSixthRadNo = true;
-		} else {
-			this.afterSixthRadNo = false;
-		}
-		if (checkedVal === this.maybe) {
-			this.afterSixthRadMaybe = true;
-		} else {
-			this.afterSixthRadMaybe = false;
-		}
-		this.seventhQuestionResponse = event.target.value;
-		this.nameToDraftSeventh = event.target.name;
-
-		if (this.seventhQuestionResponse !== '') {
-			this.arrayForPushResp.push(this.seventhQuestionResponse);
-			this.arrayForPushId.push(this.seventhQuestionVersinId);
-		}
-
-		this.seventhRespalue = this.getSeventhRespValue();
-		this.seventhVersiD = this.getSeventhIdValue();
-	}
-
-	getSeventhRespValue() {
-		return this.arrayForPushResp.length > 0
-			? this.arrayForPushResp[this.arrayForPushResp.length - 1]
-			: null;
-	}
-
-	getSeventhIdValue() {
-		return this.arrayForPushId.length > 0
-			? this.arrayForPushId[this.arrayForPushId.length - 1]
-			: null;
-	}
-
+	//valid
 	handleSixthQuestionchange(event) {
 		this.sixthDraftVal = this.sixthQResForEach;
 		let checkBoval = event.target.checked;
-		//this will check what are the check boxs that been checked
+
 		if (checkBoval) {
-			this.uncheckedBoolean = true;
-			this.knowSixthChecked = checkBoval;
-
-			let vals = event.target.value;
-			//we will be using this array later to extract the checked values
-			this.sixthCheckedArray.push(vals);
-
-			//we are explicitly making the check boxes as checked.this is needed.
-			if (vals === this.asthma) {
-				this.tenthCheckAsthma = true;
-			}
-
-			if (vals === this.diabetes) {
-				this.tenthCheckDiabetes = true;
-			}
-
-			if (vals === this.depression) {
-				this.tenthCheckDepression = true;
-			}
-
-			if (vals === this.hayFever) {
-				this.tenthCheckHayFever = true;
-			}
-
-			if (vals === this.hypertension) {
-				this.tenthCheckBp = true;
-			}
-
-			if (vals === this.highcholestrol) {
-				this.tenthCheckHighChol = true;
-			}
-
-			if (vals === this.obesityc) {
-				this.tenthCheckObesity = true;
-			}
-
-			if (vals === this.osteoporosisc) {
-				this.tenthCheckOsteo = true;
-			}
-
-			if (vals === this.ulcer) {
-				this.tenthCheckPeptic = true;
-			}
-
-			if (vals === this.psoriasis) {
-				this.tenthCheckplaque = true;
-			}
-
-			if (vals === this.psoriaticarthritis) {
-				this.tenthCheckpsoriatic = true;
-			}
-
-			if (vals === this.others) {
-				this.tenthCheckOthers = true;
-			}
+			this.processCheckedValue(event.target.value);
 		} else {
-			this.uncheckedBoolean = true;
-			this.knowSixthChecked = checkBoval;
-			this.uncheckVar = this.yes;
-			this.sixthUncheckedVals = event.target.value;
-			//We will be using this unchecked array later
-			this.sixthUnchekedArray.push(this.sixthUncheckedVals);
-			//we need to make the check boxes as uncheckd
-			let jos = event.target.value;
-			if (jos === this.asthma) {
-				this.tenthCheckAsthma = false;
-			}
-
-			if (jos === this.diabetes) {
-				this.tenthCheckDiabetes = false;
-			}
-
-			if (jos === this.depression) {
-				this.tenthCheckDepression = false;
-			}
-
-			if (jos === this.hayFever) {
-				this.tenthCheckHayFever = false;
-			}
-
-			if (jos === this.hypertension) {
-				this.tenthCheckBp = false;
-			}
-
-			if (jos === this.highcholestrol) {
-				this.tenthCheckHighChol = false;
-			}
-
-			if (jos === this.obesityc) {
-				this.tenthCheckObesity = false;
-			}
-
-			if (jos === this.osteoporosisc) {
-				this.tenthCheckOsteo = false;
-			}
-
-			if (jos === this.ulcer) {
-				this.tenthCheckPeptic = false;
-			}
-
-			if (jos === this.psoriasis) {
-				this.tenthCheckplaque = false;
-			}
-
-			if (jos === this.psoriaticarthritis) {
-				this.tenthCheckpsoriatic = false;
-			}
-
-			if (jos === this.others) {
-				this.tenthCheckOthers = false;
-			}
+			this.processUncheckedValue(event.target.value);
 		}
 
 		this.sixthQuestionResponse = event.target.value;
 
-		this.nameToDraftSixth = event.target.name;
+		this.arrayForPushResp.push(this.sixthQuestionResponse);
+		this.arrayForPushId.push(this.sixthQuestionVersinId);
+		this.selectMedic.push(this.sixthQuestionResponse);
 
-		if (this.sixthQuestionResponse !== '') {
-			this.arrayForPushResp.push(this.sixthQuestionResponse);
-			this.arrayForPushId.push(this.sixthQuestionVersinId);
-			this.selectMedic.push(this.sixthQuestionResponse);
-		}
 		// Get the last values separately
-		this.sixthResponseValue = this.getSixthRespValue();
-
-		this.sixthVersiD = this.getSixthIdValue();
+		this.sixthResponseValue = this.getLastItem(this.arrayForPushResp);
+		this.sixthVersiD = this.getLastItem(this.arrayForPushId);
 
 		if (typeof this.sixthQResForEach !== 'undefined' && this.filterArr === '') {
 			let qResArray = this.sixthQResForEach.split(',');
@@ -2032,93 +1218,122 @@ export default class BiPspbAboutMySelfQuestionnaire extends LightningElement {
 			}
 		}
 
-		//we will be checking that  the sixth checked and unchecked array has the same count or not to make a decision on showing popup message later.
+		// Checking that the sixth checked and unchecked array has the same count or not to make a decision on showing popup message later.
 		let uniqueUnchekedArray = Array.from(new Set(this.sixthUnchekedArray));
 		this.uniqueUncheckedCount = uniqueUnchekedArray.length;
 
 		let uniqueCheckedArray = Array.from(new Set(this.sixthCheckedArray));
-
 		this.uniqueCheckedCount = uniqueCheckedArray.length;
 
-		if (this.uniqueUncheckedCount === this.uniqueCheckedCount) {
-			this.isEqualLength = true;
-		} else {
-			this.isEqualLength = false;
+		this.isEqualLength = (this.uniqueUncheckedCount === this.uniqueCheckedCount);
+	}
+
+	processCheckedValue(vals) {
+		this.uncheckedBoolean = true;
+		this.knowSixthChecked = true;
+		this.sixthCheckedArray.push(vals);
+
+		switch (vals) {
+			case this.asthma:
+				this.tenthCheckAsthma = true;
+				break;
+			case this.diabetes:
+				this.tenthCheckDiabetes = true;
+				break;
+			case this.depression:
+				this.tenthCheckDepression = true;
+				break;
+			case this.hayFever:
+				this.tenthCheckHayFever = true;
+				break;
+			case this.hypertension:
+				this.tenthCheckBp = true;
+				break;
+			case this.highcholestrol:
+				this.tenthCheckHighChol = true;
+				break;
+			case this.obesityc:
+				this.tenthCheckObesity = true;
+				break;
+			case this.osteoporosisc:
+				this.tenthCheckOsteo = true;
+				break;
+			case this.ulcer:
+				this.tenthCheckPeptic = true;
+				break;
+			case this.psoriasis:
+				this.tenthCheckplaque = true;
+				break;
+			case this.psoriaticarthritis:
+				this.tenthCheckpsoriatic = true;
+				break;
+			case this.others:
+				this.tenthCheckOthers = true;
+				break;
+			default:
+				break;
 		}
 	}
 
-	getSixthRespValue() {
-		return this.arrayForPushResp.length > 0
-			? this.arrayForPushResp[this.arrayForPushResp.length - 1]
-			: null;
-	}
+	processUncheckedValue(jos) {
+		this.uncheckedBoolean = true;
+		this.knowSixthChecked = false;
+		this.uncheckVar = this.yes;
+		this.sixthUncheckedVals = jos;
+		this.sixthUnchekedArray.push(jos);
 
-	getSixthIdValue() {
-		return this.arrayForPushId.length > 0
-			? this.arrayForPushId[this.arrayForPushId.length - 1]
-			: null;
-	}
-
-	handleSixteenthQuestionChange(event) {
-		let checkedVal = event.target.value;
-		if (checkedVal === this.yes) {
-			this.forteenththRadYes = true;
-		} else {
-			this.forteenththRadYes = false;
+		switch (jos) {
+			case this.asthma:
+				this.tenthCheckAsthma = false;
+				break;
+			case this.diabetes:
+				this.tenthCheckDiabetes = false;
+				break;
+			case this.depression:
+				this.tenthCheckDepression = false;
+				break;
+			case this.hayFever:
+				this.tenthCheckHayFever = false;
+				break;
+			case this.hypertension:
+				this.tenthCheckBp = false;
+				break;
+			case this.highcholestrol:
+				this.tenthCheckHighChol = false;
+				break;
+			case this.obesityc:
+				this.tenthCheckObesity = false;
+				break;
+			case this.osteoporosisc:
+				this.tenthCheckOsteo = false;
+				break;
+			case this.ulcer:
+				this.tenthCheckPeptic = false;
+				break;
+			case this.psoriasis:
+				this.tenthCheckplaque = false;
+				break;
+			case this.psoriaticarthritis:
+				this.tenthCheckpsoriatic = false;
+				break;
+			case this.others:
+				this.tenthCheckOthers = false;
+				break;
+			default:
+				break;
 		}
-
-		if (checkedVal === this.no) {
-			this.forteenthRadNo = true;
-		} else {
-			this.forteenthRadNo = false;
-		}
-		if (checkedVal === this.maybe) {
-			this.forteenthRadMaybe = true;
-		} else {
-			this.forteenthRadMaybe = false;
-		}
-
-		this.sixteenthQuestionResponse = event.target.value;
-		this.nameToDraftSixteenth = event.target.name;
-
-		if (this.sixteenthQuestionResponse !== '') {
-			this.arrayForPushResp.push(this.sixteenthQuestionResponse);
-			this.arrayForPushId.push(this.sixteenthQuestionVersinId);
-		}
-
-		this.sixteenthResponseValue = this.getSixteenthRespValue();
-		this.sixteenthVersId = this.getSixteenthIdValue();
 	}
 
-	getSixteenthRespValue() {
-		return this.arrayForPushResp.length > 0
-			? this.arrayForPushResp[this.arrayForPushResp.length - 1]
-			: null;
-	}
-
-	getSixteenthIdValue() {
-		return this.arrayForPushId.length > 0
-			? this.arrayForPushId[this.arrayForPushId.length - 1]
-			: null;
-	}
-
-	deleteYesBasedRes() {
-		this.sixthQResForEach = '';
-		this.sixthQVersionResForEach = '';
-	}
-
+	//valid
 	handleFifthQuestionChange(event) {
 		this.sixthQuestionVisible = event.target.value === this.yes;
 		this.fifthQuestionresponse = event.target.value;
-		this.nameToDraftFifth = event.target.name;
-		if (this.fifthQuestionresponse !== '') {
-			this.arrayForPushResp.push(this.fifthQuestionresponse);
-			this.arrayForPushId.push(this.fifthQuestionVersinId);
-		}
+		this.arrayForPushResp.push(this.fifthQuestionresponse);
+		this.arrayForPushId.push(this.fifthQuestionVersinId);
 
-		this.fifthResonseValue = this.getFifthRespValue();
+		this.fifthResonseValue = this.getLastItem(this.arrayForPushResp);
 
-		this.fifthVersionId = this.getFifthIdValue();
+		this.fifthVersionId = this.getLastItem(this.arrayForPushId);
 
 		let val = event.target.value;
 		//if the value of the fifth Question is yes then total number of question will be 16 otherwise 15.
@@ -2134,7 +1349,8 @@ export default class BiPspbAboutMySelfQuestionnaire extends LightningElement {
 			this.fifthRadYes = false;
 			this.sixthQuestionVisible = false;
 			this.customClass = 'nds-form-element nds-form-containerthree';
-			this.deleteYesBasedRes();
+			this.sixthQResForEach = '';
+			this.sixthQVersionResForEach = '';
 			//if the response value is No then we will delete the repsones of sixth Questions and also make the checkboxes as unchecked.
 			let fifthIdStore = this.storeid5;
 			DELETE_SELECTED_RESPONSE({ idOfRes: fifthIdStore })
@@ -2162,18 +1378,8 @@ export default class BiPspbAboutMySelfQuestionnaire extends LightningElement {
 		}
 	}
 
-	getFifthRespValue() {
-		return this.arrayForPushResp.length > 0
-			? this.arrayForPushResp[this.arrayForPushResp.length - 1]
-			: null;
-	}
 
-	getFifthIdValue() {
-		return this.arrayForPushId.length > 0
-			? this.arrayForPushId[this.arrayForPushId.length - 1]
-			: null;
-	}
-
+	//valid
 	handleFourthQuestionChange(event) {
 		this.checPrevoiusVal = this.fourQResForEach;
 
@@ -2216,30 +1422,104 @@ export default class BiPspbAboutMySelfQuestionnaire extends LightningElement {
 		}
 
 		this.fourthQuestionResponse = event.target.value;
-		this.nameToDraftFourth = event.target.name;
-
 		if (this.fourthQuestionResponse !== '') {
 			this.arrayForPushResp.push(this.fourthQuestionResponse);
 			this.arrayForPushId.push(this.fourthQuestionVersinId);
 			this.totalValu.push(this.fourthQuestionResponse);
 		}
 
-		this.fourthRspValue = this.getFourthRespValue();
-		this.fourthVersionId = this.getFourthIdValue();
+		this.fourthRspValue = this.getLastItem(this.arrayForPushResp);
+		this.fourthVersionId = this.getLastItem(this.arrayForPushId);
 	}
 
-	getFourthRespValue() {
-		return this.arrayForPushResp.length > 0
-			? this.arrayForPushResp[this.arrayForPushResp.length - 1]
-			: null;
+
+	resetTheValues() {
+		this.template.querySelectorAll('input').forEach((el) => {
+			const name = el.name;
+			const value = el.value;
+
+			switch (name) {
+				case 'firstQuestionResponse':
+					this.setFirstQuestionResponse(el, value);
+					break;
+				case 'secondQuestionResponse':
+					this.setSecondQuestionResponse(el, value);
+					break;
+				case 'thirdQuestionRespo':
+					this.setThirdQuestionResponse(el, value);
+					break;
+				case 'NinthQuestionResponse':
+					this.setNinthQuestionResponse(el, value);
+					break;
+				case 'fourthQuestionResponse':
+					this.setFourthQuestionResponse(el, value);
+					break;
+				case 'tenthQuestionResponse':
+					this.setTenthQuestionResponse(el, value);
+					break;
+				default:
+					// Default case if needed
+					break;
+			}
+		});
 	}
 
-	getFourthIdValue() {
-		return this.arrayForPushId.length > 0
-			? this.arrayForPushId[this.arrayForPushId.length - 1]
-			: null;
+	setFirstQuestionResponse(el, value) {
+		if ((value === "Less than a month" && this.state.isFirstLessThanMonth) ||
+			(value === "Less than 6 months" && this.state.isFirstLessSix) ||
+			(value === "Less than a year" && this.state.isFirstLessYear) ||
+			(value === "More than a year" && this.state.isFirstMoreYear)) {
+			el.checked = true;
+		}
 	}
-	
+
+	setSecondQuestionResponse(el, value) {
+		if (value === this.state.secondQuestionResponse) {
+			el.checked = true;
+		}
+	}
+
+	setThirdQuestionResponse(el, value) {
+		if (value === this.state.thirdQuestionResponse) {
+			el.checked = true;
+		}
+	}
+
+	setNinthQuestionResponse(el, value) {
+		if (value === this.state.fifthQuestionresponse) {
+			el.checked = true;
+		}
+	}
+
+	setFourthQuestionResponse(el, value) {
+		if ((value === "Relationships with friends and family" && this.state.fourthCheckRelatFam) ||
+			(value === "Relationship with Partner" && this.state.fourthCheckWithPartner) ||
+			(value === "Self Esteem" && this.state.fourthCheckSelfEsteem)) {
+			el.checked = true;
+		}
+	}
+
+	setTenthQuestionResponse(el, value) {
+		const conditionMapping = {
+			"Asthma": this.state.tenthCheckAsthma,
+			"Diabetes mellitus": this.state.tenthCheckDiabetes,
+			"Depression": this.state.tenthCheckDepression,
+			"Hay fever / Allergic conditions": this.state.tenthCheckHayFever,
+			"High blood pressure / Hypertension": this.state.tenthCheckBp,
+			"High Cholesterol": this.state.tenthCheckHighChol,
+			"Obesity": this.state.tenthCheckObesity,
+			"Osteoporosis": this.state.tenthCheckOsteo,
+			"Peptic ulcer / Gastric ulcer": this.state.tenthCheckPeptic,
+			"Plaque psoriasis": this.state.tenthCheckplaque,
+			"Psoriatic arthritis": this.state.tenthCheckpsoriatic,
+			"Others": this.state.tenthCheckOthers
+		};
+
+		if (conditionMapping[value]) {
+			el.checked = true;
+		}
+	}
+
 	//When clicked on Return back to Question buttton.This will close the popup and show you the page with all the previous response selection just before clicking the button.
 	closePopup1() {
 		if (this.isEqualLength === true) {
@@ -2256,91 +1536,8 @@ export default class BiPspbAboutMySelfQuestionnaire extends LightningElement {
 		this.isPopupOpen1 = false;
 		this.isPopupOpen1 = false;
 		this.popupmenu = false;
-
-		document.addEventListener("DOMContentLoaded", () => {
-    const container = document.querySelector('.containercolumn');
-
-    if (!container) return;
-
-    // Define the state object that holds the checked states
-    const state = {
-        isFirstLessThanMonth: true,
-        isFirstLessSix: false,
-        isFirstLessYear: false,
-        isFirstMoreYear: true,
-        secondQuestionResponse: "Male",
-        thirdQuestionResponse: "Yes",
-        fifthQuestionresponse: "No",
-        tenthQuestionResponse: "Maybe",
-        fourthCheckRelatFam: true,
-        fourthCheckWithPartner: false,
-        fourthCheckSelfEsteem: true,
-        tenthCheckAsthma: false,
-        tenthCheckDiabetes: true,
-        tenthCheckDepression: false,
-        tenthCheckHayFever: true,
-        tenthCheckBp: false,
-        tenthCheckHighChol: true,
-        tenthCheckObesity: false,
-        tenthCheckOsteo: false,
-        tenthCheckPeptic: true,
-        tenthCheckplaque: false,
-        tenthCheckpsoriatic: false,
-        tenthCheckOthers: true
-    };
-
-    // Update input elements based on the state object
-    container.querySelectorAll('input').forEach((el) => {
-        const name = el.name;
-        const value = el.value;
-
-        if (name === 'firstQuestionResponse') {
-            if ((value === "Less than a month" && state.isFirstLessThanMonth) ||
-                (value === "Less than 6 months" && state.isFirstLessSix) ||
-                (value === "Less than a year" && state.isFirstLessYear) ||
-                (value === "More than a year" && state.isFirstMoreYear)) {
-                el.checked = true;
-            }
-        }
-
-        if (name === 'secondQuestionResponse' && value === state.secondQuestionResponse) {
-            el.checked = true;
-        }
-
-        if (name === 'thirdQuestionRespo' && value === state.thirdQuestionResponse) {
-            el.checked = true;
-        }
-
-        if (name === 'NinthQuestionResponse' && value === state.fifthQuestionresponse) {
-            el.checked = true;
-        }
-
-        if (name === 'fourthQuestionResponse' && (
-            (value === "Relationships with friends and family" && state.fourthCheckRelatFam) ||
-            (value === "Relationship with Partner" && state.fourthCheckWithPartner) ||
-            (value === "Self Esteem" && state.fourthCheckSelfEsteem)
-        )) {
-            el.checked = true;
-        }
-
-        if (name === 'tenthQuestionResponse' && (
-            (value === "Asthma" && state.tenthCheckAsthma) ||
-            (value === "Diabetes mellitus" && state.tenthCheckDiabetes) ||
-            (value === "Depression" && state.tenthCheckDepression) ||
-            (value === "Hay fever / Allergic conditions" && state.tenthCheckHayFever) ||
-            (value === "High blood pressure / Hypertension" && state.tenthCheckBp) ||
-            (value === "High Cholesterol" && state.tenthCheckHighChol) ||
-            (value === "Obesity" && state.tenthCheckObesity) ||
-            (value === "Osteoporosis" && state.tenthCheckOsteo) ||
-            (value === "Peptic ulcer / Gastric ulcer" && state.tenthCheckPeptic) ||
-            (value === "Plaque psoriasis" && state.tenthCheckplaque) ||
-            (value === "Psoriatic arthritis" && state.tenthCheckpsoriatic) ||
-            (value === "Others" && state.tenthCheckOthers)
-        )) {
-            el.checked = true;
-        }
-    });
-});
+		// Update input elements based on the state object
+		this.resetTheValues();
 
 	}
 	//When clicked on cancelbuttton.This will close the popup and show you the page with 
@@ -2353,90 +1550,7 @@ export default class BiPspbAboutMySelfQuestionnaire extends LightningElement {
 		this.isPopupOpen1 = false;
 		this.popupmenu = false;
 
-	document.addEventListener("DOMContentLoaded", () => {
-    const container = document.querySelector('.containercolumn');
-
-    if (!container) return;
-
-    // Define the state object that holds the checked states
-    const state = {
-        isFirstLessThanMonth: true,
-        isFirstLessSix: false,
-        isFirstLessYear: false,
-        isFirstMoreYear: true,
-        secondQuestionResponse: "Male",
-        thirdQuestionResponse: "Yes",
-        fifthQuestionresponse: "No",
-        tenthQuestionResponse: "Maybe",
-        fourthCheckRelatFam: true,
-        fourthCheckWithPartner: false,
-        fourthCheckSelfEsteem: true,
-        tenthCheckAsthma: false,
-        tenthCheckDiabetes: true,
-        tenthCheckDepression: false,
-        tenthCheckHayFever: true,
-        tenthCheckBp: false,
-        tenthCheckHighChol: true,
-        tenthCheckObesity: false,
-        tenthCheckOsteo: false,
-        tenthCheckPeptic: true,
-        tenthCheckplaque: false,
-        tenthCheckpsoriatic: false,
-        tenthCheckOthers: true
-    };
-
-    // Update input elements based on the state object
-    container.querySelectorAll('input').forEach((el) => {
-        const name = el.name;
-        const value = el.value;
-
-        if (name === 'firstQuestionResponse') {
-            if ((value === "Less than a month" && state.isFirstLessThanMonth) ||
-                (value === "Less than 6 months" && state.isFirstLessSix) ||
-                (value === "Less than a year" && state.isFirstLessYear) ||
-                (value === "More than a year" && state.isFirstMoreYear)) {
-                el.checked = true;
-            }
-        }
-
-        if (name === 'secondQuestionResponse' && value === state.secondQuestionResponse) {
-            el.checked = true;
-        }
-
-        if (name === 'thirdQuestionRespo' && value === state.thirdQuestionResponse) {
-            el.checked = true;
-        }
-
-        if (name === 'NinthQuestionResponse' && value === state.fifthQuestionresponse) {
-            el.checked = true;
-        }
-
-        if (name === 'fourthQuestionResponse' && (
-            (value === "Relationships with friends and family" && state.fourthCheckRelatFam) ||
-            (value === "Relationship with Partner" && state.fourthCheckWithPartner) ||
-            (value === "Self Esteem" && state.fourthCheckSelfEsteem)
-        )) {
-            el.checked = true;
-        }
-
-        if (name === 'tenthQuestionResponse' && (
-            (value === "Asthma" && state.tenthCheckAsthma) ||
-            (value === "Diabetes mellitus" && state.tenthCheckDiabetes) ||
-            (value === "Depression" && state.tenthCheckDepression) ||
-            (value === "Hay fever / Allergic conditions" && state.tenthCheckHayFever) ||
-            (value === "High blood pressure / Hypertension" && state.tenthCheckBp) ||
-            (value === "High Cholesterol" && state.tenthCheckHighChol) ||
-            (value === "Obesity" && state.tenthCheckObesity) ||
-            (value === "Osteoporosis" && state.tenthCheckOsteo) ||
-            (value === "Peptic ulcer / Gastric ulcer" && state.tenthCheckPeptic) ||
-            (value === "Plaque psoriasis" && state.tenthCheckplaque) ||
-            (value === "Psoriatic arthritis" && state.tenthCheckpsoriatic) ||
-            (value === "Others" && state.tenthCheckOthers)
-        )) {
-            el.checked = true;
-        }
-    });
-});
+		this.resetTheValues();
 
 
 	}
@@ -2450,35 +1564,31 @@ export default class BiPspbAboutMySelfQuestionnaire extends LightningElement {
 			document.body.style.overflow = '';
 		}
 
-	  const allInputs = this.template.querySelectorAll('input[type="radio"]:checked');
-        const fifthQuestionChecked = this.template.querySelector('input[name="NinthQuestionResponse"]:checked');
-        const sixthQuestionChecked = this.template.querySelectorAll('input[name="tenthQuestionResponse"]:checked');
+		const allInputs = this.template.querySelectorAll('input[type="radio"]:checked');
+		const fifthQuestionChecked = this.template.querySelector('input[name="NinthQuestionResponse"]:checked');
+		const sixthQuestionChecked = this.template.querySelectorAll('input[name="tenthQuestionResponse"]:checked');
 
-        if (allInputs.length < 4) {
-			console.log('1 : ');
-            this.customFormModal = true;
-            this.isPopupOpen1 = true;
-            this.isPopupOpen = false;
-            this.checkYesOrNo = false;
-        } else if (fifthQuestionChecked && fifthQuestionChecked.value === 'No') {
-				console.log('2 : ');
-            this.customFormModal = true;
-            this.isPopupOpen1 = false;
-            this.isPopupOpen = true;
-            this.checkYesOrNo = false;
-        } else if (fifthQuestionChecked && fifthQuestionChecked.value === 'Yes' && sixthQuestionChecked.length === 0) {
-            	console.log('3 : ');
+		if (allInputs.length < 4) {
 			this.customFormModal = true;
-            this.isPopupOpen1 = true;
-            this.isPopupOpen = false;
-            this.checkYesOrNo = false;
-        } else {
-				console.log('4 : ');
-            this.customFormModal = true;
-            this.isPopupOpen1 = false;
-            this.isPopupOpen = true;
-            this.checkYesOrNo = false;
-        }
+			this.isPopupOpen1 = true;
+			this.isPopupOpen = false;
+			this.checkYesOrNo = false;
+		} else if (fifthQuestionChecked && fifthQuestionChecked.value === 'No') {
+			this.customFormModal = true;
+			this.isPopupOpen1 = false;
+			this.isPopupOpen = true;
+			this.checkYesOrNo = false;
+		} else if (fifthQuestionChecked && fifthQuestionChecked.value === 'Yes' && sixthQuestionChecked.length === 0) {
+			this.customFormModal = true;
+			this.isPopupOpen1 = true;
+			this.isPopupOpen = false;
+			this.checkYesOrNo = false;
+		} else {
+			this.customFormModal = true;
+			this.isPopupOpen1 = false;
+			this.isPopupOpen = true;
+			this.checkYesOrNo = false;
+		}
 	}
 
 	//hiding the popup
@@ -2515,76 +1625,74 @@ export default class BiPspbAboutMySelfQuestionnaire extends LightningElement {
 	//on click of the confirm button the same process goes here for the same as in save as draft
 	confirmSubmission() {
 
-	 let fourthResponseArray = [];
+		let fourthResponseArray = [];
 
-    if (this.fourthCheckRelatFam) fourthResponseArray.push(this.relationshipwithff);
-    if (this.fourthCheckWithPartner) fourthResponseArray.push(this.relationshipwithpartner);
-    if (this.fourthCheckSelfEsteem) fourthResponseArray.push(this.selfesteem);
+		if (this.fourthCheckRelatFam) fourthResponseArray.push(this.relationshipwithff);
+		if (this.fourthCheckWithPartner) fourthResponseArray.push(this.relationshipwithpartner);
+		if (this.fourthCheckSelfEsteem) fourthResponseArray.push(this.selfesteem);
 
-    this.fourthRspValue = [...new Set(fourthResponseArray)].join(', ');
+		this.fourthRspValue = [...new Set(fourthResponseArray)].join(', ');
+		if (this.fourthRspValue === '') {
+			this.fourthVersionId = '';
+		}
+		let commonArray = [];
 
-    let commonArray = [];
+		if (this.tenthCheckAsthma) commonArray.push(this.asthma);
+		if (this.tenthCheckDiabetes) commonArray.push(this.diabetes);
+		if (this.tenthCheckDepression) commonArray.push(this.depression);
+		if (this.tenthCheckHayFever) commonArray.push(this.hayFever);
+		if (this.tenthCheckBp) commonArray.push(this.hypertension);
+		if (this.tenthCheckHighChol) commonArray.push(this.highcholestrol);
+		if (this.tenthCheckObesity) commonArray.push(this.obesityc);
+		if (this.tenthCheckOsteo) commonArray.push(this.osteoporosisc);
+		if (this.tenthCheckPeptic) commonArray.push(this.ulcer);
+		if (this.tenthCheckplaque) commonArray.push(this.psoriasis);
+		if (this.tenthCheckpsoriatic) commonArray.push(this.psoriaticarthritis);
+		if (this.tenthCheckOthers) commonArray.push(this.others);
 
-    if (this.tenthCheckAsthma) commonArray.push(this.asthma);
-    if (this.tenthCheckDiabetes) commonArray.push(this.diabetes);
-    if (this.tenthCheckDepression) commonArray.push(this.depression);
-    if (this.tenthCheckHayFever) commonArray.push(this.hayFever);
-    if (this.tenthCheckBp) commonArray.push(this.hypertension);
-    if (this.tenthCheckHighChol) commonArray.push(this.highcholestrol);
-    if (this.tenthCheckObesity) commonArray.push(this.obesityc);
-    if (this.tenthCheckOsteo) commonArray.push(this.osteoporosisc);
-    if (this.tenthCheckPeptic) commonArray.push(this.ulcer);
-    if (this.tenthCheckplaque) commonArray.push(this.psoriasis);
-    if (this.tenthCheckpsoriatic) commonArray.push(this.psoriaticarthritis);
-    if (this.tenthCheckOthers) commonArray.push(this.others);
+		this.sixthResponseValue = [...new Set(commonArray)].join(', ');
+		if (this.sixthResponseValue === '') {
+			this.sixthVersiD = '';
+		}
+		let responseArray = [];
+		let versionArray = [];
 
-    this.sixthResponseValue = [...new Set(commonArray)].join(', ');
+		const questions = [
+			{ response: this.firstQuestionResponse, each: this.firstQResForEach, version: this.firstQVersionResForEach, value: this.firstRspValue, id: this.firstRespVersId },
+			{ response: this.secondQuestionResponse, each: this.secQResForEach, version: this.secQVersionResForEach, value: this.secondRspValue, id: this.secondRespVersId },
+			{ response: this.thirdQuestionResponse, each: this.thirdQResForEach, version: this.thirdQVersionResForEach, value: this.thirdRspValue, id: this.thirdVersionId },
+			{ response: this.fourthQuestionResponse, each: this.fourQResForEach, version: this.fourQVersionResForEach, value: this.fourthRspValue, id: this.fourthVersionId },
+			{ response: this.fifthQuestionresponse, each: this.fifthQResForEach, version: this.fifthQVersionResForEach, value: this.fifthResonseValue, id: this.fifthVersionId },
+			{ response: this.sixthQuestionResponse, each: this.sixthQResForEach, version: this.sixthQVersionResForEach, value: this.sixthResponseValue, id: this.sixthVersiD },
+		];
+		questions.forEach(question => {
+			if (question.response === '' && question.each !== '') {
+				responseArray.push(question.each);
+				versionArray.push(question.version);
 
-    let responseArray = [];
-    let versionArray = [];
+			} else {
+				responseArray.push(question.value);
+				versionArray.push(question.id);
+			}
+		});
 
-    const questions = [
-        { response: this.firstQuestionResponse, each: this.firstQResForEach, version: this.firstQVersionResForEach, value: this.firstRspValue, id: this.firstRespVersId },
-        { response: this.secondQuestionResponse, each: this.secQResForEach, version: this.secQVersionResForEach, value: this.secondRspValue, id: this.secondRespVersId },
-        { response: this.thirdQuestionResponse, each: this.thirdQResForEach, version: this.thirdQVersionResForEach, value: this.thirdRspValue, id: this.thirdVersionId },
-        { response: this.fourthQuestionResponse, each: this.fourQResForEach, version: this.fourQVersionResForEach, value: this.fourthRspValue, id: this.fourthVersionId },
-        { response: this.fifthQuestionresponse, each: this.fifthQResForEach, version: this.fifthQVersionResForEach, value: this.fifthResonseValue, id: this.fifthVersionId },
-        { response: this.sixthQuestionResponse, each: this.sixthQResForEach, version: this.sixthQVersionResForEach, value: this.sixthResponseValue, id: this.sixthVersiD },
-    ];
-
-    questions.forEach(question => {
-        if (question.response === '' && question.each !== '') {
-            responseArray.push(question.each);
-            versionArray.push(question.version);
-        } else {
-            responseArray.push(question.value);
-            versionArray.push(question.id);
-
-          
-        }
-    });
-
-    this.realRespArray = responseArray;
-    this.realAssesVerArra = versionArray;
+		this.realRespArray = responseArray;
+		this.realAssesVerArra = versionArray;
 		let nonEmptyResponses = this.realRespArray.filter(
 			(response) => response !== ''
 		);
-
 		let nonEmptyIds = this.realAssesVerArra.filter((id) => id !== '');
-
 		this.checkinc = 0;
 		if (nonEmptyResponses.length >= 14) {
 
 			this.checkinc = 1;
 		}
-		let de = this.checkinc;
-
 		if (this.realRespArray.length > 0) {
 			SUBMIT_ASSESSMENT_RESPONSE({
 				darftQuestionIds: nonEmptyIds,
 				draftResponseTexts: nonEmptyResponses,
 				isItDraftOrSubmit: true,
-				isQsqAfterTwoMonths:false
+				isQsqAfterTwoMonths: false
 			})
 				.then(() => {
 
@@ -2594,11 +1702,9 @@ export default class BiPspbAboutMySelfQuestionnaire extends LightningElement {
 				.catch((error) => {
 					this.showToast(ERROR_MESSAGE, error.message, ERROR_VARIANT);// Catching Potential Error from Apex
 				});
-		
-}
-}
-	
-	
+
+		}
+	}
 	// showToast used for all the error messages caught
 	showToast(title, message, variant) {
 		let event = new ShowToastEvent({

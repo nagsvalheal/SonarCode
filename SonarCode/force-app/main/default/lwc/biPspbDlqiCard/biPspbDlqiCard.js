@@ -317,7 +317,7 @@ export default class BiPspbDlqiCard extends LightningElement {
 				window.location.assign(this.urlq + labels.DLQI_URL);
 			}
 		} else if (this.buttonLabel === labels.RESUME) {
-			window.location.assign(this.urlq + lables.DLQI_URL);
+			window.location.assign(this.urlq + labels.DLQI_URL);
 		} else {
 			window.location.assign(this.urlq + labels.DLQI_COMPLETED_URL);
 		}

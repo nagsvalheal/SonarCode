@@ -103,7 +103,6 @@ public without sharing class BI_PSPB_MessageCenterCtrl {
 		ex
 	  );
 	}
-	system.debug('historyNotifications'+historyNotifications);
 	return historyNotifications;
   }
 	/**
@@ -123,12 +122,7 @@ public without sharing class BI_PSPB_MessageCenterCtrl {
     List<SObject> relatedTasks = new List<SObject>();
     try {
         // Query to get related treatment records
-        List<BI_PSPB_Treatment_Reminder__c> relatedTasksTreatmentRecords = [
-            SELECT Id, Name, BI_PSPB_Care_Program_Enrollee__r.Id
-            FROM BI_PSPB_Treatment_Reminder__c
-            WHERE BI_PSPB_Care_Program_Enrollee__r.Id = :enroleeId
-        ];
-
+        List<BI_PSPB_Treatment_Reminder__c> relatedTasksTreatmentRecords = getTreatmentReminders(enroleeId);
         // Validate the enroleeId
         if (String.isBlank(enroleeId)) {
             BI_PSP_LogMessagesUtility.logError(
@@ -156,6 +150,7 @@ public without sharing class BI_PSPB_MessageCenterCtrl {
                 'OR Status = \'' + BI_PSPB_ConstantsClassCtrl.actionTypeRead + '\' ' +
                 'OR Status = \'' + BI_PSPB_ConstantsClassCtrl.actionTypeNotificationTypeExpired + '\') ' +
                 'ORDER BY CreatedDate DESC';
+            System.debug('conditions ' + conditions);
         } else {
             conditions = '(WhatId = \'' + enroleeId + '\' ' +
                 (relatedTasksTreatmentRecords.isEmpty() ? '' : 'OR WhatId = \'' + relatedTasksTreatmentRecords[0].Id + '\'') +
@@ -171,8 +166,6 @@ public without sharing class BI_PSPB_MessageCenterCtrl {
             conditions,
             false
         );
-
-        System.debug('relatedTasks: ' + relatedTasks);
         
     } catch (Exception ex) {
         BI_PSP_LogMessagesUtility.exceptionLogMessage(
@@ -222,5 +215,29 @@ public without sharing class BI_PSPB_MessageCenterCtrl {
 	);
 	}
 	return notificationRecords;
+	}
+    
+    /**
+	 * @description  Retrieves treatment reminders based on the given criteria.
+	 * @param enrolleeId The ID of the record related to the treatment reminders.
+	 * @return A list of BI_PSPB_Treatment_Reminder__c objects that match the criteria.
+	 */
+	public static List<BI_PSPB_Treatment_Reminder__c> getTreatmentReminders(
+		Id enrolleeId
+	) {
+		String fields = 'Id, Name, BI_PSPB_Care_Program_Enrollee__r.Id';
+		String conditions =
+			'BI_PSPB_Care_Program_Enrollee__r.Id = \'' +
+			enrolleeId +
+			'\' ';
+
+		// Execute query and return results as List<Task>
+		List<SObject> results = BI_PSP_CommonQueryUtility.executeQuery(
+			'BI_PSPB_Treatment_Reminder__c',
+			fields,
+			conditions,
+			false
+		);
+		return (List<BI_PSPB_Treatment_Reminder__c>) results;
 	}
 }

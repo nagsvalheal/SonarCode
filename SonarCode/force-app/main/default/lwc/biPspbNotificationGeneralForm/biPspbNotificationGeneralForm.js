@@ -2,7 +2,6 @@
 //To import the libraries
 import { LightningElement} from 'lwc';
 import { NavigationMixin } from 'lightning/navigation';
-import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 //To import the Apex class
 import GENERAL_TASK from '@salesforce/apex/BI_PSPB_MessageCenterCtrl.getGeneralNotifyRecords';
 import ENROLLE from '@salesforce/apex/BI_PSP_ChallengeEnrolleCtrl.getEnrolle';
@@ -45,23 +44,24 @@ export default class BiPspbNotificationGeneralForm extends NavigationMixin(Light
 	filteredData = [];
 	// Declaration of variables and assigning image
 	questionImg = resources.NOTIFY_QUESTION_IMG;
-	contentImg = resources.TREATMENT_IMG;
-	symptomImg = resources.AVATAR_IMG;
+	contentImg = resources.TREATMENT_IMAGE;
+	symptomImg = resources.AVATAR_IMAGE;
 	challengeImg = resources.CHALLENGES_IMG;
-	communityImg = resources.COMMUNITY_IMG;
-	treatmentImg = resources.TREATMENT_IMG;
-	treatmentVideoImg = resources.TREATMENT_IMG;
+	communityImg = resources.COMMUNITY_IMAGE;
+	treatmentImg = resources.TREATMENT_IMAGE;
+	treatmentVideoImg = resources.TREATMENT_IMAGE;
 	// Called when the component is inserted into the DOM
 	connectedCallback() {
 		try {
 			this.initializeComponent();
-		} catch (err) {
-			this.showToast(resources.ERROR_MESSAGE, err.message, resources.ERROR_VARIANT);
+		} catch {
+			let globalThis=window;
+			globalThis.location.href = resources.ERROR_PAGE;
+			globalThis.sessionStorage.setItem('errorMessage', resources.ERROR_FOR_GENERAL);
 		}
 	}
 	// Initialize component by fetching enrollee data and general records
 	initializeComponent() {
-		try{
 			ENROLLE({ userId: this.userId })
 				.then(result => {
 					if (result && result[0].patientEnrolle) {
@@ -69,53 +69,59 @@ export default class BiPspbNotificationGeneralForm extends NavigationMixin(Light
 						this.determineSiteUrl();
 						this.fetchData(this.accountName);
 					} else {
-						this.showToast(resources.ERROR_MESSAGE, resources.NO_RECORDS, resources.ERROR_VARIANT);
+						let globalThis=window;
+						globalThis.location.href = resources.ERROR_PAGE;
+						globalThis.sessionStorage.setItem('errorMessage', resources.ENROLLEE_NOT_FOUND);
 					}
 				})
-				.catch(error => {
-					this.showToast(resources.ERROR_MESSAGE, error.message, resources.ERROR_VARIANT);
+				.catch(() => {
+					let globalThis=window;
+					globalThis.location.href = resources.ERROR_PAGE;
+					globalThis.sessionStorage.setItem('errorMessage', resources.FETCHING_ENROLLEE_ERROR);
 				});
-		} catch(error){
-			this.showToast(resources.ERROR_MESSAGE, error.message, resources.ERROR_VARIANT);
-		}
 	}
 	// Determine the site URL and set options based on the site
 	determineSiteUrl() {
-		let globalThis = window;
-		let CURRENT_URL = globalThis.location?.href;
-		const URL_OBJECT = new URL(CURRENT_URL);
-		const PATH = URL_OBJECT.pathname;
-		const PATH_COMPONENTS = PATH.split('/');
-		const DESIRED_COMPONENT = PATH_COMPONENTS.find(component =>
-			[BRANDED_URL.toLowerCase(), UNASSIGNED_URL.toLowerCase()].includes(component.toLowerCase())
-		);
+		try{
+			let globalThis = window;
+			let CURRENT_URL = globalThis.location?.href;
+			const URL_OBJECT = new URL(CURRENT_URL);
+			const PATH = URL_OBJECT.pathname;
+			const PATH_COMPONENTS = PATH.split('/');
+			const DESIRED_COMPONENT = PATH_COMPONENTS.find(component =>
+				[BRANDED_URL.toLowerCase(), UNASSIGNED_URL.toLowerCase()].includes(component.toLowerCase())
+			);
 
-		if (DESIRED_COMPONENT.toLowerCase() === BRANDED_URL.toLowerCase()) {
-			this.urlq = resources.BRANDED_URL;
-			this.options = [
-				{ label: resources.ALL, value: resources.ALL },
-				{ label: resources.CHALLENGES, value: resources.CHALLENGES },
-				{ label: resources.SYMPTOM, value: resources.SYMPTOM },
-				{ label: resources.NEW_CONTENT, value: resources.NEW_CONTENT },
-				{ label: resources.COMMUNITY, value: resources.COMMUNITY },
-				{ label: resources.TREATMENT_REMINDERS, value: resources.TREATMENT_REMINDERS },
-				{ label: resources.TREATMENT_VIDEO, value: resources.TREATMENT_VIDEO}
-			];
-		} else {
-			this.urlq = resources.UNASSIGNED_SITE_URL;
-			this.options = [
-				{ label: resources.ALL, value: resources.ALL },
-				{ label: resources.CHALLENGES, value: resources.CHALLENGES },
-				{ label: resources.SYMPTOM, value: resources.SYMPTOM },
-				{ label: resources.NEW_CONTENT, value: resources.NEW_CONTENT },
-				{ label: resources.COMMUNITY, value: resources.COMMUNITY },
-				{ label: resources.TREATMENT_VIDEO, value: resources.TREATMENT_VIDEO}
-			];
+			if (DESIRED_COMPONENT.toLowerCase() === BRANDED_URL.toLowerCase()) {
+				this.urlq = resources.BRANDED_URL;
+				this.options = [
+					{ label: resources.ALL, value: resources.ALL },
+					{ label: resources.CHALLENGES, value: resources.CHALLENGES },
+					{ label: resources.SYMPTOM, value: resources.SYMPTOM },
+					{ label: resources.NEW_CONTENT, value: resources.NEW_CONTENT },
+					{ label: resources.COMMUNITY, value: resources.COMMUNITY },
+					{ label: resources.TREATMENT_REMINDERS, value: resources.TREATMENT_REMINDERS },
+					{ label: resources.TREATMENT_VIDEO, value: resources.TREATMENT_VIDEO}
+				];
+			} else {
+				this.urlq = resources.UNASSIGNED_SITE_URL;
+				this.options = [
+					{ label: resources.ALL, value: resources.ALL },
+					{ label: resources.CHALLENGES, value: resources.CHALLENGES },
+					{ label: resources.SYMPTOM, value: resources.SYMPTOM },
+					{ label: resources.NEW_CONTENT, value: resources.NEW_CONTENT },
+					{ label: resources.COMMUNITY, value: resources.COMMUNITY },
+					{ label: resources.TREATMENT_VIDEO, value: resources.TREATMENT_VIDEO}
+				];
+			}
+		} catch {
+			let globalThis=window;
+			globalThis.location.href = resources.ERROR_PAGE;
+			globalThis.sessionStorage.setItem('errorMessage', resources.URL_TYPE_ERROR);
 		}
 	}
 	// Fetch all general records
 	fetchData(patientId) {
-		try{
 			GENERAL_TASK({ enroleeId: patientId })
 				.then(result => {
 					this.allData = result;
@@ -138,10 +144,10 @@ export default class BiPspbNotificationGeneralForm extends NavigationMixin(Light
 						Readbutton: obj.BI_PSP_Category__c === resources.NEW_CONTENT,
 						contentsimg: obj.BI_PSP_Category__c === resources.NEW_CONTENT,
 						Comunityimage: obj.BI_PSP_Category__c === resources.COMMUNITY,
-						Combutton: obj.BI_PSP_Category__c === resources.COMMUNITY && obj.BI_PSP_ChatterType__c === resources.BI_PSP_CREATE_POST,
-						Follwersbutton: obj.BI_PSP_Category__c === resources.COMMUNITY && obj.BI_PSP_ChatterType__c === resources.BI_PSP_FOLLOW,
-						Reactionbutton: obj.BI_PSP_Category__c === resources.COMMUNITY && obj.BI_PSP_ChatterType__c === resources.BI_PSP_REACTION,
-						Commentsbutton: obj.BI_PSP_Category__c === resources.COMMUNITY && obj.BI_PSP_ChatterType__c === resources.BI_PSP_COMMENT,
+						Combutton: obj.BI_PSP_Category__c === resources.COMMUNITY && obj.BI_PSP_ChatterType__c === resources.CREATE_POST,
+						Follwersbutton: obj.BI_PSP_Category__c === resources.COMMUNITY && obj.BI_PSP_ChatterType__c === resources.FOLLOW,
+						Reactionbutton: obj.BI_PSP_Category__c === resources.COMMUNITY && obj.BI_PSP_ChatterType__c === resources.REACTION,
+						Commentsbutton: obj.BI_PSP_Category__c === resources.COMMUNITY && obj.BI_PSP_ChatterType__c === resources.COMMENT,
 						treatmentVideoButton: obj.BI_PSP_Category__c === resources.TREATMENT_VIDEO,
 						sympimg: obj.BI_PSP_Category__c === resources.SYMPTOM,
 						viewButton: obj.BI_PSP_Category__c === resources.CHALLENGES,
@@ -151,12 +157,11 @@ export default class BiPspbNotificationGeneralForm extends NavigationMixin(Light
 						FormattedDate: this.formatDate(obj.CreatedDate)
 					}));
 				})
-				.catch(err => {
-					this.showToast(resources.ERROR_MESSAGE, err.message, resources.ERROR_VARIANT);
+				.catch(() => {
+					let globalThis=window;
+					globalThis.location.href = resources.ERROR_PAGE;
+					globalThis.sessionStorage.setItem('errorMessage', resources.ERROR_FOR_GENERAL);
 				});
-		} catch(error){
-			this.showToast(resources.ERROR_MESSAGE, error.message, resources.ERROR_VARIANT);
-		}
 	}
 	// To display recent 3 records, on clicking Load More, shows all the records
 	get displayedGeneralValue() {
@@ -208,10 +213,10 @@ export default class BiPspbNotificationGeneralForm extends NavigationMixin(Light
 			case resources.COMMUNITY:
 				this.handleCategory(this.allData, resources.COMMUNITY, {
 					Comunityimage: true,
-					Combutton: (obj) => obj.BI_PSP_ChatterType__c === resources.BI_PSP_CREATE_POST,
-					Follwersbutton: (obj) => obj.BI_PSP_ChatterType__c === resources.BI_PSP_FOLLOW,
-					Reactionbutton: (obj) => obj.BI_PSP_ChatterType__c === resources.BI_PSP_REACTION,
-					Commentsbutton: (obj) => obj.BI_PSP_ChatterType__c === resources.BI_PSP_COMMENT
+					Combutton: (obj) => obj.BI_PSP_ChatterType__c === resources.CREATE_POST,
+					Follwersbutton: (obj) => obj.BI_PSP_ChatterType__c === resources.FOLLOW,
+					Reactionbutton: (obj) => obj.BI_PSP_ChatterType__c === resources.REACTION,
+					Commentsbutton: (obj) => obj.BI_PSP_ChatterType__c === resources.COMMENT
 				});
 				break;	
 			case resources.TREATMENT_REMINDERS:
@@ -220,11 +225,11 @@ export default class BiPspbNotificationGeneralForm extends NavigationMixin(Light
 				});
 				break;
 			case resources.TREATMENT_VIDEO:
-			this.handleCategory(this.allData, resources.TREATMENT_VIDEO, {
-				treatmentVideoImg: true,
-				treatmentVideoButton: true
-			});
-			break;
+				this.handleCategory(this.allData, resources.TREATMENT_VIDEO, {
+					treatmentVideoImg: true,
+					treatmentVideoButton: true
+				});
+				break;
 			default:
 				break;
 		}
@@ -263,7 +268,6 @@ export default class BiPspbNotificationGeneralForm extends NavigationMixin(Light
 	}	
 	//Navigate to respective page based on the category type
 	updategeneraltask(event) {
-		try {
 			this.selectedId = event.currentTarget.dataset.taskId;
 			TASK_UPDATE({ taskId: this.selectedId })
 				.then(result => {
@@ -282,16 +286,16 @@ export default class BiPspbNotificationGeneralForm extends NavigationMixin(Light
 							break;
 						case resources.COMMUNITY:
 							switch (this.chatterType) {
-								case resources.BI_PSP_FOLLOW:
+								case resources.FOLLOW:
 									this.navtofollow();
 									break;
-								case resources.BI_PSP_CREATE_POST:
+								case resources.CREATE_POST:
 									this.navtopost();
 									break;
-								case resources.BI_PSP_COMMENT:
+								case resources.COMMENT:
 									this.navtocomments();
 									break;
-								case resources.BI_PSP_REACTION:
+								case resources.REACTION:
 									this.navtoreaction();
 									break;
 								default:
@@ -305,66 +309,53 @@ export default class BiPspbNotificationGeneralForm extends NavigationMixin(Light
 							break;
 					}
 				})
-				.catch(error => {
-					this.showToast(resources.ERROR_MESSAGE, error.message, resources.ERROR_VARIANT);
+				.catch(() => {
+					let globalThis=window;
+					globalThis.location.href = resources.ERROR_PAGE;
+					globalThis.sessionStorage.setItem('errorMessage', resources.UPDATE_NOTIFICATION_ERROR);
 				});
-		}
-		catch (err) {
-			this.showToast(resources.ERROR_MESSAGE, err.message, resources.ERROR_VARIANT);
-		}
 	}
 	//Navigate to followers page
 	navtofollow() {
 		let globalThis = window;
-		globalThis.location?.assign(this.urlq + resources.BI_PSP_CHATTER_FOLLOWER);
+		globalThis.location?.assign(this.urlq + resources.CHATTER_FOLLOWER);
 	}
 	// Navigate to my post page
 	navtopost() {
 		let globalThis = window;
 		globalThis.localStorage?.setItem('selectedItemIdforCreatepost', this.chatterFeedId);
-		globalThis.location?.assign(this.urlq + resources.BI_PSP_ALL_POST_URL);
+		globalThis.location?.assign(this.urlq + resources.ALL_POST_URL);
 	}
 	// Navigate to my post page
 	navtocomments() {
 		let globalThis = window;
 		globalThis.localStorage?.setItem('selectedItemIdforComment', this.chatterFeedId);
-		globalThis.location?.assign(this.urlq + resources.BI_PSP_CHATTER_MY_POST);
+		globalThis.location?.assign(this.urlq + resources.CHATTER_MY_POST);
 	}
 	// Navigate to my post page
 	navtoreaction() {
 		let globalThis = window;
 		globalThis.localStorage?.setItem('selectedItemId', this.chatterFeedId);
-		globalThis.location?.assign(this.urlq + resources.BI_PSP_CHATTER_MY_POST);
+		globalThis.location?.assign(this.urlq + resources.CHATTER_MY_POST);
 	}
 	// Navigate to symptom page
 	navigatesymptom() {
 		let globalThis = window;
-		globalThis.location?.assign(this.urlq + resources.BI_PSPB_SYMPTOM_TRACKER_MAIN);
+		globalThis.location?.assign(this.urlq + resources.SYMPTOM_TRACKER_MAIN);
 	}
 	// Navigate to Outstanding questionnaire page
 	navigatetonewcontent() {
 		let globalThis = window;
-		globalThis.location?.assign(this.urlq + resources.BI_PSPB_OUTSTANDING_QUESTIONNAIRE_URL);
+		globalThis.location?.assign(this.urlq + resources.OUTSTANDING_QUESTIONNAIRE_URL);
 	}
 	// Navigate to challenges page
 	navigatetochallnge() {
 		let globalThis = window;
-		globalThis.location?.assign(this.urlq + resources.BI_PSP_CHALLENGESURL);
+		globalThis.location?.assign(this.urlq + resources.CHALLENGESURL);
 	}
 	// Navigate to treatment video page
 	navtovideo() {
 		let globalThis = window;
-		globalThis.location?.assign(this.urlq + resources.BI_PSP_INFO_CENTER_URL);
-	}
-	//It is used to display the toast
-	showToast(title, message, variant) {
-		if (typeof window !== 'undefined') {
-			const event = new ShowToastEvent({
-				title: title,
-				message: message,
-				variant: variant
-			});
-			this.dispatchEvent(event);
-		}
+		globalThis.location?.assign(this.urlq + resources.INFO_CENTER_URL);
 	}
 }

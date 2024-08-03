@@ -1,13 +1,11 @@
-/*This LWC (BiPspbReminderNotificationSett) checks for patient or caregiver and navigates to
+/*This LWC checks for patient or caregiver and navigates to
 notification settings*/ 
 // To import libraries
 import { LightningElement } from 'lwc';
-import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 // Import Apex Classes
 import PROFILE_DETAILS from '@salesforce/apex/BI_PSPB_LoginCtrl.profileDetails';
 // Importing all the resources used here from the file biPspbReminderNotificationSettResources.js.
 import {resources} from 'c/biPspbNotificationReminderResources';
-
 export default class BiPspbReminderNotificationSetting extends LightningElement {
 	// Variable declaration and assigning values to it.
 	question = resources.QUESTION;
@@ -30,8 +28,10 @@ export default class BiPspbReminderNotificationSetting extends LightningElement 
 			this.setCurrentPageUrl();
 			this.parseUrlSegments();
 			this.fetchProfileDetails();
-		} catch (err) {
-			this.showToast(resources.ERROR_MESSAGE, err.body.message, resources.ERROR_VARIANT);
+		} catch {
+			let globalThis=window;
+			globalThis.location.href = resources.ERROR_PAGE;
+			globalThis.sessionStorage.setItem('errorMessage', resources.ERROR_FOR_PROFILE);
 		}
 	}
 	// To get the url of the current page.
@@ -50,8 +50,10 @@ export default class BiPspbReminderNotificationSetting extends LightningElement 
 			.then(profile => {
 				this.profileName = profile.Name;
 			})
-			.catch(error => {
-				this.showToast(resources.ERROR_MESSAGE, error.body.message, resources.ERROR_VARIANT);
+			.catch(() => {
+				let globalThis=window;
+				globalThis.location.href = resources.ERROR_PAGE;
+				globalThis.sessionStorage.setItem('errorMessage', resources.ERROR_FOR_PROFILE);
 			});
 	}
 	// Redirects users to their notification settings based on their profile (patient or caregiver).
@@ -67,16 +69,5 @@ export default class BiPspbReminderNotificationSetting extends LightningElement 
 			const MERGED_URL =  this.siteUrlBranded + this.caregiverNotificationUrl;
 			window.location.assign(MERGED_URL);
 			}    
-	}
-	// To show toast message when an error occurs.
-	showToast(title, message, variant) {
-		if (typeof window !== "undefined") {
-		const EVENT = new ShowToastEvent({
-			title: title,
-			message: message,
-			variant: variant
-		});
-		this.dispatchEvent(EVENT);
-		}
 	}
 }
