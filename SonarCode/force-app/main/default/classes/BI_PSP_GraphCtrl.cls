@@ -6,7 +6,7 @@ Version    Author      Date              Detail         Description
 1.0        Gowsic N    10-Dec-2023       Created        Initial development
 1.1        Saran S     20-Apr-2024       Updated        Add log, null check, descriptions   
 */
-public with sharing class BI_PSP_QuestionnaireGraphCtrl {
+public with sharing class BI_PSP_GraphCtrl {
 	/*
 @description Method for getting Symptom Tracker details.
 Retrieves Symptom Tracker details based on the provided parameters.
@@ -108,7 +108,7 @@ Retrieves Questionnaire details based on the provided parameters.
 			BI_SFCOE_LOG_Util.handleException(
 				ex,
 				BI_PSP_QuestionnaireConstant.applicationName,
-				BI_PSP_QuestionnaireGraphCtrl.class.toString(),
+				BI_PSP_GraphCtrl.class.toString(),
 				null,
 				System.now()
 			);
@@ -161,7 +161,7 @@ Retrieves Questionnaire details based on the provided parameters.
 			}
 			
 		} catch (Exception ex) {
-				BI_PSP_LogMessagesUtility.exceptionLogMessage(BI_PSP_QuestionnaireConstant.emptyAssesment, BI_PSP_QuestionnaireGraphCtrl.class.toString(), ex);
+				BI_PSP_LogMessagesUtility.exceptionLogMessage(BI_PSP_QuestionnaireConstant.emptyAssesment, BI_PSP_GraphCtrl.class.toString(), ex);
 		}
         // Return null if no assessment ids found, returning null is required because we have a functionality that requires null value to be returned
 			if (assessments.isEmpty()) {

@@ -21,13 +21,107 @@ import STATE from "@salesforce/apex/BI_PSPB_EnrollmentUtilities.getStates";
 
 import { resource } from "c/biPspbEnrollmentFormResource";
 
+
+
 export default class BiPspbHcpEnrollment extends LightningElement {
+	//Html Labels
+	placeLicense = resource.PLACE_LICENSE;
+	placePractice = resource.PLACE_PRACTICE;
+	placeFax = resource.PLACE_FAX;
+	placeDrug = resource.PLACE_DRUG;
+	placeDrugCode = resource.PLACE_DRUG_CODE;
+	placeMg = resource.PLACE_MG;
+	placeQuantity = resource.PLACE_QUANTITY;
+	placeRefills = resource.PLACE_REFILLS;
+	placeFirst = resource.PLACE_FIRST;
+	placeLast = resource.PLACE_LAST;
+	placeDob = resource.PLACE_DOB;
+	placeSelect = resource.PLACE_SELECT;
+	placeEmail = resource.PLACE_EMAIL;
+	placePhysician = resource.PLACE_PHYSICIAN;
+	placeAccess = resource.PLACE_ACCESS;
+	placePhone = resource.PLACE_PHONE;
+	placeAddress = resource.PLACE_ADDRESS;
+	placeCountry = resource.PLACE_COUNTRY;
+	placeCity = resource.PLACE_CITY;
+	placeState = resource.PLACE_STATE;
+	placeStreet = resource.PLACE_STREET;
+	placeZip = resource.PLACE_ZIPCODE;
+	prescriptedDate = resource.PRESCRIPTED_DATE;
+	numberOfRefills = resource.NUMBER_OF_REFILLS;
+	quentity = resource.QUENTITY;
+	frequency = resource.FREQUENCY_LABEL;
+	drugCode = resource.DRUG_CODE;
+	dosage = resource.DOSAGE_LABEL;
+	units = resource.UNITS;
+	drugLabel = resource.DRUG_LABEL;
+	unableToDrug = resource.UNABLE_TO_DRUG;
+	alreadyExit = resource.ALREADY_EXIT;
+	matchingInfo = resource.MATCHING_INFO;
+	faxValid = resource.FAX_VALID;
+	faxValue = resource.FAX_VALUE;
+	practiceType = resource.PRACTICE_TYPE_VALUE;
+	practiceRequired = resource.PRACTICE_REQUIRED;
+	practiceValid = resource.PRACTICE_VALID;
+	practiceName = resource.PRACTICE_NAME_LABEL;
+	licenseValid = resource.LICENSE_VALID;
+	licenseNumberLabel = resource.LICENSE_NUMBER_VALUE;
+	clickHere = resource.CLICK_HERE;
+	physicianId = resource.PHYSICIAN_ID;
+	enrollPatient = resource.ENROLL_PATIENT;
+	physicianName = resource.PHYSICIAN_NAME;
+progressLabel = resource.PROGRESS_LABEL;
+submit = resource.SUBMIT;
+terms = resource.TERMS;
+agree = resource.AGREE;
+consentInfo = resource.CONSENT_INFO;
+prescriptionInfo = resource.PRESCRIPTION_INFO;
+fieldWidth = resource.FIELD_WIDTH;
+areMandotory = resource.ARE_MANDOTORY ;
+patientinfo = resource.PATIENT_INFO ;
+firstNameLabel = resource.FIRST_NAME_LABEL ;
+firstNameValid = resource.FIRSTNAME_VALIDE ;
+lastNameValid = resource.LASTNAME_VALIDE ;
+lastNameLabel = resource.LASTNAME_LABEL ;
+dobLabel = resource.DOB_LABEL;
+patientDobErr = resource.PATIENT_DATEOFBIRTH;
+beforeAge = resource.BEFORE_EIGHTINE ;
+yearOlder = resource.YEAR_OLDER ;
+generalLabel = resource.GENDER_LABEL;
+emailLabelMand = resource.EMAIL_LABEL_STAR ;
+validEmail = resource.VALIDE_EMAIL ;
+existingEmail = resource.EXISTING_EMAIL ;
+cancelLabel = resource.CANCEL ;
+nextLabel = resource.NEXT ;
+numTwo = resource.NUM_TWO;
+numOne = resource.NUM_ONE;
+physicianInfo = resource.PHYSICIAN_INFO ;
+physicianInfoMand = resource.PHYSICIAN_INFO_MANDOTORY ;
+unableToFind = resource.UNABLE_TO_FIND ;
+contactInfo = resource.CONTACT_INFO ;
+phoneNum = resource.PHONE_NUM ;
+validPhone = resource.VALID_PHONE ;
+or = resource.OR ;
+previousValue = resource.PREVIOS ;
+numberFour = resource.NUM_FOUR ;
+numberThree = resource.NUM_THREE ;
+countryLabel = resource.COUNTRY_LABEL;
+stateLabel = resource.STATE_LABEL ;
+streetLabel = resource.STREET_LABEL ;
+zipCodeValue = resource.ZIP_CODE_LABEL ;
+validZipCode = resource.VALID_ZIP_CODE ;
+cityLabel = resource.CITY_LABEL ;
+validCity = resource.VALID_CITY ;
+labelCity = resource.CITYLABEL;
+relationLabel = resource.RELATION_LABEL;
+caregiverInfo = resource.CAREGIVER_INFO;
 	//Proper naming conventions with camel case for all the variable will be followed in the future releases
+	
 	searchResults;
 	avatarContentTop = resource.AVATAR_MSG_ONE;
 	avatarContentMid = resource.AVATAR_MID_MSG_ONE;
 	isLoaded = false;
-	level = '03';
+	level = resource.NUM_THREE;
 	numThree = false;
 	numFour = false;
 	practicetype;
@@ -1329,7 +1423,7 @@ export default class BiPspbHcpEnrollment extends LightningElement {
 
 	goBackToStepOne() {
 		this.handleClose();
-		this.currentStep = "1";
+		this.currentStep = resource.ONE;
 		this.template.querySelector("div.stepTwo").classList.add("slds-hide");
 		this.template.querySelector("div.stepOne").classList.remove("slds-hide");
 		// Progress indicator
@@ -1348,7 +1442,7 @@ export default class BiPspbHcpEnrollment extends LightningElement {
 	}
 	goBackToStepTwo() {
 		this.handleClose();
-		this.currentStep = "2";
+		this.currentStep = resource.TWO;
 		this.template.querySelector("div.stepThree").classList.add("slds-hide");
 		this.template.querySelector("div.stepTwo").classList.remove("slds-hide");
 		// Progress indicator
@@ -1362,7 +1456,7 @@ export default class BiPspbHcpEnrollment extends LightningElement {
 		this.template.querySelector("li.li-two").classList.add("slds-is-active");
 
 
-		this.level = '03';
+		this.level = resource.NUM_THREE;
 		//To achieve the mobile responsiveness, the following strings are hard coded. Custom Labels can't be used, since they truncate the strings.
 		//To achieve mobile responsiveness, we are using innerHTML. However, when attempting to use textContent, it does not meet the design requirements
 		this.AvatarMsg();
@@ -1372,7 +1466,7 @@ export default class BiPspbHcpEnrollment extends LightningElement {
 		this.matchEmail = false;
 		if (this.isAdult === true) {
 			this.handleClose();
-			this.currentStep = "2";
+			this.currentStep = resource.TWO;
 			this.fieldsMandatory = "para";
 			this.template.querySelector("div.stepFour").classList.add("slds-hide");
 			this.template.querySelector("div.stepTwo").classList.remove("slds-hide");
@@ -1389,7 +1483,7 @@ export default class BiPspbHcpEnrollment extends LightningElement {
 			this.AvatarMsg();
 		} else {
 			this.handleClose();
-			this.currentStep = "3";
+			this.currentStep = resource.THREE;
 			this.template.querySelector("div.stepFour").classList.add("slds-hide");
 			this.template
 				.querySelector("div.stepThree")
@@ -1414,7 +1508,7 @@ export default class BiPspbHcpEnrollment extends LightningElement {
 	}
 	goBackToStepFour() {
 		this.handleClose();
-		this.currentStep = "4";
+		this.currentStep = resource.FOUR;
 		this.fieldsMandatory = "para";
 		this.template.querySelector("div.stepFive").classList.add("slds-hide");
 		this.template.querySelector("div.stepFour").classList.remove("slds-hide");
@@ -1437,7 +1531,7 @@ export default class BiPspbHcpEnrollment extends LightningElement {
 
 			}
 		}
-		this.currentStep = "2";
+		this.currentStep = resource.TWO;
 		this.template.querySelector("div.stepOne").classList.add("slds-hide");
 		this.template.querySelector("div.stepTwo").classList.remove("slds-hide");
 		// Progress indicator
@@ -1507,7 +1601,7 @@ export default class BiPspbHcpEnrollment extends LightningElement {
 	advanceToStepFour() {
 		this.numThree = false;
 		this.numFour = true;
-		this.currentStep = "4";
+		this.currentStep = resource.FOUR;
 		this.fieldsMandatory = "paralast";
 
 		this.template.querySelector("div.stepTwo").classList.add("slds-hide");
@@ -1524,7 +1618,7 @@ export default class BiPspbHcpEnrollment extends LightningElement {
 
 	returnToStepThree() {
 		this.handleClose();
-		this.currentStep = "3";
+		this.currentStep = resource.THREE;
 
 		this.template.querySelector("div.stepTwo").classList.add("slds-hide");
 		this.template.querySelector("div.stepThree").classList.remove("slds-hide");
@@ -1536,7 +1630,7 @@ export default class BiPspbHcpEnrollment extends LightningElement {
 
 		this.numFour = false;
 		this.numThree = true;
-		this.level = '04';
+		this.level = resource.NUM_FOUR;
 
 		this.AvatarMsg();
 	}
@@ -1814,7 +1908,7 @@ calculateAge(SELECTED_DATE_OBJ, CURRENT_DATE) {
 		let isValid = true;
 	
 		// Array of field names to validate
-		const fieldsToValidate = ['FirstName', 'LastName', 'DOB', 'Gender', 'Email', 'Phone'];
+		const fieldsToValidate = [resource.FIRSTNAME_VALUE, resource.LASTNAME_VALUE, resource.DOB_VALUE, resource.GENDER_VALUE, resource.EMAIL, resource.PHONE_VALUE];
 	
 		// Iterate through each field and validate
 		fieldsToValidate.forEach(field => {
@@ -1828,17 +1922,17 @@ calculateAge(SELECTED_DATE_OBJ, CURRENT_DATE) {
 	
 	validateField(field) {
 		switch (field) {
-			case 'FirstName':
+			case resource.FIRSTNAME_VALUE:
 				return this.validateFirstNameOne();
-			case 'LastName':
+			case resource.LASTNAME_VALUE:
 				return this.validateLastNameOne();
-			case 'DOB':
+			case resource.DOB_VALUE:
 				return this.validateDOB();
-			case 'Gender':
+			case resource.GENDER_VALUE:
 				return this.validateGender();
-			case 'Email':
+			case resource.EMAIL:
 				return this.isAdult ? this.validateEmail() : true;
-			case 'Phone':
+			case resource.PHONE_VALUE:
 				return this.isAdult ? this.validatePhone() : true;
 			default:
 				return true;
@@ -1952,7 +2046,7 @@ calculateAge(SELECTED_DATE_OBJ, CURRENT_DATE) {
 		let isValid = true;
 	
 		// Array of field names to validate
-		const fieldsToValidate = ['FirstName', 'LastName', 'DOB', 'Email', 'Relationship', 'Phone'];
+		const fieldsToValidate = [resource.FIRSTNAME_VALUE, resource.LASTNAME_VALUE, resource.DOB_VALUE, resource.EMAIL, resource.RELATIONSHIP_LABEL,resource.PHONE_VALUE];
 	
 		// Iterate through each field and validate
 		fieldsToValidate.forEach(field => {
@@ -1966,17 +2060,17 @@ calculateAge(SELECTED_DATE_OBJ, CURRENT_DATE) {
 	
 	validateCareField(field) {
 		switch (field) {
-			case 'FirstName':
+			case resource.FIRSTNAME_VALUE:
 				return this.validateCareFirstName();
-			case 'LastName':
+			case resource.LASTNAME_VALUE:
 				return this.validateCareLastName();
-			case 'DOB':
+			case resource.DOB_VALUE:
 				return this.validateCareDOB();
-			case 'Email':
+			case resource.EMAIL:
 				return this.validateCareEmail();
-			case 'Relationship':
+			case resource.RELATION_VALUE:
 				return this.validateCareRelationship();
-			case 'Phone':
+			case resource.PHONE_VALUE:
 				return this.validateCarePhone();
 			default:
 				return true;
@@ -2610,7 +2704,7 @@ calculateAge(SELECTED_DATE_OBJ, CURRENT_DATE) {
 		this.selectedSearchResultOne = this.picklistOrderedOne.find(
 			(picklistOptionOne) => picklistOptionOne.value === SELECTED_VALUE_ONE
 		);
-		const MESSAGE_EVENT = new CustomEvent("changes", {
+		const MESSAGE_EVENT = new CustomEvent(resource.CHANGE, {
 			detail: SELECTED_VALUE_ONE
 		});
 		this.dispatchEvent(MESSAGE_EVENT);
@@ -2685,7 +2779,7 @@ calculateAge(SELECTED_DATE_OBJ, CURRENT_DATE) {
 		this.selectedSearchResultTwo = this.picklistOrderedTwo.find(
 			(picklistOptionTwo) => picklistOptionTwo.value === SELECTED_VALUE_TWO
 		);
-		const MESSAGE_EVENT = new CustomEvent("changes", {
+		const MESSAGE_EVENT = new CustomEvent(resource.CHANGE, {
 			detail: SELECTED_VALUE_TWO
 		});
 		this.dispatchEvent(MESSAGE_EVENT);
@@ -2789,7 +2883,7 @@ calculateAge(SELECTED_DATE_OBJ, CURRENT_DATE) {
 		this.selectedSearchResult = this.picklistOrdered.find(
 			(picklistOption) => picklistOption.value === SELECTED_VALUE
 		);
-		const MESSAGE_EVENT = new CustomEvent("changes", {
+		const MESSAGE_EVENT = new CustomEvent(resource.CHANGE, {
 			detail: SELECTED_VALUE
 		});
 		this.dispatchEvent(MESSAGE_EVENT);
@@ -3006,7 +3100,7 @@ calculateAge(SELECTED_DATE_OBJ, CURRENT_DATE) {
 	}
 	//Showtoast message for catch error
 	showToast(title, message, variant) {
-		if (typeof window !== "undefined") {
+		if (typeof window !== resource.UNDIFINED) {
 			const event = new ShowToastEvent({
 				title: title,
 				message: message,

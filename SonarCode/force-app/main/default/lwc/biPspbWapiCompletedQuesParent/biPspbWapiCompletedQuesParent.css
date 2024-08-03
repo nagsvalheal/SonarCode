@@ -2,7 +2,7 @@
 	width: -webkit-fill-available;
 	display: grid;
 	position: relative;
-	/* right: 0%; */
+	
 }
 
 .displayHeader {
@@ -30,7 +30,7 @@
 	min-height: 400px;
 	position: relative;
 	width: 100%;
-	/* right: 6%; */
+	
 }
 
 .grid-containerTabs {
@@ -94,8 +94,7 @@
 
 @media only screen and (min-width: 399px)and (max-width: 576px) {
 	.pad {
-		/* padding-left: 20px;
-	padding-right: 20px; */
+		
 		overflow-x: hidden;
 		display: flex;
 		flex-direction: column;
@@ -106,9 +105,7 @@
 		display: grid;
 		position: relative;
 		bottom: 115px;
-		/* right: 23%; */
-		/* margin-top: -100px; */
-		/* margin-left: 62px; */
+		
 	}
 
 	.custom-box1 {
@@ -126,8 +123,7 @@
 
 @media only screen and (min-width: 576px) and (max-width: 769px) {
 	.pad {
-		/* padding-left: 20px;
-	padding-right: 20px; */
+		
 		overflow-x: hidden;
 		display: flex;
 		flex-direction: column;
@@ -138,8 +134,7 @@
 	}
 
 	.custom-box2 {
-		/* margin-top: -105px;
-	margin-left: 34px; */
+		
 		bottom: 110px;
 	}
 
@@ -152,8 +147,7 @@
 
 @media only screen and (min-width: 769px) and (max-width: 993px) {
 	.pad {
-		/* padding-left: 20px;
-	padding-right: 20px; */
+		
 		overflow-x: hidden;
 		display: flex;
 		flex-direction: column;
@@ -165,12 +159,11 @@
 
 	.custom-box1 {
 		width: 112%;
-		/* margin-left: 245px; */
+		
 	}
 
 	.custom-box2 {
-		/* margin-top: 240px;
-		margin-left: -141px; */
+		
 		bottom: 100px;
 	}
 
@@ -178,21 +171,19 @@
 
 @media only screen and (min-width: 993px) and (max-width: 1200px) {
 	.pad {
-		/* padding-left: 10%;
-	padding-right: 10%; */
+		
 		overflow-x: hidden;
 		display: flex;
 		flex-direction: column;
 	}
 
 	.custom-box2 {
-		/* margin-left: -240px; */
-		/* margin-top: 235px; */
+		
 		bottom: 100px;
 	}
 
 	.custom-box1 {
-		/* margin-left: 297px; */
+		
 		width: 112%;
 		margin-left: 8%;
 	}
@@ -203,35 +194,7 @@
 
 }
 
-/* @media only screen and (min-width: 1200px) and (max-width: 1499px)
-{
-	.pad{
-	padding-left: 10%;
-	padding-right: 10%;
-	overflow-x: hidden;
-	}
-	.custom-box1{
-		margin-left: 82px;
-	}
-	.custom-box2{
-		margin-top: -30px;
-	}
-	
 
-}
-@media only screen and (min-width: 1500px)
-{
-	.pad{
-	padding-left: 10%;
-	padding-right: 10%;
-	overflow-x: hidden;
-	}
-	
-		.custom-box2{
-		margin-top: -30px;
-	}
-
-} */
 
 @media only screen and (min-width: 1500px) {
 	.pad {
@@ -240,9 +203,7 @@
 		overflow-x: hidden;
 	}
 
-	/* .custom-box1{
-		margin-left: 0px;
-	} */
+	
 	.custom-box2 {
 		right: 6%;
 	}

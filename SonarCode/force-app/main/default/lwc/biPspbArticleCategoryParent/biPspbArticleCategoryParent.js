@@ -98,27 +98,27 @@ export default class BiPspbArticleCategoryParent extends LightningElement {
 	};
 	searchTerm = '';
 
-    totalChildren = 4; // Total number of child components
+	totalChildren = 4; // Total number of child components
 
-    // Getter to check if all children have rendered
-    get allChildrenRendered() {
-        return this.renderedChildrenCount >= this.totalChildren;
-    }
-   /**
-     * @param {boolean} val
-     */
-    // Setter to increment the count when a child is rendered
-    set childRendered(val) {
-        if (val) {
-            this.renderedChildrenCount++;
-            if (this.allChildrenRendered) {
-                this.showSpinner = false;
-            }
-        }
-    }
+	// Getter to check if all children have rendered
+	get allChildrenRendered() {
+		return this.renderedChildrenCount >= this.totalChildren;
+	}
+/**
+	 * @param {boolean} val
+	 */
+	// Setter to increment the count when a child is rendered
+	set childRendered(val) {
+		if (val) {
+			this.renderedChildrenCount++;
+			if (this.allChildrenRendered) {
+				this.showSpinner = false;
+			}
+		}
+	}
 
 	handleChildRendered(event) {
-    this.childRendered = event.detail.rendered;
+	this.childRendered = event.detail.rendered;
 	}
 
 	// To retrieve current site url
@@ -393,29 +393,29 @@ export default class BiPspbArticleCategoryParent extends LightningElement {
 		let result = shuffledResults[i];
 		let titleFound = false;
 		
-    for (let j = 0; j < titlesToFilter.length; j++) {
-        if (
-            result.text.trim().toLowerCase() ===
-            titlesToFilter[j].trim().toLowerCase()
-        ) {
-            titleFound = true;
-            break;
-        }
-    }
+	for (let j = 0; j < titlesToFilter.length; j++) {
+		if (
+			result.text.trim().toLowerCase() ===
+			titlesToFilter[j].trim().toLowerCase()
+		) {
+			titleFound = true;
+			break;
+		}
+	}
 
-    if (titleFound) {
-        result.count = count % 2 !== 0;
-        count += 1;
-        result.readtime = this.topics[result.text];
-        filteredResults.push(result);
-    }
+	if (titleFound) {
+		result.count = count % 2 !== 0;
+		count += 1;
+		result.readtime = this.topics[result.text];
+		filteredResults.push(result);
+	}
 }
 
 
 		return filteredResults;
 	}
 
-	 shuffleArray(array) {
+	shuffleArray(array) {
 		let shuffled = array.slice(); // Create a copy of the original array
 		const crypto = window.crypto || window.msCrypto; // Ensure compatibility for older browsers
 		for (let i = shuffled.length - 1; i > 0; i--) {
@@ -901,8 +901,8 @@ export default class BiPspbArticleCategoryParent extends LightningElement {
 		try {
 			this.renderedChildrenCount=this.renderedChildrenCount+1;
 			if (this.allChildrenRendered) {
-                this.showSpinner = false;
-            }
+				this.showSpinner = false;
+			}
 			this.getMobStyle();
 		} catch (error) {
 			this.showToast(LABELS.ERROR_MESSAGE, error.message, LABELS.ERROR_VARIANT); // Catching Potential Error

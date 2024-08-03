@@ -23,6 +23,7 @@ export { default as ERROR_MESSAGE } from "@salesforce/label/c.BI_PSP_ConsoleErro
 export { default as ERROR_VARIANT } from "@salesforce/label/c.BI_PSP_ErrorVariantToast";
 export { default as ACCOUNT_NOT_FOUND } from "@salesforce/label/c.BI_PSP_AccountError";
 export { default as POST_ERROR } from "@salesforce/label/c.BI_PSP_ErrorForPostSelection";
+export { default as ERROR_PAGE } from "@salesforce/label/c.BI_PSP_DisplayErrorPage";
 
 export { default as SLASH } from "@salesforce/label/c.BI_PSP_ChatterSlash";
 export { default as ALL_POST_URL } from "@salesforce/label/c.BI_PSPB_AllPostUrl";
@@ -251,3 +252,14 @@ export { default as  SMILE_LABEL } from "@salesforce/label/c.BI_PSP_SmileForChat
 export { default as  HANDS_FOLDED_LABEL } from "@salesforce/label/c.BI_PSP_chatterHandsFolded";
 export { default as  HEART_LABEL } from "@salesforce/label/c.BI_PSP_chatterHeart";
 export { default as  THOUGHT_LABEL } from "@salesforce/label/c.BI_PSP_chatterThoughtful";
+
+export { default as  POST_FETCH_ERROR } from "@salesforce/label/c.BI_PSPB_ErrorForPost";
+export { default as  ERROR_ON_REACTING } from "@salesforce/label/c.BI_PSPB_ErrorReacting";
+export { default as  REACTION_FETCH_ERROR } from "@salesforce/label/c.BI_PSPB_ErrorFetchingReactions";
+export { default as  UNREACT_ERROR } from "@salesforce/label/c.BI_PSPB_ErrorUnreacting";
+export { default as  UNCOMMENT_ERROR } from "@salesforce/label/c.BI_PSPB_ErrorDeletingComment";
+export { default as  COMMENT_ERROR } from "@salesforce/label/c.BI_PSPB_ErrorCommenting";
+export { default as  COMMENT_FETCH_ERROR } from "@salesforce/label/c.BI_PSPB_ErrorFetchingComment";
+export { default as  FOLLOW_ERROR } from "@salesforce/label/c.BI_PSPB_ErrorFollowing";
+export { default as  UNFOLLOW_ERROR } from "@salesforce/label/c.BI_PSPB_ErrorUnfollowing";
+export { default as  URL_ERROR } from "@salesforce/label/c.BI_PSPB_UrlTypeError";

@@ -6,7 +6,7 @@
                      assessments and drafts, and methods to get the status of assessments and counts of completed
                      assessments of the current user.
 * History:
-* Version   Author      Date            Detail          Description
+* Version   Author      Date            Detail          Description.
 * 1.0       Abinsha     05-Dec-2023     Created         Initial development.
 * 1.1       Abinsha     01-Jan-2024     Updated         Updated for caregiver.
 * 1.2       Abinsha     04-Apr-2024     Updated         Catch log added.
@@ -47,13 +47,19 @@ public with sharing class BI_PSP_AssessmentCtrl {
             if (assessmentId != null && !String.isBlank(assessmentId)) {
                 // USER_MODE is not used because Assessment is an Salesforce Industry object using
                 //Healthcare license.
-                category = [
-                    SELECT Name
-                    FROM Assessment
-                    WHERE Id = :assessmentId
-                    LIMIT 1
-                ][0]
-                .Name;
+                // Define fields and conditions for the category query
+        String categoryFields = 'Name';
+        String categoryConditions = 'Id = \'' + assessmentId + '\'';
+        
+        // Execute the query to get the category
+        List<SObject> categoryResults = BI_PSP_CommonQueryUtility.executeQuery(
+            'Assessment',
+            categoryFields,
+            categoryConditions,
+            false // Assuming USER_MODE is not needed for this query
+        );
+                 category = (String)categoryResults[0].get('Name');
+                
             } else {
                 BI_PSP_LogMessagesUtility.logError(BI_PSP_QuestionnaireConstant.emptyAssesment, BI_PSP_AssessmentCtrl.class.toString(), false, BI_PSP_QuestionnaireConstant.LOG_SEVERITY_ERROR);
             }
@@ -67,7 +73,8 @@ public with sharing class BI_PSP_AssessmentCtrl {
                     WHERE
                         AssessmentId = :assessmentId
                         AND BI_PSP_Questionnaire_Name__c = :category
-                ];
+                ];	
+                
             } else {
                BI_PSP_LogMessagesUtility.logError(BI_PSP_QuestionnaireConstant.emptyCategoryName, BI_PSP_AssessmentCtrl.class.toString(), false, BI_PSP_QuestionnaireConstant.LOG_SEVERITY_ERROR);
             }
@@ -130,56 +137,79 @@ public with sharing class BI_PSP_AssessmentCtrl {
      * @return this method returns a list of integers that has the count of number of assessments present for a specific user.
      */
 
-    @AuraEnabled(cacheable=true)
-    public static List<Integer> getAssessmentCountsByCurrentUserName() {
-        try {
-           enrolleeId = BI_PSP_CurrentUser.getEnrolleeRecords()[0].Id;
-            // USER_MODE is not used because Assessment is an Salesforce Industry
-            //object using Healthcare license.
-            if (enrolleeId != null && !String.isBlank(enrolleeId)) {
-                assessments = [
-                    SELECT
-                        Id,
-                        Name,
-                        AssessmentStatus,
-                        EffectiveDateTime,
-                        ExpirationDateTime
-                    FROM Assessment
-                    WHERE
-                        BI_PSP_CareProgramEnrollee__c = :enrolleeId
-                        AND (AssessmentStatus = :BI_PSP_QuestionnaireConstant.completed
-                        OR AssessmentStatus = :BI_PSP_QuestionnaireConstant.expiredLabel)
-                ];
-            } else {
-                BI_PSP_LogMessagesUtility.logError(BI_PSP_QuestionnaireConstant.emptyEnrolleRecrd, BI_PSP_AssessmentCtrl.class.toString(), true, BI_PSP_QuestionnaireConstant.LOG_SEVERITY_ERROR);
-            }
-            Map<String, Integer> assessmentCountMap = new Map<String, Integer>{
-                'Work & Activity Impairment (WPAI)' => 0,
-                'Psoriasis Symptom Scale (PSS)' => 0,
-                'Dermatology Life Quality Index (DLQI)' => 0,
-                'Qualitative satisfaction questionnaire' => 0
-            };
-            if (!assessments.isEmpty()) {
-                for (Assessment ass : assessments) {
-                    if (assessmentCountMap.containsKey(ass.Name)) {
-                        assessmentCountMap.put(
-                            ass.Name,
-                            assessmentCountMap.get(ass.Name) + 1
-                        );
-                    }
-                }
-            } else {
-                 BI_PSP_LogMessagesUtility.logError(BI_PSP_QuestionnaireConstant.emptyAssesment, BI_PSP_AssessmentCtrl.class.toString(), true, BI_PSP_QuestionnaireConstant.LOG_SEVERITY_ERROR);
-
-            }
-            // Convert the map values to a list
-            assessmentCounts = new List<Integer>(assessmentCountMap.values());
-          
-        } catch (Exception ex) {
-           BI_PSP_LogMessagesUtility.exceptionLogMessage('',BI_PSP_AssessmentCtrl.class.toString(), ex);
+  @AuraEnabled(cacheable=true)
+public static List<Integer> getAssessmentCountsByCurrentUserName() {
+    List<Integer> assessmentCounts = new List<Integer>();
+    try {
+        // Get the enrollee ID
+        String enrolleeId = BI_PSP_CurrentUser.getEnrolleeRecords()[0].Id;
+        
+        // Define fields and conditions for the query
+        String fields = 'Id, Name, AssessmentStatus, EffectiveDateTime, ExpirationDateTime';
+        String conditions = 'BI_PSP_CareProgramEnrollee__c = \'' + enrolleeId + 
+                            '\' AND (AssessmentStatus = \'' + BI_PSP_QuestionnaireConstant.completed + 
+                            '\' OR AssessmentStatus = \'' + BI_PSP_QuestionnaireConstant.expiredLabel + '\')';
+        
+        // Execute the query using the common utility
+        List<SObject> assessments = BI_PSP_CommonQueryUtility.executeQuery(
+            'Assessment',
+            fields,
+            conditions,
+            false // Assuming USER_MODE is not needed for this query
+        );
+        
+        // Check if enrolleeId is null or blank
+        if (String.isBlank(enrolleeId)) {
+            BI_PSP_LogMessagesUtility.logError(
+                BI_PSP_QuestionnaireConstant.emptyEnrolleRecrd, 
+                BI_PSP_AssessmentCtrl.class.toString(), 
+                true, 
+                BI_PSP_QuestionnaireConstant.LOG_SEVERITY_ERROR
+            );
         }
-        return assessmentCounts;
+        
+        // Initialize the assessment count map
+        Map<String, Integer> assessmentCountMap = new Map<String, Integer>{
+            'Work & Activity Impairment (WPAI)' => 0,
+            'Psoriasis Symptom Scale (PSS)' => 0,
+            'Dermatology Life Quality Index (DLQI)' => 0,
+            'Qualitative satisfaction questionnaire' => 0
+        };
+        
+        // Process the query results
+        if (!assessments.isEmpty()) {
+            for (SObject obj : assessments) {
+                Assessment ass = (Assessment)obj;
+                if (assessmentCountMap.containsKey(ass.Name)) {
+                    assessmentCountMap.put(
+                        ass.Name,
+                        assessmentCountMap.get(ass.Name) + 1
+                    );
+                }
+            }
+        } else {
+            BI_PSP_LogMessagesUtility.logError(
+                BI_PSP_QuestionnaireConstant.emptyAssesment, 
+                BI_PSP_AssessmentCtrl.class.toString(), 
+                true, 
+                BI_PSP_QuestionnaireConstant.LOG_SEVERITY_ERROR
+            );
+        }
+        
+        // Convert the map values to a list
+        assessmentCounts = new List<Integer>(assessmentCountMap.values());
+    } catch (Exception ex) {
+        // Log the exception
+        BI_PSP_LogMessagesUtility.exceptionLogMessage(
+            BI_PSP_QuestionnaireConstant.emptyAssesment, 
+            BI_PSP_AssessmentCtrl.class.toString(), 
+            ex
+        );
+        throw new AuraHandledException('An error occurred while retrieving assessment counts: ' + ex.getMessage());
     }
+    return assessmentCounts;
+}
+
 
     /**
      * @Description Retrieves the counts of completed assessments for the current user.

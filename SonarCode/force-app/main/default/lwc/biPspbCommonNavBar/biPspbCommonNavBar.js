@@ -49,6 +49,7 @@ export default class BiPspbCommonNavBar extends LightningElement {
 	displayErrorPage = resources.BI_PSP_DISPLAYERRORPAGE;
 	yes = resources.YES;
 	cancel = resources.CANCEL;
+	displayNavErrorPage = resources.DISPLAY_NAV_ERRORPAGE;
 	connectedCallback() {
 		let globalThis = window;
 		try {
@@ -81,12 +82,12 @@ export default class BiPspbCommonNavBar extends LightningElement {
 							})
 							.catch((error) => {
 								globalThis.sessionStorage.setItem('errorMessage',error.body.message);
-								globalThis.location?.assign(this.baseUrl + this.siteUrlBranded + this.displayErrorPage);
+								globalThis.location?.assign(this.baseUrl + this.siteUrlBranded + this.displayNavErrorPage);
 							});
 					})
 					.catch((error) => {
 						globalThis.sessionStorage.setItem('errorMessage',error.body.message);
-						globalThis.location?.assign(this.baseUrl + this.siteUrlBranded + this.displayErrorPage);
+						globalThis.location?.assign(this.baseUrl + this.siteUrlBranded + this.displayNavErrorPage);
 					});
 			} else {
 				this.showNavDetails = false;
@@ -96,7 +97,7 @@ export default class BiPspbCommonNavBar extends LightningElement {
 			}
 		}catch (err) {
 			globalThis.sessionStorage.setItem('errorMessage',err.body.message);
-			globalThis.location?.assign(this.baseUrl + this.siteUrlBranded + this.displayErrorPage);
+			globalThis.location?.assign(this.baseUrl + this.siteUrlBranded + this.displayNavErrorPage);
 		}
 	}
 

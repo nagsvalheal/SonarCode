@@ -6,7 +6,7 @@ import {ShowToastEvent} from 'lightning/platformShowToastEvent';
 import * as label from 'c/biPspbLabelAndResourceSymptom';
 // To import Apex Classes
 import USER_ENROLLEE_ID from "@salesforce/apex/BI_PSP_CurrentUser.getEnrolleeRecords";
-import FETCH_SYMPTOM_ENROLLEE from '@salesforce/apex/BI_PSP_QuestionnaireGraphCtrl.getSymptomTrackerDetails';
+import FETCH_SYMPTOM_ENROLLEE from '@salesforce/apex/BI_PSP_SymptomTrackerGraphCtrl.getSymptomTrackerDetails';
 import GET_LATEST_SYMPTOM from '@salesforce/apex/BI_PSPB_SymptomPrimaryPageCtrl.getLatestSymptomRecord';
 export default class BiPspbSymptomTrackerLandingPageParent extends LightningElement {
     //variable declaration
@@ -90,7 +90,7 @@ export default class BiPspbSymptomTrackerLandingPageParent extends LightningElem
         let globalThis = window;
         FETCH_SYMPTOM_ENROLLEE({erolleId: enrollees,firstDate: firstDate,lastDate: lastDate})
             .then(result => {
-                if (result == '') {
+                if (result !== '') {
                     let urlParams = new URLSearchParams(globalThis.location.href.split(label.QUESTION_MARK)[1]);
                     this.EDITS = urlParams.get(label.EDITS);
                    

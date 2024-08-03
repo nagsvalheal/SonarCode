@@ -3,14 +3,14 @@
 import { LightningElement, wire } from "lwc";
 import { ShowToastEvent } from "lightning/platformShowToastEvent";
 //  To import Apex Classes
-import USER_ENROLLEE_ID from "@salesforce/apex/BI_PSP_CurrentUser.getEnrolleeRecords";
-import MY_POST_FEED from "@salesforce/apex/BI_PSPB_FeedItemCtrl.fetchMyPost";
+import USER_AVATAR from "@salesforce/apex/BI_PSP_CurrentUser.getEnrolleeRecords";
 import CHECK_COMMUNITY_USERNAME from "@salesforce/apex/BI_PSPB_FeedUsernameCtrl.checkCommunityUsername";
 import COMMENT_OPTIONS from "@salesforce/apex/BI_PSPB_FeedCommentCtrl.getCommentOptions";
 import CHECK_FOLLOW_STATUS from "@salesforce/apex/BI_PSPB_EmojiReactionCtrl.checkFollowingStatus";
 import EDIT_COMMENT from "@salesforce/apex/BI_PSPB_FeedCommentCtrl.editComment";
 import FOLLOW_USER from "@salesforce/apex/BI_PSPB_FollowUserCtrl.followUser";
 import HARDDELETE_EMOJI_REACTION from "@salesforce/apex/BI_PSPB_EmojiReactionCtrl.deleteEmojiReaction";
+import MY_POST_FEED from "@salesforce/apex/BI_PSPB_FeedItemCtrl.fetchMyPost";
 import REACTIONSBY_FEED_ID from "@salesforce/apex/BI_PSPB_EmojiReactionCtrl.getReactionsByFeedItemId";
 import SAVE_EMOJI from "@salesforce/apex/BI_PSPB_EmojiReactionCtrl.saveEmoji";
 import SOFTDELETE_FEEDITEM from "@salesforce/apex/BI_PSPB_FeedItemCtrl.softDeleteFeedItem";
@@ -127,7 +127,7 @@ export default class BiPspbMyPost extends LightningElement {
 	noMyPostContent =label.NO_MY_POST_CONTENT;
 	deletedPostToastText = label.POST_TOAST_TEXT;
 	hideLabel = label.HIDE_LABEL;
-	youLabel = label.BI_PSP_ChatterNameForYou;
+	youLabel = label.YOU_LABEL;
 	followLabel = label.FOLLOW_LABEL;
 	followingLabel = label.FOLLOWING_LABEL;
 	followingToastContent =label.FOLLOWING_TOAST;
@@ -141,23 +141,8 @@ export default class BiPspbMyPost extends LightningElement {
 	unFollowUserText = label.UNFOLLOW_USER;
 	unFollowPopupHeading = label.UNFOLLOW_POPUP_HEADING;
 	unFollowPopupContent = label.UNFOLLOW_POPUP_CONTENT;
-	// To fetch the enrollee Id of the user
-	@wire(USER_ENROLLEE_ID)
-	wiredGetEnrolleeId({ data }) {
-		try {
-			if (data && data.length > 0) {
-				this.userEnrolleeId = data[0].Id;
-				this.loggedUserAvatar = data[0].BI_PSP_AvatarUrl__c;
-			} else {
-				this.showToast(label.ERROR_MESSAGE, label.ACCOUNT_NOT_FOUND ,label.ERROR_VARIANT);
-			}
-		} catch (error) {
-			this.showToast(label.ERROR_MESSAGE, error.body.message, label.ERROR_VARIANT); // Catching Potential Error
-		}
-	}
 
 	// get all records for mypost
-
 	@wire(MY_POST_FEED)
 	myPostRecords({ data }) {
 		try {
@@ -165,14 +150,14 @@ export default class BiPspbMyPost extends LightningElement {
 			if (data && data.length > 0) {
 				this.processData(data);
 			} else if ((data && data.length === 0) || data === null) {
-				this.showPostDetails = false;
 				this.isLoading = false;
+				this.showPostDetails = false;
 			} else {
 				this.isLoading = false;
 				this.showToast(label.POST_ERROR);
 			}
-		} catch (error) {
-			this.showToast(label.ERROR_MESSAGE, error.body.message, label.ERROR_VARIANT); // Catching Potential Error
+		} catch (err) {
+			this.showToast(label.ERROR_MESSAGE, err.message, label.ERROR_VARIANT); // Catching Potential Error
 		}
 	}
 
@@ -186,6 +171,7 @@ export default class BiPspbMyPost extends LightningElement {
 	}
 
 	mapPostDetails(data) {
+		console.log(data,'data');
 		return data.map((post) => ({
 			...post,
 			formattedTimeDifference: this.calculateTimeDifference(post.CreatedDate),
@@ -199,8 +185,6 @@ export default class BiPspbMyPost extends LightningElement {
 				this.navigationFromNotificationCommentId && post.Id === this.navigationFromNotificationCommentId
 					? !post.commentBox
 					: false,
-			displayHide:this.navigationFromNotificationCommentId && post.Id === this.navigationFromNotificationCommentId
-					&& !post.commentBox ? "Hide" : "",
 			secondPopupClass:
 				this.navigationFromNotificationReactionId && post.Id === this.navigationFromNotificationReactionId
 					? "second-popup"
@@ -222,11 +206,11 @@ export default class BiPspbMyPost extends LightningElement {
 	connectedCallback() {
 		try {
 			this.initializeEventListeners();
+			this.handleNavigationFromNotification();
 			this.initializeComponentStates();
 			this.processCurrentPageUrl();
-			this.handleNavigationFromNotification();
 		} catch (error) {
-			this.showToast(label.ERROR_MESSAGE, error.body.message, label.ERROR_VARIANT); // Catching Potential Error
+			this.showToast(label.ERROR_MESSAGE, error.message, label.ERROR_VARIANT); // Catching Potential Error
 		}
 	}
 	initializeEventListeners() {
@@ -257,9 +241,9 @@ export default class BiPspbMyPost extends LightningElement {
 		}
 	}
 	initializeComponentStates() {
+		this.avatarImgLeftSide();
 		this.detectBrandedOrUnassigned();
 		this.checkAllReactions();
-		this.avatarImgLeftSide();
 		this.commentResult = false;
 		this.showToastMsg = false;
 		this.isDesktop = this.isDesktopView();
@@ -305,7 +289,24 @@ export default class BiPspbMyPost extends LightningElement {
 			this.showToast(label.ERROR_MESSAGE, error.body.message, label.ERROR_VARIANT); // Catching Potential Error
 		}
 	}
-
+	// To get avatar of the logged in user
+	avatarImgLeftSide() {
+		try {
+			USER_AVATAR()
+				.then((result) => {
+					if (result && result.length > 0 ) {
+						console.log( result[0].Id);
+						this.userEnrolleeId = result[0].Id;
+						this.loggedUserAvatar = result[0].BI_PSP_AvatarUrl__c;
+					}
+				})
+				.catch((error) => {
+					this.showToast(label.ERROR_MESSAGE, error.message, label.ERROR_VARIANT); // Catching Potential Error
+				});
+		} catch (error) {
+			this.showToast(label.ERROR_MESSAGE, error.message, label.ERROR_VARIANT); // Catching Potential Error
+		}
+	}
 	//After clicking create a new post go to createPost page with checking communityUsername
 	goToCreatePost() {
 		try {

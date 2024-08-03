@@ -8,7 +8,7 @@ import jsPDF from '@salesforce/resourceUrl/JsFile';
 import { loadScript } from 'lightning/platformResourceLoader';
 
 // To import Apex Classes
-import FETCH_SYMPTOM_EROLLE from '@salesforce/apex/BI_PSP_QuestionnaireGraphCtrl.getSymptomTrackerDetails';
+import FETCH_SYMPTOM_EROLLE from '@salesforce/apex/BI_PSP_GraphCtrl.getSymptomTrackerDetails';
 import USER_DETAILS from '@salesforce/apex/BI_PSP_CurrentUser.getCurrentUser';
 import GET_SELECTED_PATIENT from '@salesforce/apex/BI_PSP_CurrentUser.returnTheAccounts';
 import html2canvas from '@salesforce/resourceUrl/htmljs';

@@ -9,7 +9,7 @@
 * 1.2		Abinsha		04-Apr-2024		Updated			Catch log added.
 */
 public with sharing class BI_PSP_AssessmentManagementCtrl {
- 
+    private static Boolean preventIfAccess = false;
     private static List<AssessmentQuestionResponse> assResList = new List<AssessmentQuestionResponse>();
     private static List<AssessmentQuestionResponse> existingResponsesToUpdate= new List<AssessmentQuestionResponse>();
 	private static Set<Id> assessmentIdsToUpdate=new Set<Id>();
@@ -52,7 +52,7 @@ public static void mulitipleDraftRecordsInsertion(
             createNewAssessment(darftQuestionIds, draftResponseTexts, enrolleeId, isItDraftOrSubmit, isQsqAfterTwoMonths);
         }
     } catch (Exception ex) {
-        BI_PSP_LogMessagesUtility.exceptionLogMessage(BI_PSP_QuestionnaireConstant.falseParemeter, BI_PSP_AssessmentCtrl.class.toString(), ex);
+        BI_PSP_LogMessagesUtility.exceptionLogMessage('', BI_PSP_AssessmentCtrl.class.toString(), ex);
     }
 }
     
@@ -94,39 +94,41 @@ List<CareProgramEnrollee> caregiverEnrollee = (List<CareProgramEnrollee>) caregi
     return caregiverEnrollee.isEmpty() ? null : caregiverEnrollee[0].CreatedDate;
 }
 
-private static Assessment initializeAssessment(String enroleeids, String questionnaireName, Boolean isItDraftOrSubmit, Boolean isQsqAfterTwoMonths, DateTime timeOfQsqEnrllee) {
-    Boolean preventIfAccess;
-    Assessment ass = new Assessment();
-    ass.BI_PSP_CareProgramEnrollee__c = enroleeids;
-    ass.Name = questionnaireName;
-		
-    if(isItDraftOrSubmit ==true && isQsqAfterTwoMonths ==false && questionnaireName == BI_PSP_QuestionnaireConstant.qualiCategory)
-    {
-        ass.BI_PSP_StatusForPersonalization__c = BI_PSP_QuestionnaireConstant.inProgress;
-        preventIfAccess =true;
-    }
-    if (isItDraftOrSubmit) {
-        if(preventIfAccess !=true)
-        {
-		ass.BI_PSP_StatusForPersonalization__c = BI_PSP_QuestionnaireConstant.complete;            
+        public static Assessment initializeAssessment(String enroleeids, String questionnaireName, Boolean isItDraftOrSubmit, Boolean isQsqAfterTwoMonths, DateTime timeOfQsqEnrllee) {
+        Assessment ass = new Assessment();
+        ass.BI_PSP_CareProgramEnrollee__c = enroleeids;
+        ass.Name = questionnaireName;
+
+        checkPersonalisation(ass, isItDraftOrSubmit, isQsqAfterTwoMonths, questionnaireName);
+
+        if (timeOfQsqEnrllee != null && questionnaireName.equals(BI_PSP_QuestionnaireConstant.qualiCategory)) {
+            ass.BI_PSP_RolloutforCompletedQuestionnarie__c = timeOfQsqEnrllee.addDays(
+                isQsqAfterTwoMonths ? BI_PSP_QuestionnaireConstant.twoMonthsInt : BI_PSP_QuestionnaireConstant.fourteenWeeksInt
+            );
         }
-        ass.AssessmentStatus = questionnaireName == BI_PSP_QuestionnaireConstant.introduction ? BI_PSP_QuestionnaireConstant.inProgress : BI_PSP_QuestionnaireConstant.completed;
-    } else {
-        ass.BI_PSP_StatusForPersonalization__c = BI_PSP_QuestionnaireConstant.inProgress;
-        ass.AssessmentStatus = BI_PSP_QuestionnaireConstant.inProgress;
+
+        ass.EffectiveDateTime = DateTime.now();
+        ass.ExpirationDateTime = DateTime.now().addDays(BI_PSP_QuestionnaireConstant.expireDate);
+
+        return ass;
     }
 
-    if (timeOfQsqEnrllee != null && questionnaireName == BI_PSP_QuestionnaireConstant.qualiCategory) {
-        ass.BI_PSP_RolloutforCompletedQuestionnarie__c = timeOfQsqEnrllee.addDays(
-            isQsqAfterTwoMonths ? BI_PSP_QuestionnaireConstant.twoMonthsInt : BI_PSP_QuestionnaireConstant.fourteenWeeksInt
-        );
+    private static void checkPersonalisation(Assessment ass, Boolean isItDraftOrSubmit, Boolean isQsqAfterTwoMonths, String questionnaireName) {
+        if (isItDraftOrSubmit && !isQsqAfterTwoMonths && questionnaireName.equals(BI_PSP_QuestionnaireConstant.qualiCategory)) {
+            ass.BI_PSP_StatusForPersonalization__c = BI_PSP_QuestionnaireConstant.inProgress;
+            preventIfAccess = true;
+        }
+
+        if (isItDraftOrSubmit) {
+            if (!preventIfAccess) {
+                ass.BI_PSP_StatusForPersonalization__c = BI_PSP_QuestionnaireConstant.complete;
+            }
+            ass.AssessmentStatus = questionnaireName.equals(BI_PSP_QuestionnaireConstant.introduction) ? BI_PSP_QuestionnaireConstant.inProgress : BI_PSP_QuestionnaireConstant.completed;
+        } else {
+            ass.BI_PSP_StatusForPersonalization__c = BI_PSP_QuestionnaireConstant.inProgress;
+            ass.AssessmentStatus = BI_PSP_QuestionnaireConstant.inProgress;
+        }
     }
-
-    ass.EffectiveDateTime = DateTime.now();
-    ass.ExpirationDateTime = DateTime.now().addDays(BI_PSP_QuestionnaireConstant.expireDate);
-
-    return ass;
-}
     
    private static void associateNewAssessmentResponses(List<String> qstns, List<String> respnones ,String assIds,Boolean isQsqAfterTwoMonths,String catNames)
    {

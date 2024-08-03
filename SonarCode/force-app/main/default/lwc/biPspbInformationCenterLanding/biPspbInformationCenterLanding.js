@@ -146,11 +146,18 @@ export default class BiPspbInformationCenterLanding extends LightningElement {
 		}
 	}
 
-	// Generates numbers from 0 to 8
+	// Function to generate a secure random integer within a specified range
+	secureRandomInt(max) {
+		const array = new Uint32Array(1);
+		window.crypto.getRandomValues(array); // Generate a random value
+		return array[0] % max; // Limit the random number to the range 0 to max-1
+	}
+
+	// Function to generate 3 unique random numbers from 0 to 8 securely
 	generateRandomNumbers() {
 		let numbers = new Set();
 		while (numbers.size < 3) {
-			let randomNumber = Math.floor(Math.random() * 8);
+			let randomNumber = this.secureRandomInt(9); // Generates numbers from 0 to 8
 			numbers.add(randomNumber);
 		}
 		return Array.from(numbers);

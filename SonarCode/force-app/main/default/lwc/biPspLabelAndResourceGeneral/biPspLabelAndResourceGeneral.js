@@ -166,7 +166,7 @@ import REDIRECTION_LABEL from '@salesforce/label/c.BI_PSPB_RedirectionLabel';
 import TERMS_OF_USE_LABEL from '@salesforce/label/c.BI_PSPB_TermsOfUseLabel';
 import PRIVACY_NOTICE_LABEL from '@salesforce/label/c.BI_PSPB_PrivacyNoticeLabel';
 import COPYRIGHTS from '@salesforce/label/c.BI_PSPB_Copyrights';
-
+import DISPLAY_NAV_ERRORPAGE from '@salesforce/label/c.BI_PSP_DisplayNavErrorPage';
 // Exporting all resources in an organized object
 export const resources = {
 	
@@ -340,6 +340,7 @@ export const resources = {
 	REDIRECTION_LABEL,
 	TERMS_OF_USE_LABEL,
 	PRIVACY_NOTICE_LABEL,
-	COPYRIGHTS
+	COPYRIGHTS,
+	DISPLAY_NAV_ERRORPAGE
 
 };

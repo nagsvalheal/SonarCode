@@ -282,9 +282,84 @@ import CONGRATULATION from '@salesforce/label/c.BI_PSPB_CongratulationPatient';
 import LEAVE_THIS_PAGE from '@salesforce/label/c.BI_PSPB_LeaveThisPage';
 import CHANGE_MADE from '@salesforce/label/c.BI_PSPB_ChangesYouMade';
 import OKAY from '@salesforce/label/c.BI_PSPB_Okay';
+
+import ENROLL_PATIENT from "@salesforce/label/c.BI_PSPB_EnrollPatientValue";
+import PHYSICIAN_NAME from "@salesforce/label/c.BI_PSPB_PhysicianName";
+import PHYSICIAN_ID from "@salesforce/label/c.BI_PSPB_PhysicianId";
+import CLICK_HERE from "@salesforce/label/c.BI_PSPB_ClickHereToAdd";
+import LICENSE_NUMBER_VALUE from "@salesforce/label/c.BI_PSPB_LicenseNum";
+import LICENSE_VALID from "@salesforce/label/c.BI_PSPB_LicenseNumValid";
+import PRACTICE_NAME_LABEL from "@salesforce/label/c.BI_PSPB_PracticeNameValue";
+import PRACTICE_REQUIRED from "@salesforce/label/c.BI_PSPB_PracticeRequired";
+import PRACTICE_VALID from "@salesforce/label/c.BI_PSPB_PracticeValid";
+import PRACTICE_TYPE_VALUE from "@salesforce/label/c.BI_PSPB_PracticeTypeValue";
+import FAX_VALUE from "@salesforce/label/c.BI_PSPB_FaxValue";
+import FAX_VALID from "@salesforce/label/c.BI_PSPB_FaxValid";
+import MATCHING_INFO from "@salesforce/label/c.BI_PSPB_MatchingInfo";
+import ALREADY_EXIT from "@salesforce/label/c.BI_PSPB_AlreadyExit";
+import DRUG_LABEL from "@salesforce/label/c.BI_PSPB_DrugLabel";
+import UNABLE_TO_DRUG from "@salesforce/label/c.BI_PSPB_UnableToDrug";
+import UNITS from "@salesforce/label/c.BI_PSPB_Units";
+import PRESCRIPTED_DATE from "@salesforce/label/c.BI_PSPB_PrescritedDate";
+import NUMBER_OF_REFILLS from "@salesforce/label/c.BI_PSPB_NumberOfRefills";
+import DOSAGE_LABEL from "@salesforce/label/c.BI_PSPB_Dosage";
+import QUENTITY from "@salesforce/label/c.BI_PSPB_Quantity";
+import FREQUENCY_LABEL from "@salesforce/label/c.BI_PSPB_Frequency";
+import DRUG_CODE from "@salesforce/label/c.BI_PSPB_DrugCode";
+import PLACE_LICENSE from "@salesforce/label/c.BI_PSPB_PlaceLicense";
+import PLACE_PRACTICE from "@salesforce/label/c.BI_PSPB_PlacePracticeName";
+import PLACE_FAX from "@salesforce/label/c.BI_PSPB_PlaceFax";
+import PLACE_DRUG from "@salesforce/label/c.BI_PSPB_PlaceDrug";
+import PLACE_DRUG_CODE from "@salesforce/label/c.BI_PSPB_PlaceDrugCode";
+import PLACE_MG from "@salesforce/label/c.BI_PSPB_PlaceMg";
+import PLACE_QUANTITY from "@salesforce/label/c.BI_PSPB_PlaceQuantity";
+import PLACE_REFILLS from "@salesforce/label/c.BI_PSPB_PlaceRefills";
+import FIRSTNAME_VALUE from "@salesforce/label/c.BI_PSPB_FirstName";
+import LASTNAME_VALUE from "@salesforce/label/c.BI_PSPB_LastName";
+import DOB_VALUE from "@salesforce/label/c.BI_PSPB_Dob";
+import GENDER_VALUE from "@salesforce/label/c.BI_PSPB_GenderValue";
+import PHONE_VALUE from "@salesforce/label/c.BI_PSPB_PhoneValue";
+import RELATIONSHIP_LABEL from "@salesforce/label/c.BI_PSPB_RelationValue";
 export const resource = {
 	ID,
 //
+ENROLL_PATIENT ,
+PHYSICIAN_NAME ,
+PHYSICIAN_ID ,
+CLICK_HERE ,
+LICENSE_NUMBER_VALUE ,
+LICENSE_VALID ,
+PRACTICE_NAME_LABEL ,
+PRACTICE_REQUIRED ,
+PRACTICE_VALID ,
+PRACTICE_TYPE_VALUE ,
+FAX_VALUE ,
+FAX_VALID ,
+MATCHING_INFO ,
+ALREADY_EXIT ,
+DRUG_LABEL ,
+UNABLE_TO_DRUG ,
+UNITS ,
+PRESCRIPTED_DATE ,
+NUMBER_OF_REFILLS ,
+DOSAGE_LABEL ,
+QUENTITY ,
+FREQUENCY_LABEL ,
+DRUG_CODE ,
+PLACE_LICENSE ,
+PLACE_PRACTICE ,
+PLACE_FAX ,
+PLACE_DRUG ,
+PLACE_DRUG_CODE ,
+PLACE_MG ,
+PLACE_QUANTITY ,
+PLACE_REFILLS ,
+FIRSTNAME_VALUE ,
+LASTNAME_VALUE ,
+DOB_VALUE,
+GENDER_VALUE ,
+PHONE_VALUE ,
+RELATIONSHIP_LABEL,
 LEAVE_THIS_PAGE,
 CHANGE_MADE,
 OKAY,

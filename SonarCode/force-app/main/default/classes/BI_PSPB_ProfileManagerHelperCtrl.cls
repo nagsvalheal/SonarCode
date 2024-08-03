@@ -25,11 +25,10 @@ public class BI_PSPB_ProfileManagerHelperCtrl {
     * @param accountToUpdate The account to be saved.
     * @return A string containing an error message if an error occurs, otherwise an empty string.
     */
-    public static String saveAccount(Account accountToUpdate) {
+    public static void saveAccount(Account accountToUpdate) {
         List<Account> accountToUpdateList = new List<Account> { accountToUpdate };
-        String errorMsg = '';
-        BI_PSPB_HandleUtitlites.updateAndHandleErrors(accountToUpdateList, BI_PSPB_ProfileManagerCtrl.class.toString(), FALSE);
-        return errorMsg;
+       BI_PSP_DatabaseOperationsUtility.updateOperation(accountToUpdateList, BI_PSPB_ProfileManagerCtrl.class.toString(), FALSE);
+        
     }
 
     /**
@@ -52,7 +51,7 @@ public class BI_PSPB_ProfileManagerHelperCtrl {
     * @return A list of Database.SaveResult objects containing the results of the save operation.
     */
     public static Database.SaveResult[] saveContacts(Contact contact) {
-        BI_PSPB_HandleUtitlites.updateAndHandleErrors(new List<Contact> { contact }, BI_PSPB_ProfileManagerCtrl.class.toString(), FALSE);
+        BI_PSP_DatabaseOperationsUtility.updateOperation(new List<Contact> { contact }, BI_PSPB_ProfileManagerCtrl.class.toString(), FALSE);
         return new Database.SaveResult[] {};
     }
 
@@ -62,10 +61,9 @@ public class BI_PSPB_ProfileManagerHelperCtrl {
     * @param account The account to be updated.
     * @return A string containing an error message if an error occurs, otherwise an empty string.
     */
-    public static String updateContactAndAccount(Contact contact, Account account) {
-        BI_PSPB_HandleUtitlites.updateAndHandleErrors(new List<SObject> { contact, account }, BI_PSPB_ProfileManagerCtrl.class.toString(), FALSE);
-        String errorMsg = '';
-        return errorMsg;
+    public static void updateContactAndAccount(Contact contact, Account account) {
+        BI_PSP_DatabaseOperationsUtility.updateOperation(new List<SObject> { contact, account }, BI_PSPB_ProfileManagerCtrl.class.toString(), FALSE);
+        
     }
 
     /**
@@ -94,7 +92,7 @@ public class BI_PSPB_ProfileManagerHelperCtrl {
     * @return A list of Database.SaveResult objects containing the results of the save operation.
     */
     public static Database.SaveResult[] saveAccounts(Account account) {
-        BI_PSPB_HandleUtitlites.updateAndHandleErrors(new List<Account> { account }, BI_PSPB_ProfileManagerCtrl.class.toString(), FALSE);
+        BI_PSP_DatabaseOperationsUtility.updateOperation(new List<Account> { account }, BI_PSPB_ProfileManagerCtrl.class.toString(), FALSE);
         return new Database.SaveResult[] {};
     }
 
@@ -124,7 +122,7 @@ public class BI_PSPB_ProfileManagerHelperCtrl {
     * @return A list of Database.SaveResult objects containing the results of the save operation.
     */
     public static Database.SaveResult[] saveAccountt(Account account) {
-        BI_PSPB_HandleUtitlites.updateAndHandleErrors(new List<Account> { account }, BI_PSPB_ProfileManagerCtrl.class.toString(), FALSE);
+        BI_PSP_DatabaseOperationsUtility.updateOperation(new List<Account> { account }, BI_PSPB_ProfileManagerCtrl.class.toString(), FALSE);
         return new Database.SaveResult[] {};
     }
 }

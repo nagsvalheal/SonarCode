@@ -132,13 +132,15 @@ export default class BiPspbWelcomeAvatar extends LightningElement {
 			this.HandleToast(err.message); // Catching Potential Error from lwc
 		}
 	}
-
-	// Generate a random decimal between 0 (inclusive) and 1 (exclusive)
+	// Generate a secure random integer between min (inclusive) and max (exclusive)
 	getRandomNumber(min, max) {
-		let randomDecimal = Math.random();
+		// Generate a secure random integer within the range [0, 2^32)
+		const array = new Uint32Array(1);
+		window.crypto.getRandomValues(array); // Generate a random value
+		const randomDecimal = array[0] / (0xFFFFFFFF + 1); // Normalize to [0, 1)
 
 		// Scale the random decimal to the range [min, max)
-		let randomNumber = Math.floor(randomDecimal * (max - min + 1)) + min;
+		const randomNumber = Math.floor(randomDecimal * (max - min)) + min;
 
 		return randomNumber;
 	}

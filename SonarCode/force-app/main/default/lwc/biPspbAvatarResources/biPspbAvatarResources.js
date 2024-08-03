@@ -44,7 +44,6 @@ import ELDER_ADULT_INDIAN_MEN from '@salesforce/resourceUrl/BI_PSPB_ElderAdultIn
 import ELDER_ADULT_INDIAN_WOMAN from '@salesforce/resourceUrl/BI_PSPB_ElderAdultIndianWoman';
 import ELDER_ADULT_LATINO_MAN from '@salesforce/resourceUrl/BI_PSPB_ElderAdultLatinoMan';
 import ELDER_ADULT_LATINO_WOMAN from '@salesforce/resourceUrl/BI_PSPB_ElderAdultLatinoWoman';
-import DEFAULT_AVATAR_IMG from '@salesforce/resourceUrl/BI_PSPB_ProfileAvatar';
 import UNASSIGNEDSITE_URL from "@salesforce/label/c.BI_PSPB_UnAssignedNaviUrl";
 import UNASSIGNED from "@salesforce/label/c.BI_PSP_Unassigned";
 import ACUTE from "@salesforce/label/c.BI_PSPB_Acute";
@@ -72,7 +71,6 @@ import CAREGIVER_PROFILE_URL from '@salesforce/label/c.BI_PSPB_CaregiverProfileU
 import CAREGIVER_PATIENT_URL from '@salesforce/label/c.BI_PSPB_CaregiverPatientUrl';
 import CAREGIVER_SELECT_URL from '@salesforce/label/c.BI_PSPB_CaregiverSelectAvatarUrl';
 import CAREGIVER_NOTIFY_URL from '@salesforce/label/c.BI_PSPB_CaregiverNotificationPageUrl';
-
 //HomeBanner
 import SITE_LOGO from '@salesforce/resourceUrl/BI_PSPB_SiteLogo';
 import NOTIFICATION_ICON from '@salesforce/resourceUrl/BI_PSPB_NotiIcon';
@@ -82,7 +80,6 @@ import BANNER_IMG from '@salesforce/resourceUrl/BI_PSPB_BannerImage';
 import CROSS_ICON from '@salesforce/resourceUrl/BI_PSP_CrossIcon';
 import SELECT_ICON from '@salesforce/resourceUrl/BI_PSPB_SelectIcon';
 import DOWN_ARROW from '@salesforce/resourceUrl/BI_PSPB_downHeadIcon';
-import Id from '@salesforce/user/Id';
 import SYSTEM_ADMIN_PROFILE from '@salesforce/label/c.BI_PSP_SystemAdminProfile';
 import PATIENT_PROFILES from '@salesforce/label/c.BI_PSP_PatientProfile';
 import CAREGIVER_PROFILES from '@salesforce/label/c.BI_PSPB_CaregiverProfile';
@@ -134,27 +131,28 @@ import QUALITATIVE_COMPLETED_FOURTEENMONTHS from '@salesforce/label/c.BI_PSPB_Qu
 import QUALITATIVE_COMPLETED_TWOMONTHS from '@salesforce/label/c.BI_PSPB_QualitativeTwoMonthsCompletedUrl';
 import LOGIN_PAGE from '@salesforce/label/c.BI_PSPB_LoginPage';
 import SECURE_LOGOUT from '@salesforce/label/c.BI_PSPB_SecureLogout';
-import CHOOSE_AVATAR from '@salesforce/label/c.BI_PSPB_ChooseAvatar';
-import SELECTED from '@salesforce/label/c.BI_PSPB_SelectedAvatarButton';
-
-
+//Welcome Avatar
+import WELCOME from '@salesforce/label/c.BI_PSP_Welcome';
+import GEN_CATEGORY_MESSAGES from '@salesforce/label/c.BI_PSP_GenMessageCategory';
+import DEFAULT_AVATAR_IMG from '@salesforce/resourceUrl/BI_PSPB_DefaultAvatarNavigation';
 //Custom Label
 import BRANDED_SITEURL from '@salesforce/label/c.BI_PSPB_BrandedSiteNaviUrl';
 import HCP_ENROLLEMENT from '@salesforce/label/c.BI_PSPB_HcpLanding';
 import PATIENTENROLLMENT from '@salesforce/label/c.BI_PSPB_PatientEnrollment';
 import ERROR_MESSAGE from '@salesforce/label/c.BI_PSP_ConsoleError';
 import ERROR_VARIANT from '@salesforce/label/c.BI_PSP_ErrorVariantToast';
-import WELCOME from '@salesforce/label/c.BI_PSP_Welcome';
-import GEN_CATEGORY_MESSAGES from '@salesforce/label/c.BI_PSP_GenMessageCategory';
+
 
 export const label = {
 
     //labels
     BRANDED_SITEURL,
     HCP_ENROLLEMENT,
-    Id,
+    
     //Static
+    GEN_CATEGORY_MESSAGES,
     DEFAULT_AVATAR_IMG,
+    WELCOME,
     WAPI_COMPLETED_QUESTION_SITEURL ,
     DLQI_COMPLETED_QUESTION_SITEURL ,
     PSS_COMPLETED_QUESTION_SITEURL ,
@@ -287,9 +285,5 @@ export const label = {
     IAM_HCP_ICON_YOUTUBE,
     IAM_HCP_ICON_BOOKS,
     PATIENT_ENROLMENT_FROM,
-    BGpp,
-    WELCOME,
-    GEN_CATEGORY_MESSAGES,
-    SELECTED,
-    CHOOSE_AVATAR
+    BGpp
 }

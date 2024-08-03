@@ -12,9 +12,9 @@ import ERROR_VARIANT from '@salesforce/label/c.BI_PSP_ErrorVariantToast';
 //To get UserId
 import Id from '@salesforce/user/Id';
 //To import custom labels
-import * as labels from 'c/biPspbLabelAndResourceForQuestionnaire'; 
+import * as labels from 'c/biPspbLabelAndResourceForQuestionnaire';
 export default class BiPspbIntroductionCard extends LightningElement {
-	//Global variables(without @track does not trigger automatic re-renders)
+	//Global variables
 	answeredQuestions = 0;
 	totalQuestionCount = 15;
 	userId = Id;
@@ -28,8 +28,8 @@ export default class BiPspbIntroductionCard extends LightningElement {
 	letptext = labels.LETS_PERSONLIZETEXT;
 	rolldate = labels.ROLLOUT_DATE_TEXT;
 	answerLabel = labels.ANS_LABEL;
-	answerLabelOne =labels.ANS_LABEL_ONE;
-	answerLabelTwo =labels.ANS_LABEL_TWO;
+	answerLabelOne = labels.ANS_LABEL_ONE;
+	answerLabelTwo = labels.ANS_LABEL_TWO;
 	answerLabelThree = labels.ANS_LABEL_THREE;
 	answerLabelFour = labels.ANS_LABEL_FOUR;
 	answeredlabel = labels.ANS_LABEL_Five;
@@ -37,7 +37,6 @@ export default class BiPspbIntroductionCard extends LightningElement {
 	draftTruFale = false;
 
 	// To get site Url to find the Current SiteName
-	//To get site url
 	renderedCallback() {
 		try {
 			let currentURL = window.location.href;
@@ -102,9 +101,9 @@ export default class BiPspbIntroductionCard extends LightningElement {
 	}
 
 	/*Null checks are not performed because sometimes users may or may not have assessment records initially. 
-    Even if there are no assessment records, we show the cards for the user to create assessment records. 
+	Even if there are no assessment records, we show the cards for the user to create assessment records. 
 	The page will not be blank.
-    */
+	*/
 	@wire(GET_ASSESSMENTS, { questCatgryName: '$categoryName', twoMonths: '$draftTruFale' })
 	wiredCategoryStatus({ error, data }) {
 		try {
@@ -135,8 +134,11 @@ export default class BiPspbIntroductionCard extends LightningElement {
 				else if (
 					this.totalQuestionCount !== this.answeredQuestions &&
 					this.answeredQuestions < this.totalQuestionCount &&
-					this.answeredQuestions > 0 || this.answeredQuestions === this.totalQuestionCount
+					this.answeredQuestions > 0
 				) {
+					this.isStartLabel = false;
+				}
+				else if (this.answeredQuestions === this.totalQuestionCount) {
 					this.isStartLabel = false;
 				}
 			}
@@ -155,6 +157,7 @@ export default class BiPspbIntroductionCard extends LightningElement {
 		) {
 			this.isStartLabel = false;
 			return labels.RESUME;
+
 		}
 		if (this.answeredQuestions === 0) {
 			this.isStartLabel = true;

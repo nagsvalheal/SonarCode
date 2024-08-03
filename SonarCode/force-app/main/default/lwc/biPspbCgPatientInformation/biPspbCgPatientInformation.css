@@ -719,7 +719,7 @@ svg {
 		position: absolute;
 		left: -4%;
 		top: 45px;
-		
+		/* z-index: 1; */
 	}
 
 }
@@ -759,7 +759,7 @@ svg {
 		position: absolute;
 		left: -3%;
 		top: 45px;
-		
+		/* z-index: 1; */
 	}
 
 	ul {
@@ -967,7 +967,7 @@ svg {
 		display: flex;
 		left: 0%;
 		top: 99px;
-		
+		/* z-index: 1; */
 	}
 }
 

@@ -80,7 +80,7 @@ export default class BiPspbNavBar extends LightningElement {
 	acute = resources.ACUTE;
 	unAssigned = resources.UNASSIGNED;
 	unAssignedUrl = resources.UNASSIGNED_URL;
-	
+
 	//Custom label variables for navigation urls
 	siteUrlBranded = resources.BRSITE_URL;
 	siteChallengesUrlBranded = resources.CHALLENGES_URL;
@@ -141,7 +141,7 @@ export default class BiPspbNavBar extends LightningElement {
 	secureLogout = resources.SECURE_LOGOUT;
 	acuteVideoPage = resources.ACUTE_VIDEO_PAGE;
 	loginPageUrl = resources.LOGIN_PAGE;
-	target14wksdate=null;
+	target14wksdate = null;
 	errorMsg = resources.ERROR_MESSAGE;
 	errorVariant = resources.ERROR_VARIANT;
 	caregiverFirstAvatar = resources.CAREGIVER_FIRST_AVATAR;
@@ -192,27 +192,22 @@ export default class BiPspbNavBar extends LightningElement {
 	logoutContent = resources.LOGOUT_CONTENT;
 	yes = resources.YES;
 	cancel = resources.CANCEL;
+	displayNavErrorPage = resources.DISPLAY_NAV_ERRORPAGE;
 	//Qualitative Date for topbar navigation
 
 	patientAfterThreeMonthsAndFourteenWeeks() {
 		let globalThis = window;
-		try{
-			GET_PATIENT_AFTER_WEEKS()
-				.then(data => {
-					if (data) {
-						this.target14wksdate = data.targetFourteenWeeksDate ?? null;
-					}
-				})
-				.catch(error => {
-					globalThis.sessionStorage.setItem('errorMessage',error.body.message);
-					globalThis.location?.assign(this.baseUrl + this.siteUrlBranded + this.displayErrorPage);
-				})
-		}
-		catch (err) {
-			//navigate to error page
-			globalThis.sessionStorage.setItem('errorMessage',err.body.message);
-			globalThis.location?.assign(this.baseUrl + this.siteUrlBranded + this.displayErrorPage);
-		}
+		GET_PATIENT_AFTER_WEEKS()
+			.then(data => {
+				if (data) {
+					this.target14wksdate = data.targetFourteenWeeksDate ?? null;
+				}
+			})
+			.catch(error => {
+				globalThis.sessionStorage.setItem('errorMessage', error.body.message);
+				globalThis.location?.assign(this.baseUrl + this.siteUrlBranded + this.displayNavErrorPage);
+			})
+
 	}
 
 
@@ -220,28 +215,22 @@ export default class BiPspbNavBar extends LightningElement {
 	//Used to get information regarding the loggedin caregiver
 	patientInfo() {
 		let globalThis = window;
-		try{
-			GET_CAREGIVER_ACCOUNTS({ userId: Id, isActive: true })
-				.then(patient => {//Null check has been handled in the respective apex method.
-					this.activeData = patient.map((pat) => ({
-						Id: pat.BI_PSPB_Patient__c,
-						Name: pat.BI_PSPB_Patient__r.Name,
-						CaregiveID: pat.BI_PSPB_Caregiver__c
-					}));
-					if (this.activeData.length > 0) {
-						this.showCareGiverMenus = true
-					}
-				})
-				.catch(error => {
-					globalThis.sessionStorage.setItem('errorMessage',error.body.message);
-					globalThis.location?.assign(this.baseUrl + this.siteUrlBranded + this.displayErrorPage);
-				})
-		}
-		catch (err) {
-			//navigate to error page
-			globalThis.sessionStorage.setItem('errorMessage',err.body.message);
-			globalThis.location?.assign(this.baseUrl + this.siteUrlBranded + this.displayErrorPage);
-		}
+		GET_CAREGIVER_ACCOUNTS({ userId: Id, isActive: true })
+			.then(patient => {//Null check has been handled in the respective apex method.
+				this.activeData = patient.map((pat) => ({
+					Id: pat.BI_PSPB_Patient__c,
+					Name: pat.BI_PSPB_Patient__r.Name,
+					CaregiveID: pat.BI_PSPB_Caregiver__c
+				}));
+				if (this.activeData.length > 0) {
+					this.showCareGiverMenus = true
+				}
+			})
+			.catch(error => {
+				globalThis.sessionStorage.setItem('errorMessage', error.body.message);
+				globalThis.location?.assign(this.baseUrl + this.siteUrlBranded + this.displayNavErrorPage);
+			})
+
 	}
 
 	//Navigation
@@ -312,13 +301,13 @@ export default class BiPspbNavBar extends LightningElement {
 								}
 							})
 							.catch(error => {
-								globalThis.sessionStorage.setItem('errorMessage',error);
-								globalThis.location?.assign(this.baseUrl + this.siteUrlBranded + this.displayErrorPage);
+								globalThis.sessionStorage.setItem('errorMessage', error);
+								globalThis.location?.assign(this.baseUrl + this.siteUrlBranded + this.displayNavErrorPage);
 							})
 					})
 					.catch(error => {
-						globalThis.sessionStorage.setItem('errorMessage',error.body.message);
-						globalThis.location?.assign(this.baseUrl + this.siteUrlBranded + this.displayErrorPage);
+						globalThis.sessionStorage.setItem('errorMessage', error.body.message);
+						globalThis.location?.assign(this.baseUrl + this.siteUrlBranded + this.displayNavErrorPage);
 					})
 			} else {
 				this.showMenu = false;
@@ -338,32 +327,27 @@ export default class BiPspbNavBar extends LightningElement {
 			}
 		}
 		catch (err) {
-			globalThis.sessionStorage.setItem('errorMessage',err.body.message);
-			globalThis.location?.assign(this.baseUrl + this.siteUrlBranded + this.displayErrorPage);
+			globalThis.sessionStorage.setItem('errorMessage', err.body.message);
+			globalThis.location?.assign(this.baseUrl + this.siteUrlBranded + this.displayNavErrorPage);
 		}
 	}
 
 	//This method is used to get the patient information of the current logged in user
 	retrievePatientStatus() {
 		let globalThis = window;
-		try{
-			PATIENT_STATUS({ userId: '$userId' })
-				.then(result => {
-					if (result && result !== null) {
-						this.patientStatusVal = result;
-						this.handlePatientStatus();
-					}
-				})
-				.catch(error => {
-					globalThis.sessionStorage.setItem('errorMessage',error.body.message);
-					globalThis.location?.assign(this.baseUrl + this.siteUrlBranded + this.displayErrorPage);
-				});
-		}
-		catch (error) {
-			//navigate to error page
-			globalThis.sessionStorage.setItem('errorMessage',error.body.message);
-			globalThis.location?.assign(this.baseUrl + this.siteUrlBranded + this.displayErrorPage);
-		}
+
+		PATIENT_STATUS({ userId: '$userId' })
+			.then(result => {
+				if (result && result !== null) {
+					this.patientStatusVal = result;
+					this.handlePatientStatus();
+				}
+			})
+			.catch(error => {
+				globalThis.sessionStorage.setItem('errorMessage', error.body.message);
+				globalThis.location?.assign(this.baseUrl + this.siteUrlBranded + this.displayNavErrorPage);
+			});
+
 	}
 	//Used for rendering the modules according to the patient information
 
@@ -380,37 +364,32 @@ export default class BiPspbNavBar extends LightningElement {
 	// This method is used t collect the assessment deatils.
 	fetchAssessmentCount() {
 		let globalThis = window;
-		try{
-			COUNT_ASSESSMENT()
-				.then(result => {
-					if (result && result.length > 0) {
-						this.count = result;
-						if (this.count[0] !== 0 || this.count[1] !== 0 || this.count[2] !== 0 || this.count[3] !== 0) {
-							this.showTabMenu = true;
-							this.stwai = this.count[0];
-							this.stpss = this.count[1];
-							this.stdlq = this.count[2];
-							this.stqsq = this.count[3];
-						}
-						else {
-							this.showTabMenu = false;
-						}
+
+		COUNT_ASSESSMENT()
+			.then(result => {
+				if (result && result.length > 0) {
+					this.count = result;
+					if (this.count[0] !== 0 || this.count[1] !== 0 || this.count[2] !== 0 || this.count[3] !== 0) {
+						this.showTabMenu = true;
+						this.stwai = this.count[0];
+						this.stpss = this.count[1];
+						this.stdlq = this.count[2];
+						this.stqsq = this.count[3];
 					}
 					else {
 						this.showTabMenu = false;
 					}
-				})
-				.catch(error => {
-					globalThis.sessionStorage.setItem('errorMessage',error.body.message);
-					globalThis.location?.assign(this.baseUrl + this.siteUrlBranded + this.displayErrorPage);
+				}
+				else {
 					this.showTabMenu = false;
-				});
-		}
-		catch (err) {
-			//navigate to error page
-			globalThis.sessionStorage.setItem('errorMessage',err.body.message);
-			globalThis.location?.assign(this.baseUrl + this.siteUrlBranded + this.displayErrorPage);
-		}
+				}
+			})
+			.catch(error => {
+				globalThis.sessionStorage.setItem('errorMessage', error.body.message);
+				// globalThis.location?.assign(this.baseUrl + this.siteUrlBranded + this.displayErrorPage);
+				this.showTabMenu = false;
+			});
+
 	}
 	//This method is used to identify the current page and renders the highliged bar for menus
 	showUnderlineForMenus() {
@@ -452,7 +431,7 @@ export default class BiPspbNavBar extends LightningElement {
 			[this.followersSiteUrl]: 'showCommunity',
 			[this.followingSiteUrl]: 'showCommunity',
 		};
-	
+
 		// Reset all flags
 		this.showChallenge = false;
 		this.showInformationCenter = false;
@@ -461,32 +440,32 @@ export default class BiPspbNavBar extends LightningElement {
 		this.showHomeLine = false;
 		this.showSupport = false;
 		this.showCommunity = false;
-	
+
 		// Set the corresponding flag if lastSegment matches any key in segmentActions
 		if (segmentActions[this.lastSegment]) {
 			this[segmentActions[this.lastSegment]] = true;
 		}
 	}
-	
+
 	//Used to decide the Navigation for community chatter
 
 	openCommunity() {
 		let globalThis = window;
-		
-			CHECK_COMMUNITY_USERNAME()
-				.then((result) => {// Null check for user record has been handled in its respective apex method.
-					if (result === true) {
-						window.location.assign(this.baseUrl + this.siteUrlBranded + this.siteUrlAllPost);
-					}
-					if (result === false) {
-						window.location.assign(this.baseUrl + this.siteUrlBranded + this.siteUrlchatterSignUp);
-					}
-				})
-				.catch((error) => {
-					globalThis.sessionStorage.setItem('errorMessage',error.body.message);
-					globalThis.location?.assign(this.baseUrl + this.siteUrlBranded + this.displayErrorPage);
-				})
-		
+
+		CHECK_COMMUNITY_USERNAME()
+			.then((result) => {// Null check for user record has been handled in its respective apex method.
+				if (result === true) {
+					window.location.assign(this.baseUrl + this.siteUrlBranded + this.siteUrlAllPost);
+				}
+				if (result === false) {
+					window.location.assign(this.baseUrl + this.siteUrlBranded + this.siteUrlchatterSignUp);
+				}
+			})
+			.catch((error) => {
+				globalThis.sessionStorage.setItem('errorMessage', error.body.message);
+				globalThis.location?.assign(this.baseUrl + this.siteUrlBranded + this.displayErrorPage);
+			})
+
 	}
 	//Navigation for Caregiver/Patient
 
@@ -622,7 +601,7 @@ export default class BiPspbNavBar extends LightningElement {
 
 	logoutFromSite() {
 		let globalThis = window;
-		try{
+		try {
 			this.showPopup = false;
 			let currentUrl = window.location.href;
 			let urlParts = currentUrl.split('/');
@@ -631,11 +610,11 @@ export default class BiPspbNavBar extends LightningElement {
 				this.desiredUrl = urlParts.slice(0, index + 1).join('/');
 			}
 			window.location.assign(this.desiredUrl.replace(/\/s/gu, '/') + this.secureLogout + this.baseUrl + this.siteUrlBranded + this.siteloginBranded);
-		
-		}catch (error) {
+
+		} catch (error) {
 			//navigate to error page
-			globalThis.sessionStorage.setItem('errorMessage',error.body.message);
-			globalThis.location?.assign(this.baseUrl + this.siteUrlBranded + this.displayErrorPage);
+			globalThis.sessionStorage.setItem('errorMessage', error.body.message);
+			globalThis.location?.assign(this.baseUrl + this.siteUrlBranded + this.displayNavErrorPage);
 		}
 	}
 	//Navigation
@@ -703,78 +682,78 @@ export default class BiPspbNavBar extends LightningElement {
 
 	openAllPosts() {
 		let globalThis = window;
-		
-			CHECK_COMMUNITY_USERNAME()
-				.then((result) => {// Null check for user record has been handled in its respective apex method.
-					if (result === true) {
-						window.location.assign(this.baseUrl + this.siteUrlBranded + this.siteUrlAllPost);
-					}
-					if (result === false) {
-						window.location.assign(this.baseUrl + this.siteUrlBranded + this.siteUrlchatterSignUp);
-					}
-				})
-				.catch((error) => {
-					globalThis.sessionStorage.setItem('errorMessage',error.body.message);
-					globalThis.location?.assign(this.baseUrl + this.siteUrlBranded + this.displayErrorPage);
-				});
-		
+
+		CHECK_COMMUNITY_USERNAME()
+			.then((result) => {// Null check for user record has been handled in its respective apex method.
+				if (result === true) {
+					window.location.assign(this.baseUrl + this.siteUrlBranded + this.siteUrlAllPost);
+				}
+				if (result === false) {
+					window.location.assign(this.baseUrl + this.siteUrlBranded + this.siteUrlchatterSignUp);
+				}
+			})
+			.catch((error) => {
+				globalThis.sessionStorage.setItem('errorMessage', error.body.message);
+				globalThis.location?.assign(this.baseUrl + this.siteUrlBranded + this.displayErrorPage);
+			});
+
 	}
 
 	openMyPosts() {
 		let globalThis = window;
-		
-			CHECK_COMMUNITY_USERNAME()
-				.then((result) => {// Null check for user record has been handled in its respective apex method.
-					if (result === true) {
-						window.location.assign(this.baseUrl + this.siteUrlBranded + this.myPostSiteUrl);
-					}
-					if (result === false) {
-						window.location.assign(this.baseUrl + this.siteUrlBranded + this.siteUrlchatterSignUp);
-					}
-				})
-				.catch((error) => {
-					globalThis.sessionStorage.setItem('errorMessage',error.body.message);
-					globalThis.location?.assign(this.baseUrl + this.siteUrlBranded + this.displayErrorPage);
-				});
-		
+
+		CHECK_COMMUNITY_USERNAME()
+			.then((result) => {// Null check for user record has been handled in its respective apex method.
+				if (result === true) {
+					window.location.assign(this.baseUrl + this.siteUrlBranded + this.myPostSiteUrl);
+				}
+				if (result === false) {
+					window.location.assign(this.baseUrl + this.siteUrlBranded + this.siteUrlchatterSignUp);
+				}
+			})
+			.catch((error) => {
+				globalThis.sessionStorage.setItem('errorMessage', error.body.message);
+				globalThis.location?.assign(this.baseUrl + this.siteUrlBranded + this.displayErrorPage);
+			});
+
 	}
 
 	openMyFollowers() {
 		let globalThis = window;
-		
-			CHECK_COMMUNITY_USERNAME()
-				.then((result) => {// Null check for user record has been handled in its respective apex method.
-					if (result === true) {
-						window.location.assign(this.baseUrl + this.siteUrlBranded + this.followersSiteUrl);
-					}
-					if (result === false) {
-						window.location.assign(this.baseUrl + this.siteUrlBranded + this.siteUrlchatterSignUp);
-					}
-				})
-				.catch((error) => {
-					globalThis.sessionStorage.setItem('errorMessage',error.body.message);
-					globalThis.location?.assign(this.baseUrl + this.siteUrlBranded + this.displayErrorPage);
-				});
-		
+
+		CHECK_COMMUNITY_USERNAME()
+			.then((result) => {// Null check for user record has been handled in its respective apex method.
+				if (result === true) {
+					window.location.assign(this.baseUrl + this.siteUrlBranded + this.followersSiteUrl);
+				}
+				if (result === false) {
+					window.location.assign(this.baseUrl + this.siteUrlBranded + this.siteUrlchatterSignUp);
+				}
+			})
+			.catch((error) => {
+				globalThis.sessionStorage.setItem('errorMessage', error.body.message);
+				globalThis.location?.assign(this.baseUrl + this.siteUrlBranded + this.displayErrorPage);
+			});
+
 	}
 
 	openFollowing() {
 		let globalThis = window;
-		
-			CHECK_COMMUNITY_USERNAME()
-				.then((result) => {// Null check for user record has been handled in its respective apex method.
-					if (result === true) {
-						window.location.assign(this.baseUrl + this.siteUrlBranded + this.followingSiteUrl);
-					}
-					if (result === false) {
-						window.location.assign(this.baseUrl + this.siteUrlBranded + this.siteUrlchatterSignUp);
-					}
-				})
-				.catch((error) => {
-					globalThis.sessionStorage.setItem('errorMessage',error.body.message);
-					globalThis.location?.assign(this.baseUrl + this.siteUrlBranded + this.displayErrorPage);
-				});
-		
+
+		CHECK_COMMUNITY_USERNAME()
+			.then((result) => {// Null check for user record has been handled in its respective apex method.
+				if (result === true) {
+					window.location.assign(this.baseUrl + this.siteUrlBranded + this.followingSiteUrl);
+				}
+				if (result === false) {
+					window.location.assign(this.baseUrl + this.siteUrlBranded + this.siteUrlchatterSignUp);
+				}
+			})
+			.catch((error) => {
+				globalThis.sessionStorage.setItem('errorMessage', error.body.message);
+				globalThis.location?.assign(this.baseUrl + this.siteUrlBranded + this.displayErrorPage);
+			});
+
 	}
 	/*showQuestionnaireMenu links*/
 

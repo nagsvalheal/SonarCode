@@ -1,6 +1,6 @@
 //This Lightning Web Component facilitating user measurement of health problem effects on work and regular activities.
 //To import Libraries
-import { LightningElement, wire, track} from 'lwc';
+import { LightningElement, wire, track } from 'lwc';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 //To import Apex classes
 import GET_THE_ASSESSMENT_QUESTION from '@salesforce/apex/BI_PSP_AssessmentQuestionsCtrl.getTheAssesmentQuestion';
@@ -233,9 +233,9 @@ export default class BiPspbWapiQuestionnaire extends LightningElement {
 
 	// Wire method to fetch assessments by current user name
 	/*Null checks are not performed because sometimes users may or may not have assessment records initially. 
-    Even if there are no assessment records, we show the Questionaire page for the user to create assessment records. 
+	Even if there are no assessment records, we show the Questionaire page for the user to create assessment records. 
 	The page will not be blank.
-    */
+	*/
 	@wire(GET_ASSMNT_BY_CURRENT_USER_NAME, { categoryname: '$categoryname' })
 	wiredAssessments({ data, error }) {
 		this.handleWireResponse(data, error, this.processAssessmentsData);
@@ -341,7 +341,7 @@ export default class BiPspbWapiQuestionnaire extends LightningElement {
 					(item) => item.BI_PSP_ResponseOrder__c === 1
 				);
 				this.responsOfDLQI = data;
-				this.reposneModeeOn();
+				this.reposneModeOn();
 				this.draftResponses = data.map((response) => ({
 					id: response.Id,
 					questionText: response.ResponseValue,
@@ -374,146 +374,166 @@ export default class BiPspbWapiQuestionnaire extends LightningElement {
 	}
 
 	//the draft responses are stored on to js class variable so that we can use it later to submit or save as draft.Also change the status of the radio buttons as checked if the value are matched.
-	reposneModeeOn() {
-		let firstYes = this.yes;
-		let firstNo = this.no;
-		//this for each will itearte through each of the Resoponse records and store the responses and their ids to respective variables for later usage
+	reposneModeOn() {
+		const valueMap = {
+			'0': 0,
+			'1': 1,
+			'2': 2,
+			'3': 3,
+			'4': 4,
+			'5': 5,
+			'6': 6,
+			'7': 7,
+			'8': 8,
+			'9': 9,
+			'10': 10
+		};
+
 		this.responsOfDLQI.forEach((record) => {
-			if (record.BI_PSP_ResponseOrder__c === 1) {
-				if (record.ResponseValue === firstYes) {
-					this.firstQuesIsYes = true;
-					this.secondQuestionVisible = true;
-					this.sliderThumb = true;
-					this.updateThumbLabelPosition(this.sliderValue);
-					this.firstDraftResp = record.ResponseValue;
-					this.firstDraftVerionId = record.AssessmentQuestion.Id;
-				}
-				if (record.ResponseValue === firstNo) {
-					this.firstQuesIsNo = true;
-					this.sliderThumb = false;
-					/**** */
-					if (this.fifthForhandle !== true) {
-						this.fifthRel = false;
-					}
-
-					/**** */
-					this.firstDraftResp = record.ResponseValue;
-					this.firstDraftVerionId = record.AssessmentQuestion.Id;
-				}
-				if (this.yesOrNo === true) {
-					this.firstDraftResp = '';
-					this.firstDraftVerionId = '';
-					this.firstQuesIsYes = false;
-					this.firstQuesIsNo = true;
-					this.secondQuestionVisible = false;
-				}
-				else {
-					if (record.ResponseValue === firstYes || this.firstRspValue === firstYes) {
-						this.secondQuestionVisible = true;
-						this.firstQuesIsYes = true;
-						this.firstQuesIsNo = false;
-					}
-
-
-				}
-
-			}
-
-			if (record.BI_PSP_ResponseOrder__c === 2) {
-				this.firstNumberRecrdId = record.Id;
-				this.firstNumberValue = record.ResponseValue;
-				this.secondDraftResp = record.ResponseValue;
-				this.secondDraftVerionId = record.AssessmentQuestion.Id;
-
-				if (this.yesOrNo === true) {
-					this.secondDraftResp = '';
-					this.secondDraftVerionId = '';
-					this.firstNumberValue = '';
-
-				}
-
-			}
-
-			if (record.BI_PSP_ResponseOrder__c === 3) {
-				this.secondNumberValue = record.ResponseValue;
-				this.secondNumberRecrdId = record.Id;
-				this.thirdDraftResp = record.ResponseValue;
-				this.thirdDraftVersionId = record.AssessmentQuestion.Id;
-
-				if (this.yesOrNo === true) {
-					this.thirdDraftResp = '';
-					this.thirdDraftVersionId = '';
-					this.secondNumberValue = '';
-
-				}
-			}
-
-			if (record.BI_PSP_ResponseOrder__c === 4) {
-				this.thirdNumberValue = record.ResponseValue;
-				this.thirdNumberRecrdId = record.Id;
-				this.fourthDraftRes = record.ResponseValue;
-				this.fourthDraftVersionId = record.AssessmentQuestion.Id;
-
-				if (this.yesOrNo === true) {
-					this.fourthDraftRes = '';
-					this.fourthDraftVersionId = '';
-					this.thirdNumberValue = '';
-
-				}
-			}
-
-			if (record.BI_PSP_ResponseOrder__c === 5) {
-				this.firstSliderRecrdId = record.Id;
-				const valueMap = {
-					'0': 0,
-					'1': 1,
-					'2': 2,
-					'3': 3,
-					'4': 4,
-					'5': 5,
-					'6': 6,
-					'7': 7,
-					'8': 8,
-					'9': 9,
-					'10': 10
-				};
-				//here
-				this.fifthRel = true;
-				this.sliderValue = valueMap[record.ResponseValue] || 0; // Default to 0 if not found
-				this.fifthDraftResp = record.ResponseValue;
-				this.fifthDraftVersionId = record.AssessmentQuestion.Id;
-				this.updateThumbLabelPosition(this.sliderValue);
+			switch (record.BI_PSP_ResponseOrder__c) {
+				case 1:
+					this.handleFirstQuestion(record);
+					break;
+				case 2:
+					this.handleSecondQuestion(record);
+					break;
+				case 3:
+					this.handleThirdQuestion(record);
+					break;
+				case 4:
+					this.handleFourthQuestion(record);
+					break;
+				case 5:
+					this.handleSliderQuestion({
+						record: record,
+						valueMap: valueMap,
+						draftRespProp: 'fifthDraftResp',
+						draftVersionIdProp: 'fifthDraftVersionId',
+						sliderValueProp: 'sliderValue',
+						updateThumbLabelPositionFn: this.updateThumbLabelPosition.bind(this)
+					});
+					break;
+				case 6:
+					this.handleSliderQuestion({
+						record: record,
+						valueMap: valueMap,
+						draftRespProp: 'sixthDraftResp',
+						draftVersionIdProp: 'sixthDraftVersionId',
+						sliderValueProp: 'sliderValueSec',
+						updateThumbLabelPositionFn: this.updateThumbLabelPositionsec.bind(this)
+					});
+					break;
+				default:
+					break;
 			}
 
 			if (this.yesOrNo === true) {
-				this.fifthDraftResp = '';
-				this.fifthDraftVersionId = '';
-				this.sliderValue = '';
+				this.resetDraftResponses();
 			}
-			if (record.BI_PSP_ResponseOrder__c === 6) {
-				const secValueMap = {
-					'0': 0,
-					'1': 1,
-					'2': 2,
-					'3': 3,
-					'4': 4,
-					'5': 5,
-					'6': 6,
-					'7': 7,
-					'8': 8,
-					'9': 9,
-					'10': 10
-				};
-				//here
-				this.sixththRel = true;
-				this.sliderValueSec = secValueMap[record.ResponseValue] || 0; // Default to 0 if not found
-				this.sixthDraftResp = record.ResponseValue;
-				this.updateThumbLabelPositionsec(this.sliderValueSec);
-				this.sixthDraftVersionId = record.AssessmentQuestion.Id;
-			}
-
 		});
 	}
+
+	handleFirstQuestion(record) {
+		const firstYes = this.yes;
+		const firstNo = this.no;
+
+		if (record.ResponseValue === firstYes) {
+			this.firstQuesIsYes = true;
+			this.secondQuestionVisible = true;
+			this.sliderThumb = true;
+			this.updateThumbLabelPosition(this.sliderValue);
+			this.firstDraftResp = record.ResponseValue;
+			this.firstDraftVerionId = record.AssessmentQuestion.Id;
+		} else if (record.ResponseValue === firstNo) {
+			this.firstQuesIsNo = true;
+			this.sliderThumb = false;
+			if (this.fifthForhandle !== true) {
+				this.fifthRel = false;
+			}
+			this.firstDraftResp = record.ResponseValue;
+			this.firstDraftVerionId = record.AssessmentQuestion.Id;
+		}
+
+		if (this.yesOrNo === true) {
+			this.firstDraftResp = '';
+			this.firstDraftVerionId = '';
+			this.firstQuesIsYes = false;
+			this.firstQuesIsNo = true;
+			this.secondQuestionVisible = false;
+		} else if (record.ResponseValue === firstYes || this.firstRspValue === firstYes) {
+			this.secondQuestionVisible = true;
+			this.firstQuesIsYes = true;
+			this.firstQuesIsNo = false;
+		}
+	}
+
+	handleSecondQuestion(record) {
+		this.firstNumberRecrdId = record.Id;
+		this.firstNumberValue = record.ResponseValue;
+		this.secondDraftResp = record.ResponseValue;
+		this.secondDraftVerionId = record.AssessmentQuestion.Id;
+
+		if (this.yesOrNo === true) {
+			this.secondDraftResp = '';
+			this.secondDraftVerionId = '';
+			this.firstNumberValue = '';
+		}
+	}
+
+	handleThirdQuestion(record) {
+		this.secondNumberValue = record.ResponseValue;
+		this.secondNumberRecrdId = record.Id;
+		this.thirdDraftResp = record.ResponseValue;
+		this.thirdDraftVersionId = record.AssessmentQuestion.Id;
+
+		if (this.yesOrNo === true) {
+			this.thirdDraftResp = '';
+			this.thirdDraftVersionId = '';
+			this.secondNumberValue = '';
+		}
+	}
+
+	handleFourthQuestion(record) {
+		this.thirdNumberValue = record.ResponseValue;
+		this.thirdNumberRecrdId = record.Id;
+		this.fourthDraftRes = record.ResponseValue;
+		this.fourthDraftVersionId = record.AssessmentQuestion.Id;
+
+		if (this.yesOrNo === true) {
+			this.fourthDraftRes = '';
+			this.fourthDraftVersionId = '';
+			this.thirdNumberValue = '';
+		}
+	}
+
+	handleSliderQuestion(params) {
+		const { record, valueMap, draftRespProp, draftVersionIdProp, sliderValueProp, updateThumbLabelPositionFn } = params;
+		this[sliderValueProp] = valueMap[record.ResponseValue] || 0; // Default to 0 if not found
+		this[draftRespProp] = record.ResponseValue;
+		this[draftVersionIdProp] = record.AssessmentQuestion.Id;
+		updateThumbLabelPositionFn(this[sliderValueProp]);
+	}
+
+	resetDraftResponses() {
+		this.firstDraftResp = '';
+		this.firstDraftVerionId = '';
+		this.secondDraftResp = '';
+		this.secondDraftVerionId = '';
+		this.firstNumberValue = '';
+		this.thirdDraftResp = '';
+		this.thirdDraftVersionId = '';
+		this.secondNumberValue = '';
+		this.fourthDraftRes = '';
+		this.fourthDraftVersionId = '';
+		this.thirdNumberValue = '';
+		this.fifthDraftResp = '';
+		this.fifthDraftVersionId = '';
+		this.sliderValue = '';
+		this.sixthDraftResp = '';
+		this.sixthDraftVersionId = '';
+		this.sliderValueSec = '';
+	}
+
 
 	// Lifecycle method called when the component is connected to the DOM
 	renderedCallback() {
@@ -1329,7 +1349,7 @@ export default class BiPspbWapiQuestionnaire extends LightningElement {
 		if (this.thirdNumberValue !== '') {
 			this.realRespArray.push(this.fourthRspValue);
 			this.realAssesVerArra.push(this.fourthVersionId);
-		} else if (this.fourthDraftRes !==null && this.fourthRspValue === null) {
+		} else if (this.fourthDraftRes !== null && this.fourthRspValue === null) {
 			this.realRespArray.push(this.fourthDraftRes);
 			this.realAssesVerArra.push(this.fourthDraftVersionId);
 		}

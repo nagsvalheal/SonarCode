@@ -457,8 +457,6 @@ export default class BiPspbQsqAfterTwoMonths extends LightningElement {
 		this.customFormModal = false;
 	}
 
-	//To get Response for the current Assessment for current user.
-	//There's no need to check for null because in Apex, we're throwing an AuraHandledException. Therefore, null data won't be encountered.
 	@wire(DRAFT_RESPONSE_OF_PSORIASIS, { questCatgryName: '$qsq', someBooleanParam: '$twoMonthsTrueFalse' })
 	wiredDraftResponses({ error, data }) {
 		try {
@@ -469,142 +467,142 @@ export default class BiPspbQsqAfterTwoMonths extends LightningElement {
 					this.draftResponses = data.map((response) => ({
 						id: response.Id,
 						questionText: response.ResponseValue,
-						activeVersionId: response.AssessmentQuestion
-							? response.AssessmentQuestion.Id
-							: null
+						activeVersionId: response.AssessmentQuestion ? response.AssessmentQuestion.Id : null
 					}));
 
 					// Update the totalDraftResponses property
-
 					this.totalDraftResponses = this.draftResponses.length;
-					if (this.draftResponses.length >= 1) {
-						let firstQuestion = this.draftResponses[0];
-						this.firstResponseText = firstQuestion.questionText;
-						this.firstResponseVersinId = firstQuestion.activeVersionId;
-						// Check if the array has the expected length before accessing the elements
-						if (this.draftResponses.length >= 2) {
-							let secondQuestion = this.draftResponses[1];
-							this.secondResponseText = secondQuestion.questionText;
-							this.secondResponseVersinId = secondQuestion.activeVersionId;
 
-							// Continue similarly for the third question
-							if (this.draftResponses.length >= 3) {
-								let thirdQuestion = this.draftResponses[2];
-								this.thirdResponseText = thirdQuestion.questionText;
-								this.thirdResponseVersinId = thirdQuestion.activeVersionId;
-								// Continue similarly for the fourth question
-								if (this.draftResponses.length >= 4) {
-									let fourthQuestion = this.draftResponses[3];
-									this.fourthResponseText = fourthQuestion.questionText;
-									this.fourthResponseVersinId = fourthQuestion.activeVersionId;
-
-									if (this.draftResponses.length >= 5) {
-										let fifthQuestion = this.draftResponses[4];
-										this.fifthResponseText = fifthQuestion.questionText;
-										this.fifthResponseVersinId = fifthQuestion.activeVersionId;
-										if (this.draftResponses.length >= 6) {
-											let sixthQuestion = this.draftResponses[5];
-											this.sixthResponseText = sixthQuestion.questionText;
-											this.secSixthRespTex = this.sixthResponseText;
-											this.sixthResponseVersinId =
-												sixthQuestion.activeVersionId;
-										}
-									}
-								}
-							}
-						}
-					}
+					// Process draft responses
+					this.processDraftResponses();
+				} else if (error) {
+					this.showToast(CONSOLE_ERROR_MSG, error.body.message, ERROR_VARIANT_TOAST); // Catching Potential Error from Apex
 				}
-			} else if (error) {
-				this.showToast(CONSOLE_ERROR_MSG, error.body.message, ERROR_VARIANT_TOAST); // Catching Potential Error from Apex
 			}
 		} catch (err) {
 			this.showToast(CONSOLE_ERROR_MSG, err.message, ERROR_VARIANT_TOAST); // Catching Potential Error from LWC
 		}
 	}
 
+	processDraftResponses() {
+		const responseHandlers = [
+			(response) => {
+				this.firstResponseText = response.questionText;
+				this.firstResponseVersinId = response.activeVersionId;
+			},
+			(response) => {
+				this.secondResponseText = response.questionText;
+				this.secondResponseVersinId = response.activeVersionId;
+			},
+			(response) => {
+				this.thirdResponseText = response.questionText;
+				this.thirdResponseVersinId = response.activeVersionId;
+			},
+			(response) => {
+				this.fourthResponseText = response.questionText;
+				this.fourthResponseVersinId = response.activeVersionId;
+			},
+			(response) => {
+				this.fifthResponseText = response.questionText;
+				this.fifthResponseVersinId = response.activeVersionId;
+			},
+			(response) => {
+				this.sixthResponseText = response.questionText;
+				this.secSixthRespTex = response.questionText;
+				this.sixthResponseVersinId = response.activeVersionId;
+			}
+		];
+
+		this.draftResponses.forEach((response, index) => {
+			if (index < responseHandlers.length) {
+				responseHandlers[index](response);
+			}
+		});
+	}
+
+
 	reposneModeeOn() {
-    // Define arrays for response values
-    const firstValues = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10'];
-    const secValues = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10'];
-    const fourthValues = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10'];
+		// Define arrays for response values
+		const firstValues = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10'];
+		const secValues = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10'];
+		const fourthValues = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10'];
 
-    // Define options for Yes/No
-    const secYes = labels.YES_LABEL;
-    const secNo = labels.NO_LABEL;
+		// Define options for Yes/No
+		const secYes = labels.YES_LABEL;
+		const secNo = labels.NO_LABEL;
 
-    // Define UI elements
-    const fifthValues = {
-        fifth1: this.informationCentre,
-        fifth2: this.symptomTracker,
-        fifth3: this.challenges,
-        fifth4: this.questionnaire,
-        fifth5: this.treatmentVideos,
-        fifth6: this.support
-    };
+		// Define UI elements
+		const fifthValues = {
+			fifth1: this.informationCentre,
+			fifth2: this.symptomTracker,
+			fifth3: this.challenges,
+			fifth4: this.questionnaire,
+			fifth5: this.treatmentVideos,
+			fifth6: this.support
+		};
 
-    // Iterate through response records
-    this.responsOfDlqi.forEach((record) => {
-        if (record.ResponseValue === null || record.AssessmentQuestion.Id === null) {
-            return;
-        }
+		// Iterate through response records
+		this.responsOfDlqi.forEach((record) => {
+			if (record.ResponseValue === null || record.AssessmentQuestion.Id === null) {
+				return;
+			}
 
-        const responseValue = record.ResponseValue;
-        const responseOrder = record.BI_PSP_ResponseOrder__c;
-        const questionId = record.AssessmentQuestion.Id;
+			const responseValue = record.ResponseValue;
+			const responseOrder = record.BI_PSP_ResponseOrder__c;
+			const questionId = record.AssessmentQuestion.Id;
 
-        switch (responseOrder) {
-            case 1:
-                this.sliderValue = firstValues.indexOf(responseValue);
-                this.firstDraftResp = responseValue;
-                this.updateThumbLabelPosition(this.sliderValue);
-                this.firstDraftVerionId = questionId;
-                break;
+			switch (responseOrder) {
+				case 1:
+					this.sliderValue = firstValues.indexOf(responseValue);
+					this.firstDraftResp = responseValue;
+					this.updateThumbLabelPosition(this.sliderValue);
+					this.firstDraftVerionId = questionId;
+					break;
 
-            case 2:
-                this.isYesChecked = responseValue === secYes;
-                this.isNoChecked = responseValue === secNo;
-                this.secondDraftResp = responseValue;
-                this.secondDraftVerionId = questionId;
-                break;
+				case 2:
+					this.isYesChecked = responseValue === secYes;
+					this.isNoChecked = responseValue === secNo;
+					this.secondDraftResp = responseValue;
+					this.secondDraftVerionId = questionId;
+					break;
 
-            case 3:
-                this.sliderValuesec = secValues.indexOf(responseValue);
-                this.thirdDraftResp = responseValue;
-                this.updateThumbLabelPositionsec(this.sliderValuesec);
-                this.thirdDraftVersionId = questionId;
-                break;
+				case 3:
+					this.sliderValuesec = secValues.indexOf(responseValue);
+					this.thirdDraftResp = responseValue;
+					this.updateThumbLabelPositionsec(this.sliderValuesec);
+					this.thirdDraftVersionId = questionId;
+					break;
 
-            case 4:
-                this.sliderValuethree = fourthValues.indexOf(responseValue);
-                this.fourthDraftRes = responseValue;
-                this.updateThumbLabelPositionthree(this.sliderValuethree);
-                this.fourthDraftVersionId = questionId;
-                break;
+				case 4:
+					this.sliderValuethree = fourthValues.indexOf(responseValue);
+					this.fourthDraftRes = responseValue;
+					this.updateThumbLabelPositionthree(this.sliderValuethree);
+					this.fourthDraftVersionId = questionId;
+					break;
 
-            case 5:
-                this.fifthinfo = responseValue.includes(fifthValues.fifth1);
-                this.fifthSyTr = responseValue.includes(fifthValues.fifth2);
-                this.fifthChallenges = responseValue.includes(fifthValues.fifth3);
-                this.fifthQuestionnaire = responseValue.includes(fifthValues.fifth4);
-                this.fifthTreatmentVideo = responseValue.includes(fifthValues.fifth5);
-                this.fifthSupport = responseValue.includes(fifthValues.fifth6);
-                this.fifthDraftResp = responseValue;
-                this.fifthWithoudNewVals = responseValue;
-                this.fifthDraftVersionId = questionId;
-                break;
+				case 5:
+					this.fifthinfo = responseValue.includes(fifthValues.fifth1);
+					this.fifthSyTr = responseValue.includes(fifthValues.fifth2);
+					this.fifthChallenges = responseValue.includes(fifthValues.fifth3);
+					this.fifthQuestionnaire = responseValue.includes(fifthValues.fifth4);
+					this.fifthTreatmentVideo = responseValue.includes(fifthValues.fifth5);
+					this.fifthSupport = responseValue.includes(fifthValues.fifth6);
+					this.fifthDraftResp = responseValue;
+					this.fifthWithoudNewVals = responseValue;
+					this.fifthDraftVersionId = questionId;
+					break;
 
-            case 6:
-                this.seventhYess = responseValue === this.yes;
-                this.seventhNoo = responseValue === this.no;
-                this.sixthDraftResp = responseValue;
-                this.sixthDraftVersionId = questionId;
-                break;
-			default:
-				break;
-        }
-    });
-}
+				case 6:
+					this.seventhYess = responseValue === this.yes;
+					this.seventhNoo = responseValue === this.no;
+					this.sixthDraftResp = responseValue;
+					this.sixthDraftVersionId = questionId;
+					break;
+				default:
+					break;
+			}
+		});
+	}
 
 	//To get Assessment Question
 	//There's no need to check for null because in Apex, we're throwing an AuraHandledException. Therefore, null data won't be encountered.
@@ -990,15 +988,15 @@ export default class BiPspbQsqAfterTwoMonths extends LightningElement {
 		// Filter non-empty responses and IDs
 		const nonEmptyResponses = this.realRespArray.filter(response => response !== '');
 		const nonEmptyIds = this.realAssesVerArra.filter(id => id !== '');
-		let draft =false;
+		let draft = false;
 		// Submit draft responses
-		let twoMonths=true;
+		let twoMonths = true;
 		if (nonEmptyResponses.length > 0) {
 			DRAFT_RESPONSE_SUBMISSION({
 				darftQuestionIds: nonEmptyIds,
 				draftResponseTexts: nonEmptyResponses,
 				isItDraftOrSubmit: draft,
-				isQsqAfterTwoMonths :twoMonths
+				isQsqAfterTwoMonths: twoMonths
 			})
 				.then(() => {
 					this.customFormModal = false;
@@ -1105,13 +1103,13 @@ export default class BiPspbQsqAfterTwoMonths extends LightningElement {
 	// Utility function to submit assessment response
 	submitAssessmentResponse(responses, ids) {
 		let twoOrFourtnWeeks = true;
-		let twoMonths=true;
+		let twoMonths = true;
 		if (responses.length > 0) {
 			SUBMIT_ASSESSMENT_RESPONSE({
 				darftQuestionIds: ids,
 				draftResponseTexts: responses,
 				isItDraftOrSubmit: twoOrFourtnWeeks,
-				isQsqAfterTwoMonths :twoMonths
+				isQsqAfterTwoMonths: twoMonths
 			})
 				.then(() => {
 					window.location.assign(this.urlq + labels.OUT_STANDING_URL);

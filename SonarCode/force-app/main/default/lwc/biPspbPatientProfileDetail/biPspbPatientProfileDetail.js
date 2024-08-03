@@ -7,10 +7,10 @@ import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import Id from '@salesforce/user/Id';
 
 //  To import Apex Classes
-import CREATE_CASE from '@salesforce/apex/BI_PSPB_CaseCtrl.createCase';
-import CREATE_ACCESS_CASE from '@salesforce/apex/BI_PSPB_CaseCtrl.createAccessCase';
-import GET_CHECKBOX_VALUES from '@salesforce/apex/BI_PSPB_CaseCtrl.checkboxPersonalAccess';
-import CHECKBOX_VALUES_REQUEST from '@salesforce/apex/BI_PSPB_CaseCtrl.checkboxAccountDeletion';
+import CREATE_CASE from '@salesforce/apex/BI_PSPB_CaseDeletionCtrl.createCase';
+import CREATE_ACCESS_CASE from '@salesforce/apex/BI_PSPB_CaseAccessCtrl.createAccessCase';
+import GET_CHECKBOX_VALUES from '@salesforce/apex/BI_PSPB_CaseAccessCtrl.checkboxPersonalAccess';
+import CHECKBOX_VALUES_REQUEST from '@salesforce/apex/BI_PSPB_CaseDeletionCtrl.checkboxAccountDeletion';
 import ENROLLEE_DETAILS from '@salesforce/apex/BI_PSP_ChallengeEnrolleCtrl.getEnrolle';
 import ACCOUNT_DETAILS from '@salesforce/apex/BI_PSPB_AccountDetailsCtrl.getAccDetails';
 import UPDATE_PATIENT_DETAILS from '@salesforce/apex/BI_PSPB_ProfileManagerCtrl.updatePatientorCargiverInfo';

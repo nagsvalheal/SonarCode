@@ -235,18 +235,6 @@ export default class BiPspbArticlesForDashboard extends LightningElement {
 		}
 	}
 
-
-	get dynamicProperty() {
-		// Generate a random number between 2 and 4 (inclusive)
-		let newRandomNumber = Math.floor(Math.random() * 3) + 2;
-		return newRandomNumber;
-	}
-	get dynamicsecond() {
-		// Generate a random number between 0 and 60 (inclusive)
-		let newRandomNumber = Math.floor(Math.random() * 61);
-		return newRandomNumber;
-	}
-
 	/*There's no need to check for null because in Apex, we're throwing an AuraHandledException. 
 	Therefore, null data won't be encountered.*/
 	// To reterive the patient status (acute or chronic or unassigned)

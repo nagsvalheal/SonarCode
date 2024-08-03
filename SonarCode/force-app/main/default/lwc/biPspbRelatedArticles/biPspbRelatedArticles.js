@@ -136,17 +136,26 @@ export default class BiPspbRelatedArticles extends LightningElement {
 		return "borderless-button";
 	}
 
-	// Method to generate random numbers based on length of the article list
-	generateRandomNumbers() {
-		let len = this.articleCategoryList.length;
-
-		let numbers = new Set();
-		while (numbers.size < len) {
-			let randomNumber = Math.floor(Math.random() * len); // Generates numbers from 0 to 8
-			numbers.add(randomNumber);
-		}
-		return Array.from(numbers);
+	// Function to generate a secure random integer within a specified range
+	secureRandomInt(max) {
+		const array = new Uint32Array(1);
+		window.crypto.getRandomValues(array); // Generate a random value
+		return array[0] % max; // Limit the random number to the range 0 to max-1
 	}
+	
+    // Method to generate unique secure random numbers based on the length of articleCategoryList
+    generateRandomNumbers() {
+        let len = this.articleCategoryList.length;
+        let numbers = new Set();
+
+        while (numbers.size < len) {
+            let randomNumber = this.secureRandomInt(len); // Generates numbers from 0 to len-1
+            numbers.add(randomNumber);
+        }
+
+        return Array.from(numbers);
+    }
+
 
 	// To navigate article detail page
 	navigateToArticleContent(event) {

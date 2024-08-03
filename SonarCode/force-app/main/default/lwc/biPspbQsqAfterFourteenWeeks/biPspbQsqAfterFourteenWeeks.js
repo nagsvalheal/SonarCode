@@ -179,10 +179,10 @@ export default class BiPspbQsqAfterFourteenWeeks extends LightningElement {
 	qsqText = labels.QSQ_EG_TXT;
 	outstandingQue = labels.OUTSTANDING_QUESTIONNAIRE;
 	informationCentre = labels.INFORMATION_CENTER_TXT;
-	symptomTracker = labels.SYMPTOM_TRACKER;
+	symptomTracker = labels.SYMPTOM_TRACKER_TXT;
 	challenges = labels.CHALLENGES_TXT;
 	questionnaire = labels.QUESTIONNAIRE_TXT;
-	treatmentVideos = labels.REATMENT_VIDEOS;
+	treatmentVideos = labels.TREATMENT_VIDEOS;
 	support = labels.SUPPORT_TXT;
 	yes = labels.YES_LABEL;
 	no = labels.NO_LABEL;
@@ -472,56 +472,44 @@ export default class BiPspbQsqAfterFourteenWeeks extends LightningElement {
 				this.draftResponses = data.map((response) => ({
 					id: response.Id,
 					questionText: response.ResponseValue,
-					activeVersionId: response.AssessmentQuestion
-						? response.AssessmentQuestion.Id
-						: null
+					activeVersionId: response.AssessmentQuestion ? response.AssessmentQuestion.Id : null
 				}));
 
 				// Update the totalDraftResponses property
-
 				this.totalDraftResponses = this.draftResponses.length;
 
-				if (this.draftResponses.length >= 1) {
-					let firstQuestion = this.draftResponses[0];
-					this.firstResponseText = firstQuestion.questionText;
-					this.firstResponseVersinId = firstQuestion.activeVersionId;
-					// Check if the array has the expected length before accessing the elements
-					if (this.draftResponses.length >= 2) {
-						let secondQuestion = this.draftResponses[1];
-						this.secondResponseText = secondQuestion.questionText;
-						this.secondResponseVersinId = secondQuestion.activeVersionId;
-						// Continue similarly for the third question
-						if (this.draftResponses.length >= 3) {
-							let thirdQuestion = this.draftResponses[2];
-							this.thirdResponseText = thirdQuestion.questionText;
-							this.thirdResponseVersinId = thirdQuestion.activeVersionId;
-							// Continue similarly for the fourth question
-							if (this.draftResponses.length >= 4) {
-								let fourthQuestion = this.draftResponses[3];
-								this.fourthResponseText = fourthQuestion.questionText;
-								this.fourthResponseVersinId = fourthQuestion.activeVersionId;
-								if (this.draftResponses.length >= 5) {
-									let fifthQuestion = this.draftResponses[4];
-									this.fifthResponseText = fifthQuestion.questionText;
-									this.fifthResponseVersinId = fifthQuestion.activeVersionId;
-									if (this.draftResponses.length >= 6) {
-										let sixthQuestion = this.draftResponses[5];
-										this.sixthResponseText = sixthQuestion.questionText;
-										this.secSixthRespTex = this.sixthResponseText;
-										this.sixthResponseVersinId = sixthQuestion.activeVersionId;
-									}
-								}
-							}
-						}
-					}
-				}
+				// Process draft responses
+				this.processDraftResponses();
 			} else if (error) {
-				this.showToast(CONSOLE_ERROR_MSG, error.body.message, ERROR_VARIANT_TOAST);// Catching Potential Error from Apex
+				this.showToast(CONSOLE_ERROR_MSG, error.body.message, ERROR_VARIANT_TOAST); // Catching Potential Error from Apex
 			}
 		} catch (err) {
-			this.showToast(CONSOLE_ERROR_MSG, err.message, ERROR_VARIANT_TOAST);// Catching Potential Error from LWC
+			this.showToast(CONSOLE_ERROR_MSG, err.message, ERROR_VARIANT_TOAST); // Catching Potential Error from LWC
 		}
 	}
+
+	processDraftResponses() {
+		const responseMappings = [
+			{ textProperty: 'firstResponseText', idProperty: 'firstResponseVersinId' },
+			{ textProperty: 'secondResponseText', idProperty: 'secondResponseVersinId' },
+			{ textProperty: 'thirdResponseText', idProperty: 'thirdResponseVersinId' },
+			{ textProperty: 'fourthResponseText', idProperty: 'fourthResponseVersinId' },
+			{ textProperty: 'fifthResponseText', idProperty: 'fifthResponseVersinId' },
+			{ textProperty: 'sixthResponseText', idProperty: 'sixthResponseVersinId', extraTextProperty: 'secSixthRespTex' }
+		];
+
+		responseMappings.forEach((mapping, index) => {
+			if (this.draftResponses.length > index) {
+				const question = this.draftResponses[index];
+				this[mapping.textProperty] = question.questionText;
+				this[mapping.idProperty] = question.activeVersionId;
+				if (mapping.extraTextProperty) {
+					this[mapping.extraTextProperty] = question.questionText;
+				}
+			}
+		});
+	}
+
 
 	//Assigning order number for response
 	reposneModeeOn() {
@@ -714,45 +702,35 @@ export default class BiPspbQsqAfterFourteenWeeks extends LightningElement {
 	navigateToCategory4() {
 		window.location.assign(this.urlq + labels.WPAI_QUESTIONAIRE);
 	}
-	handleSeve(event) {
+	handleSeven(event) {
 		this.nameOfQuestion = event.target.name;
 		this.checPrevoiusVal = this.fifthDraftResp;
 		let checkedValOfBox = event.target.checked;
+		let chekVal = event.target.value;
+
+		const checkboxMappings = {
+			[this.informationCentre]: 'fifthinfo',
+			[this.symptomTracker]: 'fifthSyTr',
+			[this.challenges]: 'fifthChallenges',
+			[this.questionnaire]: 'fifthQuestionnaire',
+			[this.treatmentVideos]: 'fifthTreatmentVideo',
+			[this.support]: 'fifthSupport'
+		};
+
 		if (checkedValOfBox) {
-			let chekVal = event.target.value;
-			if (chekVal === this.informationCentre) {
-				this.fifthinfo = true;
-			}
-
-			if (chekVal === this.symptomTracker) {
-				this.fifthSyTr = true;
-			}
-
-			if (chekVal === this.challenges) {
-				this.fifthChallenges = true;
-			}
-
-			if (chekVal === this.questionnaire) {
-				this.fifthQuestionnaire = true;
-			}
-
-			if (chekVal === this.treatmentVideos) {
-				this.fifthTreatmentVideo = true;
-			}
-
-			if (chekVal === this.support) {
-				this.fifthSupport = true;
+			if (checkboxMappings[chekVal] !== undefined) {
+				this[checkboxMappings[chekVal]] = true;
 			}
 		}
 
-		let checkBoval = event.target.checked;
-		if (checkBoval) {
-			this.checkedResVal = event.target.value;
+		if (checkedValOfBox) {
+			this.checkedResVal = chekVal;
 		} else {
-			this.unCheckedResVal = event.target.value;
+			this.unCheckedResVal = chekVal;
 			this.unCheckedArray.push(this.unCheckedResVal);
 		}
-		this.fifthQuestionresponse = event.target.value;
+
+		this.fifthQuestionresponse = chekVal;
 		this.nameToDraftFifth = event.target.name;
 
 		if (this.fifthQuestionresponse !== '') {
@@ -760,41 +738,20 @@ export default class BiPspbQsqAfterFourteenWeeks extends LightningElement {
 			this.fifthArray.push(this.fifthQuestionresponse);
 			this.arrayForPushId.push(this.fifthQuestionVersinId);
 		}
+
 		// Get the last values separately
 		this.fifthResonseValue = this.getLastRespValue();
 		this.fifthVersionId = this.getLastIdValue();
 
-		let checke = event.target.checked;
-		if (checke) {
-			this.CheckBoxChecked = checke;
-		} else {
-			let uncheked = event.target.value;
-
-			if (uncheked === this.informationCentre) {
-				this.fifthinfo = false;
-			}
-
-			if (uncheked === this.symptomTracker) {
-				this.fifthSyTr = false;
-			}
-
-			if (uncheked === this.challenges) {
-				this.fifthChallenges = false;
-			}
-
-			if (uncheked === this.questionnaire) {
-				this.fifthQuestionnaire = false;
-			}
-
-			if (uncheked === this.treatmentVideos) {
-				this.fifthTreatmentVideo = false;
-			}
-
-			if (uncheked === this.support) {
-				this.fifthSupport = false;
+		if (!checkedValOfBox) {
+			if (checkboxMappings[chekVal] !== undefined) {
+				this[checkboxMappings[chekVal]] = false;
 			}
 		}
+
+		this.CheckBoxChecked = checkedValOfBox;
 	}
+
 
 
 	handlerealSeventhQuestionChange(event) {

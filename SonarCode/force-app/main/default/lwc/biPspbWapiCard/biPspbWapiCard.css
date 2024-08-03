@@ -90,7 +90,6 @@
 	font-size: 16px;
 	font-weight: bold;
 	margin: 0;
-	/* margin-top: 100px; */
 }
 
 .image {
@@ -98,9 +97,6 @@
 	width: 122px;
 	margin-left: 150px;
 	margin-top: -125px;
-
-	/* Adjust the maximum width of the image as needed */
-	/* margin-bottom: 400px; */
 }
 
 .image1 {
@@ -108,9 +104,6 @@
 	width: 132px;
 	margin-left: 145px;
 	margin-top: -135px;
-
-	/* Adjust the maximum width of the image as needed */
-	/* margin-bottom: 400px; */
 }
 
 .bottomBar {
@@ -147,15 +140,11 @@
 }
 
 .button {
-	/* --sds-c-button-brand-color-background: #403a60;
-	--sds-c-button-text-color: #f4f7f9;
-	--sds-c-button-clip-path: ellipse(50% 50%); */
 	border: 1px solid #403a60;
 	width: 87px;
 	/* Adjust the width to your desired size */
 	height: 40px;
 	border-radius: 8px;
-	/* position: absolute; */
 	background-color: #403a60;
 	color: white;
 	font-weight: 400;

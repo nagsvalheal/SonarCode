@@ -21,8 +21,8 @@ import LINE_YELLOW from '@salesforce/resourceUrl/BI_PSP_LineYellow';
 import LINE_BROWN from '@salesforce/resourceUrl/BI_PSP_LineBrown';
 //To import apex classess
 import GET_ENROLLE from '@salesforce/apex/BI_PSP_CurrentUser.getEnrolleeRecords';
-import GET_ASSESSMENT_DETAILS from '@salesforce/apex/BI_PSP_QuestionnaireGraphCtrl.getQuestionnaireDetails';
-import GET_LAST_QUESTION from '@salesforce/apex/BI_PSP_QuestionnaireGraphCtrl.getQuestionnaireLast';
+import GET_ASSESSMENT_DETAILS from '@salesforce/apex/BI_PSP_GraphCtrl.getQuestionnaireDetails';
+import GET_LAST_QUESTION from '@salesforce/apex/BI_PSP_GraphCtrl.getQuestionnaireLast';
 import GET_ASSESSMENT_COUNT from '@salesforce/apex/BI_PSP_AssessmentCtrl.getAssessmentCountsByCurrentUserName';
 //To import custo labels
 import BRANDED_URL from '@salesforce/label/c.BI_PSPB_SiteLabel';

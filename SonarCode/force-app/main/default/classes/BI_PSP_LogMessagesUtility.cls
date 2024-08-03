@@ -45,6 +45,7 @@ public inherited sharing class BI_PSP_LogMessagesUtility {
      * @param typeName (Exception): The exception that was caught.
      * @return: This method does not return any value.
      */
+    
     public static void exceptionLogMessage(String errorMessage, String className, Exception typeName) {
         String currentUserName = UserInfo.getName();
         String formattedMessage = 'Exception for user ' + currentUserName + ': ' + errorMessage;
@@ -58,7 +59,7 @@ public inherited sharing class BI_PSP_LogMessagesUtility {
         );
 
         if (!String.isBlank(errorMessage)) {
-            throw new AuraHandledException(formattedMessage+ typeName.getMessage());
+            throw new AuraHandledException(formattedMessage);
         }
     }
 

@@ -123,10 +123,9 @@ public class BI_PSPB_CaregiverServiceCtrl {
      * @param ecRecord The Enrollee Caregiver record to update.
      * @return An error message if any issues occur, otherwise an empty string.
      */
-    public static String updateEnrolleeCaregiver(BI_PSPB_Enrollee_Caregiver__c ecRecord) {
-        BI_PSPB_HandleUtitlites.updateAndHandleErrors(new List<BI_PSPB_Enrollee_Caregiver__c>{ ecRecord }, BI_PSPB_ProfileManagerCtrl.class.toString(), FALSE);
-        String errorMsg = '';
-        return errorMsg;
+    public static void updateEnrolleeCaregiver(BI_PSPB_Enrollee_Caregiver__c ecRecord) {
+        BI_PSP_DatabaseOperationsUtility.updateAndHandleErrors(new List<BI_PSPB_Enrollee_Caregiver__c>{ ecRecord }, BI_PSPB_ProfileManagerCtrl.class.toString(), FALSE);
+       
     }
 
     /**

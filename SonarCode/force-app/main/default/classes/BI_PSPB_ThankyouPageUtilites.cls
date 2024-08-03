@@ -144,7 +144,7 @@ public static Boolean checkCaregiverData(String caregiverCreateId) {
         if (leadCaregiverList.isEmpty()) {
             return false;
         }
-         system.debug('ssss'+leadCaregiverList);
+         
         // Query Contact to check if the caregiver details exist
         BI_PSPB_Lead_Caregiver__c leadCaregiver = leadCaregiverList[0];
         sObjectType = 'Contact';

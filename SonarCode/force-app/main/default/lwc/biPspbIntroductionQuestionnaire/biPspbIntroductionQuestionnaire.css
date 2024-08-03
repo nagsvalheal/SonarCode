@@ -1039,7 +1039,7 @@ Eina04-Bold */
 	display: inline-block;
 }
 
-.image {
+.navigationpic {
 	height: 42px;
 	width: 50px;
 	/* margin-left: 150px; */
@@ -1050,7 +1050,7 @@ Eina04-Bold */
 	/* position: absolute; */
 }
 
-.image1 {
+.navigationpicHighlight {
 	height: 50px;
 	width: 50px;
 	/* margin-left: 150px; */
@@ -1127,7 +1127,7 @@ p.expires {
 	border: 1.4px solid #403a60;
 }
 
-.image {
+.navigationpic {
 	height: 42px;
 	width: 50px;
 	/* margin-left: 150px; */
@@ -1138,7 +1138,7 @@ p.expires {
 	/* position: absolute; */
 }
 
-.image1 {
+.navigationpicHighlight {
 	height: 50px;
 	width: 50px;
 	/* margin-left: 150px; */
@@ -1701,13 +1701,13 @@ input[type="radio"]:checked+label {
 		margin-top: -35px;
 	}
 
-	.image {
+	.navigationpic {
 		/* margin-left: -430px; */
 		margin-right: 70%;
 		width: 6%;
 	}
 
-	.image1 {
+	.navigationpicHighlight {
 		/* margin-left: -430px; */
 		margin-right: 70%;
 		width: 6%;
@@ -2042,7 +2042,7 @@ overflow: hidden; */
 		width: 110%;
 	}
 
-	.image {
+	.navigationpic {
 		/* margin-left: -290px; */
 		width: 6%;
 		margin-right: 75%;
@@ -2072,7 +2072,7 @@ overflow: hidden; */
 		margin-top: -35px;
 	}
 
-	.image1 {
+	.navigationpicHighlight {
 		/* margin-left: -290px; */
 		width: 6%;
 		margin-right: 75%;
@@ -2472,7 +2472,7 @@ overflow: hidden; */
 		width: 113%;
 	}
 
-	.image {
+	.navigationpic {
 		/* margin-left: -290px; */
 		width: 6%;
 		margin-right: 75%;
@@ -2502,7 +2502,7 @@ overflow: hidden; */
 		margin-top: -35px;
 	}
 
-	.image1 {
+	.navigationpicHighlight {
 		/* margin-left: -290px; */
 		width: 6%;
 		margin-right: 75%;
@@ -2932,7 +2932,7 @@ overflow: hidden; */
 		width: 119%;
 	}
 
-	.image {
+	.navigationpic {
 		/* margin-left: -290px; */
 		width: 15%;
 		margin-right: 75%;
@@ -2962,7 +2962,7 @@ overflow: hidden; */
 		margin-top: -63px;
 	}
 
-	.image1 {
+	.navigationpicHighlight {
 		/* margin-left: -290px; */
 		width: 15%;
 		margin-right: 75%;
@@ -3417,7 +3417,7 @@ overflow: hidden; */
 		width: 118%;
 	}
 
-	.image {
+	.navigationpic {
 		/* margin-left: -290px; */
 		width: 15%;
 		margin-right: 75%;
@@ -3447,7 +3447,7 @@ overflow: hidden; */
 		margin-top: -63px;
 	}
 
-	.image1 {
+	.navigationpicHighlight {
 		/* margin-left: -290px; */
 		width: 15%;
 		margin-right: 75%;

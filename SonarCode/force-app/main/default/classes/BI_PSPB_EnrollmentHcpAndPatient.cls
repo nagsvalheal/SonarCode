@@ -48,6 +48,7 @@
             }
         } catch (Exception ex) {
             BI_PSP_LogMessagesUtility.exceptionLogMessage(BI_PSPB_EnrollmentConstantCtrl.getLabel('INSERTION_FAILED'), BI_PSPB_EnrollmentHcpAndPatient.class.getName(), ex);
+            throw new DMLException('Unable to Perform the DML Operation on Account : ' +ex.getMessage());
             
         }
         return leadList[0];

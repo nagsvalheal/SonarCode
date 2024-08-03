@@ -10,7 +10,6 @@ import GET_INDIVIDUAL_CHALLENGES from '@salesforce/apex/BI_PSP_IndividualChallen
 import COUNT_ASSESSMENT from '@salesforce/apex/BI_PSP_AssessmentCtrl.getAssessmentCountsByCurrentUserName';
 //import UPDATE_REACTION from '@salesforce/apex/BI_PSPB_ArticleLikeCtrl.updateReaction';
 //To import Custom labels
-
 import CHALLENGE_LEVEL_ONE from '@salesforce/label/c.BI_PSP_ChallengeLevelOne';
 import CHALLENGE_LEVEL_TWO from '@salesforce/label/c.BI_PSP_ChallengeLevelTwo';
 import CH_BOOK_WORM from '@salesforce/label/c.BI_PSP_ChallengeBookworm';
@@ -30,14 +29,7 @@ import BRDLQICOMPLETEDURL from "@salesforce/label/c.BI_PSPB_DlqiCompletedUrl";
 import BRWAPICOMPLETEDURL from "@salesforce/label/c.BI_PSPB_WapiCompletedQuestionnaire";
 import BRPSSCOMPLETEDURL from "@salesforce/label/c.BI_PSPB_PsoriasisCompletedQuesUrl";
 import VIEW_LABEL from '@salesforce/label/c.BI_PSPB_View';
-// import BEING_ACTIVE from '@salesforce/label/c.BI_PSPB_BeingActive';
-// import TRACK_YOUR_ANSWER from '@salesforce/label/c.BI_PSPB_TrackYourAnswer';
-// import LINKARTICLE from '@salesforce/label/c.BI_PSPB_LinkArticle';
-// import GPPWORKLIFELINK from '@salesforce/label/c.BI_PSPB_GppWorkLifeLink';
-// import GPPSYMPTOMSLINK from '@salesforce/label/c.BI_PSPB_GPP_symptoms_Link';
-// import GPPQUALITYLIFELINK from '@salesforce/label/c.BI_PSPB_GppQualityLife';
-// import QuestonnaireValue from '@salesforce/label/c.BI_PSPB_QuestionnaireLink';
-// import COMPLETECHALLENGEBUTTON from '@salesforce/label/c.BI_PSPB_CompleteChallengeButton';
+
 
 
 export default class BiPspbActiveChallenges extends LightningElement {
@@ -65,7 +57,7 @@ export default class BiPspbActiveChallenges extends LightningElement {
 	biPspbWapiCompletedQuestionnaire = BRWAPICOMPLETEDURL;
 	brCompletedUrl = BRPSSCOMPLETEDURL;
 	viewLable = VIEW_LABEL;
-	beingActive = resources.BEING_ACTIVE;
+	beingActiveLink = resources.BEING_ACTIVE;
 	trackYourAns = resources.TRACK_YOUR_ANSWER;
 	linkArticle =resources.LINKARTICLE;
 	gppWrkLifeLink =resources.GPPWORKLIFELINK;
@@ -176,14 +168,14 @@ export default class BiPspbActiveChallenges extends LightningElement {
 	wiredAssessmentResponsesqsq({ data, error }) {
 		try {
 			if (error) {
-				this.showToast(ErrorMessage, error.body.message, this.errorVariant); // Catching Potential Error from Apex
+				this.showToast(this.errorMsg, error.body.message, this.errorVariant); // Catching Potential Error from Apex
 			} else if (data) {
 				this.count = data;
 				//assigning data values to the variables 
 				[this.stwai, this.stpss, this.stdlq, this.stqsq] = this.count;
 			}
 		} catch (err) {
-			this.showToast(ErrorMessage, err.message, this.errorVariant); // Catching Potential Error from LWC
+			this.showToast(this.errorMsg, err.message, this.errorVariant); // Catching Potential Error from LWC
 		}
 	}
 	renderedCallback() {

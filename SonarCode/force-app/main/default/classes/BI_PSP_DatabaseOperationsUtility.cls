@@ -136,7 +136,7 @@ public inherited sharing class BI_PSP_DatabaseOperationsUtility {
     return updatedIds;
 }
 
- public static Database.SaveResult[] insertOperationAllAreTrue(List<SObject> records, String className, Boolean userModeLevel) {
+ public static Database.SaveResult[] insertOperation(List<SObject> records, String className, Boolean userModeLevel) {
        
      try{
         if (userModeLevel) {
@@ -144,12 +144,28 @@ public inherited sharing class BI_PSP_DatabaseOperationsUtility {
         } else {
             insertResults = Database.insert(records, true);
         }
-        
        
      }
      catch(DMLException ex)
      {
-         throw new DMLException('Unable to Perform the DML Operation on Account : ' +ex.getMessage());
+         throw new DMLException('Unable to Insert : ' +ex.getMessage());
+     }
+        return insertResults;
+    }
+    
+  public static Database.SaveResult[] updateOperation(List<SObject> records, String className, Boolean userModeLevel) {
+       
+     try{
+        if (userModeLevel) {
+            insertResults = Database.Update(records, true, AccessLevel.USER_MODE);
+        } else {
+            insertResults = Database.Update(records, true);
+        }
+       
+     }
+     catch(DMLException ex)
+     {
+         throw new DMLException('Unable to Update : ' +ex.getMessage());
      }
         return insertResults;
     }

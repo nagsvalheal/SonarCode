@@ -33,9 +33,9 @@
 					<div class="nds-form-element__control nds-horizontal_radio">
 						<span class="nds-radio">
 							<div class="radio-container">
-								<input type="radio" name="firstQuestionResponse" aria-invalid="false" value="Yes"
+								<input type="radio" name="firstQuestionResponse"  value="Yes"
 									onchange={handleFirstQuestionChange} checked={isYesChecked} id="secondYes" />
-								<label class="nds-radio__label" data-index="0">
+								<label for="secondYes" class="nds-radio__label" data-index="0">
 									<span class="nds-radio_faux"></span>
 									<span class="nds-form-element__label slds-p-left_small">{yes}</span>
 								</label>
@@ -43,9 +43,9 @@
 						</span>
 						<span class="nds-radio last-option">
 							<div class="radio-container">
-								<input type="radio" name="firstQuestionResponse" aria-invalid="false" value="No"
+								<input type="radio" name="firstQuestionResponse"  value="No"
 									onchange={handleFirstQuestionChange} checked={isNoChecked} id="secondNo" />
-								<label class="nds-radio__label" data-index="1">
+								<label for="secondNo" class="nds-radio__label" data-index="1">
 									<span class="nds-radio_faux"></span>
 									<span class="nds-form-element__label slds-p-left_small">{no}</span>
 								</label>
@@ -99,34 +99,34 @@
 					</legend>
 					<div class="nds-form-element__controll nds-vertical_radio">
 						<div class="nds-checkbox-wrapper">
-							<input type="checkbox" name="fifthque" value="Information Centre" onchange={handleSeve}
+							<input type="checkbox" name="fifthque" value="Information Centre" onchange={handleSeven}
 								checked={fifthinfo} id="fifthInfo" />
-							<label class="nds-radio-label">{informationCentre}</label>
+							<label for="fifthInfo" class="nds-radio-label">{informationCentre}</label>
 						</div>
 						<div class="nds-checkbox-wrapper">
-							<input type="checkbox" name="fifthque" value="Symptom Tracker" onchange={handleSeve}
+							<input type="checkbox" name="fifthque" value="Symptom Tracker" onchange={handleSeven}
 								checked={fifthSyTr} id="fifthSyTr" />
-							<label class="nds-radio-label">{symptomTracker}</label>
+							<label for="fifthSyTr" class="nds-radio-label">{symptomTracker}</label>
 						</div>
 						<div class="nds-checkbox-wrapper">
-							<input type="checkbox" name="fifthque" value="Challenges" onchange={handleSeve}
+							<input type="checkbox" name="fifthque" value="Challenges" onchange={handleSeven}
 								checked={fifthChallenges} id="fifthChallenges" />
-							<label class="nds-radio-label">{challenges}</label>
+							<label for="fifthChallenges" class="nds-radio-label">{challenges}</label>
 						</div>
 						<div class="nds-checkbox-wrapper">
-							<input type="checkbox" name="fifthque" value="Questionnaire" onchange={handleSeve}
+							<input type="checkbox" name="fifthque" value="Questionnaire" onchange={handleSeven}
 								checked={fifthQuestionnaire} id="fifthQuestionnaire" />
-							<label class="nds-radio-label">{questionnaire}</label>
+							<label for="fifthQuestionnaire" class="nds-radio-label">{questionnaire}</label>
 						</div>
 						<div class="nds-checkbox-wrapper">
-							<input type="checkbox" name="fifthque" value="Treatment Videos" onchange={handleSeve}
+							<input type="checkbox" name="fifthque" value="Treatment Videos" onchange={handleSeven}
 								checked={fifthTreatmentVideo} id="fifthTreatmentVideo" />
-							<label class="nds-radio-label">{treatmentVideos}</label>
+							<label for="fifthTreatmentVideo" class="nds-radio-label">{treatmentVideos}</label>
 						</div>
 						<div class="nds-checkbox-wrapper last-option">
-							<input type="checkbox" name="fifthque" value="Support" onchange={handleSeve}
+							<input type="checkbox" name="fifthque" value="Support" onchange={handleSeven}
 								checked={fifthSupport} id="fifthSupport" />
-							<label class="nds-radio-label">{support}</label>
+							<label for="fifthSupport" class="nds-radio-label">{support}</label>
 						</div>
 					</div>
 				</div>
@@ -139,9 +139,9 @@
 					<div class="nds-form-element__control nds-horizontal_radio">
 						<span class="nds-radio">
 							<div class="radio-container">
-								<input type="radio" name="seventhQuestionResponse" aria-invalid="false" value="Yes"
+								<input type="radio" name="seventhQuestionResponse" value="Yes"
 									onchange={handlerealSeventhQuestionChange} checked={seventhYess} id="seventhYes" />
-								<label class="nds-radio__label" data-index="0">
+								<label for="seventhYes" class="nds-radio__label" data-index="0">
 									<span class="nds-radio_faux"></span>
 									<span class="nds-form-element__label slds-p-left_small">{yes}</span>
 								</label>
@@ -149,9 +149,9 @@
 						</span>
 						<span class="nds-radio last-option">
 							<div class="radio-container">
-								<input type="radio" name="seventhQuestionResponse" aria-invalid="false" value="No"
+								<input type="radio" name="seventhQuestionResponse" value="No"
 									onchange={handlerealSeventhQuestionChange} checked={seventhNoo} id="seventhNo" />
-								<label class="nds-radio__label" data-index="1">
+								<label for="seventhNo" class="nds-radio__label" data-index="1">
 									<span class="nds-radio_faux"></span>
 									<span class="nds-form-element__label slds-p-left_small">{no}</span>
 								</label>
@@ -167,9 +167,9 @@
 					<div class="nds-form-element__control nds-horizontal_radio">
 						<span class="nds-radio">
 							<div class="radio-container">
-								<input type="radio" name="eigthQuestionResponse" aria-invalid="false" value="Yes"
+								<input type="radio" name="eigthQuestionResponse" value="Yes"
 									onchange={handleEigthQuestionChange} checked={eighthYess} id="eighthYes" />
-								<label class="nds-radio__label" data-index="0">
+								<label for="eighthYes" class="nds-radio__label" data-index="0">
 									<span class="nds-radio_faux"></span>
 									<span class="nds-form-element__label slds-p-left_small">{yes}</span>
 								</label>
@@ -177,9 +177,9 @@
 						</span>
 						<span class="nds-radio last-option">
 							<div class="radio-container">
-								<input type="radio" name="eigthQuestionResponse" aria-invalid="false" value="No"
+								<input type="radio" name="eigthQuestionResponse" value="No"
 									onchange={handleEigthQuestionChange} checked={eighthNoo} id="eighthNo" />
-								<label class="nds-radio__label" data-index="1">
+								<label for="eighthNo" class="nds-radio__label" data-index="1">
 									<span class="nds-radio_faux"></span>
 									<span class="nds-form-element__label slds-p-left_small">{no}</span>
 								</label>

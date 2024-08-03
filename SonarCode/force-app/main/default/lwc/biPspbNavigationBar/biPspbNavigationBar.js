@@ -130,7 +130,7 @@ export default class BiPspbNavigationBar extends LightningElement {
 	updateRx = resources.UPDATE_PRESCRIPTION_URL;
 	loginPageUrl = resources.LOGIN_PAGE;
 	acuteVideoPage = resources.ACUTE_VIDEO_PAGE;
-	targetFourteenWeeksDate=null; 
+	targetFourteenWeeksDate = null;
 	errorMsg = resources.ERROR_MESSAGE;
 	errorVariant = resources.ERROR_VARIANT;
 	completedLabel = resources.COMPLETED;
@@ -181,55 +181,46 @@ export default class BiPspbNavigationBar extends LightningElement {
 	yes = resources.YES;
 	cancel = resources.CANCEL;
 	siteUrlBranded = resources.BRSITE_URL;
+	displayNavErrorPage = resources.DISPLAY_NAV_ERRORPAGE;
 	//Qualitative Date for topbar navigation
 	patientAfterThreeMonthsAndFourteenWeeks() {
 		let globalThis = window;
-		try{
-			GET_PATIENT_AFTER_WEEKS()
-				.then(data => {
-					if (data) {
-						this.targetFourteenWeeksDate = data.targetFourteenWeeksDate ?? null;
-					}
-				})
-				.catch(err => {
-					globalThis.sessionStorage.setItem('errorMessage',err.body.message);
-					globalThis.location?.assign(this.baseUrl + this.siteUrlBranded + this.displayErrorPage);
-				})
-		}
-		catch (error) {
-			//navigate to error page
-			globalThis.sessionStorage.setItem('errorMessage',error.body.message);
-			globalThis.location?.assign(this.baseUrl + this.siteUrlBranded + this.displayErrorPage);
-		}
+
+		GET_PATIENT_AFTER_WEEKS()
+			.then(data => {
+				if (data) {
+					this.targetFourteenWeeksDate = data.targetFourteenWeeksDate ?? null;
+				}
+			})
+			.catch(err => {
+				globalThis.sessionStorage.setItem('errorMessage', err.body.message);
+				globalThis.location?.assign(this.baseUrl + this.siteUrlBranded + this.displayErrorPage);
+			})
+
 	}
 
 	//Used to get information regarding the loggedin caregiver
 	patientInfo() {
 		let globalThis = window;
-		try{
-			GET_CAREGIVER_ACCOUNT({ userId: Id, isActive: true })
-				.then((patient) => {
-					this.activeData = patient.map((pat) => ({
-						Id: pat.BI_PSPB_Patient__c,
-						Name: pat.BI_PSPB_Patient__r.Name,
-						CaregiveID: pat.BI_PSPB_Caregiver__c
-					}));
-					if (this.activeData.length > 0) {
-						this.showCareGiverMenus = true;
-					}
-				})
-				.catch((err) => {
-					globalThis.sessionStorage.setItem('errorMessage',err.body.message);
-					globalThis.location?.assign(this.baseUrl + this.siteUrlBranded + this.displayErrorPage); // Catching Potential Error from Apex
-				});
-		}
-		catch (error) {
-			//navigate to error page
-			globalThis.sessionStorage.setItem('errorMessage',error.body.message);
-			globalThis.location?.assign(this.baseUrl + this.siteUrlBranded + this.displayErrorPage);
-		}
+
+		GET_CAREGIVER_ACCOUNT({ userId: Id, isActive: true })
+			.then((patient) => {
+				this.activeData = patient.map((pat) => ({
+					Id: pat.BI_PSPB_Patient__c,
+					Name: pat.BI_PSPB_Patient__r.Name,
+					CaregiveID: pat.BI_PSPB_Caregiver__c
+				}));
+				if (this.activeData.length > 0) {
+					this.showCareGiverMenus = true;
+				}
+			})
+			.catch((err) => {
+				globalThis.sessionStorage.setItem('errorMessage', err.body.message);
+				globalThis.location?.assign(this.baseUrl + this.siteUrlBranded + this.displayErrorPage); // Catching Potential Error from Apex
+			});
+
 	}
-	
+
 	//Navigation
 
 	openUpdatePrescription() {
@@ -289,62 +280,55 @@ export default class BiPspbNavigationBar extends LightningElement {
 								}
 							})
 							.catch((error) => {
-								globalThis.sessionStorage.setItem('errorMessage',error.body.message);
-								globalThis.location?.assign(this.baseUrl + this.siteUrlBranded + this.displayErrorPage);
+								globalThis.sessionStorage.setItem('errorMessage', error.body.message);
+								globalThis.location?.assign(this.baseUrl + this.siteUrlBranded + this.displayNavErrorPage);
 							});
 					})
 					.catch((error) => {
-						globalThis.sessionStorage.setItem('errorMessage',error.body.message);
-						globalThis.location?.assign(this.baseUrl + this.siteUrlBranded + this.displayErrorPage);
+						globalThis.sessionStorage.setItem('errorMessage', error.body.message);
+						globalThis.location?.assign(this.baseUrl + this.siteUrlBranded + this.displayNavErrorPage);
 					});
 			} else {
 				this.showMenu = false;
 				this.showNavDetails = false;
 				this.showToLogin = true;
-			}	
+			}
 		} catch (err) {
-			globalThis.sessionStorage.setItem('errorMessage',err.body.message);
-			globalThis.location?.assign(this.baseUrl + this.siteUrlBranded + this.displayErrorPage);
+			globalThis.sessionStorage.setItem('errorMessage', err.body.message);
+			globalThis.location?.assign(this.baseUrl + this.siteUrlBranded + this.displayNavErrorPage);
 		}
 	}
 	// This method is used t collect the assessment deatils.
 
 	fetchAssessmentCount() {
 		let globalThis = window;
-		try{
-			COUNT_ASSESSMENT()
-				.then((result) => {
-					if (result && result.length > 0) {
-						this.count = result;
-						if (
-							this.count[0] !== 0 ||
-							this.count[1] !== 0 ||
-							this.count[2] !== 0 ||
-							this.count[3] !== 0
-						) {
-							this.showTabMenu = true;
-							this.stwai = this.count[0];
-							this.stpss = this.count[1];
-							this.stdlq = this.count[2];
-							this.stqsq = this.count[3];
-						} else {
-							this.showTabMenu = false;
-						}
+		COUNT_ASSESSMENT()
+			.then((result) => {
+				if (result && result.length > 0) {
+					this.count = result;
+					if (
+						this.count[0] !== 0 ||
+						this.count[1] !== 0 ||
+						this.count[2] !== 0 ||
+						this.count[3] !== 0
+					) {
+						this.showTabMenu = true;
+						this.stwai = this.count[0];
+						this.stpss = this.count[1];
+						this.stdlq = this.count[2];
+						this.stqsq = this.count[3];
 					} else {
 						this.showTabMenu = false;
 					}
-				})
-				.catch((error) => {
-					globalThis.sessionStorage.setItem('errorMessage',error.body.message);
-					globalThis.location?.assign(this.baseUrl + this.siteUrlBranded + this.displayErrorPage); // Catching Potential Error from Apex
+				} else {
 					this.showTabMenu = false;
-				});
-		}
-		catch (error) {
-			//navigate to error page
-			globalThis.sessionStorage.setItem('errorMessage',error.body.message);
-			globalThis.location?.assign(this.baseUrl + this.siteUrlBranded + this.displayErrorPage);
-		}
+				}
+			})
+			.catch((error) => {
+				globalThis.sessionStorage.setItem('errorMessage', error.body.message);
+				globalThis.location?.assign(this.baseUrl + this.siteUrlBranded + this.displayErrorPage); // Catching Potential Error from Apex
+				this.showTabMenu = false;
+			});
 	}
 
 
@@ -385,7 +369,7 @@ export default class BiPspbNavigationBar extends LightningElement {
 			[this.follower]: 'showCommunity',
 			[this.following]: 'showCommunity',
 		};
-	
+
 		// Reset all flags
 		this.showChallenge = false;
 		this.showInformationCenter = false;
@@ -394,7 +378,7 @@ export default class BiPspbNavigationBar extends LightningElement {
 		this.showHomeLine = false;
 		this.showSupport = false;
 		this.showCommunity = false;
-	
+
 		// Set the corresponding flag if lastSegment matches any key in segmentActions
 		if (segmentActions[this.lastSegment]) {
 			this[segmentActions[this.lastSegment]] = true;
@@ -402,59 +386,45 @@ export default class BiPspbNavigationBar extends LightningElement {
 	}
 
 	//There's no need to check for null because in Apex, we're throwing an AuraHandledException. Therefore, null data won't be encountered.
-	getPatienStatus()
-	{
+	getPatienStatus() {
 		let globalThis = window;
-		try{
-			PATIENT_STATUS({ userId: Id })
-				.then((data) => {
-					this.patientStatusVal = data;
-					if (this.patientStatusVal === this.unAssignedsite) {
-						this.showTreatVideo = false;
-					} else {
-						this.showTreatVideo = true;
-					}
-				})
-				.catch((error) => {
-					globalThis.sessionStorage.setItem('errorMessage',error.body.message);
-					globalThis.location?.assign(this.baseUrl + this.siteUrlBranded + this.displayErrorPage); // Catching Potential Error from Apex
-				});
-		}
-		catch (err) {
-			//navigate to error page
-			globalThis.sessionStorage.setItem('errorMessage',err.body.message);
-			globalThis.location?.assign(this.baseUrl + this.siteUrlBranded + this.displayErrorPage);
-		}
+
+		PATIENT_STATUS({ userId: Id })
+			.then((data) => {
+				this.patientStatusVal = data;
+				if (this.patientStatusVal === this.unAssignedsite) {
+					this.showTreatVideo = false;
+				} else {
+					this.showTreatVideo = true;
+				}
+			})
+			.catch((error) => {
+				globalThis.sessionStorage.setItem('errorMessage', error.body.message);
+				globalThis.location?.assign(this.baseUrl + this.siteUrlBranded + this.displayErrorPage); // Catching Potential Error from Apex
+			});
 	}
 
 	//Used to decide the Navigation for community chatter
 
 	openCommunity() {
 		let globalThis = window;
-		try{
-			CHECK_COMMUNITY_USERNAME()
-				.then((result) => {
-					if (result === true) {
-						window.location.assign(
-							this.baseUrl + this.unAssignedUrl + this.allPost
-						);
-					}
-					if (result === false) {
-						window.location.assign(
-							this.baseUrl + this.unAssignedUrl + this.chatterSignUp
-						);
-					}
-				})
-				.catch((error) => {
-					globalThis.sessionStorage.setItem('errorMessage',error.body.message);
-					globalThis.location?.assign(this.baseUrl + this.siteUrlBranded + this.displayErrorPage); // Catching Potential Error from Apex
-				});
-		}
-		catch (error) {
-			//navigate to error page
-			globalThis.sessionStorage.setItem('errorMessage',error.body.message);
-			globalThis.location?.assign(this.baseUrl + this.siteUrlBranded + this.displayErrorPage);
-		}
+		CHECK_COMMUNITY_USERNAME()
+			.then((result) => {
+				if (result === true) {
+					window.location.assign(
+						this.baseUrl + this.unAssignedUrl + this.allPost
+					);
+				}
+				if (result === false) {
+					window.location.assign(
+						this.baseUrl + this.unAssignedUrl + this.chatterSignUp
+					);
+				}
+			})
+			.catch((error) => {
+				globalThis.sessionStorage.setItem('errorMessage', error.body.message);
+				globalThis.location?.assign(this.baseUrl + this.siteUrlBranded + this.displayErrorPage); // Catching Potential Error from Apex
+			});
 	}
 	//Navigation for Caregiver/Patient
 
@@ -576,7 +546,7 @@ export default class BiPspbNavigationBar extends LightningElement {
 
 	logoutFromSite() {
 		let globalThis = window;
-		try{
+		try {
 			this.showPopup = false;
 			let currentUrl = window.location.href;
 			let urlParts = currentUrl.split("/");
@@ -587,9 +557,8 @@ export default class BiPspbNavigationBar extends LightningElement {
 			}
 			window.location.assign(desiredUrl.replace(/\/s/gu, '/') + this.secureLogout + this.baseUrl + this.brandedUrl + this.loginUrl);
 		}
-		catch(err)
-		{
-			globalThis.sessionStorage.setItem('errorMessage',err.body.message);
+		catch (err) {
+			globalThis.sessionStorage.setItem('errorMessage', err.body.message);
 			globalThis.location?.assign(this.baseUrl + this.siteUrlBranded + this.displayErrorPage);
 		}
 
@@ -732,114 +701,93 @@ export default class BiPspbNavigationBar extends LightningElement {
 
 	openAllPosts() {
 		let globalThis = window;
-		try{
-			CHECK_COMMUNITY_USERNAME()
-				.then((result) => {
-					if (result === true) {
-						window.location.assign(
-							this.baseUrl + this.unAssignedUrl + this.allPost
-						);
-					}
-					if (result === false) {
-						window.location.assign(
-							this.baseUrl + this.unAssignedUrl + this.chatterSignUp
-						);
-					}
-				})
-				.catch((error) => {
-					globalThis.sessionStorage.setItem('errorMessage',error.body.message);
-					globalThis.location?.assign(this.baseUrl + this.siteUrlBranded + this.displayErrorPage); // Catching Potential Error from Apex
-				});
-		}
-		catch (error) {
-			//navigate to error page
-			globalThis.sessionStorage.setItem('errorMessage',error.body.message);
-			globalThis.location?.assign(this.baseUrl + this.siteUrlBranded + this.displayErrorPage);
-		}
+
+		CHECK_COMMUNITY_USERNAME()
+			.then((result) => {
+				if (result === true) {
+					window.location.assign(
+						this.baseUrl + this.unAssignedUrl + this.allPost
+					);
+				}
+				if (result === false) {
+					window.location.assign(
+						this.baseUrl + this.unAssignedUrl + this.chatterSignUp
+					);
+				}
+			})
+			.catch((error) => {
+				globalThis.sessionStorage.setItem('errorMessage', error.body.message);
+				globalThis.location?.assign(this.baseUrl + this.siteUrlBranded + this.displayErrorPage); // Catching Potential Error from Apex
+			});
 	}
 
 	openMyPosts() {
 		let globalThis = window;
-		try{
-			CHECK_COMMUNITY_USERNAME()
-				.then((result) => {
-					if (result === true) {
-						window.location.assign(
-							this.baseUrl + this.unAssignedUrl + this.myPost
-						);
-					}
-					if (result === false) {
-						window.location.assign(
-							this.baseUrl + this.unAssignedUrl + this.chatterSignUp
-						);
-					}
-				})
-				.catch((error) => {
-					globalThis.sessionStorage.setItem('errorMessage',error.body.message);
-					globalThis.location?.assign(this.baseUrl + this.siteUrlBranded + this.displayErrorPage); // Catching Potential Error from Apex
-				});
-		}
-		catch (error) {
-			//navigate to error page
-			globalThis.sessionStorage.setItem('errorMessage',error.body.message);
-			globalThis.location?.assign(this.baseUrl + this.siteUrlBranded + this.displayErrorPage);
-		}
+
+		CHECK_COMMUNITY_USERNAME()
+			.then((result) => {
+				if (result === true) {
+					window.location.assign(
+						this.baseUrl + this.unAssignedUrl + this.myPost
+					);
+				}
+				if (result === false) {
+					window.location.assign(
+						this.baseUrl + this.unAssignedUrl + this.chatterSignUp
+					);
+				}
+			})
+			.catch((error) => {
+				globalThis.sessionStorage.setItem('errorMessage', error.body.message);
+				globalThis.location?.assign(this.baseUrl + this.siteUrlBranded + this.displayErrorPage); // Catching Potential Error from Apex
+			});
+
 	}
 
 	openMyFollowers() {
 		let globalThis = window;
-		try{
-			CHECK_COMMUNITY_USERNAME()
-				.then((result) => {
-					if (result === true) {
-						window.location.assign(
-							this.baseUrl + this.unAssigned + this.follower
-						);
-					}
-					if (result === false) {
-						window.location.assign(
-							this.baseUrl + this.unAssignedUrl + this.chatterSignUp
-						);
-					}
-				})
-				.catch((error) => {
-					globalThis.sessionStorage.setItem('errorMessage',error.body.message);
-					globalThis.location?.assign(this.baseUrl + this.siteUrlBranded + this.displayErrorPage); // Catching Potential Error from Apex
-				});
-		}
-		catch (err) {
-			//navigate to error page
-			globalThis.sessionStorage.setItem('errorMessage',err.body.message);
-			globalThis.location?.assign(this.baseUrl + this.siteUrlBranded + this.displayErrorPage);
-		}
+
+		CHECK_COMMUNITY_USERNAME()
+			.then((result) => {
+				if (result === true) {
+					window.location.assign(
+						this.baseUrl + this.unAssigned + this.follower
+					);
+				}
+				if (result === false) {
+					window.location.assign(
+						this.baseUrl + this.unAssignedUrl + this.chatterSignUp
+					);
+				}
+			})
+			.catch((error) => {
+				globalThis.sessionStorage.setItem('errorMessage', error.body.message);
+				globalThis.location?.assign(this.baseUrl + this.siteUrlBranded + this.displayErrorPage); // Catching Potential Error from Apex
+			});
+
 	}
 
 	openFollowing() {
 		let globalThis = window;
-		try{
-			CHECK_COMMUNITY_USERNAME()
-				.then((result) => {
-					if (result === true) {
-						window.location.assign(
-							this.baseUrl + this.unAssigned + this.following
-						);
-					}
-					if (result === false) {
-						window.location.assign(
-							this.baseUrl + this.unAssignedUrl + this.chatterSignUp
-						);
-					}
-				})
-				.catch((error) => {
-					globalThis.sessionStorage.setItem('errorMessage',error.body.message);
-					globalThis.location?.assign(this.baseUrl + this.siteUrlBranded + this.displayErrorPage); // Catching Potential Error from Apex
-				});
-		}
-		catch (err) {
-			//navigate to error page
-			globalThis.sessionStorage.setItem('errorMessage',err.body.message);
-			globalThis.location?.assign(this.baseUrl + this.siteUrlBranded + this.displayErrorPage);
-		}
+
+		CHECK_COMMUNITY_USERNAME()
+			.then((result) => {
+				if (result === true) {
+					window.location.assign(
+						this.baseUrl + this.unAssigned + this.following
+					);
+				}
+				if (result === false) {
+					window.location.assign(
+						this.baseUrl + this.unAssignedUrl + this.chatterSignUp
+					);
+				}
+			})
+			.catch((error) => {
+				globalThis.sessionStorage.setItem('errorMessage', error.body.message);
+				globalThis.location?.assign(this.baseUrl + this.siteUrlBranded + this.displayErrorPage); // Catching Potential Error from Apex
+			});
+
 	}
 
 	handlebackCommunity() {

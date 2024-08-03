@@ -5,7 +5,7 @@ import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 
 // To import Apex Classes
 import GET_ENROLLE from '@salesforce/apex/BI_PSP_ChallengeEnrolleCtrl.getEnrolle';
-import FETCH_SYMPTOM_EROLLE from '@salesforce/apex/BI_PSP_QuestionnaireGraphCtrl.getSymptomTrackerDetails';
+import FETCH_SYMPTOM_EROLLE from '@salesforce/apex/BI_PSP_GraphCtrl.getSymptomTrackerDetails';
 import GET_LATEST_SYMPTOM_RECORD from '@salesforce/apex/BI_PSPB_SymptomPrimaryPageCtrl.getLatestSymptomRecord';
 // To import Custom labels and static resources
 import * as label from 'c/biPspbLabelAndResourceSymptom';

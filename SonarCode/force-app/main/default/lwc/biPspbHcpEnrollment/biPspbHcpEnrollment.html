@@ -12,7 +12,7 @@
 						<span>{avatarContentMid}</span>
 					</p>
 					<p class={fieldsMandatory}>
-						Fields with <b class="colorstyle">*</b> are mandatory
+						{fieldWidth} <b class="colorstyle">*</b> {areMandotory}
 					</p>
 					<div class="text-content-div-for-mobile">
 						<div class='flexclass text-content-for-mobiles'>
@@ -26,7 +26,7 @@
 							</div>
 						</div>
 						<p class="paras" if:true={fieldMobile}>
-							Fields with <b class="colorstyle">*</b> are mandatory
+							{fieldWidth} <b class="colorstyle">*</b> {areMandotory}
 						</p>
 						<p if:true={divFalse} class="threeclickclass" onclick={threeclick}> ... </p>
 					</div>
@@ -40,20 +40,20 @@
 
 			<div class="stepOne step-container">
 				<img src={BGpp} class="marTB20" alt="Beyond Gpp">
-				<h1 class="heading">Enroll a Patient</h1>
+				<h1 class="heading">{enrollPatient}</h1>
 				<div class="slds-form-element__help" if:true={referringErrorMessage}>
 					<span class="errorFieldMsg error">{refferingPractice}</span>
 				</div>
 				<div class="PI ">
-					<div class="one">01&nbsp;</div>
+					<div class="one">{numOne}&nbsp;</div>
 					<div class="PI">
-						Physician Information
+						{physicianInfo}
 					</div>
 				</div>
-				<h1 class="demoFont">Physician Information*</h1>
+				<h1 class="demoFont">{physicianInfoMand}</h1>
 				<div class="slds-form-element">
 					<div class="slds-form-element__control">
-						<label class="input-label-front searchHCPName">Physician Name</label>
+						<label class="input-label-front searchHCPName">{physicianName}</label>
 						<div class=" slds-input-has-icon slds-input-has-icon_right">
 							<lightning-icon if:true={searchMain} size="x-small"
 								class="slds-icon slds-input__icon slds-input__icon_right slds-icon-text-default"
@@ -61,7 +61,7 @@
 
 							<lightning-input label="Physician Name*" type="search" onclick={showHcpNamePicklist}
 								onchange={hcpNameOnChange} value={selectedValueOne} class="textInput searchHCPName"
-								variant="label-hidden" placeholder="Search Physician Name"
+								variant="label-hidden" placeholder={placePhysician}
 								disabled={physicianNameInputDisabled} >
 							</lightning-input>
 						</div>
@@ -75,7 +75,7 @@
 											role="option">
 											<span class="slds-media__body">
 												<span class="slds-truncate" title={searchResultOne.label}>
-													{searchResultOne.label} | {searchResultOne.labelForSpecialist} | City:
+													{searchResultOne.label} | {searchResultOne.labelForSpecialist} | {labelCity}:
 													{searchResultOne.labelForCity}
 												</span>
 											</span>
@@ -89,25 +89,25 @@
 				</div>
 				<div class="slds-form-element__help" if:true={searchResultEmptyOne}>
 								<img class="warningclass" src={warning}>
-								<span class="errorFieldMsg">Unable to find the Physician</span>
+								<span class="errorFieldMsg">{unableToFind}</span>
 				</div>
 
-				<div class="divclass">
+				<div class="divclass">	
 					<hr class="hrclass" />
 
-					<span class="spanclass">or</span>
+					<span class="spanclass">{or}</span>
 					<hr class="hrclass" />
 				</div>
 				<div class="slds-form-element">
 					<div class="slds-form-element__control">
-						<label class="input-label-front searchHCPId">Physician ID</label>
+						<label class="input-label-front searchHCPId">{physicianId}</label>
 						<div class=" slds-input-has-icon slds-input-has-icon_right">
 							<lightning-icon if:true={searchMainTwo} size="x-small"
 								class="slds-icon slds-input__icon slds-input__icon_right slds-icon-text-default"
 								icon-name="utility:search"></lightning-icon>
 
 							<lightning-input label="" type="search" onclick={showHcpIdPicklist} onchange={hcpIdOnChange}
-								value={selectedValueTwo} placeholder="Enter License Number" class="textInput searchHCPId"
+								value={selectedValueTwo} placeholder={placeLicense} class="textInput searchHCPId"
 								variant="label-hidden" disabled={physicianIdInputDisabled}
 								>
 							</lightning-input>
@@ -134,11 +134,11 @@
 				</div>
                 <div class="slds-form-element__help" if:true={searchResultEmptyTwo}>
 								<img class="warningclass" src={warning}>
-								<span class="errorFieldMsg">Unable to find the Physician</span>
+								<span class="errorFieldMsg">{unableToFind}</span>
 				</div>
 				<hr class="hrclass2" />
 				<div class={addNewHcpSectionClass} onclick={expandAddNewForm}>
-					Could not find your information? Click here to add &nbsp;
+					{clickHere} &nbsp;
 					<lightning-icon icon-name='utility:chevrondown' alternative-text='chevrondown' size='x-small'
 						title='chevrondown' if:false={isAddNew} class="iconclass">
 					</lightning-icon>
@@ -149,14 +149,14 @@
 
 				<div if:true={isAddNew}>
 					<div>
-						<h1 class="demoFont1">Physician Information </h1>
+						<h1 class="demoFont1">{physicianInfo}</h1>
 					</div>
 					<div>
 						<div class="input-div">
-							<label for="hFN" data-field="hFN" class="input-label">First Name*</label>
+							<label for="hFN" data-field="hFN" class="input-label">{firstNameLabel}</label>
 							<lightning-input name="FirstName" value={hcpFields.firstname} 
 								onchange={handleInputChangehcp} data-field="hFN" variant="label-hidden" id="hFN"
-								class="textInput" placeholder="Enter First Name" maxlength="35"
+								class="textInput" placeholder={placeFirst} maxlength="35"
 								>
 							</lightning-input>
 							<div class="slds-form-element__help" if:true={rpFirstnameErrorMessage}>
@@ -165,28 +165,28 @@
 							</div>
 							<div class="slds-form-element__help" if:true={rpFirstnameErrorMessageVaild}>
 								<img class="warningclass" src={warning}>
-								<span class="errorFieldMsg">Please enter a valid first name</span>
+								<span class="errorFieldMsg">{firstNameValid}</span>
 							</div>
 						</div>
 						<div class="input-div">
-							<label for="hLN" data-field="hLN" class="input-label">Last Name*</label>
+							<label for="hLN" data-field="hLN" class="input-label">{lastNameLabel}</label>
 							<lightning-input name="LastName" value={hcpFields.lastname} 
 								onchange={handleInputChangehcp} data-field="hLN" id="hLN" variant="label-hidden"
-								class="textInput" placeholder="Enter Last Name" maxlength="60"></lightning-input>
+								class="textInput" placeholder={placeLast} maxlength="60"></lightning-input>
 							<div class="slds-form-element__help" if:true={rpLastnameErrorMessage}>
 								<img class="warningclass" src={warning}>
 								<span class="errorFieldMsg">{lastName}</span>
 							</div>
 							<div class="slds-form-element__help" if:true={rpLastnameErrorMessageValid}>
 								<img class="warningclass" src={warning}>
-								<span class="errorFieldMsg">Please enter a valid last name</span>
+								<span class="errorFieldMsg">{lastNameValid}</span>
 							</div>
 						</div>
 						<div class="input-div">
-							<label for="hLicense" data-field="hLicense" class="input-label">License Number*</label>
+							<label for="hLicense" data-field="hLicense" class="input-label">{licenseNumberLabel}</label>
 							<lightning-input name="BI_PSPB_License_number__c" value={hcpFields.license}
 								onchange={handleInputChangehcp} data-field="hLicense" id="hLicense"
-								variant="label-hidden" class="textInput" placeholder="Enter License Number" maxlength="80">
+								variant="label-hidden" class="textInput" placeholder={placeLicense} maxlength="80">
 							</lightning-input>
 							<div class="slds-form-element__help" if:true={rpStateLicenseErrorMessage}>
 								<img class="warningclass" src={warning}>
@@ -194,23 +194,23 @@
 							</div>
 							<div class="slds-form-element__help" if:true={rpStateLicenseErrorMessageValid}>
 								<img class="warningclass" src={warning}>
-								<span class="errorFieldMsg">Please enter a valid License number</span>
+								<span class="errorFieldMsg">{licenseValid}</span>
 							</div>
 						</div>
 
 						<div class="input-div">
-							<label for="hPN" data-field="hPN" class="input-label">Practice Name*</label>
+							<label for="hPN" data-field="hPN" class="input-label">{practiceName}</label>
 							<lightning-input name="Practice Name" value={hcpFields.Practicename}
 								 onchange={handleInputChangehcp} data-field="hPN"
-								variant="label-hidden" id="hPN" class="textInput" placeholder="Enter Practice Name" maxlength="200">
+								variant="label-hidden" id="hPN" class="textInput" placeholder={placePractice} maxlength="200">
 							</lightning-input>
 							<div class="slds-form-element__help" if:true={rpPracticeNameErrorMessage}>
 								<img class="warningclass" src={warning}>
-								<span class="errorFieldMsg">Practice name field is required</span>
+								<span class="errorFieldMsg">{practiceRequired}</span>
 							</div>
 							<div class="slds-form-element__help" if:true={RPPracticenameerrorMessagevalid}>
 								<img class="warningclass" src={warning}>
-								<span class="errorFieldMsg">Please enter a valid Practice name</span>
+								<span class="errorFieldMsg">{practiceValid}</span>
 							</div>
 						</div>
 
@@ -218,10 +218,10 @@
 
 
 						<div class="input-div">
-							<label for="hType" class="input-label" data-field="hType">Practice Type*</label>
+							<label for="hType" class="input-label" data-field="hType">{practiceType}</label>
 							<lightning-combobox name="Practice_Type__c" value={selectedtype}
 								onchange={handleInputChangehcp} options={practicetype} data-field="hType" id="hType"
-								variant="label-hidden" class="textInput" placeholder="Select">
+								variant="label-hidden" class="textInput" placeholder={placeSelect}>
 							</lightning-combobox>
 							<div class="slds-form-element__help" if:true={rpPracticeTypeErrorMessage}>
 								<img class="warningclass" src={warning}>
@@ -231,49 +231,49 @@
 
 					</div>
 					<div>
-						<h1 class="demoFont1">Contact Information </h1>
+						<h1 class="demoFont1">{contactInfo}</h1>
 					</div>
 					<div>
 						<div class="input-div">
-							<label for="hEmail" class="input-label" data-field="hEmail">E-mail*</label>
+							<label for="hEmail" class="input-label" data-field="hEmail">{emailLabelMand}</label>
 							<lightning-input name="Email" value={hcpFields.email} onchange={handleInputChangehcp}
 								data-field="hEmail" class="textInput" variant="label-hidden" id="hEmail"
-								placeholder="Enter Email"></lightning-input>
+								placeholder={placeEmail}></lightning-input>
 							<div class="slds-form-element__help" if:true={rpEmailErrorMessage}>
 								<img class="warningclass" src={warning}>
 								<span class="errorFieldMsg">{physicianEmail}</span>
 							</div>
 							<div class="slds-form-element__help" if:true={RpEmailErrorValid}>
 								<img class="warningclass" src={warning}>
-								<span class="errorFieldMsg">Please enter a valid email</span>
+								<span class="errorFieldMsg">{validEmail}</span>
 							</div>
 						</div>
 						<div class="input-div">
-							<label for="hPhone" class="input-label" data-field="hPhone">Phone Number</label>
+							<label for="hPhone" class="input-label" data-field="hPhone">{phoneNum}</label>
 							<lightning-input name="Phone" value={hcpFields.phone} onchange={handleInputChangehcp}
 								data-field="hPhone" onkeypress={handleKeyDown} class="textInput" maxlength="16"
-								variant="label-hidden" id="hPhone" placeholder="+Enter Phone Number"></lightning-input>
+								variant="label-hidden" id="hPhone" placeholder={placePhone}></lightning-input>
 							<div class="slds-form-element__help" if:true={rpPhoneErrorMessage}>
 								<img class="warningclass" src={warning}>
 								<span class="errorFieldMsg">{phoneError}</span>
 							</div>
 						</div>
 						<div class="input-div">
-							<label for="hFax" class="input-label" data-field="hFax">Fax</label>
+							<label for="hFax" class="input-label" data-field="hFax">{faxValue}</label>
 							<lightning-input name="Fax" value={hcpFields.fax} onchange={handleInputChangehcp}
 								data-field="hFax" onkeypress={handleKeyDown} class="textInput" maxlength="16"
-								variant="label-hidden" id="hFax" placeholder="Enter Fax Number"></lightning-input>
+								variant="label-hidden" id="hFax" placeholder={placeFax}></lightning-input>
 
 							<div class="slds-form-element__help" if:true={rpFaxErrorMessage}>
 								<img class="warningclass" src={warning}>
-								<span class="errorFieldMsg">Please enter a valid fax number</span>
+								<span class="errorFieldMsg">{faxValid}</span>
 							</div>
 						</div>
 						<div class="input-div">
-							<label for="hcc" class="input-label" data-field="hcc">Country*</label>
+							<label for="hcc" class="input-label" data-field="hcc">{countryLabel}</label>
 							<lightning-combobox name="mailingCountryCode" value={selectedCountry}
 								onchange={handleCountryChange} options={CountryCode} data-field="hcc" class="textInput"
-								variant="label-hidden" id="hcc" placeholder="Select Country Name">
+								variant="label-hidden" id="hcc" placeholder={placeCountry}>
 							</lightning-combobox>
 							<div class="slds-form-element__help" if:true={RPcountryerrorMessage}>
 								<img class="warningclass" src={warning}>
@@ -281,10 +281,10 @@
 							</div>
 						</div>
 						<div class="input-div">
-							<label for="hLicense" class="input-label" data-field="hsc">State*</label>
+							<label for="hLicense" class="input-label" data-field="hsc">{stateLabel}</label>
 							<lightning-combobox name="MailingStateCode" value={selectedstate}
 								onchange={handleInputChangehcp} options={StateCode} data-field="hsc" class="textInput"
-								variant="label-hidden" placeholder="Select State Name">
+								variant="label-hidden" placeholder={placeState}>
 							</lightning-combobox>
 							<div class="slds-form-element__help" if:true={rpStateCodeErrorMessage}>
 								<img class="warningclass" src={warning}>
@@ -292,9 +292,9 @@
 							</div>
 						</div>
 						<div class="input-div">
-							<label for="hcity" class="input-label" data-field="hc">City*</label>
+							<label for="hcity" class="input-label" data-field="hc">{cityLabel}</label>
 							<lightning-input name="MailingCity" value={hcpFields.city} onchange={handleInputChangehcp}
-								data-field="hc" class="textInput" variant="label-hidden" placeholder="Enter City Name" maxlength="35">
+								data-field="hc" class="textInput" variant="label-hidden" placeholder={placeCity} maxlength="35">
 							</lightning-input>
 							<div class="slds-form-element__help" if:true={rpCityErrorMessage}>
 								<img class="warningclass" src={warning}>
@@ -302,14 +302,14 @@
 							</div>
 							<div class="slds-form-element__help" if:true={rpCityErrorMessageValid}>
 								<img class="warningclass" src={warning}>
-								<span class="errorFieldMsg">Please enter a valid city</span>
+								<span class="errorFieldMsg">{validCity}</span>
 							</div>
 						</div>
 						<div class="input-div">
-							<label for="hLicense" class="input-label" data-field="hs">Street address*</label>
+							<label for="hLicense" class="input-label" data-field="hs">{streetLabel}</label>
 							<lightning-textarea name="MailingStreet" value={hcpFields.street}
 								onchange={handleInputChangehcp} data-field="hs" class="textInput" variant="label-hidden"
-								placeholder="Enter Address">
+								placeholder={placeStreet}>
 							</lightning-textarea>
 							<div class="slds-form-element__help" if:true={rpStreetErrorMessage}>
 								<img class="warningclass" src={warning}>
@@ -317,10 +317,10 @@
 							</div>
 						</div>
 						<div class="input-div">
-							<label for="hLicense" class="input-label" data-field="hpc">Zip code*</label>
+							<label for="hLicense" class="input-label" data-field="hpc">{zipCodeValue}</label>
 							<lightning-input name="MailingPostalCode" value={hcpFields.code}
 								onchange={handleInputChangehcp} data-field="hpc" class="textInput"
-								variant="label-hidden" placeholder="Enter Zip code">
+								variant="label-hidden" placeholder={placeZip}>
 							</lightning-input>
 							<div class="slds-form-element__help" if:true={rpPostalCodeErrorMessage}>
 								<img class="warningclass" src={warning}>
@@ -328,7 +328,7 @@
 							</div>
 							<div class="slds-form-element__help" if:true={RPpostalerrorMessagevalid}>
 								<img class="warningclass" src={warning}>
-								<span class="errorFieldMsg">Please enter a valid zipcode</span>
+								<span class="errorFieldMsg">{validZipCode}</span>
 							</div>
 						</div>
 
@@ -336,30 +336,29 @@
 				</div>
 				<hr class="hrclass3" />
 				<div class="btn-div">
-					<button class="prev-button" onclick={goToHome}>Cancel</button>
-					<button class="next-button" onclick={goToStepTwo}>Next</button>
+					<button class="prev-button" onclick={goToHome}>{cancelLabel}</button>
+					<button class="next-button" onclick={goToStepTwo}>{nextLabel}</button>
 				</div>
 			</div>
 			<div class="stepTwo step-container slds-hide">
 				<img src={BGpp} class="marTB20" alt="Beyond Gpp">
-				<h1 class="heading">Enroll a Patient</h1>
+				<h1 class="heading">{enrollPatient}</h1>
 
 				<div class="slds-form-element__help" if:true={unique}>
 
-					<span class="Matching">A patient account matching this information<br> already exist in the
-						system</span>
+					<span class="Matching">{matchingInfo}<br> {alreadyExit}</span>
 				</div>
 				<div class="PI ">
-					<div class="one">02&nbsp;</div>
+					<div class="one">{numTwo}&nbsp;</div>
 					<div class="PI">
-						Patient Information
+						{patientinfo}
 					</div>
 				</div>
-				<h1 class="demoFont">Patient Information</h1>
+				<h1 class="demoFont">{patientinfo}</h1>
 				<div class="input-div">
-					<label class="input-label" data-field="pFN">First Name*</label>
+					<label class="input-label" data-field="pFN">{firstNameLabel}</label>
 					<lightning-input label="First Name*" name="FirstName" value={leadFields.FirstName} class="textInput"
-						 onchange={handleInputChange} placeholder="Enter First Name"
+						 onchange={handleInputChange} placeholder={placeFirst}
 						variant="label-hidden" data-field="pFN" maxlength="35">
 					</lightning-input>
 					<div class="slds-form-element__help" if:true={firstnameErrorMessage}>
@@ -368,13 +367,13 @@
 					</div>
 					<div class="slds-form-element__help" if:true={firstnameErrorMessagevaild}>
 						<img class="warningclass" src={warning}>
-						<span class="errorFieldMsg">Please enter a valid first name</span>
+						<span class="errorFieldMsg">{firstNameValid}</span>
 					</div>
 				</div>
 				<div class="input-div">
-					<label class="input-label" data-field="pLN">Last Name*</label>
+					<label class="input-label" data-field="pLN">{lastNameLabel}</label>
 					<lightning-input label="Last Name*" name="LastName" value={leadFields.LastName} class="textInput"
-						 onchange={handleInputChange} placeholder="Enter Last Name"
+						 onchange={handleInputChange} placeholder={placeLast}
 						variant="label-hidden" data-field="pLN" maxlength="60">
 					</lightning-input>
 					<div class="slds-form-element__help" if:true={lastnameErrorMessage}>
@@ -383,13 +382,13 @@
 					</div>
 					<div class="slds-form-element__help" if:true={lastnameErrorMessagevaild}>
 						<img class="warningclass" src={warning}>
-						<span class="errorFieldMsg">Please enter a valid last name</span>
+						<span class="errorFieldMsg">{lastNameValid}</span>
 					</div>
 				</div>
 				<div class="input-div">
-					<label class="input-label" data-field="pdob">Date of Birth*</label>
+					<label class="input-label" data-field="pdob">{dobLabel}</label>
 					<lightning-input type="date" label="Date of Birth*" name="dob" value={leadFields.dob}
-						class="textInput" onchange={agecalculationEvent} placeholder="DD.MM.YYYY" variant="label-hidden"
+						class="textInput" onchange={agecalculationEvent} placeholder={placeDob} variant="label-hidden"
 						onkeydown={handleKeyDownThree} data-field="pdob" onclick={onClickCalendar} onblur={onBlurCalendar}>
 					</lightning-input>
 					<div class="slds-form-element__help" if:true={dobErrorMessage}>
@@ -404,12 +403,12 @@
 					</div>
 					<div class="slds-form-element__help" if:true={oneNineZeroZeroErrors}>
 						<img class="warningclass" src={warning}>
-						<span class="errorFieldMsg">Year of Birth should not be less than 1900</span>
+						<span class="errorFieldMsg">{yearOlder}</span>
 					</div>
 				</div>
 				<div class="input-div">
-					<label class="input-label" data-field="pGender">Gender*</label>
-					<lightning-combobox name="HealthCloudGA__Gender__c" label="Gender*" placeholder="Select"
+					<label class="input-label" data-field="pGender">{generalLabel}</label>
+					<lightning-combobox name="HealthCloudGA__Gender__c" label="Gender*" placeholder={placeSelect}
 						class="textInput" options={leadGender} value={selectedGender} onchange={PatientGenderChange}
 						variant="label-hidden" data-field="pGender">
 					</lightning-combobox>
@@ -419,9 +418,9 @@
 					</div>
 				</div>
 				<div class="input-div" if:true={isAdult}>
-					<label class="input-label" data-field="pEmail">E-mail*</label>
+					<label class="input-label" data-field="pEmail">{emailLabelMand}</label>
 					<lightning-input label="E-mail ID*" name="Email" value={leadFields.Email} class="textInput"
-						onchange={handleInputChange} placeholder="Enter Email" variant="label-hidden"
+						onchange={handleInputChange} placeholder={placeEmail} variant="label-hidden"
 						data-field="pEmail">
 					</lightning-input>
 					<div class="slds-form-element__help" if:true={emailErrorMessage}>
@@ -430,46 +429,45 @@
 					</div>
 					<div class="slds-form-element__help" if:true={emailErrorValid}>
 						<img class="warningclass" src={warning}>
-						<span class="errorFieldMsg">Please enter a valid email</span>
+						<span class="errorFieldMsg">{validEmail}</span>
 					</div>
 					<div class="slds-form-element__help flexclass" if:true={matchEmail}>
 						<img class="warningclass" src={warning}>
-						<span class="errorFieldMsg exits">This email is already associated with a patient or 
-							caregiver account. Please use a different email to proceed.</span>
+						<span class="errorFieldMsg exits">{existingEmail}.</span>
 					</div>
 				</div>
 				<div class="input-div" if:true={isAdult}>
-					<label class="input-label" data-field="pPhone">Phone Number</label>
+					<label class="input-label" data-field="pPhone">{phoneNum}</label>
 					<lightning-input label="Phone number" type="tel" name="Phone" value={leadFields.Phone}
 						onkeypress={handleKeyDown} class="textInput" maxlength="16" onchange={handleInputChange}
-						placeholder="+ Enter Phone Number" variant="label-hidden" data-field="pPhone">
+						placeholder={placePhone} variant="label-hidden" data-field="pPhone">
 					</lightning-input>
 					<div class="slds-form-element__help" if:true={phnErrorValid}>
 						<img class="warningclass" src={warning}>
-						<span class="errorFieldMsg">Please enter a valid phone number</span>
+						<span class="errorFieldMsg">{validPhone}</span>
 					</div>
 				</div>
 				<div class="btn-div">
-					<button class="prev-button" onclick={goBackToStepOne}>Previous</button>
-					<button class="next-button" onclick={goToStepThree}>Next</button>
+					<button class="prev-button" onclick={goBackToStepOne}>{previousValue}</button>
+					<button class="next-button" onclick={goToStepThree}>{nextLabel}</button>
 				</div>
 			</div>
 			<div class="stepThree step-container slds-hide">
-				<!-- <lightning-card title="Caregiver Information"> -->
+				
 				<img src={BGpp} class="marTB20" alt="Beyond Gpp">
-				<h1 class="heading">Enroll a Patient</h1>
+				<h1 class="heading">{enrollPatient}</h1>
 				<div class="PI ">
-					<div class="one">03&nbsp;</div>
+					<div class="one">{numberThree}&nbsp;</div>
 					<div class="PI">
-						Caregiver Information
+						{caregiverInfo}
 					</div>
 				</div>
-				<h1 class="demoFont">Caregiver Information</h1>
+				<h1 class="demoFont">{caregiverInfo}</h1>
 				<div class="input-div">
-					<label class="input-label cFN">First Name*</label>
+					<label class="input-label cFN">{firstNameLabel}</label>
 					<lightning-input label="First Name*" name="CaregiverFirstName" value={caregiverFields.FirstName}
 						 onchange={handleInputChangeCaregiver} class="textInput cFN"
-						variant="label-hidden" placeholder="Enter First Name" maxlength="35">
+						variant="label-hidden" placeholder={placeFirst} maxlength="35">
 					</lightning-input>
 					<div class="slds-form-element__help" if:true={careFirstnameErrorMessage}>
 						<img class="warningclass" src={warning}>
@@ -477,14 +475,14 @@
 					</div>
 					<div class="slds-form-element__help" if:true={careFirstnameErrorMessageValid}>
 						<img class="warningclass" src={warning}>
-						<span class='errorFieldMsg'>Please enter a valid first name</span>
+						<span class='errorFieldMsg'>{firstNameValid}</span>
 					</div>
 				</div>
 				<div class="input-div">
-					<label class="input-label cLN">Last Name*</label>
+					<label class="input-label cLN">{lastNameLabel}</label>
 					<lightning-input label="Last Name*" name="CaregiverLastName" value={caregiverFields.LastName}
 					 onchange={handleInputChangeCaregiver} class="textInput cLN"
-						variant="label-hidden" placeholder="Enter Last Name" maxlength="60"> 
+						variant="label-hidden" placeholder={placeLast} maxlength="60"> 
 					</lightning-input>
 					<div class="slds-form-element__help" if:true={careLastnameErrorMessage}>
 						<img class="warningclass" src={warning}>
@@ -492,37 +490,37 @@
 					</div>
 					<div class="slds-form-element__help" if:true={careLastnameErrorMessageValid}>
 						<img class="warningclass" src={warning}>
-						<span class="errorFieldMsg">Please enter a valid last name</span>
+						<span class="errorFieldMsg">{lastNameValid}</span>
 					</div>
 
 
 				</div>
 				<div class="input-div">
-					<label class="input-label cDob">Date of Birth*</label>
+					<label class="input-label cDob">{dobLabel}</label>
 					<lightning-input type="date" label="Date of Birth*" name="caredob" value={caregiverFields.dob}
 						onchange={careagecalculation} class="textInput cDob" variant="label-hidden"
-						onkeydown={handleKeyDownThree} placeholder="DD.MM.YYYY" onclick={onClickCalendar} onblur={onBlurCalendar}>
+						onkeydown={handleKeyDownThree} placeholder={placeDob} onclick={onClickCalendar} onblur={onBlurCalendar}>
 					</lightning-input>
 					<div class="slds-form-element__help" if:true={careDobErrorMessage}>
 						<img class="warningclass" src={warning}>
-						<span class="errorFieldMsg">Date of Birth is required.</span>
+						<span class="errorFieldMsg">{patientDob}</span>
 					</div>
 					<div class="slds-form-element__help" if:true={errors}>
 						<img class="warningclass" src={warning}>
-						<span class="errorFieldMsg">Date of Birth cannot be a future date</span>
+						<span class="errorFieldMsg">{futureDateError}</span>
 					</div>
 					<div class="slds-form-element__help" if:true={careOneNineZerZeroErrors}>
 						<img class="warningclass" src={warning}>
-						<span class="errorFieldMsg">Year of Birth should not be less than 1900</span>
+						<span class="errorFieldMsg">{yearOlder}</span>
 					</div>
 					<div class="slds-form-element__help" if:true={minorError}>
 						<img class="warningclass" src={warning}>
-						<span class="errorFieldMsg">You need to be 18 or above for self enrollment</span>
+						<span class="errorFieldMsg">{beforeAge}</span>
 					</div>
 				</div>
 				<div class="input-div">
-					<label class="input-label cRel">Relationship with the Patient*</label>
-					<lightning-combobox label="Relationship" name="CaregiverRelationship" placeholder="Select"
+					<label class="input-label cRel">{relationLabel}</label>
+					<lightning-combobox label="Relationship" name="CaregiverRelationship" placeholder={placeSelect}
 						value={selectedRelationship} options={Relationship} onchange={handleInputChangeCaregiver}
 						class="textInput cRel" variant="label-hidden">
 					</lightning-combobox>
@@ -532,10 +530,10 @@
 					</div>
 				</div>
 				<div class="input-div">
-					<label class="input-label cEmail">E-mail*</label>
+					<label class="input-label cEmail">{emailLabelMand}</label>
 					<lightning-input label="E-mail ID*" name="CaregiverEmail" value={caregiverFields.Email}
 						onchange={handleInputChangeCaregiver} class="textInput cEmail" variant="label-hidden"
-						placeholder="Enter Email ">
+						placeholder={placeEmail}>
 					</lightning-input>
 					<div class="slds-form-element__help" if:true={careEmailErrorMessage}>
 						<img class="warningclass" src={warning}>
@@ -543,55 +541,53 @@
 					</div>
 					<div class="slds-form-element__help" if:true={cEmailErrorValid}>
 						<img class="warningclass" src={warning}>
-						<span class="errorFieldMsg">Please enter a valid email</span>
+						<span class="errorFieldMsg">{validEmail}</span>
 					</div>
 					<div class="slds-form-element__help flexclass" if:true={matchCaregiverEmail}>
 						<img class="warningclass" src={warning}>
-						<span class="errorFieldMsg exits">This email is already associated with a patient or 
-							caregiver account. Please use a different email to proceed</span>
+						<span class="errorFieldMsg exits">{existingEmail}</span>
 					</div>
 				</div>
 				<div class="input-div">
-					<label class="input-label cPhone" data-field="cPhone">Phone Number</label>
+					<label class="input-label cPhone" data-field="cPhone">{phoneNum}</label>
 					<lightning-input label="Phone" type="tel" data-field="cPhone" name="CaregiverPhone"
 						value={caregiverFields.Phone} onkeypress={handleKeyDown} onchange={handleInputChangeCaregiver}
 						maxlength="16" class="textInput cPhone" variant="label-hidden"
-						placeholder='+ Enter Phone Number'>
+						placeholder={placePhone}>
 					</lightning-input>
 					<div class="slds-form-element__help" if:true={cphoneerrorvalid}>
 						<img class="warningclass" src={warning}>
-						<span class='errorFieldMsg'>Please enter a valid phone number</span>
+						<span class='errorFieldMsg'>{validPhone}</span>
 					</div>
 				</div>
 
 				<div class="btn-div">
-					<button class="prev-button" onclick={goBackToStepTwo}>Previous</button>
-					<button class="next-button" onclick={goToStepFour}>Next</button>
+					<button class="prev-button" onclick={goBackToStepTwo}>{previousValue}</button>
+					<button class="next-button" onclick={goToStepFour}>{nextLabel}</button>
 				</div>
 			</div>
 			<div class="stepFour step-container slds-hide">
-				<!-- <lightning-card title="Prescription Information"> -->
 				<img src={BGpp} class="marTB20" alt="Beyond Gpp">
-				<h1 class="heading">Enroll a Patient</h1>
+				<h1 class="heading">{enrollPatient}</h1>
 				<div class="PI">
-					<div class="one" if:true={numThree}>03&nbsp;</div>
-					<div class="one" if:true={numFour}>04&nbsp;</div>
+					<div class="one" if:true={numThree}>{numberThree}&nbsp;</div>
+					<div class="one" if:true={numFour}>{numberFour}&nbsp;</div>
 					<div class="PI">
-						Prescription Information
+						{prescriptionInfo}
 					</div>
 				</div>
-				<h1 class="demoFont">Prescription Information</h1>
+				<h1 class="demoFont">{prescriptionInfo}</h1>
 				<!-- <span class="required">*</span> -->
 				<div class="slds-form-element">
 					<div class="slds-form-element__control">
-						<label class="input-label hDrug">Drug*</label>
+						<label class="input-label hDrug">{drugLabel}</label>
 						<div class=" slds-input-has-icon slds-input-has-icon_right">
 							<lightning-icon if:true={searchValueLogo} size="x-small"
 								class="slds-icon slds-input__icon slds-input__icon_right slds-icon-text-default"
 								icon-name="utility:search"></lightning-icon>
 							<lightning-input label="Drug*" type="search" onclick={showPicklistOptions} onchange={search}
 								value={SELECTED_VALUE} class="textInput hDrug" variant="label-hidden"
-								placeholder="Search Drug Name" >
+								placeholder={placeDrug}>
 							</lightning-input>
 						</div>
 						<div if:true={searchResults} class="slds-dropdown slds-dropdown_length-5 slds-dropdown_fluid"
@@ -621,41 +617,41 @@
 				</div>
 				<div class="slds-form-element__help" if:true={searchResultEmpty}>
 					<img class="warningclass" src={warning}>
-					<span class="errorFieldMsg">Unable to find the Drug</span>
+					<span class="errorFieldMsg">{unableToDrug}</span>
 				</div>
 				<div class="input-div">
 					<label class="input-label">Drug Code</label>
 					<lightning-input label="Drug Code*" name="DosageCode" value={prescriptionFields.DosageCode}
 						onchange={handleInputChange2} class="textInput" disabled variant="label-hidden"
-						placeholder="Enter Drug Code">
+						placeholder={placeDrugCode}>
 					</lightning-input>
 				</div>
 				<div class="dosage-unit-input-container">
 					<div class="input-div dosage-unit-input-div">
-						<label class="input-label">Dosage</label>
+						<label class="input-label">{dosage}</label>
 						<lightning-input label="Dosage*" name="Dosage" value={prescriptionFields.Dosage}
 							onchange={handleInputChange2} class="textInput dosage-frequency-input" disabled
 							variant="label-hidden" placeholder="0">
 						</lightning-input>
 					</div>
 					<div class="input-div dosage-unit-input-div">
-						<label class="input-label">Units</label>
+						<label class="input-label">{units}</label>
 						<lightning-input label="Unit" name="Unit" value={prescriptionFields.Unit}
 							onchange={handleInputChange2} class="textInput" disabled variant="label-hidden"
-							placeholder="mg">
+							placeholder={placeMg}>
 						</lightning-input>
 					</div>
 				</div>
 				<div class="input-div">
-					<label class="input-label">Quantity</label>
+					<label class="input-label">{quentity}</label>
 					<lightning-input label="Quantity*" name="Quantity" value={prescriptionFields.Quantity}
 						onkeydown={handleKeyDownTwo} onchange={handleInputChange2} class="textInput" variant="label-hidden"
-						placeholder="Enter Quantity">
+						placeholder={placeQuantity}>
 					</lightning-input>
 				</div>
 				<div class="dosage-unit-input-container">
 					<div class="input-div dosage-unit-input-div">
-						<label class="input-label hFreq">Frequency</label>
+						<label class="input-label hFreq">{frequency}</label>
 						<lightning-input label="Frequency*" name="Frequency" value={prescriptionFields.Frequency}
 							onkeydown={handleKeyDownTwo} onchange={handleInputChange2}
 							class="textInput hFreq dosage-frequency-input" variant="label-hidden" placeholder="0">
@@ -663,8 +659,8 @@
 
 					</div>
 					<div class="input-div dosage-unit-input-div">
-						<label class="input-label hFreqUnit">Units</label>
-						<lightning-combobox name="frequcncyunit" label="Unit*" placeholder="Select"
+						<label class="input-label hFreqUnit">{units}</label>
+						<lightning-combobox name="frequcncyunit" label="Unit*" placeholder={placeSelect}
 							options={FrequencyUnit} value={selectedunit} onchange={handleInputChange2}
 							class="textInput hFreqUnit" variant="label-hidden">
 						</lightning-combobox>
@@ -672,17 +668,17 @@
 					</div>
 				</div>
 				<div class="input-div">
-					<label class="input-label">Number of Refills</label>
+					<label class="input-label">{numberOfRefills}</label>
 					<lightning-input label="No of refills*" name="refill" value={prescriptionFields.refill}
 						onkeydown={handleKeyDownTwo} onchange={handleInputChange2} class="textInput" variant="label-hidden"
-						placeholder="Enter Number of Refills">
+						placeholder={placeRefills}>
 					</lightning-input>
 				</div>
 				<div class="input-div">
-					<label class="input-label hpdate">Prescribed Date*</label>
+					<label class="input-label hpdate">{prescriptedDate}</label>
 					<lightning-input type="date" label="Prescribed Date*" name="Prescribed_Date__c"
 						value={prescriptionFields.date} onchange={datecalculation} class="textInput hpdate"
-						onkeydown={handleKeyDownThree} variant="label-hidden" placeholder="DD.MM.YYYY" onclick={onClickCalendar} date-style="short"
+						onkeydown={handleKeyDownThree} variant="label-hidden" placeholder={placeDob} onclick={onClickCalendar} date-style="short"
 						onblur={onBlurCalendar}>
 					</lightning-input>
 					<div class="slds-form-element__help" if:true={dateErrorMessage}>
@@ -695,10 +691,10 @@
 					</div>
 					<div class="slds-form-element__help" if:true={presOneNineZeroZeroErrors}>
 						<img class="warningclass" src={warning}>
-						<span class="errorFieldMsg">Year of prescription cannot be older than 1900</span>
+						<span class="errorFieldMsg">{yearOlder}</span>
 					</div>
 				</div>
-				<h1 class="demoFont1">Consent Information</h1>
+				<h1 class="demoFont1">{consentInfo}</h1>
 				<div class="color1-properties">
 <div class="custom-checkbox-container">
         <input type="checkbox" id="customCheckbox" class="custom-checkbox" onchange={handleInputChange3} value={consentFields.authorize} />
@@ -706,9 +702,8 @@
               <span class="custom-checkbox-box" data-field="checkbox"></span>
         </label>
     </div>
-					<span class="Agreeclass">Agree to the&nbsp;</span>
-					<label onclick={showModal} class="termclass">terms and
-						conditions
+					<span class="Agreeclass">{agree}&nbsp;</span>
+					<label onclick={showModal} class="termclass">{terms}
 					</label>
 				</div>
 				<template if:true={openModal}>
@@ -797,12 +792,12 @@
 					<span class="errorFieldMsg">{agreeError}</span>
 				</div>
 				<div class="btn-div" if:false={isButtonDisabled}>
-					<button class="prev-button" onclick={goBackToStepThree}>Previous</button>
-					<button type="button" onclick={handleCreateLead} class="next-button">Submit</button>
+					<button class="prev-button" onclick={goBackToStepThree}>{previousValue}</button>
+					<button type="button" onclick={handleCreateLead} class="next-button">{submit}</button>
 				</div>
 				<div class="btn-div" if:true={isButtonDisabled}>
-					<button class="prev-button" onclick={goBackToStepThree}>Previous</button>
-					<button type="button" onclick={handleCreateLead}  disabled={isButtonDisabled} class="disable-button">Submit</button>
+					<button class="prev-button" onclick={goBackToStepThree}>{previousValue}</button>
+					<button type="button" onclick={handleCreateLead}  disabled={isButtonDisabled} class="disable-button">{submit}</button>
 				</div>
 
 
@@ -810,35 +805,35 @@
 			<div class="progress-bar-container-parent">
 				<div class="slds-progress slds-progress_vertical progress-bar-container">
 
-					<h1 class="mobile-heading">Enroll a Patient</h1>
-					<div class="progress-label">Progress</div>
+					<h1 class="mobile-heading">{enrollPatient}</h1>
+					<div class="progress-label">{progressLabel}</div>
 					<ol class="slds-progress__list progress-ol">
 						<li class="slds-progress__item slds-is-active li-one">
 							<div class="slds-progress__marker"></div>
-							<div class="progress-label-count">01&nbsp;</div>
+							<div class="progress-label-count">{numOne}&nbsp;</div>
 							<div class="slds-progress__item_content slds-grid slds-grid_align-spread progress-label">
-								Physician Information
+								{physicianInfo}
 							</div>
 						</li>
 						<li class="slds-progress__item li-two">
 							<div class="slds-progress__marker"></div>
-							<div class="progress-label-count">02&nbsp;</div>
+							<div class="progress-label-count">{numTwo}&nbsp;</div>
 							<div class="slds-progress__item_content slds-grid slds-grid_align-spread progress-label">
-								Patient Information
+								{patientinfo}
 							</div>
 						</li>
 						<li class="slds-progress__item li-three slds-hide">
 							<div class="slds-progress__marker"></div>
-							<div class="progress-label-count">03&nbsp;</div>
+							<div class="progress-label-count">{numberThree}&nbsp;</div>
 							<div class="slds-progress__item_content slds-grid slds-grid_align-spread progress-label">
-								Caregiver Information
+								{caregiverInfo}
 							</div>
 						</li>
 						<li class="slds-progress__item li-four">
 							<div class="slds-progress__marker"></div>
 							<div class="prescription-label progress-label-count">{level}&nbsp;</div>
 							<div class="slds-progress__item_content slds-grid slds-grid_align-spread progress-label">
-								Prescription Information
+								{prescriptionInfo}
 							</div>
 						</li>
 					</ol>

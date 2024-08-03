@@ -221,15 +221,27 @@ import ENROLLEE_NOT_FOUND from '@salesforce/label/c.BI_PSPB_EnrolleeRecordError'
 import FETCHING_ENROLLEE_ERROR from '@salesforce/label/c.BI_PSPB_FetchingEnrolleeError';
 import URL_TYPE_ERROR from '@salesforce/label/c.BI_PSPB_UrlTypeError';
 import ERROR_FOR_ACTION from '@salesforce/label/c.BI_PSPB_ErrorActionRecords';
+import ERROR_FOR_PROFILE from '@salesforce/label/c.BI_PSPB_ErrorProfileDetails';
 import UPDATE_NOTIFICATION_ERROR from '@salesforce/label/c.BI_PSPSB_ErrorUpdatingStatus';
 import ERROR_FOR_GENERAL from '@salesforce/label/c.BI_PSPB_ErrorGeneralRecords';
+import ERROR_FOR_GOOGLE_CALENDAR from '@salesforce/label/c.BI_PSPB_GoogleCalendarError';
+import ERROR_FOR_OUTLOOK_CALENDAR from '@salesforce/label/c.BI_PSPB_OutlookCalendarError';
+import ERROR_FOR_REMINDER_VALUES from '@salesforce/label/c.BI_PSPB_ReminderValuesError';
+import ERROR_FOR_ACCOUNT_RECORD from '@salesforce/label/c.BI_PSP_AccountError';
+import ERROR_FOR_INSERT_REMINDER from '@salesforce/label/c.BI_PSPB_ReminderError';
 // Exporting all resources in an organized object
 export const resources = {
     ID,
     ERROR_FOR_HISTORY,
     FETCHING_ENROLLEE_ERROR,
     ERROR_FOR_GENERAL,
+    ERROR_FOR_INSERT_REMINDER,
     URL_TYPE_ERROR,
+    ERROR_FOR_PROFILE,
+    ERROR_FOR_GOOGLE_CALENDAR,
+    ERROR_FOR_ACCOUNT_RECORD,
+    ERROR_FOR_REMINDER_VALUES,
+    ERROR_FOR_OUTLOOK_CALENDAR,
     ERROR_FOR_ACTION,
     ENROLLEE_NOT_FOUND,
     UPDATE_NOTIFICATION_ERROR,

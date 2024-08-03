@@ -35,10 +35,13 @@ public static List<Account> userCaregiver() {
                BI_PSP_LogMessagesUtility.logError(BI_PSPB_ProfileManagerConstCtrl.recordCannotFound, BI_PSPB_ProfileManagerCtrl.class.toString(),TRUE, BI_PSPB_ProfileManagerConstCtrl.LOG_SEVERITY_ERROR);
              
         }
-    } catch (Exception ex) {
-        BI_PSP_LogMessagesUtility.exceptionLogMessage('', BI_PSPB_ProfileManagerCtrl.class.toString(), ex);
-        
-    }
+    }  catch (Exception ex) {
+            BI_PSP_LogMessagesUtility.exceptionLogMessage(
+                ex.getMessage(),
+                BI_PSPB_ProfileManagerConstCtrl.class.toString(),
+                ex
+            );
+        }
     return BI_PSPB_CaregiverServiceCtrl.fetchCaregiverDetailsById(caregiverId);
 }
 
@@ -70,16 +73,20 @@ public static void updateCaregiverDetails(BI_PSPB_CaregiverDetailsWrapper cgprof
                 Account accountToUpdate = accounts[0];
                 BI_PSPB_ProfileManagerHelperCtrl.updateAccountDetails(accountToUpdate, cgprofile);
                 
-                String errorMsg = BI_PSPB_ProfileManagerHelperCtrl.saveAccount(accountToUpdate);
+                 BI_PSPB_ProfileManagerHelperCtrl.saveAccount(accountToUpdate);
         
             
         } 
     }
     }
-    catch (System.DmlException ex) {
-    BI_PSP_LogMessagesUtility.catchSystemException(BI_PSPB_ProfileManagerConstCtrl.recordCannotFound
-        , BI_PSPB_ProfileManagerCtrl.class.toString(),ex );
-    }
+    
+    catch (Exception ex) {
+            BI_PSP_LogMessagesUtility.exceptionLogMessage(
+                ex.getMessage(),
+                BI_PSPB_ProfileManagerConstCtrl.class.toString(),
+                ex
+            );
+        }
 }
 
   /**
@@ -104,12 +111,7 @@ public static void updateContactFromCheckbox(Boolean isChecked) {
         }
 
         ecRecord.BI_PSPB_Status__c = isChecked ? BI_PSPB_ProfileManagerConstCtrl.active : BI_PSPB_ProfileManagerConstCtrl.inActive;
-        String errorMsg = BI_PSPB_CaregiverServiceCtrl.updateEnrolleeCaregiver(ecRecord);
-        if (String.isNotBlank(errorMsg)) {
-            BI_PSP_LogMessagesUtility.logError(BI_PSPB_ProfileManagerConstCtrl.recordCannotUpdate, BI_PSPB_ProfileManagerCtrl.class.toString(), false, BI_PSPB_ProfileManagerConstCtrl.LOG_SEVERITY_ERROR);
-           
-        }
-
+         BI_PSPB_CaregiverServiceCtrl.updateEnrolleeCaregiver(ecRecord);
         Contact contact = BI_PSPB_CaregiverServiceCtrl.fetchContactById(ecRecord.BI_PSPB_Contact_Id__c);
         if (contact == null) {
             BI_PSP_LogMessagesUtility.logError(BI_PSPB_ProfileManagerConstCtrl.recordCannotUpdate, BI_PSPB_ProfileManagerCtrl.class.toString(), false, BI_PSPB_ProfileManagerConstCtrl.LOG_SEVERITY_ERROR);
@@ -122,13 +124,15 @@ public static void updateContactFromCheckbox(Boolean isChecked) {
             account.BI_PSPB_GrantCaregiverAccess__c = isChecked;
         }
 
-        errorMsg = BI_PSPB_ProfileManagerHelperCtrl.updateContactAndAccount(contact, account);
-        if (String.isNotBlank(errorMsg)) {
-            BI_PSP_LogMessagesUtility.logError(BI_PSPB_ProfileManagerConstCtrl.recordCannotUpdate, BI_PSPB_ProfileManagerCtrl.class.toString(), false, BI_PSPB_ProfileManagerConstCtrl.LOG_SEVERITY_ERROR);
+         BI_PSPB_ProfileManagerHelperCtrl.updateContactAndAccount(contact, account);
+        
+    } catch (Exception ex) {
+            BI_PSP_LogMessagesUtility.exceptionLogMessage(
+                ex.getMessage(),
+                BI_PSPB_ProfileManagerConstCtrl.class.toString(),
+                ex
+            );
         }
-    } catch (System.DmlException ex) {
-        BI_PSP_LogMessagesUtility.catchSystemException(BI_PSPB_ProfileManagerConstCtrl.recordCannotFound, BI_PSPB_ProfileManagerCtrl.class.toString(), ex);
-    }
 }
 
 
@@ -150,10 +154,13 @@ public static List<BI_PSPB_Enrollee_Caregiver__c> grandAccessButton() {
             return null;// when caregiver data newly insert so the record not available there that's why we return null value
             
         } 
-    } catch (System.DmlException ex) {
-    BI_PSP_LogMessagesUtility.catchSystemException(BI_PSPB_ProfileManagerConstCtrl.recordCannotFound
-        , BI_PSPB_ProfileManagerCtrl.class.toString(),ex );
-    }
+    }  catch (Exception ex) {
+            BI_PSP_LogMessagesUtility.exceptionLogMessage(
+                ex.getMessage(),
+                BI_PSPB_ProfileManagerConstCtrl.class.toString(),
+                ex
+            );
+        }
     return ecList;
 }
 
@@ -182,10 +189,13 @@ public static List<BI_PSPB_Enrollee_Caregiver__c> getCaregiverDataView() {
              return null; // when caregiver data newly insert so the record not available there that's why we return null value
           
         } 
-    } catch (System.DmlException ex) {
-    BI_PSP_LogMessagesUtility.catchSystemException(BI_PSPB_ProfileManagerConstCtrl.recordCannotFound
-        , BI_PSPB_ProfileManagerCtrl.class.toString(),ex );
-    }
+    }  catch (Exception ex) {
+            BI_PSP_LogMessagesUtility.exceptionLogMessage(
+                ex.getMessage(),
+                BI_PSPB_ProfileManagerConstCtrl.class.toString(),
+                ex
+            );
+        }
       return caregiverListData;
 }
 
@@ -221,12 +231,16 @@ public static List<Contact> updateCaregivers(BI_PSPB_CaregiverDetailsWrapper car
        
         
         return new List<Contact>{ contactToUpdate };
-    }  catch (System.DmlException ex) {
-    BI_PSP_LogMessagesUtility.catchSystemException(BI_PSPB_ProfileManagerConstCtrl.recordCannotFound
-        , BI_PSPB_ProfileManagerCtrl.class.toString(),ex );
-        // Ensure the method returns an empty list in case of an exception
+    } 
+       catch (Exception ex) {
+            BI_PSP_LogMessagesUtility.exceptionLogMessage(
+                ex.getMessage(),
+                BI_PSPB_ProfileManagerConstCtrl.class.toString(),
+                ex
+            );
+              // Ensure the method returns an empty list in case of an exception
         return new List<Contact>();
-    }
+        }
 }
 
 
@@ -267,10 +281,13 @@ public static void updatePatientExcistInfo(BI_PSPB_CaregiverDetailsWrapper wrapp
         Database.SaveResult[] saveResult = BI_PSPB_ProfileManagerHelperCtrl.saveAccounts(accValue);
        
         
-    } catch (System.DmlException ex) {
-    BI_PSP_LogMessagesUtility.catchSystemException(BI_PSPB_ProfileManagerConstCtrl.recordCannotUpdate
-        , BI_PSPB_ProfileManagerCtrl.class.toString(),ex );
-    }
+    }  catch (Exception ex) {
+            BI_PSP_LogMessagesUtility.exceptionLogMessage(
+                ex.getMessage(),
+                BI_PSPB_ProfileManagerConstCtrl.class.toString(),
+                ex
+            );
+        }
 }
 
 
@@ -307,10 +324,13 @@ public static void updatePatientorCargiverInfo(BI_PSPB_CaregiverDetailsWrapper w
         Database.SaveResult[] saveResult = BI_PSPB_ProfileManagerHelperCtrl.saveAccountt(accValue);
         
         
-    } catch (System.DmlException ex) {
-    BI_PSP_LogMessagesUtility.catchSystemException(BI_PSPB_ProfileManagerConstCtrl.recordCannotUpdate
-        , BI_PSPB_ProfileManagerCtrl.class.toString(),ex );
-    }
+    }  catch (Exception ex) {
+            BI_PSP_LogMessagesUtility.exceptionLogMessage(
+                ex.getMessage(),
+                BI_PSPB_ProfileManagerConstCtrl.class.toString(),
+                ex
+            );
+        }
 }
 
 

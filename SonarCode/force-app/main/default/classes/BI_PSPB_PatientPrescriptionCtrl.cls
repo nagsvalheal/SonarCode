@@ -49,7 +49,7 @@ public with sharing class BI_PSPB_PatientPrescriptionCtrl {
 				BI_PSPB_Additional_Comments__c = wrapper.additionalComments
 			);
 			// Insert the new case record.
-			BI_PSP_DatabaseOperationsUtility.insertAndHandleErrors(
+			BI_PSP_DatabaseOperationsUtility.insertOperationAllAreTrue(
 				new List<Case>{ newCase },
 				BI_PSPB_PatientPrescriptionCtrl.class.toString(),
 				true
